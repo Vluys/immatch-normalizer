@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Immatch LCB-FT — Gestion conformité</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal:#0f8191; --teal-dark:#0a5f6b; --teal-light:#e6f6f8; --teal-mid:#1aa3b5;
+  --gold:#b8963e; --gold-light:#f5efe0;
+  --black:#0d0d0d; --white:#ffffff;
+  --gray-50:#f8f9fa; --gray-100:#f0f2f4; --gray-200:#dde1e6;
+  --gray-400:#8a9099; --gray-600:#4a5260; --gray-800:#1e2330;
+  --danger:#c0392b; --danger-bg:#fdf0ef;
+  --warn:#b7760d; --warn-bg:#fef8ec;
+  --success:#1e7e4a; --success-bg:#edf7f2;
+  --info-bg:#e6f6f8;
+  --radius:10px; --radius-sm:6px;
+  --shadow:0 2px 12px rgba(15,129,145,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--gray-50);color:var(--gray-800);min-height:100vh;}
+
+/* HEADER */
+.header{background:var(--black);position:sticky;top:0;z-index:200;border-bottom:2px solid var(--teal);}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;}
+.logo-zone{display:flex;align-items:center;gap:14px;}
+.logo-diamond{width:32px;height:32px;border:2.5px solid var(--gold);transform:rotate(45deg);flex-shrink:0;}
+.logo-text .logo-brand{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;color:var(--white);}
+.logo-text .logo-brand span{color:var(--teal-mid);}
+.logo-text .logo-sub{font-size:10px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;font-weight:300;}
+.header-right{display:flex;align-items:center;gap:10px;}
+.header-badge{background:var(--teal);color:var(--white);font-size:11px;padding:4px 12px;border-radius:20px;font-weight:500;}
+
+/* PAGES */
+.page{display:none;} .page.active{display:block;}
+
+/* DASHBOARD */
+.dashboard{max-width:960px;margin:0 auto;padding:28px 16px 60px;}
+.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.dash-header h1{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--gray-800);}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+.stat{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:16px;text-align:center;box-shadow:var(--shadow);}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--teal);}
+.stat-lbl{font-size:11px;color:var(--gray-400);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;}
+.search-bar{display:flex;gap:10px;margin-bottom:18px;}
+.search-bar input{flex:1;padding:9px 14px;font-size:14px;font-family:'DM Sans',sans-serif;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);outline:none;}
+.search-bar input:focus{border-color:var(--teal);}
+.clients-list{display:flex;flex-direction:column;gap:10px;}
+.client-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px;cursor:pointer;transition:border-color .15s,box-shadow .15s;}
+.client-card:hover{border-color:var(--teal);box-shadow:0 4px 18px rgba(15,129,145,.13);}
+.client-avatar{width:44px;height:44px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;font-weight:500;font-size:15px;color:var(--teal-dark);flex-shrink:0;}
+.client-info{flex:1;}
+.client-name{font-size:15px;font-weight:500;color:var(--gray-800);}
+.client-meta{font-size:12.5px;color:var(--gray-400);margin-top:2px;}
+.client-right{display:flex;align-items:center;gap:12px;}
+.risk-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11.5px;font-weight:500;}
+.rb-low{background:var(--success-bg);color:var(--success);}
+.rb-mid{background:var(--warn-bg);color:var(--warn);}
+.rb-high{background:#fff0e6;color:#c05000;}
+.rb-crit{background:var(--danger-bg);color:var(--danger);}
+.client-date{font-size:12px;color:var(--gray-400);}
+.empty-state{text-align:center;padding:60px 20px;color:var(--gray-400);}
+.empty-state svg{width:48px;height:48px;stroke:var(--gray-200);fill:none;stroke-width:1.5;margin:0 auto 16px;display:block;}
+.empty-state p{font-size:14px;}
+
+/* DOSSIER */
+.dossier{max-width:900px;margin:0 auto;padding:20px 16px 60px;}
+.dossier-topbar{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.back-btn{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--teal);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;padding:6px 0;}
+.back-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
+.dossier-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--gray-800);flex:1;}
+.autosave{font-size:12px;color:var(--gray-400);display:flex;align-items:center;gap:5px;}
+.autosave svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;}
+
+/* NAV TABS */
+.nav{display:flex;gap:4px;margin-bottom:22px;background:var(--white);border-radius:var(--radius);padding:5px;box-shadow:var(--shadow);border:1px solid var(--gray-200);flex-wrap:wrap;}
+.nav-btn{flex:1;min-width:110px;padding:8px 10px;font-size:12px;font-family:'DM Sans',sans-serif;border:none;border-radius:var(--radius-sm);background:transparent;color:var(--gray-600);cursor:pointer;font-weight:400;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .18s;white-space:nowrap;}
+.nav-btn:hover{background:var(--teal-light);color:var(--teal-dark);}
+.nav-btn.active{background:var(--teal);color:var(--white);font-weight:500;}
+.nav-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0;}
+
+/* CARDS */
+.card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:20px 22px;margin-bottom:14px;box-shadow:var(--shadow);}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--teal-dark);margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:7px;}
+.card-title svg{width:15px;height:15px;stroke:var(--teal);fill:none;stroke-width:1.8;}
+
+/* FORMS */
+.field{margin-bottom:13px;}
+label{display:block;font-size:11.5px;font-weight:500;color:var(--gray-600);margin-bottom:4px;letter-spacing:.04em;text-transform:uppercase;}
+input[type=text],input[type=email],input[type=number],input[type=date],select,textarea{width:100%;padding:8px 12px;font-size:13.5px;font-family:'DM Sans',sans-serif;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);background:var(--white);color:var(--gray-800);transition:border-color .15s,box-shadow .15s;outline:none;}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(15,129,145,.1);}
+textarea{resize:vertical;min-height:75px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;}
+
+/* ALERTS */
+.alert{border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;margin-bottom:13px;border-left:3px solid;line-height:1.5;}
+.alert-info{background:var(--info-bg);color:var(--teal-dark);border-color:var(--teal);}
+.alert-warn{background:var(--warn-bg);color:var(--warn);border-color:#e6920e;}
+.alert-danger{background:var(--danger-bg);color:var(--danger);border-color:var(--danger);}
+.alert-success{background:var(--success-bg);color:var(--success);border-color:#27ae60;}
+
+/* BUTTONS */
+.btn{padding:8px 18px;font-size:13px;font-family:'DM Sans',sans-serif;border-radius:var(--radius-sm);cursor:pointer;font-weight:500;border:1.5px solid;transition:all .15s;display:inline-flex;align-items:center;gap:7px;}
+.btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;}
+.btn-teal{background:var(--teal);color:var(--white);border-color:var(--teal);}
+.btn-teal:hover{background:var(--teal-dark);}
+.btn-teal svg{stroke:var(--white);}
+.btn-outline{background:var(--white);color:var(--teal);border-color:var(--teal);}
+.btn-outline:hover{background:var(--teal-light);}
+.btn-gold{background:var(--gold);color:var(--white);border-color:var(--gold);}
+.btn-gold:hover{background:#9a7d30;}
+.btn-gold svg{stroke:var(--white);}
+.btn-danger{background:var(--white);color:var(--danger);border-color:var(--danger);}
+.btn-danger:hover{background:var(--danger-bg);}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+
+/* TABS SECTION */
+.tab-section{display:none;} .tab-section.active{display:block;}
+
+/* CHECKBOX */
+.chk-row{display:flex;align-items:flex-start;gap:9px;margin-bottom:8px;font-size:13px;color:var(--gray-600);line-height:1.4;}
+.chk-row input[type=checkbox]{margin-top:2px;width:14px;height:14px;accent-color:var(--teal);flex-shrink:0;}
+.chk-row label{font-size:13px;color:var(--gray-600);text-transform:none;letter-spacing:0;font-weight:400;cursor:pointer;}
+
+/* RISK */
+.risk-row{display:flex;align-items:center;gap:12px;margin-bottom:9px;}
+.risk-label{flex:0 0 195px;font-size:12.5px;color:var(--gray-600);}
+
+/* SCORE */
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.metric{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px;text-align:center;}
+.metric-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--teal);}
+.metric-lbl{font-size:11px;color:var(--gray-400);text-transform:uppercase;letter-spacing:.08em;margin-top:3px;}
+.bar-wrap{height:6px;background:var(--gray-100);border-radius:4px;margin:8px 0;overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;transition:width .5s ease;}
+
+/* HISTORY */
+.history-item{padding:11px 13px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);margin-bottom:7px;}
+.hi-date{font-size:11.5px;color:var(--teal);font-weight:500;}
+.hi-type{font-size:13px;color:var(--gray-800);font-weight:500;margin:2px 0;}
+.hi-note{font-size:12px;color:var(--gray-400);}
+
+/* TRACFIN */
+.tracfin-preview{background:var(--gray-50);border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px;font-size:12.5px;color:var(--gray-800);line-height:1.8;white-space:pre-wrap;min-height:180px;}
+.tracfin-link-box{background:var(--teal-light);border:1.5px solid var(--teal);border-radius:var(--radius-sm);padding:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:12px;}
+.tl-text{font-size:13px;color:var(--teal-dark);line-height:1.5;}
+.tl-text strong{display:block;font-size:13.5px;margin-bottom:3px;}
+
+/* EXPORT */
+.export-section h3{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--teal-dark);margin:14px 0 6px;border-bottom:1px solid var(--gray-100);padding-bottom:4px;}
+.export-section p{font-size:13px;line-height:1.8;margin:2px 0;}
+.export-section hr{border:none;border-top:1px solid var(--gray-100);margin:10px 0;}
+
+/* SECTION HERO */
+.section-hero{background:linear-gradient(135deg,var(--teal-dark) 0%,var(--teal) 100%);border-radius:var(--radius);padding:18px 22px;margin-bottom:18px;color:var(--white);}
+.section-hero h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;}
+.section-hero p{font-size:12.5px;opacity:.85;margin-top:3px;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center;}
+.modal{background:var(--white);border-radius:var(--radius);padding:28px;width:440px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+.modal h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--gray-800);margin-bottom:18px;}
+.modal-btns{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;}
+
+/* FOOTER */
+.footer{background:var(--black);color:var(--gray-400);font-size:11px;text-align:center;padding:16px 32px;border-top:1px solid #222;line-height:1.9;}
+.footer strong{color:var(--gold);}
+.footer a{color:var(--teal-mid);text-decoration:none;}
+
+@media print{.header,.nav,.dossier-topbar,.btn-row,.footer,.tab-section:not(.active){display:none!important;}.card{box-shadow:none;border:1px solid #ddd;}}
+@media(max-width:640px){.row2,.row3{grid-template-columns:1fr;}.stats-row{grid-template-columns:1fr 1fr;}.risk-row{flex-direction:column;align-items:flex-start;}.risk-label{flex:none;}.header-inner{padding:12px 14px;}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo-zone">
+      <div class="logo-diamond"></div>
+      <div class="logo-text">
+        <div class="logo-brand">im<span>match</span>®</div>
+        <div class="logo-sub">by Cadre Estate Solutions</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="header-badge">Outil LCB-FT Partenaires</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== DASHBOARD ========== -->
+<div class="page active" id="page-dashboard">
+  <div class="dashboard">
+    <div class="dash-header">
+      <h1>Mes dossiers clients</h1>
+      <button class="btn btn-teal" onclick="openNewClientModal()">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nouveau client
+      </button>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat"><div class="stat-val" id="stat-total">0</div><div class="stat-lbl">Dossiers total</div></div>
+      <div class="stat"><div class="stat-val" id="stat-low" style="color:var(--success);">0</div><div class="stat-lbl">Risque faible</div></div>
+      <div class="stat"><div class="stat-val" id="stat-med" style="color:var(--warn);">0</div><div class="stat-lbl">Risque modéré</div></div>
+      <div class="stat"><div class="stat-val" id="stat-high" style="color:var(--danger);">0</div><div class="stat-lbl">Risque élevé</div></div>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Rechercher un client par nom, prénom ou opération..." oninput="renderDashboard()">
+    </div>
+
+    <div class="clients-list" id="clients-list">
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <p>Aucun dossier client. Créez votre premier dossier.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== DOSSIER ========== -->
+<div class="page" id="page-dossier">
+  <div class="dossier">
+    <div class="dossier-topbar">
+      <button class="back-btn" onclick="goBack()">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Retour aux dossiers
+      </button>
+      <div class="dossier-title" id="dossier-title">Nouveau client</div>
+      <div class="autosave" id="autosave-indicator">
+        <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Sauvegarde auto
+      </div>
+      <button class="btn btn-danger" onclick="confirmDelete()" style="margin-left:auto;">
+        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        Supprimer
+      </button>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-btn active" onclick="showTab('kyc',this)">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>KYC
+      </button>
+      <button class="nav-btn" onclick="showTab('risk',this)">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Risques
+      </button>
+      <button class="nav-btn" onclick="showTab('suivi',this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Suivi
+      </button>
+      <button class="nav-btn" onclick="showTab('tracfin',this)">
+        <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>TRACFIN
+      </button>
+      <button class="nav-btn" onclick="showTab('export',this)">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export
+      </button>
+    </nav>
+
+    <!-- KYC -->
+    <div class="tab-section active" id="tab-kyc">
+      <div class="section-hero"><h2>Identification du client</h2><p>Collecte et vérification KYC — art. L.561-5 CMF</p></div>
+      <div class="card">
+        <div class="card-title"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>État civil</div>
+        <div class="row2">
+          <div class="field"><label>Nom</label><input type="text" id="nom" placeholder="DUPONT" oninput="autoSave()"></div>
+          <div class="field"><label>Prénom</label><input type="text" id="prenom" placeholder="Jean" oninput="autoSave()"></div>
+        </div>
+        <div class="row3">
+          <div class="field"><label>Date de naissance</label><input type="date" id="ddn" oninput="autoSave()"></div>
+          <div class="field"><label>Lieu de naissance</label><input type="text" id="lieu" placeholder="Paris" oninput="autoSave()"></div>
+          <div class="field"><label>Nationalité</label><input type="text" id="nat" placeholder="Française" oninput="autoSave()"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>Adresse complète</label><input type="text" id="adresse" placeholder="12 rue de la Paix, 75001 Paris" oninput="autoSave()"></div>
+          <div class="field"><label>Profession</label><input type="text" id="profession" placeholder="ex : Commerçant" oninput="autoSave()"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>Téléphone</label><input type="text" id="tel" oninput="autoSave()"></div>
+          <div class="field"><label>Email</label><input type="email" id="email" oninput="autoSave()"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Pièce d'identité</div>
+        <div class="row3">
+          <div class="field"><label>Type</label><select id="doc-type" oninput="autoSave()"><option value="">— Choisir —</option><option>Carte nationale d'identité</option><option>Passeport</option><option>Titre de séjour</option></select></div>
+          <div class="field"><label>Numéro</label><input type="text" id="doc-num" oninput="autoSave()"></div>
+          <div class="field"><label>Date d'expiration</label><input type="date" id="doc-exp" oninput="checkDocExpiry()"></div>
+        </div>
+        <div id="doc-alert"></div>
+        <div class="chk-row"><input type="checkbox" id="chk-photo" onchange="autoSave()"><label for="chk-photo">Copie recueillie avec photographie</label></div>
+        <div class="chk-row"><input type="checkbox" id="chk-id-verif" onchange="autoSave()"><label for="chk-id-verif">Identité vérifiée en présence physique</label></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Opération immobilière</div>
+        <div class="row2">
+          <div class="field"><label>Nature</label><select id="op-nature" onchange="autoSave()"><option value="">— Choisir —</option><option>Vente bien ancien</option><option>Vente bien neuf</option><option>Location (loyer ≥ 10 000 €/mois)</option><option>Viager</option><option>Cession parts sociales / SCI</option><option>Vente fonds de commerce</option></select></div>
+          <div class="field"><label>Montant estimé (€)</label><input type="number" id="montant" placeholder="250000" oninput="autoSave(); updateRisk()"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>Mode de financement</label><select id="financement" onchange="autoSave(); updateRisk()"><option value="">— Choisir —</option><option>Prêt bancaire</option><option>Fonds propres (origine connue)</option><option>Fonds propres (origine inconnue)</option><option>Prêt familial</option><option>Prêt non bancaire</option><option>Espèces (montant significatif)</option><option>Mixte</option></select></div>
+          <div class="field"><label>Date de l'opération</label><input type="date" id="op-date" oninput="autoSave()"></div>
+        </div>
+        <div class="field"><label>Adresse du bien</label><input type="text" id="bien-adresse" placeholder="5 avenue Foch, 75016 Paris" oninput="autoSave()"></div>
+        <div class="field"><label>Observations</label><textarea id="obs-kyc" oninput="autoSave()"></textarea></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Bénéficiaire effectif</div>
+        <div class="chk-row"><input type="checkbox" id="chk-be-diff" onchange="toggleBE()"><label for="chk-be-diff">Le bénéficiaire effectif est différent du client</label></div>
+        <div id="be-fields" style="display:none;margin-top:12px;">
+          <div class="row2">
+            <div class="field"><label>Nom / Prénom</label><input type="text" id="be-nom" oninput="autoSave()"></div>
+            <div class="field"><label>Lien avec le client</label><input type="text" id="be-lien" placeholder="ex : SCI dont il détient >25%" oninput="autoSave()"></div>
+          </div>
+          <div class="field"><label>Justificatif fourni</label><input type="text" id="be-justif" placeholder="ex : statuts SCI, extrait INPI" oninput="autoSave()"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RISK -->
+    <div class="tab-section" id="tab-risk">
+      <div class="section-hero"><h2>Évaluation des risques</h2><p>Classification LCB-FT — notation de 1 (faible) à 4 (élevé)</p></div>
+      <div class="card">
+        <div class="card-title"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Risques client</div>
+        <div class="risk-row"><span class="risk-label">Revenus vs projet</span><select class="risk-select" id="r1" onchange="autoSave();updateRisk()"><option value="1">1 — Cohérents</option><option value="2">2 — Légèrement incohérents</option><option value="3">3 — Incohérents</option><option value="4">4 — Très incohérents</option></select></div>
+        <div class="risk-row"><span class="risk-label">PPE (personne politiquement exposée)</span><select class="risk-select" id="r2" onchange="autoSave();updateRisk()"><option value="1">1 — Non</option><option value="3">3 — Proche d'une PPE</option><option value="4">4 — PPE avérée</option></select></div>
+        <div class="risk-row"><span class="risk-label">Présence physique</span><select class="risk-select" id="r3" onchange="autoSave();updateRisk()"><option value="1">1 — Présent</option><option value="3">3 — Absent (distance)</option></select></div>
+        <div class="risk-row"><span class="risk-label">Éléments défavorables (presse…)</span><select class="risk-select" id="r4" onchange="autoSave();updateRisk()"><option value="1">1 — Aucun</option><option value="2">2 — Incertains</option><option value="4">4 — Présents</option></select></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Risques opération</div>
+        <div class="risk-row"><span class="risk-label">Origine des fonds</span><select class="risk-select" id="r5" onchange="autoSave();updateRisk()"><option value="1">1 — Traçable et documentée</option><option value="2">2 — Partiellement traçable</option><option value="3">3 — Peu claire</option><option value="4">4 — Inconnue / Espèces</option></select></div>
+        <div class="risk-row"><span class="risk-label">Montant de l'opération</span><select class="risk-select" id="r6" onchange="autoSave();updateRisk()"><option value="1">1 — Standard</option><option value="2">2 — Élevé</option><option value="3">3 — Très élevé (&gt;500k€)</option><option value="4">4 — Exceptionnel (&gt;1M€)</option></select></div>
+        <div class="risk-row"><span class="risk-label">Complexité du montage</span><select class="risk-select" id="r7" onchange="autoSave();updateRisk()"><option value="1">1 — Simple</option><option value="2">2 — Modéré</option><option value="3">3 — Complexe</option><option value="4">4 — SCI cascade / très complexe</option></select></div>
+        <div class="risk-row"><span class="risk-label">Tiers actif à la place du client</span><select class="risk-select" id="r8" onchange="autoSave();updateRisk()"><option value="1">1 — Non</option><option value="3">3 — Oui, avec mandat</option><option value="4">4 — Oui, sans mandat clair</option></select></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Risques géographiques</div>
+        <div class="risk-row"><span class="risk-label">Origine des fonds (pays)</span><select class="risk-select" id="r9" onchange="autoSave();updateRisk()"><option value="1">1 — France / UE</option><option value="2">2 — Pays non listé GAFI</option><option value="4">4 — Liste GAFI / paradis fiscal</option></select></div>
+        <div class="risk-row"><span class="risk-label">Résidence du client</span><select class="risk-select" id="r10" onchange="autoSave();updateRisk()"><option value="1">1 — France</option><option value="2">2 — UE / EEE</option><option value="3">3 — Hors UE</option><option value="4">4 — Pays à risque GAFI</option></select></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Résultat</div>
+        <div class="score-grid">
+          <div class="metric"><div class="metric-val" id="score-val">—</div><div class="metric-lbl">Score / 4</div></div>
+          <div class="metric"><div id="vigilance-badge" style="font-size:14px;font-weight:500;padding:6px 0;"></div><div class="metric-lbl">Niveau de vigilance</div></div>
+        </div>
+        <div class="bar-wrap"><div class="bar-fill" id="score-bar" style="width:0%;background:var(--teal);"></div></div>
+        <p id="vigilance-detail" style="font-size:13px;color:var(--gray-600);line-height:1.6;margin-top:9px;"></p>
+        <div id="mesures-list" style="font-size:13px;color:var(--gray-600);line-height:2;white-space:pre-line;margin-top:10px;"></div>
+      </div>
+    </div>
+
+    <!-- SUIVI -->
+    <div class="tab-section" id="tab-suivi">
+      <div class="section-hero"><h2>Suivi de la relation d'affaires</h2><p>Journal chronologique — conservation 5 ans (art. L.561-12 CMF)</p></div>
+      <div class="card">
+        <div class="card-title"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Ajouter un événement</div>
+        <div class="row2">
+          <div class="field"><label>Date</label><input type="date" id="suivi-date"></div>
+          <div class="field"><label>Type</label><select id="suivi-type"><option value="">— Choisir —</option><option>Premier contact</option><option>Remise de pièces d'identité</option><option>Signature mandat</option><option>Visite du bien</option><option>Offre d'achat</option><option>Signature compromis</option><option>Demande documents complémentaires</option><option>Incohérence détectée</option><option>Examen renforcé effectué</option><option>Déclaration TRACFIN envoyée</option><option>Rupture relation d'affaires</option><option>Autre</option></select></div>
+        </div>
+        <div class="field"><label>Note</label><textarea id="suivi-note" placeholder="Décrivez l'événement, les documents reçus, les incohérences éventuelles..."></textarea></div>
+        <div class="btn-row"><button class="btn btn-teal" onclick="addSuivi()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Ajouter</button></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historique</div>
+        <div id="suivi-history"><p style="font-size:13px;color:var(--gray-400);">Aucun événement enregistré.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Alertes automatiques</div>
+        <div id="alertes-auto"><p style="font-size:13px;color:var(--gray-400);">Ajoutez des événements pour voir les alertes.</p></div>
+      </div>
+    </div>
+
+    <!-- TRACFIN -->
+    <div class="tab-section" id="tab-tracfin">
+      <div class="section-hero"><h2>Déclaration de soupçon TRACFIN</h2><p>Aide à la rédaction — transmission via plateforme ERMES</p></div>
+      <div class="card">
+        <div class="alert alert-warn">⚠️ Déclaration à effectuer <strong>préalablement à l'exécution</strong>. Confidentielle — ne jamais informer le client.</div>
+        <div class="field"><label>Infraction suspectée</label><select id="infraction" onchange="genTracfin()"><option value="">— Choisir —</option><option>Blanchiment de capitaux</option><option>Fraude fiscale</option><option>Financement du terrorisme</option><option>Abus de biens sociaux</option><option>Escroquerie</option><option>Autre infraction (peine > 1 an)</option></select></div>
+        <div class="field"><label>Éléments factuels du soupçon</label><textarea id="faits-soupcon" style="min-height:100px;" oninput="genTracfin()"></textarea></div>
+        <div class="field"><label>Résultats de l'examen renforcé</label><textarea id="examen-renforce" oninput="genTracfin()"></textarea></div>
+        <div class="row2">
+          <div class="field"><label>Date de l'opération</label><input type="date" id="op-date-tracfin" onchange="genTracfin()"></div>
+          <div class="field"><label>Statut</label><select id="op-statut" onchange="genTracfin()"><option value="">— Choisir —</option><option>Non encore exécutée</option><option>En cours d'exécution</option><option>Déjà exécutée</option><option>Tentative abandonnée</option></select></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Aperçu de la déclaration</div>
+        <div class="tracfin-preview" id="tracfin-preview">Remplissez les champs ci-dessus pour générer l'aperçu.</div>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="copyTracfin()"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copier</button>
+        </div>
+        <div class="tracfin-link-box">
+          <div class="tl-text"><strong>📡 Transmettre via la plateforme ERMES</strong>Gratuit, sécurisé, confidentiel. Urgence : <strong>01 57 53 27 00</strong> · <a href="mailto:crf.france@finances.gouv.fr">crf.france@finances.gouv.fr</a></div>
+          <a href="https://www.economie.gouv.fr/tracfin/ermes" target="_blank" class="btn btn-teal"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Accéder à ERMES</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Checklist avant envoi</div>
+        <div class="chk-row"><input type="checkbox" id="t1"><label for="t1">Identité complète du client renseignée</label></div>
+        <div class="chk-row"><input type="checkbox" id="t2"><label for="t2">Description complète de l'opération incluse</label></div>
+        <div class="chk-row"><input type="checkbox" id="t3"><label for="t3">Date d'exécution renseignée</label></div>
+        <div class="chk-row"><input type="checkbox" id="t4"><label for="t4">Analyse des faits rédigée explicitement</label></div>
+        <div class="chk-row"><input type="checkbox" id="t5"><label for="t5">Résultats de l'examen renforcé inclus</label></div>
+        <div class="chk-row"><input type="checkbox" id="t6"><label for="t6">Pièces jointes lisibles jointes</label></div>
+        <div class="chk-row"><input type="checkbox" id="t7"><label for="t7">Déclaration avant exécution (si possible)</label></div>
+        <div class="chk-row"><input type="checkbox" id="t8"><label for="t8">Déclarant et correspondant TRACFIN désignés</label></div>
+      </div>
+    </div>
+
+    <!-- EXPORT -->
+    <div class="tab-section" id="tab-export">
+      <div class="section-hero"><h2>Export du dossier</h2><p>Récapitulatif complet — à conserver 5 ans après fin de la relation d'affaires</p></div>
+      <div class="card">
+        <div class="alert alert-success">✓ Ce document constitue votre justificatif LCB-FT opposable à la DGCCRF.</div>
+        <div class="export-section" id="export-content"><p style="color:var(--gray-400);">Cliquez sur "Actualiser" pour générer le récapitulatif.</p></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-teal" onclick="generateExport()"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Actualiser</button>
+        <button class="btn btn-gold" onclick="window.print()"><svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Imprimer / PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NOUVEAU CLIENT -->
+<div class="modal-overlay" id="modal-new" style="display:none;">
+  <div class="modal">
+    <h2>Nouveau dossier client</h2>
+    <div class="field"><label>Nom</label><input type="text" id="new-nom" placeholder="DUPONT"></div>
+    <div class="field"><label>Prénom</label><input type="text" id="new-prenom" placeholder="Jean"></div>
+    <div class="field"><label>Nature de l'opération</label>
+      <select id="new-op"><option value="">— Choisir —</option><option>Vente bien ancien</option><option>Vente bien neuf</option><option>Location (loyer ≥ 10 000 €/mois)</option><option>Viager</option><option>Cession parts sociales / SCI</option><option>Vente fonds de commerce</option></select>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-teal" onclick="createClient()">Créer le dossier</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMATION SUPPRESSION -->
+<div class="modal-overlay" id="modal-delete" style="display:none;">
+  <div class="modal">
+    <h2>Supprimer ce dossier ?</h2>
+    <p style="font-size:13.5px;color:var(--gray-600);line-height:1.6;">Cette action est irréversible. Le dossier sera définitivement supprimé de votre navigateur.</p>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-danger" onclick="deleteClient()">Supprimer définitivement</button>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <strong>Immatch®</strong> by <strong>Cadre Estate Solutions</strong> — Outil LCB-FT à destination des professionnels partenaires<br>
+  SASU au capital de 1 000 € · RCS Paris 103 586 327 · 47 rue Vivienne, 75002 Paris · Président : Roger Jacques Vluys<br>
+  Marques déposées à l'INPI n° 25 5180656 &amp; 26 5218158<br>
+  <span style="font-size:10px;opacity:.6;">Outil d'aide à la conformité. Ne remplace pas un conseil juridique. Déclarations de soupçon via <a href="https://www.economie.gouv.fr/tracfin/ermes" target="_blank">plateforme ERMES de TRACFIN</a>.</span>
+</div>
+
+<script>
+var STORAGE_KEY = 'immatch_lcb_clients';
+var currentClientId = null;
+
+function getClients() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+}
+function saveClients(clients) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(clients));
+}
+function getClient(id) {
+  return getClients().find(function(c){ return c.id === id; }) || null;
+}
+
+function renderDashboard() {
+  var clients = getClients();
+  var q = (document.getElementById('search-input').value || '').toLowerCase();
+  if (q) clients = clients.filter(function(c){
+    return (c.nom+' '+c.prenom+' '+(c.op_nature||'')).toLowerCase().includes(q);
+  });
+  var low=0, med=0, high=0;
+  getClients().forEach(function(c){
+    var s = c.risk_score || 0;
+    if(s <= 1.5) low++;
+    else if(s <= 2.5) med++;
+    else high++;
+  });
+  document.getElementById('stat-total').textContent = getClients().length;
+  document.getElementById('stat-low').textContent = low;
+  document.getElementById('stat-med').textContent = med;
+  document.getElementById('stat-high').textContent = high;
+
+  var el = document.getElementById('clients-list');
+  if (!clients.length) {
+    el.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><p>'+(q ? 'Aucun résultat pour cette recherche.' : 'Aucun dossier. Créez votre premier client.')+'</p></div>';
+    return;
+  }
+  clients.sort(function(a,b){ return (b.updated_at||0)-(a.updated_at||0); });
+  el.innerHTML = clients.map(function(c){
+    var initials = ((c.nom||'?')[0]+(c.prenom||'?')[0]).toUpperCase();
+    var s = c.risk_score || 1;
+    var badge, rbClass;
+    if(s <= 1.5){ badge='Risque faible'; rbClass='rb-low'; }
+    else if(s <= 2.5){ badge='Vigilance constante'; rbClass='rb-mid'; }
+    else if(s <= 3.2){ badge='Risque élevé'; rbClass='rb-high'; }
+    else { badge='TRACFIN requis'; rbClass='rb-crit'; }
+    var date = c.updated_at ? new Date(c.updated_at).toLocaleDateString('fr-FR') : '—';
+    return '<div class="client-card" onclick="openClient(\''+c.id+'\')">'
+      +'<div class="client-avatar">'+initials+'</div>'
+      +'<div class="client-info"><div class="client-name">'+c.nom+' '+c.prenom+'</div>'
+      +'<div class="client-meta">'+(c.op_nature||'Opération non renseignée')+(c.montant?' · '+(parseInt(c.montant)).toLocaleString('fr-FR')+' €':'')+'</div></div>'
+      +'<div class="client-right"><span class="risk-badge '+rbClass+'">'+badge+'</span>'
+      +'<span class="client-date">'+date+'</span></div></div>';
+  }).join('');
+}
+
+function openNewClientModal() {
+  document.getElementById('new-nom').value='';
+  document.getElementById('new-prenom').value='';
+  document.getElementById('new-op').value='';
+  document.getElementById('modal-new').style.display='flex';
+  setTimeout(function(){ document.getElementById('new-nom').focus(); }, 100);
+}
+function closeModal() {
+  document.getElementById('modal-new').style.display='none';
+  document.getElementById('modal-delete').style.display='none';
+}
+function createClient() {
+  var nom = document.getElementById('new-nom').value.trim().toUpperCase();
+  var prenom = document.getElementById('new-prenom').value.trim();
+  var op = document.getElementById('new-op').value;
+  if(!nom || !prenom) { alert('Veuillez renseigner le nom et le prénom.'); return; }
+  var client = {
+    id: 'c_'+Date.now(),
+    nom: nom, prenom: prenom, op_nature: op,
+    created_at: Date.now(), updated_at: Date.now(),
+    risk_score: 1,
+    suivi: []
+  };
+  var clients = getClients();
+  clients.push(client);
+  saveClients(clients);
+  closeModal();
+  openClient(client.id);
+}
+
+function openClient(id) {
+  currentClientId = id;
+  var c = getClient(id);
+  if(!c) return;
+  document.getElementById('page-dashboard').classList.remove('active');
+  document.getElementById('page-dossier').classList.add('active');
+  document.getElementById('dossier-title').textContent = c.nom+' '+c.prenom;
+  loadClientForm(c);
+  showTab('kyc', document.querySelector('.nav-btn'));
+  updateRisk();
+}
+
+function goBack() {
+  document.getElementById('page-dossier').classList.remove('active');
+  document.getElementById('page-dashboard').classList.add('active');
+  currentClientId = null;
+  renderDashboard();
+}
+
+function loadClientForm(c) {
+  var fields = ['nom','prenom','ddn','lieu','nat','adresse','profession','tel','email','doc-type','doc-num','doc-exp','op-nature','montant','financement','op-date','bien-adresse','obs-kyc','be-nom','be-lien','be-justif'];
+  fields.forEach(function(f){
+    var el = document.getElementById(f);
+    if(el && c[f.replace('-','_')] !== undefined) el.value = c[f.replace('-','_')] || '';
+  });
+  ['chk-photo','chk-id-verif','chk-be-diff'].forEach(function(f){
+    var el = document.getElementById(f);
+    if(el) el.checked = c[f.replace('-','_')] || false;
+  });
+  document.getElementById('be-fields').style.display = c.chk_be_diff ? 'block' : 'none';
+  var riskFields = ['r1','r2','r3','r4','r5','r6','r7','r8','r9','r10'];
+  riskFields.forEach(function(f){
+    var el = document.getElementById(f);
+    if(el && c[f]) el.value = c[f];
+  });
+  renderSuivi(c.suivi || []);
+  checkAlertes(c.suivi || []);
+  checkDocExpiry();
+}
+
+var saveTimer = null;
+function autoSave() {
+  clearTimeout(saveTimer);
+  var ind = document.getElementById('autosave-indicator');
+  ind.style.color = 'var(--warn)';
+  saveTimer = setTimeout(function(){
+    if(!currentClientId) return;
+    var clients = getClients();
+    var idx = clients.findIndex(function(c){ return c.id===currentClientId; });
+    if(idx === -1) return;
+    var c = clients[idx];
+    var fields = ['nom','prenom','ddn','lieu','nat','adresse','profession','tel','email','doc-type','doc-num','doc-exp','op-nature','montant','financement','op-date','bien-adresse','obs-kyc','be-nom','be-lien','be-justif'];
+    fields.forEach(function(f){
+      var el = document.getElementById(f);
+      if(el) c[f.replace(/-/g,'_')] = el.value;
+    });
+    ['chk-photo','chk-id-verif','chk-be-diff'].forEach(function(f){
+      var el = document.getElementById(f);
+      if(el) c[f.replace(/-/g,'_')] = el.checked;
+    });
+    var riskFields = ['r1','r2','r3','r4','r5','r6','r7','r8','r9','r10'];
+    riskFields.forEach(function(f){
+      var el = document.getElementById(f);
+      if(el) c[f] = el.value;
+    });
+    c.nom = (c.nom||'').toUpperCase();
+    c.risk_score = computeScore();
+    c.updated_at = Date.now();
+    clients[idx] = c;
+    saveClients(clients);
+    document.getElementById('dossier-title').textContent = c.nom+' '+c.prenom;
+    ind.style.color = 'var(--success)';
+  }, 800);
+}
+
+function computeScore() {
+  var ids = ['r1','r2','r3','r4','r5','r6','r7','r8','r9','r10'];
+  var total = 0;
+  ids.forEach(function(id){ total += parseInt(document.getElementById(id).value||1); });
+  return parseFloat((total/ids.length).toFixed(1));
+}
+
+function showTab(tab, btn) {
+  document.querySelectorAll('.tab-section').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('tab-'+tab).classList.add('active');
+  if(btn) btn.classList.add('active');
+  else document.querySelector('.nav-btn').classList.add('active');
+  if(tab==='export') generateExport();
+}
+
+function toggleBE() {
+  document.getElementById('be-fields').style.display = document.getElementById('chk-be-diff').checked ? 'block' : 'none';
+  autoSave();
+}
+
+function checkDocExpiry() {
+  var val = document.getElementById('doc-exp').value;
+  var el = document.getElementById('doc-alert');
+  if(!val){ el.innerHTML=''; return; }
+  el.innerHTML = new Date(val) < new Date()
+    ? '<div class="alert alert-danger">Document expiré — identité non vérifiable.</div>'
+    : '<div class="alert alert-success">Document en cours de validité.</div>';
+  autoSave();
+}
+
+function updateRisk() {
+  var avg = computeScore();
+  document.getElementById('score-val').textContent = avg.toFixed(1);
+  var pct = Math.min(((avg-1)/3)*100,100);
+  var bar = document.getElementById('score-bar');
+  bar.style.width = pct+'%';
+  var vigilance, detail, mesures, color;
+  if(avg<=1.5){ vigilance='Vigilance simplifiée'; color='var(--success)'; bar.style.background='#27ae60';
+    detail='Risque faible. Vigilance allégée possible — à documenter. Identification obligatoire.';
+    mesures='• Recueillir les justificatifs de la qualification en risque faible\n• Maintenir une surveillance des opérations\n• Conserver la documentation 5 ans';
+  } else if(avg<=2.5){ vigilance='Vigilance constante'; color='var(--warn)'; bar.style.background='#e6920e';
+    detail='Niveau courant. Assurer la cohérence des opérations avec la connaissance actualisée du client.';
+    mesures='• Recueillir tous les éléments sur la nature et l\'objet de la relation\n• Maintenir une connaissance actualisée du client\n• Identifier et analyser les opérations incohérentes\n• Conserver la documentation 5 ans';
+  } else if(avg<=3.2){ vigilance='Vigilance renforcée'; color='#c05000'; bar.style.background='#e07000';
+    detail='Risque élevé. Procéder à un examen renforcé et documenter l\'analyse par écrit.';
+    mesures='• Recueillir des informations sur l\'origine des fonds et du patrimoine\n• Interroger le client sur la destination des sommes\n• Intensifier les contrôles de cohérence\n• Consigner l\'examen renforcé (conservation 5 ans)\n• Envisager une déclaration TRACFIN si le soupçon subsiste';
+  } else { vigilance='Déclaration TRACFIN requise'; color='var(--danger)'; bar.style.background='var(--danger)';
+    detail='Risque très élevé. Après examen renforcé ne levant pas les doutes, obligation de déclarer via ERMES avant l\'exécution.';
+    mesures='• Effectuer immédiatement un examen renforcé complet\n• Ne jamais informer le client de la déclaration\n• Transmettre via ERMES avant l\'exécution\n• Conserver tous les documents 5 ans\n• Urgence TRACFIN : 01 57 53 27 00';
+  }
+  document.getElementById('vigilance-badge').innerHTML = '<span style="color:'+color+'">'+vigilance+'</span>';
+  document.getElementById('vigilance-detail').textContent = detail;
+  document.getElementById('mesures-list').textContent = mesures;
+  autoSave();
+}
+
+function addSuivi() {
+  var d = document.getElementById('suivi-date').value;
+  var t = document.getElementById('suivi-type').value;
+  var n = document.getElementById('suivi-note').value;
+  if(!d||!t){ alert('Veuillez renseigner la date et le type.'); return; }
+  if(!currentClientId) return;
+  var clients = getClients();
+  var idx = clients.findIndex(function(c){ return c.id===currentClientId; });
+  if(idx===-1) return;
+  if(!clients[idx].suivi) clients[idx].suivi=[];
+  clients[idx].suivi.push({date:d, type:t, note:n});
+  clients[idx].suivi.sort(function(a,b){ return new Date(b.date)-new Date(a.date); });
+  clients[idx].updated_at = Date.now();
+  saveClients(clients);
+  renderSuivi(clients[idx].suivi);
+  checkAlertes(clients[idx].suivi);
+  document.getElementById('suivi-date').value='';
+  document.getElementById('suivi-type').value='';
+  document.getElementById('suivi-note').value='';
+}
+
+function renderSuivi(events) {
+  var el = document.getElementById('suivi-history');
+  if(!events||!events.length){ el.innerHTML='<p style="font-size:13px;color:var(--gray-400);">Aucun événement enregistré.</p>'; return; }
+  el.innerHTML = events.map(function(e){
+    return '<div class="history-item"><div class="hi-date">'+e.date+'</div><div class="hi-type">'+e.type+'</div>'+(e.note?'<div class="hi-note">'+e.note+'</div>':'')+'</div>';
+  }).join('');
+}
+
+function checkAlertes(events) {
+  var el = document.getElementById('alertes-auto');
+  if(!events||!events.length){ el.innerHTML='<p style="font-size:13px;color:var(--gray-400);">Ajoutez des événements pour voir les alertes.</p>'; return; }
+  var types = events.map(function(e){ return e.type; });
+  var alerts=[];
+  if(!types.includes('Remise de pièces d\'identité')) alerts.push('<div class="alert alert-warn">Aucune remise de pièce d\'identité enregistrée.</div>');
+  if(types.includes('Incohérence détectée')&&!types.includes('Examen renforcé effectué')) alerts.push('<div class="alert alert-danger">Incohérence détectée sans examen renforcé enregistré.</div>');
+  if(types.includes('Signature compromis')&&!types.includes('Remise de pièces d\'identité')) alerts.push('<div class="alert alert-danger">Compromis signé sans vérification d\'identité préalable.</div>');
+  el.innerHTML = alerts.length ? alerts.join('') : '<div class="alert alert-success">✓ Aucune alerte détectée.</div>';
+}
+
+function genTracfin() {
+  if(!currentClientId) return;
+  var c = getClient(currentClientId) || {};
+  var inf = document.getElementById('infraction').value;
+  var faits = document.getElementById('faits-soupcon').value;
+  var examen = document.getElementById('examen-renforce').value;
+  var date = document.getElementById('op-date-tracfin').value;
+  var statut = document.getElementById('op-statut').value;
+  if(!inf&&!faits){ document.getElementById('tracfin-preview').textContent='Remplissez les champs ci-dessus pour générer l\'aperçu.'; return; }
+  var txt='DÉCLARATION DE SOUPÇON — '+new Date().toLocaleDateString('fr-FR')+'\n\n';
+  txt+='1. IDENTIFICATION DE LA PERSONNE VISÉE\n';
+  txt+='Nom et prénom : '+(c.nom||'[NOM]')+' '+(c.prenom||'[PRÉNOM]')+'\n';
+  txt+='Date de naissance : '+(c.ddn||'—')+'\nLieu de naissance : '+(c.lieu||'—')+'\n';
+  txt+='Profession : '+(c.profession||'—')+'\nAdresse : '+(c.adresse||'—')+'\n\n';
+  txt+='2. DESCRIPTION DE L\'OPÉRATION\n';
+  txt+='Nature : '+(c.op_nature||'—')+'\nBien : '+(c.bien_adresse||'—')+'\n';
+  txt+='Montant : '+(c.montant?parseInt(c.montant).toLocaleString('fr-FR')+' €':'—')+'\n';
+  txt+='Financement : '+(c.financement||'—')+'\n';
+  if(date) txt+='Date de l\'opération : '+new Date(date).toLocaleDateString('fr-FR')+'\n';
+  if(statut) txt+='Statut : '+statut+'\n';
+  txt+='\n3. NATURE DU SOUPÇON\nInfraction suspectée : '+(inf||'À préciser')+'\n\n';
+  if(faits) txt+='4. ÉLÉMENTS DU SOUPÇON\n'+faits+'\n\n';
+  if(examen) txt+='5. EXAMEN RENFORCÉ\n'+examen+'\n\n';
+  txt+='6. DÉCLARANT\nProfessionnel partenaire Immatch® by Cadre Estate Solutions.';
+  document.getElementById('tracfin-preview').textContent=txt;
+}
+
+function copyTracfin() {
+  navigator.clipboard.writeText(document.getElementById('tracfin-preview').textContent)
+    .then(function(){ alert('Texte copié dans le presse-papier.'); });
+}
+
+function generateExport() {
+  if(!currentClientId) return;
+  var c = getClient(currentClientId);
+  if(!c) return;
+  var el = document.getElementById('export-content');
+  var html='<h3>Identification du client</h3>';
+  html+='<p><strong>Nom et prénom :</strong> '+c.nom+' '+(c.prenom||'')+'</p>';
+  html+='<p><strong>Né(e) le :</strong> '+(c.ddn||'—')+' à '+(c.lieu||'—')+'</p>';
+  html+='<p><strong>Nationalité :</strong> '+(c.nat||'—')+'</p>';
+  html+='<p><strong>Adresse :</strong> '+(c.adresse||'—')+'</p>';
+  html+='<p><strong>Profession :</strong> '+(c.profession||'—')+'</p>';
+  html+='<p><strong>Tél / Email :</strong> '+(c.tel||'—')+' / '+(c.email||'—')+'</p>';
+  html+='<hr><h3>Pièce d\'identité</h3>';
+  html+='<p><strong>Type :</strong> '+(c.doc_type||'—')+'</p>';
+  html+='<p><strong>Numéro :</strong> '+(c.doc_num||'—')+' (exp. '+(c.doc_exp||'—')+')</p>';
+  html+='<p><strong>Copie recueillie :</strong> '+(c.chk_photo?'Oui':'Non')+'</p>';
+  html+='<p><strong>Présence physique :</strong> '+(c.chk_id_verif?'Oui':'Non')+'</p>';
+  if(c.chk_be_diff){
+    html+='<hr><h3>Bénéficiaire effectif</h3>';
+    html+='<p><strong>Nom :</strong> '+(c.be_nom||'—')+'</p>';
+    html+='<p><strong>Lien :</strong> '+(c.be_lien||'—')+'</p>';
+    html+='<p><strong>Justificatif :</strong> '+(c.be_justif||'—')+'</p>';
+  }
+  html+='<hr><h3>Opération</h3>';
+  html+='<p><strong>Nature :</strong> '+(c.op_nature||'—')+'</p>';
+  html+='<p><strong>Bien :</strong> '+(c.bien_adresse||'—')+'</p>';
+  html+='<p><strong>Montant :</strong> '+(c.montant?parseInt(c.montant).toLocaleString('fr-FR')+' €':'—')+'</p>';
+  html+='<p><strong>Financement :</strong> '+(c.financement||'—')+'</p>';
+  html+='<p><strong>Date :</strong> '+(c.op_date||'—')+'</p>';
+  if(c.obs_kyc) html+='<p><strong>Observations :</strong> '+c.obs_kyc+'</p>';
+  var s=c.risk_score||1;
+  var niv=s<=1.5?'Simplifiée':s<=2.5?'Constante':s<=3.2?'Renforcée':'TRACFIN requis';
+  html+='<hr><h3>Évaluation des risques</h3><p><strong>Score :</strong> '+s+'/4 — Vigilance '+niv+'</p>';
+  if(c.suivi&&c.suivi.length){
+    html+='<hr><h3>Journal de la relation d\'affaires ('+c.suivi.length+' événements)</h3>';
+    c.suivi.forEach(function(e){ html+='<p>• <strong>'+e.date+'</strong> — '+e.type+(e.note?' : '+e.note:'')+'</p>'; });
+  }
+  html+='<hr><p style="font-size:11.5px;color:var(--gray-400);margin-top:6px;">Dossier généré le '+new Date().toLocaleDateString('fr-FR')+' — Immatch® by Cadre Estate Solutions — Outil LCB-FT Partenaires</p>';
+  el.innerHTML = html;
+}
+
+function confirmDelete() {
+  document.getElementById('modal-delete').style.display='flex';
+}
+function deleteClient() {
+  if(!currentClientId) return;
+  var clients = getClients().filter(function(c){ return c.id!==currentClientId; });
+  saveClients(clients);
+  closeModal();
+  goBack();
+}
+
+renderDashboard();
+</script>
+</body>
+</html>
