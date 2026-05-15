@@ -1,0 +1,189 @@
+<h2 class="sr-only">Maquette de l'outil MARG'IMMO PRO — calculateur de marge marchand de biens</h2>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 1.5rem; }
+.badge-pro { background: #1E3A6E; color: #fff; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+.badge-date { font-size: 12px; color: var(--color-text-secondary); }
+.block { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.block-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.field label { display: block; font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.field input, .field select { width: 100%; height: 34px; font-size: 13px; padding: 0 8px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-secondary); color: var(--color-text-primary); }
+.slider-row { margin-bottom: 10px; }
+.slider-row label { font-size: 12px; color: var(--color-text-secondary); display: flex; justify-content: space-between; margin-bottom: 4px; }
+.slider-row label span { font-weight: 500; color: var(--color-text-primary); }
+.slider-row input[type=range] { width: 100%; }
+.toggle-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.toggle { width: 36px; height: 20px; border-radius: 10px; background: var(--color-border-secondary); position: relative; cursor: pointer; flex-shrink: 0; }
+.toggle.on { background: #1D9E75; }
+.toggle::after { content: ''; position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #fff; top: 3px; left: 3px; transition: left 0.15s; }
+.toggle.on::after { left: 19px; }
+.toggle-label { font-size: 13px; color: var(--color-text-primary); }
+.calc-btn { width: 100%; height: 44px; background: #1E3A6E; color: #fff; border: none; border-radius: var(--border-radius-md); font-size: 15px; font-weight: 500; cursor: pointer; margin: 1rem 0; }
+.results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+.result-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 14px; }
+.result-card .label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.result-card .value { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+.result-card .value.green { color: #0F6E56; }
+.result-card .value.orange { color: #BA7517; }
+.result-card .value.red { color: #A32D2D; }
+.bilan-table { width: 100%; font-size: 13px; border-collapse: collapse; }
+.bilan-table tr { border-bottom: 0.5px solid var(--color-border-tertiary); }
+.bilan-table td { padding: 7px 4px; color: var(--color-text-primary); }
+.bilan-table td:last-child { text-align: right; font-weight: 500; }
+.bilan-table tr.total td { font-weight: 500; font-size: 14px; }
+.bilan-table tr.total td:first-child { color: var(--color-text-primary); }
+.scenarios { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1rem; }
+.scenario { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px 14px; }
+.scenario.highlight { border: 2px solid #1D9E75; }
+.scenario-title { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 8px; }
+.scenario-kpi { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 0.5px solid var(--color-border-tertiary); padding: 5px 0; font-size: 13px; }
+.scenario-kpi .kpi-label { color: var(--color-text-secondary); }
+.scenario-kpi .kpi-val { font-weight: 500; }
+.scenario-kpi .kpi-val.green { color: #0F6E56; }
+.alert-box { border-radius: var(--border-radius-md); padding: 10px 14px; margin-bottom: 8px; display: flex; gap: 10px; align-items: flex-start; }
+.alert-box.danger { background: #FCEBEB; border-left: 3px solid #A32D2D; }
+.alert-box.warning { background: #FAEEDA; border-left: 3px solid #854F0B; }
+.alert-box.info { background: #E6F1FB; border-left: 3px solid #185FA5; }
+.alert-icon { font-size: 14px; margin-top: 1px; }
+.alert-content .alert-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 2px; }
+.alert-content .alert-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+.mention { font-size: 11px; color: var(--color-text-tertiary); border-top: 0.5px solid var(--color-border-tertiary); padding-top: 10px; margin-top: 1rem; line-height: 1.6; }
+.section-sep { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin: 1.5rem 0 0.75rem; }
+</style>
+
+<div style="padding: 0 0 1.5rem;">
+
+<div class="header">
+  <div>
+    <span style="font-size: 18px; font-weight: 500; color: var(--color-text-primary);">MARG'IMMO PRO</span>
+    <span class="badge-pro" style="margin-left: 8px;">Espace Investisseur</span>
+  </div>
+  <span class="badge-date">Taux mis à jour le 29/04/2026</span>
+</div>
+
+<div class="block">
+  <div class="block-title">1 — Le bien</div>
+  <div class="form-grid">
+    <div class="field"><label>Prix d'achat</label><input type="text" value="220 000 €" /></div>
+    <div class="field"><label>Surface (m²)</label><input type="text" value="180 m²" /></div>
+    <div class="field"><label>Type de bien</label><select><option>Immeuble</option><option>Maison</option><option>Appartement</option></select></div>
+    <div class="field"><label>DPE actuel</label><select><option>F</option><option>G</option><option>E</option><option>D</option></select></div>
+    <div class="field"><label>État locatif</label><select><option>Libre</option><option>Occupé partiellement</option><option>Occupé totalement</option></select></div>
+    <div class="field"><label>Engagement</label><select><option>Revente (DMTO 2,5%)</option><option>Construire (DMTO 2,5%)</option><option>Aucun (DMTO 8,5%)</option></select></div>
+  </div>
+</div>
+
+<div class="block">
+  <div class="block-title">2 — Les travaux</div>
+  <div class="form-grid" style="margin-bottom: 14px;">
+    <div class="field"><label>Montant travaux</label><input type="text" value="65 000 €" /></div>
+    <div class="field"><label>Autorisation requise</label><select><option>Aucune</option><option>Déclaration préalable</option><option>Permis de construire</option><option>Permis d'aménager</option></select></div>
+    <div class="field"><label>Régime TVA visé</label><select><option>Exonération (ancien &gt;5 ans)</option><option>TVA sur marge</option><option>TVA sur prix total</option></select></div>
+  </div>
+  <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 8px; font-weight: 500;">Éléments du second œuvre rénovés — indiquer le % par poste</div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px;">
+    <div class="slider-row"><label>Planchers non porteurs <span>45%</span></label><input type="range" min="0" max="100" value="45" /></div>
+    <div class="slider-row"><label>Huisseries extérieures <span>70%</span></label><input type="range" min="0" max="100" value="70" /></div>
+    <div class="slider-row"><label>Cloisons intérieures <span>60%</span></label><input type="range" min="0" max="100" value="60" /></div>
+    <div class="slider-row"><label>Installations sanitaires <span>80%</span></label><input type="range" min="0" max="100" value="80" /></div>
+    <div class="slider-row"><label>Chauffage <span>55%</span></label><input type="range" min="0" max="100" value="55" /></div>
+    <div class="slider-row"><label>Électricité <span>75%</span></label><input type="range" min="0" max="100" value="75" /></div>
+  </div>
+  <div style="margin-top: 10px;">
+    <div class="toggle-row"><div class="toggle"></div><span class="toggle-label">Travaux lourds (déclenchent la Dommage Ouvrage à 2,5%)</span></div>
+    <div class="toggle-row"><div class="toggle"></div><span class="toggle-label">Ajout de compteurs électriques</span></div>
+    <div class="toggle-row"><div class="toggle on"></div><span class="toggle-label">Découpe en plusieurs lots</span></div>
+  </div>
+</div>
+
+<div class="block">
+  <div class="block-title">3 — La stratégie</div>
+  <div class="form-grid">
+    <div class="field"><label>Prix de revente visé</label><input type="text" value="380 000 €" /></div>
+    <div class="field"><label>Durée cible (mois)</label><input type="text" value="9" /></div>
+    <div class="field"><label>Apport personnel</label><input type="text" value="90 000 €" /></div>
+    <div class="field"><label>Financement</label><select><option>Avec levier (ligne crédit)</option><option>Fonds propres uniquement</option></select></div>
+  </div>
+</div>
+
+<button class="calc-btn">Calculer ma marge</button>
+
+<div class="section-sep">Résultats</div>
+
+<div class="results-grid">
+  <div class="result-card"><div class="label">Marge brute</div><div class="value green">22,4 %</div></div>
+  <div class="result-card"><div class="label">Bénéfice net après IS</div><div class="value green">67 200 €</div></div>
+  <div class="result-card"><div class="label">Prix de revient total</div><div class="value">295 100 €</div></div>
+  <div class="result-card"><div class="label">IS estimé</div><div class="value">14 600 €</div></div>
+</div>
+
+<div class="block">
+  <div class="block-title">Détail du bilan prévisionnel</div>
+  <table class="bilan-table">
+    <tr><td>Prix d'achat</td><td>220 000 €</td></tr>
+    <tr><td>DMTO (2,5% — engagement revente)</td><td>5 500 €</td></tr>
+    <tr><td>Frais de notaire acquéreur</td><td>17 600 €</td></tr>
+    <tr><td>Travaux</td><td>65 000 €</td></tr>
+    <tr><td>Frais financiers (Euribor + 1% + 1%)</td><td>14 650 €</td></tr>
+    <tr><td>Géomètre + bornage</td><td>4 500 €</td></tr>
+    <tr><td>Huissiers (forfait)</td><td>1 500 €</td></tr>
+    <tr><td>RC Pro + PNO</td><td>1 800 €</td></tr>
+    <tr><td>Mise en copropriété (ASL)</td><td>1 500 €</td></tr>
+    <tr class="total"><td>Prix de revient total</td><td>295 100 €</td></tr>
+    <tr><td style="padding-top: 10px;">Prix de vente HT</td><td style="padding-top: 10px;">380 000 €</td></tr>
+    <tr><td>Marge brute</td><td>84 900 €</td></tr>
+    <tr><td>IS (15% jusqu'à 38 120 € + 25% au-delà)</td><td>14 600 €</td></tr>
+    <tr class="total"><td>Bénéfice net</td><td style="color: #0F6E56;">67 200 €</td></tr>
+  </table>
+</div>
+
+<div class="block">
+  <div class="block-title">Comparaison des scénarios de financement</div>
+  <div class="scenarios">
+    <div class="scenario">
+      <div class="scenario-title">Fonds propres (295 100 €)</div>
+      <div class="scenario-kpi"><span class="kpi-label">Rendement sur cash</span><span class="kpi-val">22,8 %</span></div>
+      <div class="scenario-kpi"><span class="kpi-label">Annualisé sur 9 mois</span><span class="kpi-val">30,4 %</span></div>
+      <div class="scenario-kpi"><span class="kpi-label">Cash immobilisé</span><span class="kpi-val">295 100 €</span></div>
+    </div>
+    <div class="scenario highlight">
+      <div class="scenario-title" style="color: #0F6E56;">Avec levier — apport 90 000 €</div>
+      <div class="scenario-kpi"><span class="kpi-label">Rendement sur cash</span><span class="kpi-val green">74,7 %</span></div>
+      <div class="scenario-kpi"><span class="kpi-label">Annualisé sur 9 mois</span><span class="kpi-val green">99,6 %</span></div>
+      <div class="scenario-kpi"><span class="kpi-label">Cash immobilisé</span><span class="kpi-val">90 000 €</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-sep">Alertes détectées</div>
+
+<div class="alert-box warning">
+  <div class="alert-icon">⚠</div>
+  <div class="alert-content">
+    <div class="alert-title">Risque TVA — bascule dans le neuf possible</div>
+    <div class="alert-desc">Huisseries (70%), sanitaires (80%) et électricité (75%) dépassent le seuil de 66,67%. Si les cloisons et le chauffage dépassent aussi ce seuil, votre bien devient fiscalement neuf → TVA sur le prix total soit 63 333 € supplémentaires. Vérifiez avec votre expert-comptable avant de signer.</div>
+  </div>
+</div>
+
+<div class="alert-box info">
+  <div class="alert-icon">i</div>
+  <div class="alert-content">
+    <div class="alert-title">Délai réaliste — autorisation "aucune"</div>
+    <div class="alert-desc">Sans autorisation d'urbanisme, comptez 5 à 6 mois pour boucler cette opération. Votre cible de 9 mois est cohérente avec le mandat MdB débutant (4 à 8 mois recommandé).</div>
+  </div>
+</div>
+
+<div class="alert-box danger">
+  <div class="alert-icon">!</div>
+  <div class="alert-content">
+    <div class="alert-title">Découpe avec locataires — vérification requise</div>
+    <div class="alert-desc">Vous avez indiqué une découpe en plusieurs lots. Si des locataires sont en place, cette configuration est quasi-incompatible avec le mandat MdB débutant. Privilégiez les départs volontaires négociés avant achat.</div>
+  </div>
+</div>
+
+<div class="mention">Ce calculateur est fourni à titre indicatif uniquement. Il ne constitue pas un conseil fiscal, juridique ou financier. Les règles fiscales peuvent évoluer. Consultez votre expert-comptable spécialisé MdB pour toute décision opérationnelle.</div>
+
+</div>
