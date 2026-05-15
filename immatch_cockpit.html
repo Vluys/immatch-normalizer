@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMMATCH — Mon cockpit immobilier</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --t:#0F8191;--t50:#E1F5EE;--t100:#9FE1CB;--t800:#085041;--t900:#04342C;
+  --g:#C9A84C;--g50:#FDF6E3;--g800:#633806;
+  --dark:#0d1f1f;--dark2:#1a3a3a;
+  --blue:#378ADD;--b50:#E6F1FB;--b800:#0C447C;
+  --amber:#BA7517;--am50:#FAEEDA;--am800:#633806;
+  --red:#E24B4A;--r50:#FCEBEB;--r800:#501313;
+  --green:#1D9E75;
+  --bg:#F7F6F2;--card:#FFFFFF;--border:rgba(0,0,0,0.08);
+  --txt:#1a1a1a;--mut:#666;--mut2:#999;
+  --r4:4px;--r8:8px;--r12:12px;--r20:20px;
+  --shadow:0 1px 3px rgba(0,0,0,0.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;padding:0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* ── LAYOUT ── */
+.shell{max-width:780px;margin:0 auto;padding:0 20px 40px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0 14px;border-bottom:1px solid var(--border);margin-bottom:20px;position:sticky;top:0;background:var(--bg);z-index:100}
+.logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:500;color:var(--t);letter-spacing:-.5px}
+.logo em{color:var(--g);font-style:normal}
+.logo sup{font-size:10px;color:var(--mut);font-family:'DM Sans',sans-serif;font-weight:400}
+.topright{display:flex;align-items:center;gap:8px}
+
+/* ── BADGES ── */
+.badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;letter-spacing:.2px}
+.bp{background:var(--t50);color:var(--t800)}
+.bv{background:var(--b50);color:var(--b800)}
+.ba{background:var(--am50);color:var(--am800)}
+.bn{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;background:#EAF3DE;color:#27500A}
+
+/* ── NOTIF ── */
+.notif-btn{position:relative;background:none;border:none;cursor:pointer;padding:4px;border-radius:8px;transition:background .15s}
+.notif-btn:hover{background:rgba(0,0,0,0.05)}
+.notif-btn i{font-size:20px;color:var(--mut)}
+.notif-dot{position:absolute;top:2px;right:2px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid var(--bg)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.pulse{animation:pulse 2s infinite}
+
+.notif-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--r12);margin-bottom:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+.notif-panel.open{display:block}
+.notif-hd{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.notif-hd-txt{font-size:13px;font-weight:500;color:var(--txt)}
+.notif-close{background:none;border:none;cursor:pointer;color:var(--mut);font-size:16px;display:flex;align-items:center}
+.notif-item{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+.notif-item:last-child{border-bottom:none}
+.notif-item:hover{background:#fafaf8}
+.nd{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.nd-r{background:var(--red)}.nd-g{background:var(--green)}.nd-a{background:var(--amber)}
+.ni-txt{font-size:13px;color:var(--txt);line-height:1.45}
+.ni-time{font-size:11px;color:var(--mut2);margin-top:3px}
+
+/* ── IMA BAND ── */
+.ima-band{background:var(--dark);border-radius:var(--r12);padding:18px 20px;margin-bottom:16px;border:1px solid rgba(201,168,76,.15)}
+.ima-inner{display:flex;gap:14px;align-items:flex-start}
+.ima-av{width:40px;height:40px;border-radius:50%;background:var(--dark2);border:1.5px solid var(--g);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--g);flex-shrink:0;letter-spacing:.5px}
+.ima-lbl{font-size:10px;color:var(--g);letter-spacing:1.2px;text-transform:uppercase;font-weight:500;margin-bottom:4px}
+.ima-txt{font-size:13.5px;color:#d8d8d8;line-height:1.6}
+.ima-txt strong{color:var(--g)}
+.ima-acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.ima-btn{font-size:11.5px;padding:5px 12px;border-radius:20px;border:1px solid rgba(201,168,76,.35);background:rgba(201,168,76,.08);color:var(--g);cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.ima-btn:hover{background:rgba(201,168,76,.18);border-color:rgba(201,168,76,.6)}
+.score-wrap{text-align:center;flex-shrink:0}
+.score-delta{font-size:11px;color:var(--green);font-weight:500;margin-top:4px;letter-spacing:.2px}
+
+/* ── SEC LABEL ── */
+.sec-lbl{font-size:11px;font-weight:500;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;margin:20px 0 10px;display:flex;align-items:center;gap:6px}
+.sec-lbl i{font-size:14px;color:var(--t)}
+
+/* ── PROJETS ── */
+.projets-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r12);padding:14px 16px;transition:box-shadow .2s}
+.pcard:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+.pcard.v{border-left:3px solid var(--t);border-radius:0 var(--r12) var(--r12) 0}
+.pcard.a{border-left:3px solid var(--blue);border-radius:0 var(--r12) var(--r12) 0}
+.pt{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.pn{font-size:13.5px;font-weight:500;color:var(--txt);display:flex;align-items:center;gap:5px}
+.pn i{font-size:14px}
+.pm{font-size:12px;color:var(--mut);margin-bottom:10px;line-height:1.55}
+.lrow{display:flex;gap:6px;margin-bottom:10px}
+.lev{font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid;cursor:pointer;font-weight:500;font-family:'DM Sans',sans-serif;transition:all .15s}
+.lon{background:var(--t50);color:var(--t800);border-color:var(--t100)}
+.lsl{background:#f5f5f3;color:var(--mut);border-color:#ddd}
+.lsl:hover{background:#eee}
+.lof{background:var(--r50);color:var(--r800);border-color:#F09595}
+.mini-score{display:flex;align-items:center;gap:10px}
+.ms-val{font-size:14px;font-weight:500}
+.ms-delta{font-size:11px;font-weight:500;color:var(--green)}
+.ms-hint{font-size:11.5px;color:var(--mut);margin-top:2px;line-height:1.4}
+
+/* ── ADD PROJECT ── */
+.add-p{background:var(--card);border:1.5px dashed #ddd;border-radius:var(--r12);padding:14px;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;margin-bottom:12px;transition:all .2s}
+.add-p:hover{border-color:var(--t);background:var(--t50)}
+.add-ptxt{font-size:13px;font-weight:500;color:var(--mut)}
+.add-p:hover .add-ptxt{color:var(--t800)}
+.add-pp{font-size:11px;padding:3px 10px;border-radius:12px;background:var(--t50);color:var(--t800);font-weight:500;border:1px solid var(--t100)}
+
+/* ── COMPAT ── */
+.cc{background:var(--card);border:1px solid var(--border);border-radius:var(--r12);padding:14px 16px;margin-bottom:12px}
+.chd{font-size:11px;font-weight:500;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.chd i{font-size:13px;color:var(--t)}
+.crow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.crow:last-child{border-bottom:none;padding-bottom:0}
+.pct{font-size:14px;font-weight:500;min-width:36px;letter-spacing:-.3px}
+.ph{color:var(--green)}.pm2{color:var(--g)}.pl{color:var(--mut)}
+.ci{flex:1}
+.cn{font-size:13px;font-weight:500;color:var(--txt)}
+.cs{font-size:11.5px;color:var(--mut);margin-top:2px}
+.ft{font-size:10px;padding:3px 8px;border-radius:10px;font-weight:500;flex-shrink:0;white-space:nowrap}
+.fok{background:var(--t50);color:var(--t800)}
+.fpe{background:var(--am50);color:var(--am800)}
+.fno{background:var(--r50);color:var(--r800)}
+.cb{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid;cursor:pointer;flex-shrink:0;white-space:nowrap;font-family:'DM Sans',sans-serif;transition:all .15s}
+.cmer{border-color:var(--t);color:var(--t800);background:transparent}.cmer:hover{background:var(--t50)}
+.cinf{border-color:var(--g);color:var(--g800);background:transparent}.cinf:hover{background:var(--g50)}
+.clk{border-color:#ddd;color:var(--mut2);cursor:not-allowed}
+.compat-note{font-size:11px;color:var(--mut2);margin-top:10px;padding-top:8px;border-top:1px solid var(--border);display:flex;align-items:center;gap:5px}
+.compat-note i{font-size:12px}
+
+/* ── DANIM ── */
+.danim{background:var(--dark);border-radius:var(--r12);padding:14px 18px;margin-bottom:12px;display:flex;gap:14px;align-items:center;border:1px solid rgba(201,168,76,.2)}
+.dic{width:40px;height:40px;border-radius:var(--r8);background:rgba(201,168,76,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dic i{font-size:20px;color:var(--g)}
+.dtxt{flex:1}
+.dtt{font-size:13px;font-weight:500;color:#e8e8e8;margin-bottom:3px}
+.dts{font-size:12px;color:#888;line-height:1.45}
+.dcta{font-size:12px;padding:7px 14px;border-radius:20px;border:1px solid rgba(201,168,76,.4);background:rgba(201,168,76,.1);color:var(--g);cursor:pointer;flex-shrink:0;font-family:'DM Sans',sans-serif;transition:all .15s}
+.dcta:hover{background:rgba(201,168,76,.22)}
+
+/* ── SERVICES ── */
+.svc-dr{border:1px solid var(--border);border-radius:var(--r8);margin-bottom:8px;overflow:hidden;background:var(--card)}
+.svc-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;transition:background .15s;user-select:none}
+.svc-hd:hover{background:#fafaf8}
+.svc-hl{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--txt);font-weight:500}
+.svc-hl i{font-size:16px;color:var(--t)}
+.stg{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500;margin-left:6px}
+.stt{background:var(--t50);color:var(--t800)}
+.stg2{background:var(--g50);color:var(--g800)}
+.stn{background:#EEEDFE;color:#3C3489}
+.svc-bd{padding:14px;border-top:1px solid var(--border);display:none;background:#fdfcf9}
+.svc-bd.open{display:block}
+.sbd-txt{font-size:13px;color:var(--mut);line-height:1.65;margin-bottom:10px}
+.sbd-txt strong{color:var(--txt)}
+.slaw{font-size:12px;color:var(--mut);background:#f5f4f0;border-left:3px solid var(--t);border-radius:0 var(--r4) var(--r4) 0;padding:8px 12px;margin-bottom:10px;line-height:1.55}
+.slaw strong{color:var(--txt)}
+.scta-row{display:flex;gap:8px;flex-wrap:wrap}
+.scta{font-size:12.5px;padding:7px 14px;border-radius:20px;border:1px solid;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.scy{border-color:var(--t);color:var(--t800);background:var(--t50)}.scy:hover{background:var(--t100)}
+.scn{border-color:#ddd;color:var(--mut);background:transparent}.scn:hover{background:#f0f0ee}
+
+/* ── GUIDES ── */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.fb{background:var(--card);border:1px solid var(--border);border-radius:var(--r8);padding:11px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .15s;text-align:left}
+.fb:hover{border-color:var(--t);background:var(--t50)}
+.fb i{font-size:16px;color:var(--t);flex-shrink:0}
+.fb span{font-size:13px;color:var(--txt);font-weight:500}
+
+/* ── OUTILS ── */
+.odr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:var(--card);border-radius:var(--r8);border:1px solid var(--border);margin-bottom:6px;cursor:pointer;transition:border-color .15s;user-select:none}
+.odr:hover{border-color:var(--t)}
+.odl{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--txt);font-weight:500}
+.odl i{font-size:16px;color:var(--t)}
+.otg{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500;margin-left:6px}
+.obd{padding:14px;border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r8) var(--r8);margin-top:-6px;margin-bottom:6px;display:none;background:#fdfcf9}
+.obd.open{display:block}
+
+/* ── PRICE SIM ── */
+.ps-row{display:flex;gap:7px;margin:10px 0}
+.ps{flex:1;border:1px solid var(--border);border-radius:var(--r8);padding:9px 8px;text-align:center;cursor:pointer;transition:all .15s;background:var(--card)}
+.ps:hover{border-color:var(--t)}
+.ps.act{border-color:var(--t);background:var(--t50)}
+.psp{font-size:12.5px;font-weight:500;color:var(--txt)}.ps.act .psp{color:var(--t)}
+.psr{font-size:11px;color:var(--mut2);margin-top:2px}.ps.act .psr{color:var(--t800)}
+
+/* ── BARO ── */
+.bgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.bc{background:var(--bg);border-radius:var(--r8);padding:10px 12px}
+.bl{font-size:11px;color:var(--mut2);margin-bottom:3px}
+.bv2{font-size:16px;font-weight:500;color:var(--txt)}.bv2.up{color:var(--green)}
+
+/* ── SCORE VIVANT ── */
+.sv-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--r8);margin-bottom:6px}
+.sv-item.ok{background:#EAF3DE}
+.sv-item.warn{background:var(--am50)}
+.sv-item.bad{background:var(--r50)}
+.sv-item i{font-size:15px;flex-shrink:0}
+.sv-item.ok i{color:#3B6D11}
+.sv-item.warn i{color:var(--amber)}
+.sv-item.bad i{color:var(--red)}
+.sv-item span{font-size:13px;line-height:1.4}
+.sv-item.ok span{color:#27500A}
+.sv-item.warn span{color:var(--am800)}
+.sv-item.bad span{color:var(--r800)}
+.sv-rec{font-size:12.5px;color:var(--txt);padding:10px 12px;background:var(--bg);border-radius:var(--r8);margin-top:8px;border-left:3px solid var(--t);border-radius:0 var(--r8) var(--r8) 0}
+
+/* ── PROGRESSION ── */
+.prog-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r12);padding:14px 16px}
+.arc-t{display:flex;gap:5px;margin-bottom:8px}
+.as{flex:1;height:6px;border-radius:3px}
+.asd{background:var(--t)}.asn{background:var(--g);animation:pulse 2s infinite}.ast{background:#e8e7e3}
+.al{display:flex;justify-content:space-between;font-size:10.5px;color:var(--mut2);margin-bottom:10px;letter-spacing:.2px}
+.an{font-size:13px;color:var(--txt);padding:9px 12px;background:#fafaf8;border-left:3px solid var(--g);border-radius:0 var(--r8) var(--r8) 0;line-height:1.5}
+.an strong{color:var(--g800)}
+
+/* ── MODALES IMA (pages fiches) ── */
+.page-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto}
+.page-overlay.open{display:flex}
+.page-modal{background:var(--bg);border-radius:var(--r12);max-width:720px;width:100%;margin:auto;overflow:hidden}
+.pm-hd{background:var(--card);padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;position:sticky;top:0}
+.pm-ic{width:38px;height:38px;border-radius:var(--r8);background:var(--t50);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pm-ic i{font-size:18px;color:var(--t)}
+.pm-title{font-size:15px;font-weight:500;color:var(--txt);flex:1}
+.pm-close{background:none;border:none;cursor:pointer;color:var(--mut);font-size:20px;display:flex;align-items:center;padding:4px;border-radius:6px}
+.pm-close:hover{background:#eee}
+.pm-body{padding:20px}
+.ctx-band{background:var(--t50);border-radius:var(--r8);padding:10px 14px;margin-bottom:16px;display:flex;gap:8px;align-items:flex-start}
+.ctx-band i{font-size:15px;color:var(--t800);flex-shrink:0;margin-top:1px}
+.ctx-band p{font-size:12.5px;color:var(--t800);line-height:1.5}
+.ctx-band strong{color:var(--t900)}
+.check-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.ci-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r8)}
+.ci-item.ok{border-left:3px solid var(--green);border-radius:0 var(--r8) var(--r8) 0}
+.ci-item.warn{border-left:3px solid var(--amber);border-radius:0 var(--r8) var(--r8) 0}
+.ci-item.bad{border-left:3px solid var(--red);border-radius:0 var(--r8) var(--r8) 0}
+.ci-ic{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ci-ic.ok{background:var(--t50)}.ci-ic.warn{background:var(--am50)}.ci-ic.bad{background:var(--r50)}
+.ci-ic i{font-size:13px}
+.ci-ic.ok i{color:var(--t800)}.ci-ic.warn i{color:var(--am800)}.ci-ic.bad i{color:var(--r800)}
+.ci-main{font-size:13px;font-weight:500;color:var(--txt);margin-bottom:3px}
+.ci-detail{font-size:12px;color:var(--mut);line-height:1.5}
+.ci-tag{font-size:10px;padding:2px 7px;border-radius:8px;font-weight:500;margin-left:auto;flex-shrink:0;align-self:flex-start}
+.law-b{background:#f7f6f2;border-left:3px solid var(--t);border-radius:0 var(--r8) var(--r8) 0;padding:10px 14px;margin-bottom:14px}
+.law-ref{font-size:10px;font-weight:500;color:var(--t);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.law-txt{font-size:12.5px;color:var(--mut);line-height:1.6}
+.law-txt strong{color:var(--txt)}
+.risk-b{background:var(--r50);border:1px solid #F09595;border-radius:var(--r8);padding:12px 14px;margin-bottom:14px}
+.risk-title{font-size:12px;font-weight:500;color:var(--r800);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.risk-title i{font-size:14px;color:var(--red)}
+.risk-item{display:flex;gap:7px;font-size:12.5px;color:#A32D2D;margin-bottom:5px;line-height:1.5}
+.risk-item:last-child{margin-bottom:0}
+.risk-item i{font-size:12px;color:var(--red);flex-shrink:0;margin-top:2px}
+.checklist-p{background:var(--card);border:1px solid var(--border);border-radius:var(--r8);padding:12px 14px;margin-bottom:14px}
+.cp-title{font-size:12px;font-weight:500;color:var(--txt);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.cp-title i{font-size:14px;color:var(--t)}
+.cp-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.cp-row:last-child{border-bottom:none}
+.cp-chk{width:20px;height:20px;border-radius:4px;border:1.5px solid #ddd;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.cp-chk.chk{background:var(--t);border-color:var(--t)}
+.cp-chk i{font-size:12px;color:white;display:none}
+.cp-chk.chk i{display:block}
+.cp-lbl{font-size:12.5px;color:var(--txt);flex:1}
+.cp-lbl.done{color:var(--mut2);text-decoration:line-through}
+.cp-stag{font-size:10px;padding:2px 6px;border-radius:8px;font-weight:500}
+.ima-bottom{background:var(--dark);border-radius:var(--r8);padding:12px 14px;display:flex;gap:10px;align-items:center}
+.ima-av-sm{width:32px;height:32px;border-radius:50%;background:var(--dark2);border:1.5px solid var(--g);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:var(--g);flex-shrink:0}
+.ima-b-txt{flex:1;font-size:12.5px;color:#d0d0d0;line-height:1.5}
+.ima-b-txt strong{color:var(--g)}
+.ima-b-btn{font-size:12px;padding:6px 14px;border-radius:20px;border:1px solid rgba(201,168,76,.4);background:rgba(201,168,76,.08);color:var(--g);cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif}
+
+/* ── TUNNEL MER ── */
+.mer-step{display:flex;gap:10px;margin-bottom:12px}
+.mer-left{display:flex;flex-direction:column;align-items:center;width:28px;flex-shrink:0}
+.mer-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+.mer-num.done{background:var(--t50);color:var(--t800)}
+.mer-num.now{background:var(--t);color:white}
+.mer-num.todo{background:#eee;color:var(--mut)}
+.mer-line{width:2px;background:var(--border);flex:1;margin:4px 0}
+.mer-step:last-child .mer-line{display:none}
+.mer-content{flex:1;padding-bottom:4px}
+.mer-title{font-size:13px;font-weight:500;color:var(--txt);margin-bottom:2px}
+.mer-sub{font-size:12px;color:var(--mut);line-height:1.5}
+
+/* ── BTN GLOBAL ── */
+.btn-teal{font-size:13px;padding:10px 20px;border-radius:20px;border:none;background:var(--t);color:white;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:background .15s;display:flex;align-items:center;gap:7px}
+.btn-teal:hover{background:#0a6b79}
+.btn-outline{font-size:13px;padding:10px 20px;border-radius:20px;border:1px solid var(--border);color:var(--mut);background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.btn-outline:hover{background:#eee}
+.btn-ask{font-size:12px;padding:7px 14px;border-radius:20px;border:1px solid var(--t);color:var(--t800);background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s}
+.btn-ask:hover{background:var(--t50)}
+
+/* ── FICHE ANNONCES ── */
+.fiche-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.doc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r12);padding:12px 14px;cursor:pointer;transition:all .15s}
+.doc-card:hover{border-color:var(--t);box-shadow:0 2px 10px rgba(15,129,145,.1)}
+.doc-card.ft{border-left:3px solid var(--t);border-radius:0 var(--r12) var(--r12) 0}
+.dc-top{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+.dc-ic{width:32px;height:32px;border-radius:var(--r8);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dc-ic i{font-size:16px}
+.ic-t{background:var(--t50);color:var(--t)}
+.ic-b{background:var(--b50);color:var(--blue)}
+.ic-a{background:var(--am50);color:var(--amber)}
+.ic-g{background:#EAF3DE;color:#3B6D11}
+.ic-p{background:#EEEDFE;color:#534AB7}
+.dc-title{font-size:13px;font-weight:500;color:var(--txt);margin-bottom:2px}
+.dc-sub{font-size:11.5px;color:var(--mut);line-height:1.4}
+.dc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.dt{font-size:10px;padding:2px 7px;border-radius:8px;font-weight:500}
+.dt-t{background:var(--t50);color:var(--t800)}
+.dt-b{background:var(--b50);color:var(--b800)}
+.dt-a{background:var(--am50);color:var(--am800)}
+.dt-p{background:#EEEDFE;color:#3C3489}
+.dt-g{background:#EAF3DE;color:#27500A}
+.dc-law{font-size:10.5px;color:var(--mut2);display:flex;align-items:center;gap:4px;margin-bottom:8px}
+.dc-law i{font-size:11px}
+.dc-actions{display:flex;gap:6px}
+.dc-pv{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--mut);background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif}
+.dc-pv:hover{background:#eee}
+.dc-dl{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--t);color:var(--t800);background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:4px}
+.dc-dl:hover{background:var(--t50)}
+.dc-ima{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid rgba(201,168,76,.4);background:rgba(201,168,76,.08);color:var(--g);cursor:pointer;font-family:'DM Sans',sans-serif}
+.dc-ima:hover{background:rgba(201,168,76,.2)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .projets-grid,.fg,.fiche-grid,.bgrid{grid-template-columns:1fr}
+  .ps-row{flex-wrap:wrap}
+  .ps{min-width:calc(50% - 4px)}
+  .ima-inner{flex-wrap:wrap}
+  .danim{flex-wrap:wrap}
+  .crow{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+<h1 class="sr-only">Mon cockpit IMMATCH — Roger V.</h1>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">imm<em>a</em>tch<sup>®</sup></div>
+  <div class="topright">
+    <span class="badge bp">Particulier</span>
+    <span class="badge bv">Vendeur</span>
+    <span class="badge ba">Acheteur</span>
+    <button class="notif-btn" onclick="toggleN()" aria-label="Notifications">
+      <i class="ti ti-bell" aria-hidden="true"></i>
+      <span class="notif-dot pulse"></span>
+    </button>
+    <span style="font-size:13px;color:var(--mut);font-weight:500">Roger V.</span>
+  </div>
+</div>
+
+<!-- NOTIF PANEL -->
+<div class="notif-panel" id="nPanel">
+  <div class="notif-hd">
+    <span class="notif-hd-txt">Activité récente</span>
+    <button class="notif-close" onclick="toggleN()" aria-label="Fermer"><i class="ti ti-x" aria-hidden="true"></i></button>
+  </div>
+  <div class="notif-item" onclick="openMER()">
+    <span class="nd nd-r pulse"></span>
+    <div><div class="ni-txt">Acheteur compatible à <strong>91%</strong> — entré cette nuit · financement attesté · timing urgent</div><div class="ni-time">Il y a 2h · Cliquer pour voir</div></div>
+  </div>
+  <div class="notif-item">
+    <span class="nd nd-r"></span>
+    <div><div class="ni-txt">Votre fiche Erdeven consultée <strong>3×</strong> par le profil 87%</div><div class="ni-time">Il y a 6h</div></div>
+  </div>
+  <div class="notif-item">
+    <span class="nd nd-g"></span>
+    <div><div class="ni-txt">Score <strong>+4 pts</strong> — 3 nouveaux acheteurs zone Morbihan ce mois</div><div class="ni-time">Mardi</div></div>
+  </div>
+  <div class="notif-item">
+    <span class="nd nd-a"></span>
+    <div><div class="ni-txt">DPE manquant — freine 2 acheteurs compatibles</div><div class="ni-time">Il y a 3 jours</div></div>
+  </div>
+</div>
+
+<!-- IMA BAND -->
+<div class="ima-band">
+  <div class="ima-inner">
+    <div class="score-wrap">
+      <svg width="60" height="60" viewBox="0 0 60 60">
+        <circle cx="30" cy="30" r="25" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+        <circle cx="30" cy="30" r="25" fill="none" stroke="#0F8191" stroke-width="5"
+          stroke-dasharray="157 157" stroke-dashoffset="37.7"
+          stroke-linecap="round" transform="rotate(-90 30 30)"/>
+        <text x="30" y="30" text-anchor="middle" dominant-baseline="middle"
+          font-size="14" font-weight="500" fill="#0F8191" font-family="DM Sans">76</text>
+        <text x="30" y="42" text-anchor="middle" font-size="9" fill="#4a7a7a" font-family="DM Sans">/100</text>
+      </svg>
+      <div class="score-delta">↑ +4 pts</div>
+    </div>
+    <div style="flex:1">
+      <div class="ima-lbl">IMA — Intelligence Matching Advisor</div>
+      <div class="ima-txt">Bonjour Roger. <strong>Un acheteur à 91%</strong> est entré cette nuit — financement attesté, timing urgent. Deux leviers peuvent vous faire passer à 85 cette semaine.</div>
+      <div class="ima-acts">
+        <button class="ima-btn" onclick="alert('IMA : Levier 1 — Faites réaliser votre DPE (48h, ~150€) → +4 pts Trust. Levier 2 — Activez la vidéo DANIM pour le profil 87% qui a consulté 3 fois → +60% conversion.')">Mes leviers ↗</button>
+        <button class="ima-btn" onclick="alert('IMA : Votre score a progressé de 4 pts cette semaine.\n\n+2 pts : Un nouvel acheteur à 91% est entré en base — financement attesté, zone et budget parfaits.\n+1 pt : Le profil 87% a rapproché son timing à 3 mois.\n+1 pt : La demande acheteurs sur le Morbihan a progressé de +12% ce mois.\n\nSans le DPE manquant, vous auriez gagné +6 pts.')">Comprendre le score ↗</button>
+        <button class="ima-btn" onclick="alert('IMA : Priorités de la semaine :\n\n1. DPE — urgence — déblocage de 2 acheteurs\n2. Vidéo DANIM — le profil 87% attend\n3. Demander la mise en relation avec le 91% — financement attesté, ne pas attendre')">Priorités ↗</button>
+      </div>
+    </div>
+    <div class="ima-av">IMA</div>
+  </div>
+</div>
+
+<!-- PROJETS -->
+<div class="sec-lbl"><i class="ti ti-briefcase" aria-hidden="true"></i>Mes projets</div>
+<div class="projets-grid">
+  <div class="pcard v">
+    <div class="pt">
+      <div class="pn"><i class="ti ti-home" aria-hidden="true" style="color:var(--t)"></i>Maison Erdeven (56)</div>
+      <span class="badge bv" style="font-size:10px">Vendeur</span>
+    </div>
+    <div class="pm">169m² · terrain 800m² · 550 000 €<br>Délai 3–6 mois · zone littorale</div>
+    <div class="lrow">
+      <span class="lev lon">● Actif</span>
+      <span class="lev lsl" onclick="alert('Projet Erdeven passé en mode Sommeil.\n\nLe matching continue mais les alertes sont suspendues. Votre score est maintenu.')">Sommeil</span>
+      <span class="lev lof" onclick="alert('Projet Erdeven désactivé.\n\nLe bien sort du calcul de compatibilité. Vous pouvez le réactiver à tout moment.')">Inactif</span>
+    </div>
+    <div class="mini-score">
+      <svg width="42" height="42" viewBox="0 0 42 42">
+        <circle cx="21" cy="21" r="17" fill="none" stroke="#E1F5EE" stroke-width="4"/>
+        <circle cx="21" cy="21" r="17" fill="none" stroke="#0F8191" stroke-width="4"
+          stroke-dasharray="106.8 106.8" stroke-dashoffset="25.6"
+          stroke-linecap="round" transform="rotate(-90 21 21)"/>
+        <text x="21" y="21" text-anchor="middle" dominant-baseline="middle"
+          font-size="11" font-weight="500" fill="#0F8191" font-family="DM Sans">76</text>
+      </svg>
+      <div>
+        <div class="ms-val" style="color:var(--t)">76 <span class="ms-delta">↑+4</span></div>
+        <div class="ms-hint">Localisation forte · Prix à affiner<br>Un document limite votre visibilité</div>
+      </div>
+    </div>
+  </div>
+  <div class="pcard a">
+    <div class="pt">
+      <div class="pn"><i class="ti ti-search" aria-hidden="true" style="color:var(--blue)"></i>Recherche Morbihan</div>
+      <span class="badge ba" style="font-size:10px">Acheteur</span>
+    </div>
+    <div class="pm">Maison 4+ ch · 400–550k€ · 20km<br>Financement attesté · 3 mois</div>
+    <div class="lrow">
+      <span class="lev lon">● Actif</span>
+      <span class="lev lsl">Sommeil</span>
+      <span class="lev lof">Inactif</span>
+    </div>
+    <div class="mini-score">
+      <svg width="42" height="42" viewBox="0 0 42 42">
+        <circle cx="21" cy="21" r="17" fill="none" stroke="#E6F1FB" stroke-width="4"/>
+        <circle cx="21" cy="21" r="17" fill="none" stroke="#378ADD" stroke-width="4"
+          stroke-dasharray="106.8 106.8" stroke-dashoffset="9.6"
+          stroke-linecap="round" transform="rotate(-90 21 21)"/>
+        <text x="21" y="21" text-anchor="middle" dominant-baseline="middle"
+          font-size="11" font-weight="500" fill="#378ADD" font-family="DM Sans">90</text>
+      </svg>
+      <div>
+        <div class="ms-val" style="color:var(--blue)">90 <span class="ms-delta" style="color:var(--blue)">Priorité</span></div>
+        <div class="ms-hint">Dossier complet · Attesté<br>Profil éligible aux alertes prioritaires</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="add-p" onclick="alert('Ajout d\'un projet supplémentaire — 9,90 €\n\nVous avez droit à 2 projets gratuits. Chaque projet supplémentaire est facturé 9,90 €/mois.\n\nCatégories disponibles :\n• Vente d\'un autre bien\n• Recherche achat\n• Mise en location\n• Recherche location')">
+  <i class="ti ti-plus" aria-hidden="true" style="font-size:17px;color:var(--t)"></i>
+  <span class="add-ptxt">Ajouter un projet supplémentaire</span>
+  <span class="add-pp">9,90 €</span>
+</div>
+
+<!-- COMPAT -->
+<div class="sec-lbl"><i class="ti ti-users" aria-hidden="true"></i>Compatibilités — projet Erdeven</div>
+<div class="cc">
+  <div class="chd"><i class="ti ti-users" aria-hidden="true"></i>3 profils en base ce mois</div>
+  <div class="crow">
+    <span class="pct ph">91%</span>
+    <div class="ci"><div class="cn">Acheteur · Maison + terrain · Dans 1 mois</div><div class="cs">Morbihan 56 · 520–580k€ · Locataire prêt à partir</div></div>
+    <span class="ft fok">Attesté ✓</span>
+    <button class="cb cmer" onclick="openMER()">Mise en relation</button>
+  </div>
+  <div class="crow">
+    <span class="pct ph">87%</span>
+    <div class="ci"><div class="cn">Acheteur · Bien + hangar activité · Dans 3 mois</div><div class="cs">Morbihan 56 · 480–560k€</div></div>
+    <span class="ft fpe">En cours</span>
+    <button class="cb cinf" onclick="alert('Profil compatible à 87%\n\nType : Acheteur maison avec hangar / activité\nBudget : 480–560k€\nZone : Morbihan (56)\nTiming : 3 mois\nFinancement : en cours de validation\n\nCe profil a consulté votre fiche 3 fois.\nActivez la vidéo DANIM pour accélérer sa décision.')">Renseignements</button>
+  </div>
+  <div class="crow">
+    <span class="pct pl">74%</span>
+    <div class="ci"><div class="cn">Acheteur · Terrain constructible · 6–12 mois</div><div class="cs">Morbihan 56 · 500–550k€</div></div>
+    <span class="ft fno">Non renseigné</span>
+    <button class="cb clk" disabled>Score &lt; 80</button>
+  </div>
+  <div class="compat-note"><i class="ti ti-lock" aria-hidden="true"></i>Coordonnées jamais transmises sans votre accord explicite · Mise en relation disponible à partir de 80%</div>
+</div>
+
+<!-- DANIM -->
+<div class="danim">
+  <div class="dic"><i class="ti ti-video" aria-hidden="true"></i></div>
+  <div class="dtxt">
+    <div class="dtt">IMA suggère une vidéo DANIM — le profil 87% a consulté 3 fois</div>
+    <div class="dts">Une vidéo narrative de 60s transforme les curieux en décideurs · +60% de conversions sur les profils hésitants</div>
+  </div>
+  <button class="dcta" onclick="alert('Vidéo DANIM activée !\n\nVous recevrez un guide de tournage simple sous 24h.\nFilmez votre bien en 20 minutes avec votre téléphone.\nLa vidéo est montée et attachée à votre fiche anonymisée.\nVisible uniquement pour les profils compatibles ≥ 80%.')">Activer ↗</button>
+</div>
+
+<!-- SERVICES -->
+<div class="sec-lbl"><i class="ti ti-tool" aria-hidden="true"></i>Services disponibles</div>
+
+<div class="svc-dr">
+  <div class="svc-hd" onclick="toggleS('s1')">
+    <div class="svc-hl"><i class="ti ti-cut" aria-hidden="true"></i>Division de terrain<span class="stg stn">Nouveau</span></div>
+    <i class="ti ti-chevron-down" id="sc1" aria-hidden="true" style="font-size:14px;color:var(--mut);transition:transform .2s"></i>
+  </div>
+  <div class="svc-bd" id="sb1">
+    <div class="sbd-txt">Votre terrain de 800m² est potentiellement divisible. Avant toute démarche, il faut vérifier que la division est autorisée par le Plan Local d'Urbanisme (PLU) de la commune d'Erdeven.</div>
+    <div class="slaw"><strong>Art. L111-1 Code de l'urbanisme :</strong> seul un géomètre-expert inscrit à l'Ordre peut réaliser le bornage officiel et la division parcellaire. Cette opération est obligatoire pour toute cession de terrain à bâtir. Comptez 1 500 à 3 000 € et 2 à 4 mois de délai.</div>
+    <div style="font-size:13px;color:var(--mut);margin-bottom:10px">Souhaitez-vous être recontacté par un géomètre-expert partenaire IMMATCH ? Tarif négocié · sans engagement.</div>
+    <div class="scta-row">
+      <button class="scta scy" onclick="alert('Demande envoyée !\n\nUn géomètre-expert partenaire IMMATCH vous contactera sous 48h.\nTarif négocié : -15% sur le tarif standard.')">Oui, me recontacter ↗</button>
+      <button class="scta scn" onclick="toggleS('s1')">Non merci</button>
+    </div>
+  </div>
+</div>
+
+<div class="svc-dr">
+  <div class="svc-hd" onclick="toggleS('s2')">
+    <div class="svc-hl"><i class="ti ti-certificate" aria-hidden="true"></i>Diagnostics obligatoires<span class="stg stt">Requis</span></div>
+    <i class="ti ti-chevron-down" id="sc2" aria-hidden="true" style="font-size:14px;color:var(--mut);transition:transform .2s"></i>
+  </div>
+  <div class="svc-bd" id="sb2">
+    <div class="sbd-txt">Pour vendre votre maison d'Erdeven, le Dossier de Diagnostics Techniques (DDT) complet est obligatoire au plus tard à la signature du compromis.</div>
+    <div class="slaw"><strong>Loi ALUR — Art. L271-4 CCH :</strong> DPE (manquant), amiante (construction avant 1997 → obligatoire pour Erdeven), électricité si installation > 15 ans, état des risques naturels (ERP). Le DPE est votre priorité immédiate — il freine actuellement 2 acheteurs compatibles.</div>
+    <div style="font-size:13px;color:var(--mut);margin-bottom:10px">Souhaitez-vous un devis groupé de nos diagnostiqueurs partenaires ? Tarif négocié IMMATCH · délai 48h.</div>
+    <div class="scta-row">
+      <button class="scta scy" onclick="alert('Demande envoyée !\n\nUn diagnostiqueur certifié IMMATCH vous contactera dans les 24h.\nDélai d\'intervention estimé : 48h\nPrix estimé DPE seul : 120–180 €\nPrix pack complet DDT : 280–380 €')">Oui, devis partenaire ↗</button>
+      <button class="scta scn" onclick="toggleS('s2')">Non merci</button>
+    </div>
+  </div>
+</div>
+
+<div class="svc-dr">
+  <div class="svc-hd" onclick="toggleS('s3')">
+    <div class="svc-hl"><i class="ti ti-home-dollar" aria-hidden="true"></i>Estimation expert sur site<span class="stg stg2">Optionnel</span></div>
+    <i class="ti ti-chevron-down" id="sc3" aria-hidden="true" style="font-size:14px;color:var(--mut);transition:transform .2s"></i>
+  </div>
+  <div class="svc-bd" id="sb3">
+    <div class="sbd-txt">Pour Erdeven, compte tenu du hangar de 166m², du terrain divisible et des travaux récents réalisés à la main, une estimation physique peut <strong>valoriser significativement votre bien</strong> au-delà de l'estimation automatique basée sur les DVF.</div>
+    <div style="font-size:13px;color:var(--mut);margin-bottom:10px">Souhaitez-vous être mis en relation avec un expert immobilier partenaire ? Service gratuit via IMMATCH.</div>
+    <div class="scta-row">
+      <button class="scta scy" onclick="alert('Demande envoyée !\n\nUn expert immobilier partenaire IMMATCH prendra contact sous 48h.\nL\'estimation physique est gratuite dans le cadre de votre abonnement IMMATCH.')">Oui, estimation gratuite ↗</button>
+      <button class="scta scn" onclick="toggleS('s3')">Non merci</button>
+    </div>
+  </div>
+</div>
+
+<!-- GUIDES JURIDIQUES -->
+<div class="sec-lbl"><i class="ti ti-book" aria-hidden="true"></i>Guides juridiques & pratiques</div>
+<div class="fg">
+  <button class="fb" onclick="openFiche('obligations')"><i class="ti ti-scale" aria-hidden="true"></i><span>Obligations du vendeur</span></button>
+  <button class="fb" onclick="openFiche('compromis')"><i class="ti ti-file-text" aria-hidden="true"></i><span>Compromis & délai SRU</span></button>
+  <button class="fb" onclick="openFiche('diagnostics')"><i class="ti ti-clipboard-check" aria-hidden="true"></i><span>Diagnostics obligatoires</span></button>
+  <button class="fb" onclick="openFiche('plusvalue')"><i class="ti ti-receipt-tax" aria-hidden="true"></i><span>Plus-value immobilière</span></button>
+  <button class="fb" onclick="openFiche('documents')"><i class="ti ti-folder" aria-hidden="true"></i><span>Documents pour vendre</span></button>
+  <button class="fb" onclick="openContrats()"><i class="ti ti-template" aria-hidden="true"></i><span>Contrats types & modèles</span></button>
+</div>
+
+<!-- OUTILS DÉCISIONNELS -->
+<div class="sec-lbl"><i class="ti ti-chart-bar" aria-hidden="true"></i>Outils décisionnels</div>
+
+<div class="odr" onclick="toggleO('o1')">
+  <div class="odl"><i class="ti ti-chart-bar" aria-hidden="true"></i>Simulateur de prix · Erdeven<span class="otg" style="background:var(--t50);color:var(--t800)">Logué projet</span></div>
+  <i class="ti ti-chevron-down" id="oc1" aria-hidden="true" style="font-size:14px;color:var(--mut);transition:transform .2s"></i>
+</div>
+<div class="obd" id="ob1">
+  <div style="font-size:13px;color:var(--mut);margin-bottom:4px">Acheteurs réels en base selon votre prix demandé</div>
+  <div class="ps-row">
+    <div class="ps" onclick="selP(this)"><div class="psp">580k€</div><div class="psr">1 acheteur</div></div>
+    <div class="ps act" onclick="selP(this)"><div class="psp">550k€</div><div class="psr">3 ← votre prix</div></div>
+    <div class="ps" onclick="selP(this)"><div class="psp">520k€</div><div class="psr">7 acheteurs</div></div>
+    <div class="ps" onclick="selP(this)"><div class="psp">495k€</div><div class="psr">11 acheteurs</div></div>
+  </div>
+  <div style="font-size:12.5px;color:var(--mut);padding:10px 12px;background:var(--bg);border-radius:var(--r8);margin-top:4px">À 520k€, vous multipliez les compatibilités par 2,3. L'écart de 30k€ peut accélérer votre projet de 4 mois.</div>
+  <button class="btn-ask" style="margin-top:10px" onclick="alert('IMA : À 550k€, vous touchez 3 acheteurs. À 520k€ vous en touchez 7 — soit 133% de plus.\n\nMon conseil : testez une baisse à 530k€ dans un premier temps. Si le profil à 91% est sérieux (financement attesté), il peut s\'aligner. Gardez la marge pour la négociation finale.')">Demander à IMA ↗</button>
+</div>
+
+<div class="odr" onclick="toggleO('o2')">
+  <div class="odl"><i class="ti ti-map-pin" aria-hidden="true"></i>Baromètre zone Morbihan<span class="otg" style="background:var(--t50);color:var(--t800)">Logué projet</span></div>
+  <i class="ti ti-chevron-down" id="oc2" aria-hidden="true" style="font-size:14px;color:var(--mut);transition:transform .2s"></i>
+</div>
+<div class="obd" id="ob2">
+  <div class="bgrid">
+    <div class="bc"><div class="bl">Demande acheteurs</div><div class="bv2 up">↑ +12%</div></div>
+    <div class="bc"><div class="bl">Prix moyen zone</div><div class="bv2">1 456 €/m²</div></div>
+    <div class="bc"><div class="bl">Délai moyen vente</div><div class="bv2">78 jours</div></div>
+    <div class="bc"><div class="bl">Timing</div><div class="bv2 up">Favorable</div></div>
+  </div>
+  <div style="font-size:12px;color:var(--mut2);margin-top:10px">Source DVF · Morbihan littoral · Mise à jour mai 2026</div>
+</div>
+
+<div class="odr" onclick="toggleO('o3')">
+  <div class="odl"><i class="ti ti-award" aria-hidden="true"></i>Score vivant · forces & freins<span class="otg" style="background:var(--g50);color:var(--g800)">+4 pts cette semaine</span></div>
+  <i class="ti ti-chevron-down" id="oc3" aria-hidden="true" style="font-size:14px;color:var(--mut);transition:transform .2s"></i>
+</div>
+<div class="obd" id="ob3">
+  <div class="sv-item ok"><i class="ti ti-check" aria-hidden="true"></i><span>Votre localisation est un atout fort — zone littorale Morbihan très recherchée</span></div>
+  <div class="sv-item ok"><i class="ti ti-check" aria-hidden="true"></i><span>Votre timing est cohérent avec la demande printanière actuelle</span></div>
+  <div class="sv-item warn"><i class="ti ti-alert-triangle" aria-hidden="true"></i><span>Votre prix freine quelques acheteurs compatibles — un ajustement pourrait multiplier les matchs</span></div>
+  <div class="sv-item bad"><i class="ti ti-x" aria-hidden="true"></i><span>Un document obligatoire manquant limite actuellement votre visibilité — action prioritaire</span></div>
+  <div class="sv-rec">Réglez ces 2 points → score potentiel <strong>85/100</strong> · première mise en relation accessible cette semaine</div>
+  <button class="btn-ask" style="margin-top:10px" onclick="alert('IMA — Plan d\'action :\n\n1. URGENT — DPE (48h, ~150€) → +4 pts Trust → 2 acheteurs débloqués\n2. Cette semaine — Vidéo DANIM → profil 87% converti en MER\n3. Optionnel — Prix à 530k€ → score Budget +3 pts\n\nAvec ces 3 actions : score 85+ et MER possible avant fin mai.')">Plan d'action IMA ↗</button>
+</div>
+
+<!-- PROGRESSION -->
+<div class="sec-lbl"><i class="ti ti-flag" aria-hidden="true"></i>Progression</div>
+<div class="prog-card">
+  <div class="arc-t">
+    <div class="as asd"></div>
+    <div class="as asd"></div>
+    <div class="as asd"></div>
+    <div class="as asn"></div>
+    <div class="as ast"></div>
+    <div class="as ast"></div>
+  </div>
+  <div class="al"><span>Profil</span><span>Projet</span><span>Score</span><span>Match</span><span>MER</span><span>Contrat</span></div>
+  <div class="an">Prochaine étape : <strong>ajouter votre DPE</strong> pour débloquer 2 acheteurs et atteindre le seuil de mise en relation (80+).</div>
+</div>
+
+</div>
+
+<!-- ══ MODAL : TUNNEL MER 91% ══ -->
+<div class="page-overlay" id="merModal">
+  <div class="page-modal" style="max-width:640px">
+    <div class="pm-hd">
+      <div class="pm-ic"><i class="ti ti-handshake" aria-hidden="true"></i></div>
+      <div class="pm-title">Mise en relation — profil compatible à 91%</div>
+      <button class="pm-close" onclick="closeMER()" aria-label="Fermer"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="pm-body">
+      <div style="background:var(--card);border:1.5px solid var(--t);border-radius:var(--r12);padding:14px 16px;margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div style="text-align:center;flex-shrink:0">
+            <div style="font-size:34px;font-weight:500;color:var(--t);line-height:1">91%</div>
+            <div style="font-size:11px;color:var(--t800);font-weight:500">Compatible</div>
+          </div>
+          <div style="flex:1">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12.5px">
+              <div><span style="color:var(--mut)">Type</span><br><strong>Acheteur · Maison+terrain</strong></div>
+              <div><span style="color:var(--mut)">Zone</span><br><strong>Morbihan (56) · 20km</strong></div>
+              <div><span style="color:var(--mut)">Budget</span><br><strong>520 000 – 580 000 €</strong></div>
+              <div><span style="color:var(--mut)">Timing</span><br><strong>Dans 1 mois · urgent</strong></div>
+            </div>
+          </div>
+        </div>
+        <div style="background:var(--t50);border-radius:var(--r8);padding:8px 12px;display:flex;align-items:center;gap:8px">
+          <i class="ti ti-rosette-discount-check" aria-hidden="true" style="font-size:18px;color:var(--t800)"></i>
+          <div>
+            <div style="font-size:13px;font-weight:500;color:var(--t800)">Financement attesté par un courtier certifié</div>
+            <div style="font-size:11.5px;color:var(--t)">Capacité vérifiée · Dossier complet · Prêt à signer</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--mut2);margin-top:10px;display:flex;align-items:center;gap:4px"><i class="ti ti-eye-off" aria-hidden="true" style="font-size:12px"></i>Fiche anonymisée — identité transmise uniquement après validation mutuelle et paiement</div>
+      </div>
+
+      <div style="background:#0d1f1f;border-radius:var(--r8);padding:12px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start">
+        <div class="ima-av-sm">IMA</div>
+        <div style="font-size:13px;color:#d0d0d0;line-height:1.55">Roger, c'est le meilleur match que j'aie vu sur votre bien depuis son activation. Financement attesté, timing urgent, zone parfaite. <span style="color:var(--g)">Vous ne payez que s'il accepte.</span></div>
+      </div>
+
+      <div style="margin-bottom:16px">
+        <div class="mer-step">
+          <div class="mer-left"><div class="mer-num done"><i class="ti ti-check" aria-hidden="true" style="font-size:11px"></i></div><div class="mer-line"></div></div>
+          <div class="mer-content"><div class="mer-title">Votre fiche anonymisée transmise</div><div class="mer-sub">L'acheteur voit votre bien (zone, surface, prix, type) sans votre identité ni adresse.</div></div>
+        </div>
+        <div class="mer-step">
+          <div class="mer-left"><div class="mer-num now">2</div><div class="mer-line"></div></div>
+          <div class="mer-content"><div class="mer-title">Vous confirmez la demande</div><div class="mer-sub">Vos coordonnées ci-dessous sont vérifiées. Aucun paiement à ce stade.</div></div>
+        </div>
+        <div class="mer-step">
+          <div class="mer-left"><div class="mer-num todo">3</div><div class="mer-line"></div></div>
+          <div class="mer-content"><div class="mer-title">L'acheteur accepte de son côté</div><div class="mer-sub">Il dispose de 72h. S'il accepte, le double consentement est déclenché.</div></div>
+        </div>
+        <div class="mer-step">
+          <div class="mer-left"><div class="mer-num todo">4</div></div>
+          <div class="mer-content"><div class="mer-title">Paiement · coordonnées échangées</div><div class="mer-sub">29,90 € prélevé. Les coordonnées des deux parties sont transmises simultanément.</div></div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg);border-radius:var(--r8);padding:12px 14px;margin-bottom:12px">
+        <div style="font-size:12px;font-weight:500;color:var(--txt);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="ti ti-user" aria-hidden="true" style="font-size:14px;color:var(--t)"></i>Vos coordonnées — transmises uniquement si l'acheteur accepte</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">
+          <div style="background:var(--t50);padding:7px 10px;border-radius:var(--r8)"><div style="font-size:10px;color:var(--mut);margin-bottom:2px">Prénom</div><strong style="color:var(--t800)">Roger</strong></div>
+          <div style="background:var(--t50);padding:7px 10px;border-radius:var(--r8)"><div style="font-size:10px;color:var(--mut);margin-bottom:2px">Nom</div><strong style="color:var(--t800)">Jacques Vluys</strong></div>
+          <div style="background:var(--t50);padding:7px 10px;border-radius:var(--r8)"><div style="font-size:10px;color:var(--mut);margin-bottom:2px">Téléphone</div><strong style="color:var(--t800)">06 XX XX XX XX</strong></div>
+          <div style="background:var(--t50);padding:7px 10px;border-radius:var(--r8)"><div style="font-size:10px;color:var(--mut);margin-bottom:2px">Email</div><strong style="color:var(--t800)">contact@cadre...</strong></div>
+        </div>
+        <div style="font-size:11px;color:var(--green);margin-top:8px;display:flex;align-items:center;gap:4px"><i class="ti ti-check" aria-hidden="true" style="font-size:12px"></i>Coordonnées complètes · condition requise pour la mise en relation</div>
+      </div>
+
+      <div style="background:var(--bg);border-radius:var(--r8);padding:10px 14px;margin-bottom:14px;font-size:12.5px;color:var(--mut);line-height:1.55">
+        <strong style="color:var(--txt)">29,90 €</strong> · tranche 80–94% · Prélevé uniquement si l'acheteur accepte et que les deux parties ont renseigné leurs coordonnées complètes. Aucun frais si l'acheteur ne répond pas sous 72h.
+      </div>
+
+      <div id="merCTA" style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn-teal" style="width:100%;justify-content:center" onclick="confirmerMER()">
+          <i class="ti ti-handshake" aria-hidden="true" style="font-size:18px"></i>
+          Confirmer la mise en relation — 29,90 €
+        </button>
+        <button class="btn-outline" style="width:100%;text-align:center" onclick="closeMER()">Annuler — revenir au cockpit</button>
+      </div>
+      <div id="merSuccess" style="display:none;background:var(--t50);border-radius:var(--r12);padding:20px;text-align:center">
+        <div style="width:50px;height:50px;border-radius:50%;background:var(--t);display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><i class="ti ti-check" aria-hidden="true" style="font-size:24px;color:white"></i></div>
+        <div style="font-size:16px;font-weight:500;color:var(--t800);margin-bottom:6px">Demande envoyée — l'acheteur est notifié</div>
+        <div style="font-size:13px;color:var(--t);line-height:1.6;margin-bottom:12px">L'acheteur a 72h pour accepter. Si les deux parties confirment, vous recevrez ses coordonnées complètes par SMS et email simultanément.</div>
+        <div style="font-size:12px;color:var(--t800);padding:8px 12px;background:white;border-radius:var(--r8)">IMA vous alertera dès qu'il répond — généralement sous 24h pour les profils à timing urgent.</div>
+        <button class="btn-teal" style="margin-top:14px;width:100%;justify-content:center" onclick="closeMER()">Retour au cockpit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL : FICHE OBLIGATIONS VENDEUR ══ -->
+<div class="page-overlay" id="ficheObligations">
+  <div class="page-modal">
+    <div class="pm-hd">
+      <div class="pm-ic"><i class="ti ti-scale" aria-hidden="true"></i></div>
+      <div class="pm-title">Obligations légales du vendeur</div>
+      <button class="pm-close" onclick="closeFiche('obligations')" aria-label="Fermer"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="pm-body">
+      <div class="ctx-band"><i class="ti ti-info-circle" aria-hidden="true"></i><p>Fiche personnalisée pour votre bien d'Erdeven — maison de 169m², construite avant 1997. <strong>Deux points méritent votre attention immédiate : le DPE manquant et la déclaration des travaux.</strong></p></div>
+      <div style="font-size:11px;font-weight:500;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px">Vos obligations avant de vendre</div>
+      <div class="check-list">
+        <div class="ci-item warn">
+          <div class="ci-ic warn"><i class="ti ti-alert-triangle" aria-hidden="true"></i></div>
+          <div style="flex:1">
+            <div class="ci-main">Fournir le Dossier de Diagnostics Techniques (DDT) complet</div>
+            <div class="ci-detail">DPE, amiante (construction avant 1997 → obligatoire pour Erdeven), électricité si installation > 15 ans, état des risques naturels. Doit être remis au plus tard à la signature du compromis.</div>
+          </div>
+          <span class="ci-tag" style="background:var(--am50);color:var(--am800)">DPE manquant</span>
+        </div>
+        <div class="ci-item ok">
+          <div class="ci-ic ok"><i class="ti ti-check" aria-hidden="true"></i></div>
+          <div style="flex:1">
+            <div class="ci-main">Informer l'acheteur de tout ce que vous savez sur le bien</div>
+            <div class="ci-detail">Défauts connus, travaux réalisés, litiges en cours, servitudes. Un défaut connu non déclaré peut engager votre responsabilité pendant 2 ans après la vente.</div>
+          </div>
+          <span class="ci-tag" style="background:var(--bg);color:var(--mut)">À documenter</span>
+        </div>
+        <div class="ci-item ok">
+          <div class="ci-ic ok"><i class="ti ti-check" aria-hidden="true"></i></div>
+          <div style="flex:1">
+            <div class="ci-main">Déclarer les travaux réalisés et conserver les factures</div>
+            <div class="ci-detail">Isolation, PAC, VMC, séjour ouvert, cuisine, salles de bains. Conservez les factures artisans et les aides MaPrimeRénov — elles rassurent l'acheteur et justifient votre prix.</div>
+          </div>
+          <span class="ci-tag" style="background:var(--t50);color:var(--t800)">Travaux récents</span>
+        </div>
+        <div class="ci-item bad">
+          <div class="ci-ic bad"><i class="ti ti-x" aria-hidden="true"></i></div>
+          <div style="flex:1">
+            <div class="ci-main">Ne jamais omettre volontairement un défaut connu</div>
+            <div class="ci-detail">L'acheteur peut demander la nullité de la vente ou une réduction de prix dans un délai d'un an après signature si un défaut connu n'a pas été déclaré.</div>
+          </div>
+          <span class="ci-tag" style="background:var(--r50);color:var(--r800)">Interdit</span>
+        </div>
+      </div>
+      <div class="law-b">
+        <div class="law-ref">Textes de référence</div>
+        <div class="law-txt"><strong>Art. 1641 Code civil</strong> — garantie des vices cachés : le vendeur est tenu de la garantie à raison des défauts cachés de la chose vendue qui la rendent impropre à l'usage.<br><br><strong>Art. L271-4 CCH (loi ALUR)</strong> — le dossier de diagnostics techniques doit être annexé à la promesse de vente ou à l'acte authentique.</div>
+      </div>
+      <div class="risk-b">
+        <div class="risk-title"><i class="ti ti-alert-circle" aria-hidden="true"></i>Risques en cas de manquement</div>
+        <div class="risk-item"><i class="ti ti-point" aria-hidden="true"></i>Vente sans DPE → l'acheteur peut demander la nullité ou une réduction du prix dans un délai d'un an</div>
+        <div class="risk-item"><i class="ti ti-point" aria-hidden="true"></i>Vice caché non déclaré → action en garantie possible 2 ans après découverte du défaut</div>
+        <div class="risk-item"><i class="ti ti-point" aria-hidden="true"></i>Servitude non déclarée → blocage possible par le notaire ou dommages-intérêts</div>
+      </div>
+      <div class="checklist-p">
+        <div class="cp-title"><i class="ti ti-list-check" aria-hidden="true"></i>Ma checklist personnelle</div>
+        <div class="cp-row" onclick="toggleCheck(this)"><div class="cp-chk"><i class="ti ti-check" aria-hidden="true"></i></div><span class="cp-lbl">Commander le DPE auprès d'un diagnostiqueur certifié</span><span class="cp-stag" style="background:var(--r50);color:var(--r800)">Urgent</span></div>
+        <div class="cp-row" onclick="toggleCheck(this)"><div class="cp-chk"><i class="ti ti-check" aria-hidden="true"></i></div><span class="cp-lbl">Rassembler les factures de travaux (isolation, PAC, VMC, cuisine, SDB)</span><span class="cp-stag" style="background:var(--am50);color:var(--am800)">Important</span></div>
+        <div class="cp-row" onclick="toggleCheck(this)"><div class="cp-chk"><i class="ti ti-check" aria-hidden="true"></i></div><span class="cp-lbl">Vérifier les servitudes sur le terrain avec le notaire</span><span class="cp-stag" style="background:var(--am50);color:var(--am800)">Important</span></div>
+        <div class="cp-row" onclick="toggleCheck(this)"><div class="cp-chk"><i class="ti ti-check" aria-hidden="true"></i></div><span class="cp-lbl">Préparer la liste des défauts connus à déclarer</span><span class="cp-stag" style="background:var(--bg);color:var(--mut)">À faire</span></div>
+        <div class="cp-row" onclick="toggleCheck(this)"><div class="cp-chk"><i class="ti ti-check" aria-hidden="true"></i></div><span class="cp-lbl">Récupérer le titre de propriété et les actes notariés</span><span class="cp-stag" style="background:var(--bg);color:var(--mut)">À faire</span></div>
+      </div>
+      <div class="ima-bottom">
+        <div class="ima-av-sm">IMA</div>
+        <div class="ima-b-txt">Vous avez une situation particulière — <strong>terrain divisible, hangar, travaux non déclarés</strong> ? Je vous guide clause par clause.</div>
+        <button class="ima-b-btn" onclick="alert('IMA : Pour Erdeven, les points spécifiques à vérifier :\n\n1. Division du terrain : vérifier s\'il y a une servitude de passage sur le lot B\n2. Hangar : vérifier si le permis de construire ou la déclaration préalable est en règle\n3. Travaux réalisés par vous-même : à déclarer même sans facture artisan\n4. MaPrimeRénov reçue : à mentionner dans la déclaration travaux')">Demander à IMA ↗</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL : CONTRATS TYPES ══ -->
+<div class="page-overlay" id="contratsModal">
+  <div class="page-modal">
+    <div class="pm-hd">
+      <div class="pm-ic"><i class="ti ti-template" aria-hidden="true"></i></div>
+      <div class="pm-title">Contrats types & modèles IMMATCH</div>
+      <button class="pm-close" onclick="document.getElementById('contratsModal').classList.remove('open')" aria-label="Fermer"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="pm-body">
+      <div class="ctx-band"><i class="ti ti-alert-circle" aria-hidden="true"></i><p>Ces modèles sont fournis à titre indicatif. <strong>Tout acte engageant les parties doit être signé devant notaire.</strong></p></div>
+      <div style="font-size:11px;font-weight:500;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px">Vente immobilière</div>
+      <div class="fiche-grid">
+        <div class="doc-card ft" onclick="showDoc('promesse')">
+          <div class="dc-top"><div class="dc-ic ic-t"><i class="ti ti-file-check" aria-hidden="true"></i></div><div><div class="dc-title">Promesse de vente unilatérale</div><div class="dc-sub">Engage le vendeur · laisse le choix à l'acheteur</div></div></div>
+          <div class="dc-tags"><span class="dt dt-t">Vente</span><span class="dt dt-t">Recommandé IMMATCH</span></div>
+          <div class="dc-law"><i class="ti ti-book" aria-hidden="true"></i>Art. 1124 Code civil · Loi SRU Art. L271-1</div>
+          <div class="dc-actions"><button class="dc-pv" onclick="event.stopPropagation();showDoc('promesse')">Aperçu</button><button class="dc-dl" onclick="event.stopPropagation();alert('Téléchargement PDF — Promesse de vente\n\n(Fonctionnalité disponible dans l\'application IMMATCH)')"><i class="ti ti-download" aria-hidden="true" style="font-size:11px"></i>PDF</button><button class="dc-ima" onclick="event.stopPropagation();alert('IMA adapte ce modèle pour Erdeven :\n\nBien : Maison 169m² + terrain 800m² (2 lots)\nVendeur : Roger Jacques Vluys\nPrix : 550 000 €\n\nClause spéciale : Le lot B (hangar + terrain) est subordonné au bornage géomètre-expert et à la validation du détachement de parcelle.\n\nModèle personnalisé prêt — téléchargez le PDF adapté.')">Adapter ↗</button></div>
+        </div>
+        <div class="doc-card" onclick="showDoc('compromis')">
+          <div class="dc-top"><div class="dc-ic ic-b"><i class="ti ti-file-invoice" aria-hidden="true"></i></div><div><div class="dc-title">Compromis de vente</div><div class="dc-sub">Engage les deux parties · délai SRU 10 jours</div></div></div>
+          <div class="dc-tags"><span class="dt dt-b">Vente</span><span class="dt dt-b">Synallagmatique</span></div>
+          <div class="dc-law"><i class="ti ti-book" aria-hidden="true"></i>Art. 1589 Code civil · délai SRU Art. L271-1</div>
+          <div class="dc-actions"><button class="dc-pv" onclick="event.stopPropagation();showDoc('compromis')">Aperçu</button><button class="dc-dl" onclick="event.stopPropagation();alert('Téléchargement PDF — Compromis de vente')"><i class="ti ti-download" aria-hidden="true" style="font-size:11px"></i>PDF</button></div>
+        </div>
+        <div class="doc-card" onclick="showDoc('conditions')">
+          <div class="dc-top"><div class="dc-ic ic-a"><i class="ti ti-list-check" aria-hidden="true"></i></div><div><div class="dc-title">Conditions suspensives type</div><div class="dc-sub">Obtention prêt · permis · absence servitudes</div></div></div>
+          <div class="dc-tags"><span class="dt dt-a">Vente</span><span class="dt dt-a">À personnaliser</span></div>
+          <div class="dc-law"><i class="ti ti-book" aria-hidden="true"></i>Art. 1304 à 1304-7 Code civil</div>
+          <div class="dc-actions"><button class="dc-pv" onclick="event.stopPropagation();showDoc('conditions')">Aperçu</button><button class="dc-dl" onclick="event.stopPropagation();alert('Téléchargement PDF — Conditions suspensives')"><i class="ti ti-download" aria-hidden="true" style="font-size:11px"></i>PDF</button></div>
+        </div>
+        <div class="doc-card" onclick="showDoc('declaration')">
+          <div class="dc-top"><div class="dc-ic ic-g"><i class="ti ti-tool" aria-hidden="true"></i></div><div><div class="dc-title">Déclaration de travaux vendeur</div><div class="dc-sub">Travaux réalisés · garanties décennales</div></div></div>
+          <div class="dc-tags"><span class="dt dt-g">Vente</span><span class="dt dt-g">Adapté Erdeven</span></div>
+          <div class="dc-law"><i class="ti ti-book" aria-hidden="true"></i>Art. 1641 Code civil · garantie vice caché</div>
+          <div class="dc-actions"><button class="dc-pv" onclick="event.stopPropagation();showDoc('declaration')">Aperçu</button><button class="dc-dl" onclick="event.stopPropagation();alert('Téléchargement PDF — Déclaration de travaux')"><i class="ti ti-download" aria-hidden="true" style="font-size:11px"></i>PDF</button></div>
+        </div>
+      </div>
+      <div style="font-size:11px;font-weight:500;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin:14px 0 10px">Location & bail</div>
+      <div class="fiche-grid">
+        <div class="doc-card"><div class="dc-top"><div class="dc-ic ic-p"><i class="ti ti-building" aria-hidden="true"></i></div><div><div class="dc-title">Bail de location vide</div><div class="dc-sub">Durée 3 ans · loi du 6 juillet 1989</div></div></div><div class="dc-tags"><span class="dt dt-p">Location</span><span class="dt dt-p">Loi 89</span></div><div class="dc-actions"><button class="dc-dl" onclick="alert('Téléchargement PDF — Bail location vide')"><i class="ti ti-download" aria-hidden="true" style="font-size:11px"></i>PDF</button></div></div>
+        <div class="doc-card"><div class="dc-top"><div class="dc-ic ic-p"><i class="ti ti-sofa" aria-hidden="true"></i></div><div><div class="dc-title">Bail meublé LMNP</div><div class="dc-sub">Durée 1 an · abattement 50% micro-BIC</div></div></div><div class="dc-tags"><span class="dt dt-p">Location</span><span class="dt dt-p">LMNP</span></div><div class="dc-actions"><button class="dc-dl" onclick="alert('Téléchargement PDF — Bail meublé LMNP')"><i class="ti ti-download" aria-hidden="true" style="font-size:11px"></i>PDF</button></div></div>
+        <div class="doc-card"><div class="dc-top"><div class="dc-ic ic-t"><i class="ti ti-clipboard-list" aria-hidden="true"></i></div><div><div class="dc-title">État des lieux entrée/sortie</div><div class="dc-sub">Pièce par pièce · signature électronique</div></div></div><div class="dc-tags"><span class="dt dt-t">Location</span><span class="dt dt-t">Obligatoire</span></div><div class="dc-actions"><button class="dc-dl" onclick="alert('Téléchargement PDF — État des lieux')"><i class="ti ti-download" aria-hidden="true" style="font-size:11px"></i>PDF</button></div></div>
+        <div class="doc-card"><div class="dc-top"><div class="dc-ic ic-g"><i class="ti ti-receipt" aria-hidden="true"></i></div><div><div class="dc-title">Quittance de loyer</div><div class="dc-sub">Modèle mensuel · obligation légale</div></div></div><div class="dc-tags"><span class="dt dt-g">Location</span><span class="dt dt-g">Mensuel</span></div><div class="dc-actions"><button class="dc-dl" onclick="alert('Téléchargement PDF — Quittance de loyer')"><i class="ti ti-download" aria-hidden="true" style="font-size:11px"></i>PDF</button></div></div>
+      </div>
+      <div class="ima-bottom" style="margin-top:4px">
+        <div class="ima-av-sm">IMA</div>
+        <div class="ima-b-txt">Votre bien d'Erdeven a une configuration atypique — <strong>deux lots, hangar, terrain divisible</strong>. Je peux adapter chaque modèle à votre situation.</div>
+        <button class="ima-b-btn" onclick="alert('IMA adapte les contrats pour Erdeven :\n\nClause lot B (hangar) ajoutée dans la promesse\nCondition suspensive division parcellaire intégrée\nDéclaration travaux pré-remplie avec vos chantiers\n\nTéléchargez le pack personnalisé Erdeven →')">Pack Erdeven ↗</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL : APERÇU CONTRAT ══ -->
+<div class="page-overlay" id="docModal">
+  <div class="page-modal" style="max-width:600px">
+    <div class="pm-hd">
+      <div class="pm-ic"><i class="ti ti-file-text" aria-hidden="true"></i></div>
+      <div class="pm-title" id="docTitle">Aperçu du document</div>
+      <button class="pm-close" onclick="document.getElementById('docModal').classList.remove('open')" aria-label="Fermer"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="pm-body" id="docBody"></div>
+  </div>
+</div>
+
+<script>
+function toggleN(){
+  document.getElementById('nPanel').classList.toggle('open')
+}
+function toggleS(id){
+  const b=document.getElementById('sb'+id),c=document.getElementById('sc'+id)
+  const o=b.classList.contains('open')
+  document.querySelectorAll('.svc-bd').forEach(x=>x.classList.remove('open'))
+  document.querySelectorAll('[id^="sc"]').forEach(x=>x.style.transform='')
+  if(!o){b.classList.add('open');c.style.transform='rotate(180deg)'}
+}
+function toggleO(id){
+  const b=document.getElementById('ob'+id),c=document.getElementById('oc'+id)
+  const o=b.classList.contains('open')
+  document.querySelectorAll('.obd').forEach(x=>x.classList.remove('open'))
+  document.querySelectorAll('[id^="oc"]').forEach(x=>x.style.transform='')
+  if(!o){b.classList.add('open');c.style.transform='rotate(180deg)'}
+}
+function selP(el){
+  document.querySelectorAll('.ps').forEach(x=>x.classList.remove('act'))
+  el.classList.add('act')
+}
+function toggleCheck(row){
+  const chk=row.querySelector('.cp-chk')
+  const lbl=row.querySelector('.cp-lbl')
+  chk.classList.toggle('chk')
+  lbl.classList.toggle('done')
+}
+function openMER(){
+  document.getElementById('nPanel').classList.remove('open')
+  document.getElementById('merModal').classList.add('open')
+  document.body.style.overflow='hidden'
+}
+function closeMER(){
+  document.getElementById('merModal').classList.remove('open')
+  document.getElementById('merCTA').style.display='flex'
+  document.getElementById('merSuccess').style.display='none'
+  document.body.style.overflow=''
+}
+function confirmerMER(){
+  document.getElementById('merCTA').style.display='none'
+  document.getElementById('merSuccess').style.display='block'
+}
+function openFiche(id){
+  document.getElementById('nPanel').classList.remove('open')
+  document.getElementById('ficheObligations').classList.add('open')
+  document.body.style.overflow='hidden'
+}
+function closeFiche(id){
+  document.getElementById('ficheObligations').classList.remove('open')
+  document.body.style.overflow=''
+}
+function openContrats(){
+  document.getElementById('contratsModal').classList.add('open')
+  document.body.style.overflow='hidden'
+}
+
+const DOCS = {
+  promesse:{
+    title:'Promesse de vente unilatérale — aperçu',
+    html:`<div style="font-size:13px;color:#666;margin-bottom:12px">Entre les soussignés :</div>
+<div style="background:#f7f6f2;border-left:3px solid #0F8191;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:13px">
+<strong>Le promettant (vendeur) :</strong> <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">Nom, prénom, adresse</span><br>Ci-après désigné "le Vendeur"
+</div>
+<div style="background:#f7f6f2;border-left:3px solid #0F8191;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:13px">
+<strong>Le bénéficiaire (acheteur) :</strong> <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">Nom, prénom, adresse</span>
+</div>
+<div style="font-weight:500;font-size:13px;color:#1a1a1a;margin:12px 0 6px">Objet de la promesse</div>
+<div style="background:#f7f6f2;border-left:3px solid #0F8191;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:13px">
+Le Vendeur promet de vendre au Bénéficiaire le bien situé : <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">adresse complète</span>, d'une superficie de <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">surface m²</span>.
+</div>
+<div style="font-weight:500;font-size:13px;color:#1a1a1a;margin:12px 0 6px">Prix et indemnité d'immobilisation</div>
+<div style="background:#f7f6f2;border-left:3px solid #0F8191;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:13px">
+Prix de vente : <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">montant</span> euros. Indemnité d'immobilisation : <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">10%</span> du prix.
+</div>
+<div style="background:#C9A84C20;border-left:3px solid #C9A84C;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;font-size:12.5px;color:#633806">
+<strong>Clause spécifique Erdeven — lot B :</strong> La vente du Lot B (hangar + terrain) est subordonnée à l'obtention du certificat de bornage par géomètre-expert et à la validation du détachement de parcelle.
+</div>
+<div style="font-size:12px;color:#999">+ Conditions suspensives · Diagnostics annexés · Délai SRU 10 jours · Clauses pénales</div>
+<div style="display:flex;gap:8px;margin-top:14px">
+<button style="font-size:12px;padding:7px 14px;border-radius:20px;border:1px solid #0F8191;color:#085041;background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif" onclick="alert('Téléchargement PDF personnalisé Erdeven')">Télécharger PDF</button>
+<button style="font-size:12px;padding:7px 14px;border-radius:20px;border:1px solid rgba(201,168,76,.4);background:rgba(201,168,76,.08);color:#C9A84C;cursor:pointer;font-family:'DM Sans',sans-serif" onclick="alert('IMA adapte la promesse pour Erdeven avec les clauses lot A/lot B, hangar et terrain divisible.')">Adapter à Erdeven ↗</button>
+</div>`
+  },
+  compromis:{title:'Compromis de vente — aperçu',html:`<div style="background:#f7f6f2;border-left:3px solid #0F8191;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:13px"><strong>Vendeur :</strong> <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">identité complète</span><br><strong>Acheteur :</strong> <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">identité complète</span></div><div style="font-weight:500;font-size:13px;color:#1a1a1a;margin:12px 0 6px">Délai SRU — droit de rétractation</div><div style="background:#f7f6f2;border-left:3px solid #0F8191;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:13px">Conformément à l'article L271-1 du CCH, l'acheteur non professionnel dispose d'un délai de rétractation de <strong>10 jours</strong> à compter de la signature.</div><div style="font-size:12px;color:#999">+ Prix · Dépôt de garantie 5–10% · Conditions suspensives · Date acte authentique</div>`},
+  conditions:{title:'Conditions suspensives type — aperçu',html:`<div style="background:#f7f6f2;border-left:3px solid #0F8191;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:13px"><strong>Condition suspensive d'obtention de prêt</strong><br>La vente est conclue sous la condition d'obtention d'un prêt de <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">montant</span> euros au taux maximal de <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">taux</span>%, dans un délai de 45 jours.</div><div style="background:#C9A84C20;border-left:3px solid #C9A84C;border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px;color:#633806"><strong>Clause division parcellaire (Erdeven) :</strong><br>La vente du Lot B est subordonnée à l'obtention du bornage géomètre-expert et à la validation du détachement par la commune d'Erdeven.</div>`},
+  declaration:{title:'Déclaration de travaux vendeur — aperçu',html:`<div style="background:#f7f6f2;border-left:3px solid #1D9E75;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:13px"><strong>Travaux Erdeven identifiés :</strong><br>• Isolation thermique (combles + murs) — <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">année</span> — artisan / propriétaire<br>• Installation PAC air-eau — <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">année</span><br>• VMC double flux — <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">année</span><br>• Rénovation cuisine ouverte — fait par le propriétaire<br>• Rénovation salles de bains (×2)<br>• Remplacement sols</div><div style="background:#f7f6f2;border-left:3px solid #1D9E75;border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px"><strong>Aides perçues :</strong> MaPrimeRénov — montant : <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">montant €</span></div>`}
+}
+
+function showDoc(id){
+  const d=DOCS[id]
+  if(!d)return
+  document.getElementById('docTitle').textContent=d.title
+  document.getElementById('docBody').innerHTML=d.html
+  document.getElementById('docModal').classList.add('open')
+  document.body.style.overflow='hidden'
+}
+
+document.querySelectorAll('.page-overlay').forEach(overlay=>{
+  overlay.addEventListener('click',function(e){
+    if(e.target===this){
+      this.classList.remove('open')
+      document.body.style.overflow=''
+    }
+  })
+})
+</script>
+</body>
+</html>
