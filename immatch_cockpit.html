@@ -24,7 +24,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;padding:0}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-
+ 
 /* ── LAYOUT ── */
 .shell{max-width:780px;margin:0 auto;padding:0 20px 40px}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0 14px;border-bottom:1px solid var(--border);margin-bottom:20px;position:sticky;top:0;background:var(--bg);z-index:100}
@@ -32,14 +32,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .logo em{color:var(--g);font-style:normal}
 .logo sup{font-size:10px;color:var(--mut);font-family:'DM Sans',sans-serif;font-weight:400}
 .topright{display:flex;align-items:center;gap:8px}
-
+ 
 /* ── BADGES ── */
 .badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;letter-spacing:.2px}
 .bp{background:var(--t50);color:var(--t800)}
 .bv{background:var(--b50);color:var(--b800)}
 .ba{background:var(--am50);color:var(--am800)}
 .bn{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;background:#EAF3DE;color:#27500A}
-
+ 
 /* ── NOTIF ── */
 .notif-btn{position:relative;background:none;border:none;cursor:pointer;padding:4px;border-radius:8px;transition:background .15s}
 .notif-btn:hover{background:rgba(0,0,0,0.05)}
@@ -47,7 +47,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .notif-dot{position:absolute;top:2px;right:2px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid var(--bg)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .pulse{animation:pulse 2s infinite}
-
+ 
 .notif-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--r12);margin-bottom:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
 .notif-panel.open{display:block}
 .notif-hd{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
@@ -60,7 +60,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .nd-r{background:var(--red)}.nd-g{background:var(--green)}.nd-a{background:var(--amber)}
 .ni-txt{font-size:13px;color:var(--txt);line-height:1.45}
 .ni-time{font-size:11px;color:var(--mut2);margin-top:3px}
-
+ 
 /* ── IMA BAND ── */
 .ima-band{background:var(--dark);border-radius:var(--r12);padding:18px 20px;margin-bottom:16px;border:1px solid rgba(201,168,76,.15)}
 .ima-inner{display:flex;gap:14px;align-items:flex-start}
@@ -73,11 +73,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .ima-btn:hover{background:rgba(201,168,76,.18);border-color:rgba(201,168,76,.6)}
 .score-wrap{text-align:center;flex-shrink:0}
 .score-delta{font-size:11px;color:var(--green);font-weight:500;margin-top:4px;letter-spacing:.2px}
-
+ 
 /* ── SEC LABEL ── */
 .sec-lbl{font-size:11px;font-weight:500;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;margin:20px 0 10px;display:flex;align-items:center;gap:6px}
 .sec-lbl i{font-size:14px;color:var(--t)}
-
+ 
 /* ── PROJETS ── */
 .projets-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
 .pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r12);padding:14px 16px;transition:box-shadow .2s}
@@ -98,14 +98,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .ms-val{font-size:14px;font-weight:500}
 .ms-delta{font-size:11px;font-weight:500;color:var(--green)}
 .ms-hint{font-size:11.5px;color:var(--mut);margin-top:2px;line-height:1.4}
-
+ 
 /* ── ADD PROJECT ── */
 .add-p{background:var(--card);border:1.5px dashed #ddd;border-radius:var(--r12);padding:14px;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;margin-bottom:12px;transition:all .2s}
 .add-p:hover{border-color:var(--t);background:var(--t50)}
 .add-ptxt{font-size:13px;font-weight:500;color:var(--mut)}
 .add-p:hover .add-ptxt{color:var(--t800)}
 .add-pp{font-size:11px;padding:3px 10px;border-radius:12px;background:var(--t50);color:var(--t800);font-weight:500;border:1px solid var(--t100)}
-
+ 
 /* ── COMPAT ── */
 .cc{background:var(--card);border:1px solid var(--border);border-radius:var(--r12);padding:14px 16px;margin-bottom:12px}
 .chd{font-size:11px;font-weight:500;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
@@ -127,7 +127,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .clk{border-color:#ddd;color:var(--mut2);cursor:not-allowed}
 .compat-note{font-size:11px;color:var(--mut2);margin-top:10px;padding-top:8px;border-top:1px solid var(--border);display:flex;align-items:center;gap:5px}
 .compat-note i{font-size:12px}
-
+ 
 /* ── DANIM ── */
 .danim{background:var(--dark);border-radius:var(--r12);padding:14px 18px;margin-bottom:12px;display:flex;gap:14px;align-items:center;border:1px solid rgba(201,168,76,.2)}
 .dic{width:40px;height:40px;border-radius:var(--r8);background:rgba(201,168,76,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -137,7 +137,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .dts{font-size:12px;color:#888;line-height:1.45}
 .dcta{font-size:12px;padding:7px 14px;border-radius:20px;border:1px solid rgba(201,168,76,.4);background:rgba(201,168,76,.1);color:var(--g);cursor:pointer;flex-shrink:0;font-family:'DM Sans',sans-serif;transition:all .15s}
 .dcta:hover{background:rgba(201,168,76,.22)}
-
+ 
 /* ── SERVICES ── */
 .svc-dr{border:1px solid var(--border);border-radius:var(--r8);margin-bottom:8px;overflow:hidden;background:var(--card)}
 .svc-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;transition:background .15s;user-select:none}
@@ -158,14 +158,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .scta{font-size:12.5px;padding:7px 14px;border-radius:20px;border:1px solid;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
 .scy{border-color:var(--t);color:var(--t800);background:var(--t50)}.scy:hover{background:var(--t100)}
 .scn{border-color:#ddd;color:var(--mut);background:transparent}.scn:hover{background:#f0f0ee}
-
+ 
 /* ── GUIDES ── */
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 .fb{background:var(--card);border:1px solid var(--border);border-radius:var(--r8);padding:11px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .15s;text-align:left}
 .fb:hover{border-color:var(--t);background:var(--t50)}
 .fb i{font-size:16px;color:var(--t);flex-shrink:0}
 .fb span{font-size:13px;color:var(--txt);font-weight:500}
-
+ 
 /* ── OUTILS ── */
 .odr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:var(--card);border-radius:var(--r8);border:1px solid var(--border);margin-bottom:6px;cursor:pointer;transition:border-color .15s;user-select:none}
 .odr:hover{border-color:var(--t)}
@@ -174,7 +174,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .otg{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500;margin-left:6px}
 .obd{padding:14px;border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r8) var(--r8);margin-top:-6px;margin-bottom:6px;display:none;background:#fdfcf9}
 .obd.open{display:block}
-
+ 
 /* ── PRICE SIM ── */
 .ps-row{display:flex;gap:7px;margin:10px 0}
 .ps{flex:1;border:1px solid var(--border);border-radius:var(--r8);padding:9px 8px;text-align:center;cursor:pointer;transition:all .15s;background:var(--card)}
@@ -182,13 +182,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .ps.act{border-color:var(--t);background:var(--t50)}
 .psp{font-size:12.5px;font-weight:500;color:var(--txt)}.ps.act .psp{color:var(--t)}
 .psr{font-size:11px;color:var(--mut2);margin-top:2px}.ps.act .psr{color:var(--t800)}
-
+ 
 /* ── BARO ── */
 .bgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .bc{background:var(--bg);border-radius:var(--r8);padding:10px 12px}
 .bl{font-size:11px;color:var(--mut2);margin-bottom:3px}
 .bv2{font-size:16px;font-weight:500;color:var(--txt)}.bv2.up{color:var(--green)}
-
+ 
 /* ── SCORE VIVANT ── */
 .sv-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--r8);margin-bottom:6px}
 .sv-item.ok{background:#EAF3DE}
@@ -203,7 +203,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .sv-item.warn span{color:var(--am800)}
 .sv-item.bad span{color:var(--r800)}
 .sv-rec{font-size:12.5px;color:var(--txt);padding:10px 12px;background:var(--bg);border-radius:var(--r8);margin-top:8px;border-left:3px solid var(--t);border-radius:0 var(--r8) var(--r8) 0}
-
+ 
 /* ── PROGRESSION ── */
 .prog-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r12);padding:14px 16px}
 .arc-t{display:flex;gap:5px;margin-bottom:8px}
@@ -212,7 +212,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .al{display:flex;justify-content:space-between;font-size:10.5px;color:var(--mut2);margin-bottom:10px;letter-spacing:.2px}
 .an{font-size:13px;color:var(--txt);padding:9px 12px;background:#fafaf8;border-left:3px solid var(--g);border-radius:0 var(--r8) var(--r8) 0;line-height:1.5}
 .an strong{color:var(--g800)}
-
+ 
 /* ── MODALES IMA (pages fiches) ── */
 .page-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto}
 .page-overlay.open{display:flex}
@@ -267,7 +267,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .ima-b-txt{flex:1;font-size:12.5px;color:#d0d0d0;line-height:1.5}
 .ima-b-txt strong{color:var(--g)}
 .ima-b-btn{font-size:12px;padding:6px 14px;border-radius:20px;border:1px solid rgba(201,168,76,.4);background:rgba(201,168,76,.08);color:var(--g);cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif}
-
+ 
 /* ── TUNNEL MER ── */
 .mer-step{display:flex;gap:10px;margin-bottom:12px}
 .mer-left{display:flex;flex-direction:column;align-items:center;width:28px;flex-shrink:0}
@@ -280,7 +280,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .mer-content{flex:1;padding-bottom:4px}
 .mer-title{font-size:13px;font-weight:500;color:var(--txt);margin-bottom:2px}
 .mer-sub{font-size:12px;color:var(--mut);line-height:1.5}
-
+ 
 /* ── BTN GLOBAL ── */
 .btn-teal{font-size:13px;padding:10px 20px;border-radius:20px;border:none;background:var(--t);color:white;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:background .15s;display:flex;align-items:center;gap:7px}
 .btn-teal:hover{background:#0a6b79}
@@ -288,7 +288,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .btn-outline:hover{background:#eee}
 .btn-ask{font-size:12px;padding:7px 14px;border-radius:20px;border:1px solid var(--t);color:var(--t800);background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s}
 .btn-ask:hover{background:var(--t50)}
-
+ 
 /* ── FICHE ANNONCES ── */
 .fiche-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
 .doc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r12);padding:12px 14px;cursor:pointer;transition:all .15s}
@@ -320,7 +320,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .dc-dl:hover{background:var(--t50)}
 .dc-ima{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid rgba(201,168,76,.4);background:rgba(201,168,76,.08);color:var(--g);cursor:pointer;font-family:'DM Sans',sans-serif}
 .dc-ima:hover{background:rgba(201,168,76,.2)}
-
+ 
 /* ── RESPONSIVE ── */
 @media(max-width:600px){
   .projets-grid,.fg,.fiche-grid,.bgrid{grid-template-columns:1fr}
@@ -333,10 +333,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 </style>
 </head>
 <body>
-
+ 
 <div class="shell">
 <h1 class="sr-only">Mon cockpit IMMATCH — Roger V.</h1>
-
+ 
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="logo">imm<em>a</em>tch<sup>®</sup></div>
@@ -351,7 +351,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
     <span style="font-size:13px;color:var(--mut);font-weight:500">Roger V.</span>
   </div>
 </div>
-
+ 
 <!-- NOTIF PANEL -->
 <div class="notif-panel" id="nPanel">
   <div class="notif-hd">
@@ -375,7 +375,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
     <div><div class="ni-txt">DPE manquant — freine 2 acheteurs compatibles</div><div class="ni-time">Il y a 3 jours</div></div>
   </div>
 </div>
-
+ 
 <!-- IMA BAND -->
 <div class="ima-band">
   <div class="ima-inner">
@@ -403,7 +403,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
     <div class="ima-av">IMA</div>
   </div>
 </div>
-
+ 
 <!-- PROJETS -->
 <div class="sec-lbl"><i class="ti ti-briefcase" aria-hidden="true"></i>Mes projets</div>
 <div class="projets-grid">
@@ -460,13 +460,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
     </div>
   </div>
 </div>
-
+ 
 <div class="add-p" onclick="alert('Ajout d\'un projet supplémentaire — 9,90 €\n\nVous avez droit à 2 projets gratuits. Chaque projet supplémentaire est facturé 9,90 €/mois.\n\nCatégories disponibles :\n• Vente d\'un autre bien\n• Recherche achat\n• Mise en location\n• Recherche location')">
   <i class="ti ti-plus" aria-hidden="true" style="font-size:17px;color:var(--t)"></i>
   <span class="add-ptxt">Ajouter un projet supplémentaire</span>
   <span class="add-pp">9,90 €</span>
 </div>
-
+ 
 <!-- COMPAT -->
 <div class="sec-lbl"><i class="ti ti-users" aria-hidden="true"></i>Compatibilités — projet Erdeven</div>
 <div class="cc">
@@ -491,7 +491,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
   </div>
   <div class="compat-note"><i class="ti ti-lock" aria-hidden="true"></i>Coordonnées jamais transmises sans votre accord explicite · Mise en relation disponible à partir de 80%</div>
 </div>
-
+ 
 <!-- DANIM -->
 <div class="danim">
   <div class="dic"><i class="ti ti-video" aria-hidden="true"></i></div>
@@ -501,10 +501,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
   </div>
   <button class="dcta" onclick="alert('Vidéo DANIM activée !\n\nVous recevrez un guide de tournage simple sous 24h.\nFilmez votre bien en 20 minutes avec votre téléphone.\nLa vidéo est montée et attachée à votre fiche anonymisée.\nVisible uniquement pour les profils compatibles ≥ 80%.')">Activer ↗</button>
 </div>
-
+ 
 <!-- SERVICES -->
 <div class="sec-lbl"><i class="ti ti-tool" aria-hidden="true"></i>Services disponibles</div>
-
+ 
 <div class="svc-dr">
   <div class="svc-hd" onclick="toggleS('s1')">
     <div class="svc-hl"><i class="ti ti-cut" aria-hidden="true"></i>Division de terrain<span class="stg stn">Nouveau</span></div>
@@ -520,7 +520,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
     </div>
   </div>
 </div>
-
+ 
 <div class="svc-dr">
   <div class="svc-hd" onclick="toggleS('s2')">
     <div class="svc-hl"><i class="ti ti-certificate" aria-hidden="true"></i>Diagnostics obligatoires<span class="stg stt">Requis</span></div>
@@ -536,7 +536,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
     </div>
   </div>
 </div>
-
+ 
 <div class="svc-dr">
   <div class="svc-hd" onclick="toggleS('s3')">
     <div class="svc-hl"><i class="ti ti-home-dollar" aria-hidden="true"></i>Estimation expert sur site<span class="stg stg2">Optionnel</span></div>
@@ -551,7 +551,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
     </div>
   </div>
 </div>
-
+ 
 <!-- GUIDES JURIDIQUES -->
 <div class="sec-lbl"><i class="ti ti-book" aria-hidden="true"></i>Guides juridiques & pratiques</div>
 <div class="fg">
@@ -562,10 +562,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
   <button class="fb" onclick="openFiche('documents')"><i class="ti ti-folder" aria-hidden="true"></i><span>Documents pour vendre</span></button>
   <button class="fb" onclick="openContrats()"><i class="ti ti-template" aria-hidden="true"></i><span>Contrats types & modèles</span></button>
 </div>
-
+ 
 <!-- OUTILS DÉCISIONNELS -->
 <div class="sec-lbl"><i class="ti ti-chart-bar" aria-hidden="true"></i>Outils décisionnels</div>
-
+ 
 <div class="odr" onclick="toggleO('o1')">
   <div class="odl"><i class="ti ti-chart-bar" aria-hidden="true"></i>Simulateur de prix · Erdeven<span class="otg" style="background:var(--t50);color:var(--t800)">Logué projet</span></div>
   <i class="ti ti-chevron-down" id="oc1" aria-hidden="true" style="font-size:14px;color:var(--mut);transition:transform .2s"></i>
@@ -581,7 +581,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
   <div style="font-size:12.5px;color:var(--mut);padding:10px 12px;background:var(--bg);border-radius:var(--r8);margin-top:4px">À 520k€, vous multipliez les compatibilités par 2,3. L'écart de 30k€ peut accélérer votre projet de 4 mois.</div>
   <button class="btn-ask" style="margin-top:10px" onclick="alert('IMA : À 550k€, vous touchez 3 acheteurs. À 520k€ vous en touchez 7 — soit 133% de plus.\n\nMon conseil : testez une baisse à 530k€ dans un premier temps. Si le profil à 91% est sérieux (financement attesté), il peut s\'aligner. Gardez la marge pour la négociation finale.')">Demander à IMA ↗</button>
 </div>
-
+ 
 <div class="odr" onclick="toggleO('o2')">
   <div class="odl"><i class="ti ti-map-pin" aria-hidden="true"></i>Baromètre zone Morbihan<span class="otg" style="background:var(--t50);color:var(--t800)">Logué projet</span></div>
   <i class="ti ti-chevron-down" id="oc2" aria-hidden="true" style="font-size:14px;color:var(--mut);transition:transform .2s"></i>
@@ -595,7 +595,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
   </div>
   <div style="font-size:12px;color:var(--mut2);margin-top:10px">Source DVF · Morbihan littoral · Mise à jour mai 2026</div>
 </div>
-
+ 
 <div class="odr" onclick="toggleO('o3')">
   <div class="odl"><i class="ti ti-award" aria-hidden="true"></i>Score vivant · forces & freins<span class="otg" style="background:var(--g50);color:var(--g800)">+4 pts cette semaine</span></div>
   <i class="ti ti-chevron-down" id="oc3" aria-hidden="true" style="font-size:14px;color:var(--mut);transition:transform .2s"></i>
@@ -608,7 +608,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
   <div class="sv-rec">Réglez ces 2 points → score potentiel <strong>85/100</strong> · première mise en relation accessible cette semaine</div>
   <button class="btn-ask" style="margin-top:10px" onclick="alert('IMA — Plan d\'action :\n\n1. URGENT — DPE (48h, ~150€) → +4 pts Trust → 2 acheteurs débloqués\n2. Cette semaine — Vidéo DANIM → profil 87% converti en MER\n3. Optionnel — Prix à 530k€ → score Budget +3 pts\n\nAvec ces 3 actions : score 85+ et MER possible avant fin mai.')">Plan d'action IMA ↗</button>
 </div>
-
+ 
 <!-- PROGRESSION -->
 <div class="sec-lbl"><i class="ti ti-flag" aria-hidden="true"></i>Progression</div>
 <div class="prog-card">
@@ -623,9 +623,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
   <div class="al"><span>Profil</span><span>Projet</span><span>Score</span><span>Match</span><span>MER</span><span>Contrat</span></div>
   <div class="an">Prochaine étape : <strong>ajouter votre DPE</strong> pour débloquer 2 acheteurs et atteindre le seuil de mise en relation (80+).</div>
 </div>
-
+ 
 </div>
-
+ 
 <!-- ══ MODAL : TUNNEL MER 91% ══ -->
 <div class="page-overlay" id="merModal">
   <div class="page-modal" style="max-width:640px">
@@ -659,12 +659,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
         </div>
         <div style="font-size:11px;color:var(--mut2);margin-top:10px;display:flex;align-items:center;gap:4px"><i class="ti ti-eye-off" aria-hidden="true" style="font-size:12px"></i>Fiche anonymisée — identité transmise uniquement après validation mutuelle et paiement</div>
       </div>
-
+ 
       <div style="background:#0d1f1f;border-radius:var(--r8);padding:12px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start">
         <div class="ima-av-sm">IMA</div>
         <div style="font-size:13px;color:#d0d0d0;line-height:1.55">Roger, c'est le meilleur match que j'aie vu sur votre bien depuis son activation. Financement attesté, timing urgent, zone parfaite. <span style="color:var(--g)">Vous ne payez que s'il accepte.</span></div>
       </div>
-
+ 
       <div style="margin-bottom:16px">
         <div class="mer-step">
           <div class="mer-left"><div class="mer-num done"><i class="ti ti-check" aria-hidden="true" style="font-size:11px"></i></div><div class="mer-line"></div></div>
@@ -683,7 +683,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
           <div class="mer-content"><div class="mer-title">Paiement · coordonnées échangées</div><div class="mer-sub">29,90 € prélevé. Les coordonnées des deux parties sont transmises simultanément.</div></div>
         </div>
       </div>
-
+ 
       <div style="background:var(--bg);border-radius:var(--r8);padding:12px 14px;margin-bottom:12px">
         <div style="font-size:12px;font-weight:500;color:var(--txt);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="ti ti-user" aria-hidden="true" style="font-size:14px;color:var(--t)"></i>Vos coordonnées — transmises uniquement si l'acheteur accepte</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">
@@ -691,14 +691,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
           <div style="background:var(--t50);padding:7px 10px;border-radius:var(--r8)"><div style="font-size:10px;color:var(--mut);margin-bottom:2px">Nom</div><strong style="color:var(--t800)">Jacques Vluys</strong></div>
           <div style="background:var(--t50);padding:7px 10px;border-radius:var(--r8)"><div style="font-size:10px;color:var(--mut);margin-bottom:2px">Téléphone</div><strong style="color:var(--t800)">06 XX XX XX XX</strong></div>
           <div style="background:var(--t50);padding:7px 10px;border-radius:var(--r8)"><div style="font-size:10px;color:var(--mut);margin-bottom:2px">Email</div><strong style="color:var(--t800)">contact@cadre...</strong></div>
+          <div style="background:var(--t50);padding:7px 10px;border-radius:var(--r8);grid-column:1/-1"><div style="font-size:10px;color:var(--mut);margin-bottom:2px">Adresse postale</div><strong style="color:var(--t800)">47 rue Vivienne · 75002 Paris</strong></div>
         </div>
-        <div style="font-size:11px;color:var(--green);margin-top:8px;display:flex;align-items:center;gap:4px"><i class="ti ti-check" aria-hidden="true" style="font-size:12px"></i>Coordonnées complètes · condition requise pour la mise en relation</div>
+        <div style="font-size:11px;color:var(--green);margin-top:8px;display:flex;align-items:center;gap:4px"><i class="ti ti-check" aria-hidden="true" style="font-size:12px"></i>Coordonnées complètes · 5 champs obligatoires validés · condition requise pour la mise en relation</div>
       </div>
-
+ 
       <div style="background:var(--bg);border-radius:var(--r8);padding:10px 14px;margin-bottom:14px;font-size:12.5px;color:var(--mut);line-height:1.55">
         <strong style="color:var(--txt)">29,90 €</strong> · tranche 80–94% · Prélevé uniquement si l'acheteur accepte et que les deux parties ont renseigné leurs coordonnées complètes. Aucun frais si l'acheteur ne répond pas sous 72h.
       </div>
-
+ 
       <div id="merCTA" style="display:flex;flex-direction:column;gap:8px">
         <button class="btn-teal" style="width:100%;justify-content:center" onclick="confirmerMER()">
           <i class="ti ti-handshake" aria-hidden="true" style="font-size:18px"></i>
@@ -716,7 +717,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ MODAL : FICHE OBLIGATIONS VENDEUR ══ -->
 <div class="page-overlay" id="ficheObligations">
   <div class="page-modal">
@@ -788,7 +789,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ MODAL : CONTRATS TYPES ══ -->
 <div class="page-overlay" id="contratsModal">
   <div class="page-modal">
@@ -841,7 +842,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ MODAL : APERÇU CONTRAT ══ -->
 <div class="page-overlay" id="docModal">
   <div class="page-modal" style="max-width:600px">
@@ -853,7 +854,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
     <div class="pm-body" id="docBody"></div>
   </div>
 </div>
-
+ 
 <script>
 function toggleN(){
   document.getElementById('nPanel').classList.toggle('open')
@@ -910,7 +911,7 @@ function openContrats(){
   document.getElementById('contratsModal').classList.add('open')
   document.body.style.overflow='hidden'
 }
-
+ 
 const DOCS = {
   promesse:{
     title:'Promesse de vente unilatérale — aperçu',
@@ -942,7 +943,7 @@ Prix de vente : <span style="background:#FAEEDA;color:#633806;padding:2px 6px;bo
   conditions:{title:'Conditions suspensives type — aperçu',html:`<div style="background:#f7f6f2;border-left:3px solid #0F8191;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:13px"><strong>Condition suspensive d'obtention de prêt</strong><br>La vente est conclue sous la condition d'obtention d'un prêt de <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">montant</span> euros au taux maximal de <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">taux</span>%, dans un délai de 45 jours.</div><div style="background:#C9A84C20;border-left:3px solid #C9A84C;border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px;color:#633806"><strong>Clause division parcellaire (Erdeven) :</strong><br>La vente du Lot B est subordonnée à l'obtention du bornage géomètre-expert et à la validation du détachement par la commune d'Erdeven.</div>`},
   declaration:{title:'Déclaration de travaux vendeur — aperçu',html:`<div style="background:#f7f6f2;border-left:3px solid #1D9E75;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:13px"><strong>Travaux Erdeven identifiés :</strong><br>• Isolation thermique (combles + murs) — <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">année</span> — artisan / propriétaire<br>• Installation PAC air-eau — <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">année</span><br>• VMC double flux — <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">année</span><br>• Rénovation cuisine ouverte — fait par le propriétaire<br>• Rénovation salles de bains (×2)<br>• Remplacement sols</div><div style="background:#f7f6f2;border-left:3px solid #1D9E75;border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px"><strong>Aides perçues :</strong> MaPrimeRénov — montant : <span style="background:#FAEEDA;color:#633806;padding:2px 6px;border-radius:4px;font-style:italic">montant €</span></div>`}
 }
-
+ 
 function showDoc(id){
   const d=DOCS[id]
   if(!d)return
@@ -951,7 +952,7 @@ function showDoc(id){
   document.getElementById('docModal').classList.add('open')
   document.body.style.overflow='hidden'
 }
-
+ 
 document.querySelectorAll('.page-overlay').forEach(overlay=>{
   overlay.addEventListener('click',function(e){
     if(e.target===this){
