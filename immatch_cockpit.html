@@ -336,9 +336,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
     <div class="ima-msg">Bonjour Roger. <strong>Un acheteur à 91%</strong> est entré cette nuit — financement attesté, timing urgent. Deux leviers peuvent vous faire passer à 85 cette semaine.</div>
     <div class="ima-btns">
-      <button class="ima-btn">Mes leviers <i class="ti ti-arrow-right" style="font-size:10px"></i></button>
-      <button class="ima-btn">Comprendre le score <i class="ti ti-arrow-right" style="font-size:10px"></i></button>
-      <button class="ima-btn">Priorités <i class="ti ti-arrow-right" style="font-size:10px"></i></button>
+      <button class="ima-btn" onclick="document.getElementById('overlay-leviers').classList.add('open')">Mes leviers <i class="ti ti-arrow-right" style="font-size:10px"></i></button>
+      <button class="ima-btn" onclick="document.getElementById('overlay-ima').classList.add('open')">Comprendre le score <i class="ti ti-arrow-right" style="font-size:10px"></i></button>
+      <button class="ima-btn" onclick="document.getElementById('overlay-priorites').classList.add('open')">Priorités <i class="ti ti-arrow-right" style="font-size:10px"></i></button>
     </div>
   </div>
 </section>
@@ -448,7 +448,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="cmain">Acheteur · Maison + terrain · Dans 1 mois</div>
       <div class="csub">Morbihan 56 · 520–580k€ · Locataire prêt · Financement attesté</div>
     </div>
-    <button class="mer-on" onclick="alert('Mise en relation 29,90 € — 91% de compatibilité')">MER · 29,90 €</button>
+    <button class="mer-on" onclick="openMer('91%','Acheteur Maison + terrain · Morbihan 56','29.90')">Contacter</button>
   </div>
   <div class="crow">
     <div class="cpct" style="color:#854F0B">87%</div>
@@ -456,17 +456,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="cmain">Acheteur · Bien + hangar activité · Dans 3 mois</div>
       <div class="csub">Morbihan 56 · 480–560k€ · Financement en cours</div>
     </div>
-    <button class="mer-on" onclick="alert('Mise en relation 29,90 € — 87% de compatibilité')">MER · 29,90 €</button>
+    <button class="mer-on" onclick="openMer('87%','Acheteur Bien + hangar activité · Morbihan 56','29.90')">Contacter</button>
   </div>
   <div class="crow">
     <div class="cpct" style="color:var(--text3)">74%</div>
     <div class="cinfo">
       <div class="cmain">Acheteur · Terrain constructible · 6–12 mois</div>
-      <div class="csub">Morbihan 56 · 500–550k€ · Score insuffisant pour MER</div>
+      <div class="csub">Morbihan 56 · 500–550k€ · Score insuffisant pour être mis en relation</div>
     </div>
-    <button class="mer-dis" disabled>Score &lt; 80</button>
+    <button class="mer-dis" disabled title="Compatibilité insuffisante pour initier un contact">Score insuffisant</button>
   </div>
-  <div class="cfoot">Coordonnées jamais transmises sans votre accord · MER disponible à partir de 80% · 29,90 € (80–93%) · 39,90 € (94–100%)</div>
+  <div class="cfoot">Coordonnées jamais transmises sans votre accord · Mise en relation disponible à partir de 80% de compatibilité</div>
 </section>
  
 <!-- DANIM -->
@@ -498,7 +498,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="lc">
           <div class="lm-d">Votre DPE est manquant — il freine 2 acheteurs. Un diagnostiqueur certifié IMMATCH peut intervenir sous 48h. Devis groupé possible : DPE + amiante.</div>
           <div class="lmet-d">Diagnostiqueur certifié · Zone Morbihan · Sans engagement</div>
-          <div class="lrow"><button class="lbp" onclick="lead('diagnostiqueur DPE + amiante','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree">Gratuit pour vous</span></div>
+          <div class="lrow"><button class="lbp" onclick="lead('diagnostiqueur DPE + amiante','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree">✦ Avantage offert par Cadre Estate Solutions</span></div>
         </div>
       </div>
     </div>
@@ -516,7 +516,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="lc">
           <div class="lm-d">Un géomètre-expert IMMATCH peut vérifier la faisabilité PLU et établir un devis — une démarche qui peut significativement valoriser votre bien.</div>
           <div class="lmet-d">Géomètre-expert vérifié · Zone Morbihan · Sans engagement</div>
-          <div class="lrow"><button class="lbp" onclick="lead('géomètre-expert division terrain','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree">Gratuit pour vous</span></div>
+          <div class="lrow"><button class="lbp" onclick="lead('géomètre-expert division terrain','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree">✦ Avantage offert par Cadre Estate Solutions</span></div>
         </div>
       </div>
     </div>
@@ -534,7 +534,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="lc">
           <div class="lm-l">Un expert immobilier IMMATCH peut réaliser une estimation sur site — avis de valeur précis tenant compte du hangar et du terrain divisible.</div>
           <div class="lmet-l">Expert vérifié · Zone Morbihan · Sans engagement</div>
-          <div class="lrow"><button class="lbs" onclick="lead('estimation expert sur site','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree-l">Gratuit pour vous</span></div>
+          <div class="lrow"><button class="lbs" onclick="lead('estimation expert sur site','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree-l">✦ Avantage offert par Cadre Estate Solutions</span></div>
         </div>
       </div>
     </div>
@@ -548,7 +548,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:6px">
       <i class="ti ti-message-question" style="font-size:14px"></i> Décrire un besoin à IMA
     </div>
-    <span class="api-badge"><i class="ti ti-robot" style="font-size:10px"></i> Analyse IA · Quelques centimes / demande</span>
+    
   </div>
   <div class="besoin-body">
     <div class="besoin-lbl">Quel est votre besoin ?</div>
@@ -590,13 +590,113 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <!-- GUIDES -->
 <section style="margin-top:20px">
   <div class="section-hd"><h2 class="slbl">Guides juridiques & pratiques</h2></div>
-  <div class="ggrid">
-    <button class="gbtn active" onclick="document.getElementById('overlay-obli').classList.add('open')"><i class="ti ti-scale" style="font-size:13px"></i> Obligations du vendeur</button>
-    <button class="gbtn"><i class="ti ti-calendar" style="font-size:13px"></i> Compromis & délai SRU</button>
-    <button class="gbtn"><i class="ti ti-file-certificate" style="font-size:13px"></i> Diagnostics obligatoires</button>
-    <button class="gbtn"><i class="ti ti-receipt-euro" style="font-size:13px"></i> Plus-value immobilière</button>
-    <button class="gbtn"><i class="ti ti-folder" style="font-size:13px"></i> Documents pour vendre</button>
-    <button class="gbtn"><i class="ti ti-file-text" style="font-size:13px"></i> Contrats types & modèles</button>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+ 
+    <div class="svc-item active-guide">
+      <div class="svc-hd" onclick="togSvc('guide-obli',this)">
+        <div class="svc-hl"><i class="ti ti-scale" style="font-size:15px;color:var(--t)"></i><span class="svc-title">Obligations du vendeur</span><span class="sbadge" style="background:#FCEBEB;color:#791F1F">Action requise</span></div>
+        <i class="ti ti-chevron-up" style="font-size:14px;color:var(--text2)"></i>
+      </div>
+      <div class="svc-body open" id="sbody-guide-obli">
+        <div class="svc-txt">Avant de vendre, vous êtes tenu par la loi de fournir un dossier complet à l'acheteur. Pour votre maison d'Erdeven (avant 1997), deux obligations sont urgentes : le DPE manquant et le diagnostic amiante. Sans ces documents, vous ne pouvez pas signer de compromis en toute légalité.</div>
+        <button class="lbp" style="font-size:12px;margin-top:4px" onclick="document.getElementById('overlay-obli').classList.add('open')"><i class="ti ti-list-check" style="font-size:11px"></i> Voir la fiche complète & checklist</button>
+      </div>
+    </div>
+ 
+    <div class="svc-item">
+      <div class="svc-hd" onclick="togSvc('guide-compromis',this)">
+        <div class="svc-hl"><i class="ti ti-calendar" style="font-size:15px;color:var(--t)"></i><span class="svc-title">Compromis & délai SRU</span></div>
+        <i class="ti ti-chevron-down" style="font-size:14px;color:var(--text2)"></i>
+      </div>
+      <div class="svc-body" id="sbody-guide-compromis">
+        <div class="svc-txt"><strong>Le compromis de vente</strong> (ou promesse synallagmatique) engage les deux parties. Une fois signé, l'acheteur dispose d'un <strong>délai de rétractation de 10 jours</strong> (loi SRU — Art. L271-1 CCH), pendant lequel il peut se désengager sans frais. Le vendeur, lui, est engagé dès la signature.<br><br>Entre le compromis et l'acte authentique, comptez en moyenne <strong>2 à 3 mois</strong> pour l'obtention du prêt et les formalités notariales. Le notaire peut suspendre la vente si les conditions suspensives ne sont pas levées (obtention de prêt, absence de préemption...).</div>
+        <div class="lcta-light" style="margin-top:8px"><div class="ima-av-sm">IMA</div><div class="lc"><div class="lm-l">Votre acheteur à 91% a un financement attesté et un timing d'un mois — le compromis peut être signé rapidement dès que votre DDT est complet.</div></div></div>
+      </div>
+    </div>
+ 
+    <div class="svc-item">
+      <div class="svc-hd" onclick="togSvc('guide-diag',this)">
+        <div class="svc-hl"><i class="ti ti-file-certificate" style="font-size:15px;color:var(--t)"></i><span class="svc-title">Diagnostics obligatoires</span><span class="sbadge sb-req">Requis</span></div>
+        <i class="ti ti-chevron-down" style="font-size:14px;color:var(--text2)"></i>
+      </div>
+      <div class="svc-body" id="sbody-guide-diag">
+        <div class="svc-txt">Le <strong>Dossier de Diagnostics Techniques (DDT)</strong> doit être annexé à la promesse de vente au plus tard à la signature (loi ALUR — Art. L271-4 CCH). Il est fortement conseillé de le constituer <strong>avant la mise en vente</strong> pour répondre aux questions des acheteurs dès les premières visites.<br><br>
+        Pour votre maison d'Erdeven (169m², avant 1997, Morbihan) :<br><br>
+        ① <strong>DPE</strong> — obligatoire pour tous les biens · <span style="color:#791F1F;font-weight:600">Manquant — action prioritaire</span> · Si classé E, F ou G : audit énergétique également obligatoire · Validité 10 ans<br><br>
+        ② <strong>Amiante</strong> — obligatoire pour toute construction dont le permis est antérieur au 1er juillet 1997 → <span style="color:#791F1F;font-weight:600">Obligatoire pour Erdeven</span> · Validité illimitée si négatif<br><br>
+        ③ <strong>Plomb (CREP)</strong> — obligatoire uniquement pour les constructions <strong>avant 1949</strong> → Ne s'applique pas à votre bien si construit après 1949 · À vérifier selon votre date exacte de construction<br><br>
+        ④ <strong>Électricité</strong> — obligatoire si l'installation a plus de 15 ans · Validité 3 ans<br><br>
+        ⑤ <strong>Gaz</strong> — obligatoire si installation gaz de plus de 15 ans · Validité 3 ans<br><br>
+        ⑥ <strong>État des risques et pollutions (ERP)</strong> — obligatoire partout en France · À renouveler tous les 6 mois · Peut être rempli par le propriétaire<br><br>
+        ⑦ <strong>Assainissement (SPANC)</strong> — <span style="color:#791F1F;font-weight:600">Obligatoire qu'il soit raccordé ou non au tout-à-l'égout</span> · Si raccordé : attestation de raccordement · Si non raccordé : contrôle du dispositif individuel par le SPANC · Validité 3 ans<br><br>
+        ⑧ <strong>Termites</strong> — obligatoire si le bien est situé dans une zone à risque définie par arrêté préfectoral · Validité 6 mois · <a href="https://www.termite.com.fr/carte-termites.html" target="_blank" style="color:var(--t)">Vérifier si Erdeven est en zone à risque</a><br><br>
+        ⑨ <strong>Loi Carrez</strong> — uniquement pour les lots en copropriété · <strong>Ne s'applique pas</strong> à votre maison individuelle<br><br>
+        <span style="font-size:11px;color:var(--text3)">Tous les diagnostics sauf l'ERP doivent être réalisés par un diagnostiqueur certifié COFRAC · Coût DDT complet : 400 à 700 € selon le bien</span></div>
+        <div class="lcta" style="margin-top:8px"><div class="ima-av">IMA</div><div class="lc"><div class="lm-d">Un diagnostiqueur certifié IMMATCH peut réaliser l'ensemble de vos diagnostics en une seule visite. Devis groupé disponible.</div><div class="lrow" style="margin-top:5px"><button class="lbp" style="font-size:11px" onclick="lead('diagnostiqueur pack complet DDT','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree">✦ Avantage offert par Cadre Estate Solutions</span></div></div></div>
+      </div>
+    </div>
+ 
+    <div class="svc-item">
+      <div class="svc-hd" onclick="togSvc('guide-pv',this)">
+        <div class="svc-hl"><i class="ti ti-receipt-euro" style="font-size:15px;color:var(--t)"></i><span class="svc-title">Plus-value immobilière</span></div>
+        <i class="ti ti-chevron-down" style="font-size:14px;color:var(--text2)"></i>
+      </div>
+      <div class="svc-body" id="sbody-guide-pv">
+        <div class="svc-txt">La plus-value immobilière est imposable sur la différence entre le prix de vente et le prix d'acquisition (Art. 150 U CGI). <strong>Exonération totale si vous vendez votre résidence principale.</strong> Pour une résidence secondaire ou un investissement, un abattement progressif s'applique :<br><br>
+        · Exonération d'IR après <strong>22 ans de détention</strong><br>
+        · Exonération des prélèvements sociaux après <strong>30 ans</strong><br>
+        · Abattement de 6% par an entre la 6e et la 21e année<br><br>
+        Des travaux non déduits des revenus fonciers peuvent être ajoutés au prix d'acquisition pour réduire la plus-value.</div>
+      </div>
+    </div>
+ 
+    <div class="svc-item">
+      <div class="svc-hd" onclick="togSvc('guide-docs',this)">
+        <div class="svc-hl"><i class="ti ti-folder" style="font-size:15px;color:var(--t)"></i><span class="svc-title">Documents pour vendre</span></div>
+        <i class="ti ti-chevron-down" style="font-size:14px;color:var(--text2)"></i>
+      </div>
+      <div class="svc-body" id="sbody-guide-docs">
+        <div class="svc-txt">Les documents à fournir dépendent de la nature du bien. Votre maison d'Erdeven est une <strong>maison individuelle</strong> — le dossier est plus simple qu'en copropriété.<br><br>
+ 
+        <div style="background:var(--t50);border-radius:var(--radius-sm);padding:8px 10px;margin-bottom:10px;font-size:11px;font-weight:700;color:var(--t800)">📋 Documents communs à toute vente</div>
+        <strong>Titre de propriété</strong> — acte notarié original · votre notaire peut en obtenir une copie si nécessaire<br>
+        <strong>DDT complet</strong> — DPE, amiante, électricité, gaz, ERP, assainissement · voir guide diagnostics<br>
+        <strong>Permis de construire & déclarations de travaux</strong> — pour toute construction ou extension réalisée<br>
+        <strong>Certificats de conformité</strong> — travaux nécessitant un permis ou une déclaration préalable<br>
+        <strong>Factures travaux</strong> — isolation, PAC, VMC, cuisine, SDB · valorisent le bien et peuvent réduire la plus-value<br>
+        <strong>Avis de taxe foncière</strong> — 3 dernières années · informent l'acheteur sur les charges fiscales<br>
+        <strong>Plan cadastral & bornage</strong> — indispensable si le terrain est divisible ou si les limites sont incertaines<br>
+        <strong>Attestation d'assurance habitation</strong> — en cours de validité<br><br>
+ 
+        <div style="background:#EEEDFE;border-radius:var(--radius-sm);padding:8px 10px;margin-bottom:10px;font-size:11px;font-weight:700;color:#3C3489">🏢 Documents supplémentaires en copropriété (non applicable à votre maison)</div>
+        <span style="font-size:12px;color:var(--text2)">Si vous vendiez un appartement, il faudrait également fournir :<br>
+        <strong>Règlement de copropriété</strong> + état descriptif de division<br>
+        <strong>3 derniers PV d'assemblée générale</strong><br>
+        <strong>Carnet d'entretien</strong> de la copropriété<br>
+        <strong>Fiche synthétique</strong> de la copropriété<br>
+        <strong>Montant des charges courantes</strong> et quote-part des dépenses exceptionnelles<br>
+        <strong>État daté</strong> (situation comptable du lot) — fourni par le syndic<br>
+        <strong>Mesurage loi Carrez</strong> — surface privative du lot<br>
+        <strong>Pré-état daté</strong> si demandé par l'acquéreur · Loi ALUR — Art. L721-2 CCH</span></div>
+      </div>
+    </div>
+ 
+    <div class="svc-item">
+      <div class="svc-hd" onclick="togSvc('guide-contrats',this)">
+        <div class="svc-hl"><i class="ti ti-file-text" style="font-size:15px;color:var(--t)"></i><span class="svc-title">Contrats types & modèles</span></div>
+        <i class="ti ti-chevron-down" style="font-size:14px;color:var(--text2)"></i>
+      </div>
+      <div class="svc-body" id="sbody-guide-contrats">
+        <div class="svc-txt">Ces modèles sont fournis à titre indicatif. <strong>Tout acte engageant les parties doit être signé devant notaire.</strong></div>
+        <div class="cgrid" style="margin-top:10px">
+          <div class="ccard"><div class="ctitle">Promesse de vente unilatérale</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px"><span class="pill pv">Vente</span><span class="pill pg">Recommandé</span></div><div class="csub2">Engage le vendeur · laisse le choix à l'acheteur · Art. 1124 Code civil</div><div class="cbtns"><button class="cbtn" onclick="document.getElementById('overlay-contrat-pvu').classList.add('open')"><i class="ti ti-eye" style="font-size:11px"></i> Aperçu</button></div></div>
+          <div class="ccard"><div class="ctitle">Compromis de vente</div><div style="margin-bottom:4px"><span class="pill pv">Vente</span></div><div class="csub2">Engage les deux parties · délai SRU 10 jours · Art. 1589 Code civil</div><div class="cbtns"><button class="cbtn" onclick="document.getElementById('overlay-contrat-compromis').classList.add('open')"><i class="ti ti-eye" style="font-size:11px"></i> Aperçu</button></div></div>
+          <div class="ccard"><div class="ctitle">Conditions suspensives type</div><div style="margin-bottom:4px"><span class="pill pv">Vente</span></div><div class="csub2">Obtention prêt · permis · absence servitudes</div><div class="cbtns"><button class="cbtn" onclick="document.getElementById('overlay-contrat-cs').classList.add('open')"><i class="ti ti-eye" style="font-size:11px"></i> Aperçu</button></div></div>
+          <div class="ccard"><div class="ctitle">Déclaration travaux vendeur</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px"><span class="pill pv">Vente</span><span class="pill pb2">Adapté Erdeven</span></div><div class="csub2">Travaux réalisés · garanties décennales · Art. 1641</div><div class="cbtns"><button class="cbtn" onclick="document.getElementById('overlay-contrat-travaux').classList.add('open')"><i class="ti ti-eye" style="font-size:11px"></i> Aperçu</button></div></div>
+        </div>
+      </div>
+    </div>
+ 
   </div>
 </section>
  
@@ -702,12 +802,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             <div class="ima-av">IMA</div>
             <div class="lc">
               <div class="lm-d">Un artisan partenaire IMMATCH certifié RGE peut vous faire un devis précis, constituer votre dossier d'aides et planifier les travaux — sans pression commerciale.</div>
-              <div class="lmet-d">Artisan vérifié · Certifié RGE · Zone Morbihan · Gratuit pour vous</div>
-              <div class="lrow"><button class="lbp" onclick="lead('artisan RGE rénovation électrique','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être contacté par un artisan</button><span class="lfree">Gratuit pour vous</span></div>
+              <div class="lmet-d">Artisan vérifié · Certifié RGE · Zone Morbihan · Avantage offert par Cadre Estate Solutions</div>
+              <div class="lrow"><button class="lbp" onclick="lead('artisan RGE rénovation électrique','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être contacté par un artisan</button><span class="lfree">✦ Avantage offert par Cadre Estate Solutions</span></div>
             </div>
           </div>
           <button class="nb-s" style="margin-top:10px;font-size:11px" onclick="resetEtude()"><i class="ti ti-refresh" style="font-size:11px"></i> Refaire la pré-étude</button>
         </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="outil" style="opacity:.75">
+    <div class="ohd" style="cursor:default">
+      <div class="otitle"><i class="ti ti-home-star" style="font-size:15px;color:var(--text3)"></i> Rénov'vision <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--bg3);color:var(--text3)">En cours de développement</span></div>
+      <i class="ti ti-lock" style="font-size:14px;color:var(--text3)"></i>
+    </div>
+    <div style="padding:10px 16px 14px;border-top:1px solid var(--border)">
+      <div style="font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:10px">Rénov'vision vous permettra de visualiser en 3D les améliorations possibles de votre bien — isolation, rénovation énergétique, réaménagement — et d'estimer leur impact sur la valeur de vente et les aides disponibles.</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-size:11px;color:var(--text3)"><i class="ti ti-clock" style="font-size:12px"></i> Disponible prochainement</span>
+        <button class="lbs" style="font-size:11px;padding:4px 10px;opacity:.8" onclick="alert('Vous serez notifié dès la mise en ligne de Rénov'vision.')"><i class="ti ti-bell" style="font-size:11px"></i> Me prévenir dès la sortie</button>
       </div>
     </div>
   </div>
@@ -728,7 +842,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             <div class="ima-av-sm">IMA</div>
             <div class="lc">
               <div class="lm-l" style="font-size:11px">Souhaitez-vous un avis de valeur d'un agent immobilier IMMATCH pour affiner votre prix ?</div>
-              <div class="lrow" style="margin-top:4px"><button class="lbs" style="font-size:11px;padding:4px 10px" onclick="lead('avis de valeur pro immo','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree-l">Gratuit pour vous</span></div>
+              <div class="lrow" style="margin-top:4px"><button class="lbs" style="font-size:11px;padding:4px 10px" onclick="lead('avis de valeur pro immo','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree-l">✦ Avantage offert par Cadre Estate Solutions</span></div>
             </div>
           </div>
         </div>
@@ -741,12 +855,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             <div class="ima-av">IMA</div>
             <div class="lc">
               <div class="lm-d" style="font-size:11px">Réglez ce point cette semaine — score potentiel 85 et première mise en relation débloquée.</div>
-              <div class="lrow" style="margin-top:4px"><button class="lbp" style="font-size:11px;padding:4px 10px" onclick="lead('diagnostiqueur DPE urgence','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree">Gratuit pour vous</span></div>
+              <div class="lrow" style="margin-top:4px"><button class="lbp" style="font-size:11px;padding:4px 10px" onclick="lead('diagnostiqueur DPE urgence','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree">✦ Avantage offert par Cadre Estate Solutions</span></div>
             </div>
           </div>
         </div>
       </div>
-      <div style="margin-top:10px;font-size:12px;color:var(--text2)">Réglez ces 2 points → score potentiel <strong style="color:var(--t)">85/100</strong> · première MER accessible cette semaine</div>
+      <div style="margin-top:10px;font-size:12px;color:var(--text2)">Réglez ces 2 points → score potentiel <strong style="color:var(--t)">85/100</strong> · première mise en relation accessible cette semaine</div>
       <button style="margin-top:8px;font-size:12px;padding:6px 14px;border-radius:20px;background:var(--t);color:#fff;border:none;cursor:pointer;font-weight:700;display:inline-flex;align-items:center;gap:5px">Plan d'action IMA <i class="ti ti-arrow-right" style="font-size:11px"></i></button>
     </div>
   </div>
@@ -761,30 +875,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="pstep done">Projet</div>
     <div class="pstep done">Score</div>
     <div class="pstep cur">Match</div>
-    <div class="pstep">MER</div>
+    <div class="pstep">Mise en relation</div>
     <div class="pstep">Contrat</div>
   </div>
   <div class="pnext">Prochaine étape : <strong>ajouter votre DPE</strong> pour débloquer 2 acheteurs et atteindre le seuil de mise en relation (80+).</div>
 </div>
  
 <!-- CONTRATS -->
-<section>
-  <div class="section-hd"><h2 class="slbl">Contrats types & modèles</h2></div>
-  <div style="font-size:12px;color:var(--text2);margin-bottom:10px">Fournis à titre indicatif. <strong>Tout acte engageant les parties doit être signé devant notaire.</strong></div>
-  <div class="cgrid">
-    <div class="ccard"><div class="ctitle">Promesse de vente unilatérale</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px"><span class="pill pv">Vente</span><span class="pill pg">Recommandé</span></div><div class="csub2">Engage le vendeur · laisse le choix à l'acheteur · Art. 1124 Code civil</div><div class="cbtns"><button class="cbtn">Aperçu</button><button class="cbtn">PDF</button><button class="cbtn">Adapter</button></div></div>
-    <div class="ccard"><div class="ctitle">Compromis de vente</div><div style="margin-bottom:4px"><span class="pill pv">Vente</span></div><div class="csub2">Engage les deux parties · délai SRU 10 jours · Art. 1589 Code civil</div><div class="cbtns"><button class="cbtn">Aperçu</button><button class="cbtn">PDF</button></div></div>
-    <div class="ccard"><div class="ctitle">Conditions suspensives type</div><div style="margin-bottom:4px"><span class="pill pv">Vente</span></div><div class="csub2">Obtention prêt · permis · absence servitudes</div><div class="cbtns"><button class="cbtn">Aperçu</button><button class="cbtn">PDF</button></div></div>
-    <div class="ccard"><div class="ctitle">Déclaration travaux vendeur</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px"><span class="pill pv">Vente</span><span class="pill pb2">Adapté Erdeven</span></div><div class="csub2">Travaux réalisés · garanties décennales · Art. 1641</div><div class="cbtns"><button class="cbtn">Aperçu</button><button class="cbtn">PDF</button></div></div>
-  </div>
-  <div class="lcta-light" style="margin-bottom:20px">
-    <div class="ima-av-sm">IMA</div>
-    <div class="lc">
-      <div class="lm-l">Votre bien d'Erdeven a une configuration atypique — deux lots, hangar, terrain divisible. Je peux adapter chaque modèle à votre situation.</div>
-      <div class="lrow" style="margin-top:5px"><button class="lbs" style="font-size:11px;padding:4px 10px">Pack Erdeven <i class="ti ti-arrow-right" style="font-size:11px"></i></button></div>
-    </div>
-  </div>
-</section>
+ 
  
 </div><!-- /page -->
  
@@ -822,7 +920,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             <div style="width:36px;height:36px;border-radius:50%;border:2.5px solid var(--t);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--t)">76</div>
             <div style="font-size:12px;font-weight:700;color:var(--text)">Score de maturité de votre projet (0–100)</div>
           </div>
-          <div style="font-size:11px;color:var(--text2);line-height:1.6">Calculé par IMMATCH sur 8 critères : localisation, cohérence du prix, DPE renseigné, délai réaliste, dossier complet, type de bien, surface, caractéristiques. Plus il est élevé, plus vous êtes visible et éligible aux mises en relation. <strong>À partir de 80, la MER est débloquée.</strong></div>
+          <div style="font-size:11px;color:var(--text2);line-height:1.6">Calculé par IMMATCH sur 8 critères : localisation, cohérence du prix, DPE renseigné, délai réaliste, dossier complet, type de bien, surface, caractéristiques. Plus il est élevé, plus vous êtes visible et éligible aux mises en relation. <strong>À partir de 80, la mise en relation est débloquée.</strong></div>
         </div>
         <div style="padding:10px;background:var(--bg3);border-radius:var(--radius-sm)">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
@@ -878,15 +976,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="oslbl">Vos obligations avant de vendre</div>
     <div class="obl">
       <div class="oblhd"><div class="obll"><div class="oblicon oiw"><i class="ti ti-alert-triangle" style="font-size:11px"></i></div><div><div class="oblt">Fournir le Dossier de Diagnostics Techniques (DDT) complet</div><div class="obls">DPE, amiante (avant 1997 → obligatoire), électricité si &gt;15 ans, risques naturels. Remis au plus tard à la signature du compromis.</div></div></div><span class="oblbadge obw">DPE manquant</span></div>
-      <div class="oblead"><div class="lcta"><div class="ima-av">IMA</div><div class="lc"><div class="lm-d">Votre DPE est manquant et freine 2 acheteurs. Un diagnostiqueur certifié IMMATCH peut intervenir sous 48h dans votre zone.</div><div class="lmet-d">Diagnostiqueur certifié · Zone Morbihan · Sans engagement</div><div class="lrow"><button class="lbp" onclick="lead('diagnostiqueur DPE + amiante','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree">Gratuit pour vous</span></div></div></div></div>
+      <div class="oblead"><div class="lcta"><div class="ima-av">IMA</div><div class="lc"><div class="lm-d">Votre DPE est manquant et freine 2 acheteurs. Un diagnostiqueur certifié IMMATCH peut intervenir sous 48h dans votre zone.</div><div class="lmet-d">Diagnostiqueur certifié · Zone Morbihan · Sans engagement</div><div class="lrow"><button class="lbp" onclick="lead('diagnostiqueur DPE + amiante','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree">✦ Avantage offert par Cadre Estate Solutions</span></div></div></div></div>
     </div>
     <div class="obl">
       <div class="oblhd"><div class="obll"><div class="oblicon oiok"><i class="ti ti-check" style="font-size:11px"></i></div><div><div class="oblt">Informer l'acheteur de tout ce que vous savez sur le bien</div><div class="obls">Défauts connus, travaux réalisés, litiges, servitudes. Un défaut non déclaré peut engager votre responsabilité pendant 2 ans.</div></div></div><span class="oblbadge obok">À documenter</span></div>
-      <div class="oblead"><div class="lcta-light"><div class="ima-av-sm">IMA</div><div class="lc"><div class="lm-l">Besoin d'un conseil juridique pour sécuriser votre déclaration ? Un notaire partenaire IMMATCH peut vous accompagner.</div><div class="lrow" style="margin-top:5px"><button class="lbs" onclick="lead('notaire conseil vente','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree-l">Gratuit pour vous</span></div></div></div></div>
+      <div class="oblead"><div class="lcta-light"><div class="ima-av-sm">IMA</div><div class="lc"><div class="lm-l">Besoin d'un conseil juridique pour sécuriser votre déclaration ? Un notaire partenaire IMMATCH peut vous accompagner.</div><div class="lrow" style="margin-top:5px"><button class="lbs" onclick="lead('notaire conseil vente','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree-l">✦ Avantage offert par Cadre Estate Solutions</span></div></div></div></div>
     </div>
     <div class="obl">
       <div class="oblhd"><div class="obll"><div class="oblicon oiok"><i class="ti ti-check" style="font-size:11px"></i></div><div><div class="oblt">Déclarer les travaux réalisés et conserver les factures</div><div class="obls">Isolation, PAC, VMC, cuisine, SDB. Les factures rassurent l'acheteur et justifient votre prix.</div></div></div><span class="oblbadge obb">Travaux récents</span></div>
-      <div class="oblead"><div class="lcta-light"><div class="ima-av-sm">IMA</div><div class="lc"><div class="lm-l">Il vous manque des factures ou vous souhaitez valoriser vos travaux ? Un expert partenaire IMMATCH peut vous aider.</div><div class="lrow" style="margin-top:5px"><button class="lbs" onclick="lead('expert valorisation travaux','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree-l">Gratuit pour vous</span></div></div></div></div>
+      <div class="oblead"><div class="lcta-light"><div class="ima-av-sm">IMA</div><div class="lc"><div class="lm-l">Il vous manque des factures ou vous souhaitez valoriser vos travaux ? Un expert partenaire IMMATCH peut vous aider.</div><div class="lrow" style="margin-top:5px"><button class="lbs" onclick="lead('expert valorisation travaux','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lfree-l">✦ Avantage offert par Cadre Estate Solutions</span></div></div></div></div>
     </div>
     <div class="obl">
       <div class="oblhd"><div class="obll"><div class="oblicon oie"><i class="ti ti-x" style="font-size:11px"></i></div><div><div class="oblt">Ne jamais omettre volontairement un défaut connu</div><div class="obls">L'acheteur peut demander la nullité ou une réduction de prix dans un délai d'un an.</div></div></div><span class="oblbadge obe">Interdit</span></div>
@@ -940,6 +1038,12 @@ function togO(id,hd){
  
 // ===== MODALS =====
 function cm(id,e){if(e.target===document.getElementById(id))document.getElementById(id).classList.remove('open');}
+function openMer(pct,profil,prix){
+  document.getElementById('mer-pct').textContent=pct;
+  document.getElementById('mer-profil').textContent=profil;
+  document.getElementById('mer-prix').textContent=prix.replace('.',',')+' €';
+  document.getElementById('overlay-mer').classList.add('open');
+}
  
 // ===== TAGS =====
 function ts(el,g){el.closest('.tg').querySelectorAll('.tag').forEach(t=>t.classList.remove('s'));el.classList.add('s');}
@@ -956,13 +1060,13 @@ function lead(type,zone){
     'estimation expert sur site':'Votre demande est transmise. IMA contacte un expert immobilier partenaire dans votre zone.',
     'avis de valeur pro immo':'Votre demande est transmise. IMA contacte un agent immobilier partenaire dans votre zone.',
     'diagnostiqueur DPE urgence':'Demande urgente transmise. IMA traite votre demande en priorité.',
-    'artisan RGE rénovation électrique':'Votre demande est transmise. IMA recherche un artisan certifié RGE dans le Morbihan. Gratuit pour vous.',
+    'artisan RGE rénovation électrique':'Votre demande est transmise. IMA recherche un artisan certifié RGE dans le Morbihan.',
     'notaire conseil vente':'Votre demande est transmise à IMA.',
     'expert valorisation travaux':'Votre demande est transmise à IMA.',
     'pack diagnostics DPE + amiante + électricité':'Demande groupée transmise. IMA contacte un diagnostiqueur certifié pour l\'ensemble de vos diagnostics.'
   };
   const msg=msgs[type]||'Votre demande est transmise à IMA. Vous serez notifié sous 24h.';
-  alert('✅ '+msg+'\n\nGratuit pour vous · Coordonnées transmises uniquement après accord mutuel.');
+  alert('✅ '+msg+'\n\nAvantage offert par Cadre Estate Solutions.');
 }
  
 // ===== ANALYSE BESOIN — seul appel API réel =====
@@ -1006,5 +1110,361 @@ const style=document.createElement('style');
 style.textContent='@keyframes spin{to{transform:rotate(360deg)}}';
 document.head.appendChild(style);
 </script>
+ 
+<!-- ===== MODAL MISE EN RELATION CONFIRMATION ===== -->
+<div class="overlay" id="overlay-mer" onclick="cm('overlay-mer',event)">
+  <div class="modal" onclick="event.stopPropagation()" style="max-width:440px">
+    <div class="mhd">
+      <div class="mtitle"><i class="ti ti-user-check" style="font-size:15px;color:var(--t)"></i> Demande de mise en relation</div>
+      <button class="mclose" onclick="document.getElementById('overlay-mer').classList.remove('open')"><i class="ti ti-x" style="font-size:13px"></i></button>
+    </div>
+    <div class="mbody">
+      <div style="background:var(--t50);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--t800);line-height:1.6;display:flex;gap:8px;align-items:flex-start">
+        <i class="ti ti-info-circle" style="font-size:14px;flex-shrink:0"></i>
+        <div>Vous souhaitez entrer en contact avec le profil <strong id="mer-profil"></strong> — compatibilité <strong id="mer-pct"></strong>.</div>
+      </div>
+      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">Comment ça se passe ?</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px"><div style="width:20px;height:20px;border-radius:50%;background:var(--t);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">1</div><div>Vous confirmez votre demande et renseignez vos coordonnées complètes</div></div>
+        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px"><div style="width:20px;height:20px;border-radius:50%;background:var(--t);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">2</div><div>Un règlement de <strong id="mer-prix"></strong> par carte bancaire vous sera demandé</div></div>
+        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px"><div style="width:20px;height:20px;border-radius:50%;background:var(--t);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">3</div><div>Les coordonnées de l'acheteur vous sont transmises dès validation du paiement</div></div>
+        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px"><div style="width:20px;height:20px;border-radius:50%;background:var(--t);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">4</div><div>Vous le contactez directement — sans intermédiaire</div></div>
+      </div>
+      <div style="background:var(--g50);border-radius:var(--radius-sm);padding:8px 12px;font-size:11px;color:var(--g800);margin-bottom:4px"><i class="ti ti-shield-check" style="font-size:12px"></i> Paiement sécurisé · Remboursé si la mise en relation n'aboutit pas dans les 7 jours</div>
+    </div>
+    <div class="mft">
+      <button class="btn-s2" onclick="document.getElementById('overlay-mer').classList.remove('open')">Annuler</button>
+      <button class="btn-p2" onclick="document.getElementById('overlay-mer').classList.remove('open');alert('Redirection vers la page de paiement sécurisé...')"><i class="ti ti-arrow-right" style="font-size:11px"></i> Poursuivre</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- ===== MODAL MES LEVIERS ===== -->
+<div class="overlay" id="overlay-leviers" onclick="cm('overlay-leviers',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="mhd">
+      <div class="mtitle"><i class="ti ti-trending-up" style="font-size:15px;color:var(--t)"></i> Mes leviers pour passer à 85</div>
+      <button class="mclose" onclick="document.getElementById('overlay-leviers').classList.remove('open')"><i class="ti ti-x" style="font-size:13px"></i></button>
+    </div>
+    <div class="mbody">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:14px">IMA a identifié 2 actions prioritaires qui feraient passer votre score de <strong style="color:var(--t)">76 à 85</strong> cette semaine.</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="border:1px solid #F09595;border-radius:var(--radius-sm);padding:12px;background:#FCEBEB">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <div style="background:#791F1F;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">+6</div>
+            <div style="font-size:13px;font-weight:700;color:#791F1F">Ajouter votre DPE</div>
+          </div>
+          <div style="font-size:12px;color:#A32D2D;margin-bottom:8px;line-height:1.5">Le DPE manquant freine 2 acheteurs compatibles et limite votre visibilité. C'est l'action la plus impactante : +6 points de score et 2 acheteurs débloqués immédiatement.</div>
+          <button class="lbp" style="font-size:11px" onclick="lead('diagnostiqueur DPE + amiante','Erdeven');document.getElementById('overlay-leviers').classList.remove('open')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation avec un diagnostiqueur</button>
+        </div>
+        <div style="border:1px solid #FAC775;border-radius:var(--radius-sm);padding:12px;background:var(--g50)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <div style="background:var(--g800);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">+3</div>
+            <div style="font-size:13px;font-weight:700;color:var(--g800)">Affiner votre prix</div>
+          </div>
+          <div style="font-size:12px;color:var(--g800);margin-bottom:8px;line-height:1.5">À 550k€, vous avez 3 acheteurs compatibles. À 520k€, vous en auriez 7. Un avis de valeur d'un agent immobilier IMMATCH peut vous aider à trouver le bon équilibre.</div>
+          <button class="lbs" style="font-size:11px" onclick="lead('avis de valeur pro immo','Erdeven');document.getElementById('overlay-leviers').classList.remove('open')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Demander un avis de valeur</button>
+        </div>
+      </div>
+    </div>
+    <div class="mft"><button class="btn-p2" onclick="document.getElementById('overlay-leviers').classList.remove('open')">Fermer</button></div>
+  </div>
+</div>
+ 
+<!-- ===== MODAL PRIORITÉS ===== -->
+<div class="overlay" id="overlay-priorites" onclick="cm('overlay-priorites',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="mhd">
+      <div class="mtitle"><i class="ti ti-list-check" style="font-size:15px;color:var(--t)"></i> Mes priorités cette semaine</div>
+      <button class="mclose" onclick="document.getElementById('overlay-priorites').classList.remove('open')"><i class="ti ti-x" style="font-size:13px"></i></button>
+    </div>
+    <div class="mbody">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:14px">IMA a établi votre plan d'action selon l'urgence et l'impact sur votre projet.</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;border-radius:var(--radius-sm);background:#FCEBEB;border:1px solid #F09595">
+          <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:#791F1F;color:#fff;white-space:nowrap;margin-top:1px">Urgent</span>
+          <div><div style="font-size:12px;font-weight:700;color:#791F1F;margin-bottom:2px">Commander votre DPE + amiante</div><div style="font-size:11px;color:#A32D2D;line-height:1.5">Obligatoire légalement · Freine 2 acheteurs · Impact score : +6 pts · Délai : cette semaine</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;border-radius:var(--radius-sm);background:var(--g50);border:1px solid #FAC775">
+          <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--g800);color:#fff;white-space:nowrap;margin-top:1px">Important</span>
+          <div><div style="font-size:12px;font-weight:700;color:var(--g800);margin-bottom:2px">Rassembler vos factures travaux</div><div style="font-size:11px;color:var(--g800);line-height:1.5">PAC, isolation, VMC, cuisine, SDB · Justifient votre prix · Rassurent l'acheteur</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;border-radius:var(--radius-sm);background:var(--bg3);border:1px solid var(--border)">
+          <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--text2);color:#fff;white-space:nowrap;margin-top:1px">Recommandé</span>
+          <div><div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px">Demander un avis de valeur</div><div style="font-size:11px;color:var(--text2);line-height:1.5">Votre prix à 550k€ limite les matchs · Un expert peut identifier le bon prix d'équilibre</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;border-radius:var(--radius-sm);background:var(--bg3);border:1px solid var(--border)">
+          <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--text2);color:#fff;white-space:nowrap;margin-top:1px">À explorer</span>
+          <div><div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px">Évaluer la division de terrain</div><div style="font-size:11px;color:var(--text2);line-height:1.5">800m² potentiellement divisible · Peut valoriser significativement le bien</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="mft"><button class="btn-p2" onclick="document.getElementById('overlay-priorites').classList.remove('open')">Fermer</button></div>
+  </div>
+</div>
+ 
+ 
+<!-- ===== STYLES CONTRATS ===== -->
+<style>
+.contrat-doc{font-family:Georgia,serif;font-size:13px;line-height:1.8;color:var(--text);padding:0}
+.contrat-doc h1{font-size:16px;font-weight:700;text-align:center;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+.contrat-doc h2{font-size:13px;font-weight:700;margin:16px 0 6px;text-transform:uppercase;letter-spacing:.04em;color:var(--text2);border-bottom:1px solid var(--border);padding-bottom:4px}
+.contrat-doc p{margin-bottom:8px;text-align:justify}
+.contrat-doc .field{background:var(--bg3);border:1px dashed var(--border);border-radius:4px;padding:2px 8px;font-style:italic;color:var(--text2);display:inline-block;min-width:120px}
+.contrat-doc .field-block{background:var(--bg3);border:1px dashed var(--border);border-radius:4px;padding:6px 10px;font-style:italic;color:var(--text2);display:block;margin:4px 0;min-height:32px}
+.contrat-doc .art{font-size:11px;color:var(--text3);font-style:italic;margin-top:2px}
+.contrat-doc .sig-block{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.contrat-doc .sig-box{border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;text-align:center}
+.contrat-doc .sig-lbl{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;margin-bottom:8px}
+.contrat-doc .sig-zone{height:50px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.contrat-doc .note-bas{background:var(--bg3);border-radius:var(--radius-sm);padding:8px 10px;font-size:11px;color:var(--text3);margin-top:16px;line-height:1.5}
+</style>
+ 
+<!-- MODAL 1 — PROMESSE DE VENTE UNILATÉRALE -->
+<div class="overlay" id="overlay-contrat-pvu" onclick="cm('overlay-contrat-pvu',event)">
+  <div class="modal modal-lg" onclick="event.stopPropagation()" style="max-width:640px">
+    <div class="mhd">
+      <div class="mtitle"><i class="ti ti-file-text" style="font-size:15px;color:var(--t)"></i> Promesse de vente unilatérale — Modèle type</div>
+      <button class="mclose" onclick="document.getElementById('overlay-contrat-pvu').classList.remove('open')"><i class="ti ti-x" style="font-size:13px"></i></button>
+    </div>
+    <div class="mbody">
+      <div style="background:var(--g50);border-radius:var(--radius-sm);padding:8px 12px;font-size:11px;color:var(--g800);margin-bottom:16px;display:flex;gap:7px;align-items:flex-start"><i class="ti ti-alert-circle" style="font-size:13px;flex-shrink:0"></i><div>Modèle indicatif fourni par IMMATCH® · Les champs <span class="field">à compléter</span> sont à adapter à votre situation · Tout acte définitif doit être signé devant notaire</div></div>
+      <div class="contrat-doc">
+        <h1>Promesse de vente unilatérale</h1>
+        <p style="text-align:center;font-size:12px;color:var(--text2)">Art. 1124 du Code civil — Art. L271-1 CCH (loi SRU)</p>
+ 
+        <h2>Entre les soussignés</h2>
+        <p><strong>Le promettant (vendeur) :</strong><br>
+        Nom, prénom : <span class="field">Roger Vluys</span><br>
+        Né(e) le : <span class="field">__/__/____</span> à <span class="field">___________</span><br>
+        Demeurant : <span class="field">adresse complète</span><br>
+        Ci-après dénommé « le Promettant »</p>
+ 
+        <p><strong>Le bénéficiaire (acheteur potentiel) :</strong><br>
+        Nom, prénom : <span class="field">___________</span><br>
+        Né(e) le : <span class="field">__/__/____</span> à <span class="field">___________</span><br>
+        Demeurant : <span class="field">adresse complète</span><br>
+        Ci-après dénommé « le Bénéficiaire »</p>
+ 
+        <h2>Article 1 — Objet de la promesse</h2>
+        <p>Le Promettant s'engage à vendre au Bénéficiaire, qui accepte le bénéfice de la présente promesse, le bien immeuble désigné ci-après, aux prix et conditions convenus.</p>
+ 
+        <h2>Article 2 — Désignation du bien</h2>
+        <p>Maison à usage d'habitation, sise : <span class="field">Erdeven (56410), Morbihan</span><br>
+        Surface habitable : <span class="field">169 m²</span> — Terrain : <span class="field">800 m²</span><br>
+        Références cadastrales : <span class="field">___________</span><br>
+        Tel que le bien existe, avec toutes ses dépendances, sans exception ni réserve.</p>
+ 
+        <h2>Article 3 — Prix</h2>
+        <p>Le prix de vente est fixé à <span class="field">550 000 €</span> (cinq cent cinquante mille euros), net vendeur, payable comptant le jour de la réitération par acte authentique.</p>
+ 
+        <h2>Article 4 — Indemnité d'immobilisation</h2>
+        <p>En contrepartie de l'immobilisation du bien, le Bénéficiaire verse ce jour au Promettant une indemnité d'immobilisation de <span class="field">___________</span> €, représentant <span class="field">____</span>% du prix de vente. Cette somme sera imputée sur le prix en cas de réalisation de la vente, ou conservée par le Promettant en cas de renonciation du Bénéficiaire.</p>
+ 
+        <h2>Article 5 — Délai d'option</h2>
+        <p>Le Bénéficiaire dispose d'un délai d'option pour lever la promesse jusqu'au : <span class="field">__/__/____</span>. Passé ce délai sans levée d'option, la promesse devient caduque de plein droit et le Promettant est libéré de tout engagement.</p>
+ 
+        <h2>Article 6 — Conditions suspensives</h2>
+        <p>La présente promesse est consentie sous les conditions suspensives suivantes :<br>
+        □ Obtention d'un prêt immobilier d'un montant minimum de <span class="field">___________</span> € au taux maximum de <span class="field">____</span>%<br>
+        □ Absence de droit de préemption urbain exercé par la commune<br>
+        □ <span class="field">Autre condition éventuelle</span></p>
+ 
+        <h2>Article 7 — Acte authentique</h2>
+        <p>La vente sera réitérée par acte authentique devant Maître <span class="field">___________</span>, notaire à <span class="field">___________</span>, au plus tard le <span class="field">__/__/____</span>.</p>
+ 
+        <h2>Article 8 — Diagnostics techniques</h2>
+        <p>Le Dossier de Diagnostics Techniques (DDT) est annexé à la présente promesse, conformément à l'Art. L271-4 CCH (loi ALUR). Il comprend notamment : DPE, amiante (avant juillet 1997), plomb (avant 1949), électricité, gaz, ERP, assainissement, termites (si zone à risque).</p>
+ 
+        <div class="sig-block">
+          <div class="sig-box"><div class="sig-lbl">Le Promettant (Vendeur)</div><div class="sig-zone"></div><div style="font-size:11px;color:var(--text3)">Signature précédée de la mention<br>« Lu et approuvé »</div></div>
+          <div class="sig-box"><div class="sig-lbl">Le Bénéficiaire (Acheteur)</div><div class="sig-zone"></div><div style="font-size:11px;color:var(--text3)">Signature précédée de la mention<br>« Lu et approuvé »</div></div>
+        </div>
+        <div class="note-bas"><i class="ti ti-info-circle" style="font-size:12px"></i> <strong>Rappel légal :</strong> Le Bénéficiaire dispose d'un délai de rétractation de 10 jours à compter de la notification de la promesse (Art. L271-1 CCH — loi SRU). Pendant ce délai, aucune somme ne peut lui être réclamée.</div>
+      </div>
+    </div>
+    <div class="mft">
+      <button class="btn-s2" onclick="document.getElementById('overlay-contrat-pvu').classList.remove('open')">Fermer</button>
+      <button class="btn-p2" onclick="printContrat('overlay-contrat-pvu')"><i class="ti ti-printer" style="font-size:11px"></i> Imprimer / Sauvegarder</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- MODAL 2 — COMPROMIS DE VENTE -->
+<div class="overlay" id="overlay-contrat-compromis" onclick="cm('overlay-contrat-compromis',event)">
+  <div class="modal modal-lg" onclick="event.stopPropagation()" style="max-width:640px">
+    <div class="mhd">
+      <div class="mtitle"><i class="ti ti-file-text" style="font-size:15px;color:var(--t)"></i> Compromis de vente — Modèle type</div>
+      <button class="mclose" onclick="document.getElementById('overlay-contrat-compromis').classList.remove('open')"><i class="ti ti-x" style="font-size:13px"></i></button>
+    </div>
+    <div class="mbody">
+      <div style="background:var(--g50);border-radius:var(--radius-sm);padding:8px 12px;font-size:11px;color:var(--g800);margin-bottom:16px;display:flex;gap:7px;align-items:flex-start"><i class="ti ti-alert-circle" style="font-size:13px;flex-shrink:0"></i><div>Modèle indicatif — à adapter et à faire signer devant notaire pour tout acte définitif</div></div>
+      <div class="contrat-doc">
+        <h1>Compromis de vente</h1>
+        <p style="text-align:center;font-size:12px;color:var(--text2)">Promesse synallagmatique — Art. 1589 Code civil</p>
+ 
+        <h2>Entre les soussignés</h2>
+        <p><strong>Le vendeur :</strong> <span class="field">Roger Vluys</span>, demeurant <span class="field">adresse complète</span>, ci-après « le Vendeur »</p>
+        <p><strong>L'acquéreur :</strong> <span class="field">Nom Prénom</span>, demeurant <span class="field">adresse complète</span>, ci-après « l'Acquéreur »</p>
+ 
+        <h2>Article 1 — Désignation du bien</h2>
+        <p>Maison d'habitation sise <span class="field">Erdeven (56410)</span>, surface <span class="field">169 m²</span>, terrain <span class="field">800 m²</span>, références cadastrales <span class="field">___________</span>.</p>
+ 
+        <h2>Article 2 — Prix et modalités de paiement</h2>
+        <p>La vente est consentie et acceptée moyennant le prix de <span class="field">550 000 €</span>, payable comptant à la date de signature de l'acte authentique. Un dépôt de garantie de <span class="field">___________</span> € est versé à la signature du présent compromis, séquestré chez le notaire.</p>
+ 
+        <h2>Article 3 — Conditions suspensives</h2>
+        <p>Le présent compromis est conclu sous les conditions suspensives suivantes :<br>
+        □ Obtention par l'Acquéreur d'un ou plusieurs prêts d'un montant de <span class="field">___________</span> € minimum au taux de <span class="field">____</span>% maximum sur <span class="field">____</span> ans, dans un délai de <span class="field">45</span> jours<br>
+        □ Absence d'exercice du droit de préemption par la commune dans un délai de <span class="field">2</span> mois<br>
+        □ <span class="field">Autre condition</span></p>
+ 
+        <h2>Article 4 — Délai de rétractation (loi SRU)</h2>
+        <p>Conformément à l'Art. L271-1 CCH, l'Acquéreur dispose d'un <strong>délai de rétractation de 10 jours</strong> à compter de la notification du présent acte. Durant ce délai, aucune somme ne peut être exigée de l'Acquéreur.</p>
+ 
+        <h2>Article 5 — Réitération par acte authentique</h2>
+        <p>La vente sera réitérée devant Maître <span class="field">___________</span>, notaire à <span class="field">___________</span>, au plus tard le <span class="field">__/__/____</span>. À défaut, chaque partie pourra contraindre l'autre à exécuter la vente par voie judiciaire ou demander la résolution avec dommages-intérêts.</p>
+ 
+        <h2>Article 6 — Diagnostics</h2>
+        <p>Le DDT est annexé au présent compromis conformément à la loi ALUR. Il comprend : DPE, amiante, électricité, gaz, ERP, assainissement (obligatoire qu'il soit raccordé ou non), termites si zone à risque.</p>
+ 
+        <div class="sig-block">
+          <div class="sig-box"><div class="sig-lbl">Le Vendeur</div><div class="sig-zone"></div><div style="font-size:11px;color:var(--text3)">Lu et approuvé · Date et lieu</div></div>
+          <div class="sig-box"><div class="sig-lbl">L'Acquéreur</div><div class="sig-zone"></div><div style="font-size:11px;color:var(--text3)">Lu et approuvé · Date et lieu</div></div>
+        </div>
+        <div class="note-bas"><strong>Attention :</strong> Le compromis engage les deux parties dès signature. Le Vendeur ne peut plus se rétracter une fois le délai SRU de l'Acquéreur expiré.</div>
+      </div>
+    </div>
+    <div class="mft">
+      <button class="btn-s2" onclick="document.getElementById('overlay-contrat-compromis').classList.remove('open')">Fermer</button>
+      <button class="btn-p2" onclick="printContrat('overlay-contrat-compromis')"><i class="ti ti-printer" style="font-size:11px"></i> Imprimer / Sauvegarder</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- MODAL 3 — CONDITIONS SUSPENSIVES -->
+<div class="overlay" id="overlay-contrat-cs" onclick="cm('overlay-contrat-cs',event)">
+  <div class="modal modal-lg" onclick="event.stopPropagation()" style="max-width:640px">
+    <div class="mhd">
+      <div class="mtitle"><i class="ti ti-file-text" style="font-size:15px;color:var(--t)"></i> Conditions suspensives type</div>
+      <button class="mclose" onclick="document.getElementById('overlay-contrat-cs').classList.remove('open')"><i class="ti ti-x" style="font-size:13px"></i></button>
+    </div>
+    <div class="mbody">
+      <div style="background:var(--g50);border-radius:var(--radius-sm);padding:8px 12px;font-size:11px;color:var(--g800);margin-bottom:16px;display:flex;gap:7px;align-items:flex-start"><i class="ti ti-alert-circle" style="font-size:13px;flex-shrink:0"></i><div>Clauses à insérer dans votre compromis ou promesse — à adapter à chaque situation</div></div>
+      <div class="contrat-doc">
+        <h1>Conditions suspensives — Clauses types</h1>
+        <p style="text-align:center;font-size:12px;color:var(--text2)">Art. 1304 et suivants du Code civil</p>
+ 
+        <h2>1. Condition suspensive d'obtention de prêt</h2>
+        <p>La présente vente est conclue sous la condition suspensive de l'obtention par l'Acquéreur d'un ou plusieurs prêts immobiliers répondant aux caractéristiques suivantes :</p>
+        <p>— Montant minimum : <span class="field">___________</span> €<br>
+        — Taux d'intérêt annuel maximum (hors assurance) : <span class="field">____</span> %<br>
+        — Durée maximale : <span class="field">____</span> ans<br>
+        — Établissement prêteur : <span class="field">au choix de l'Acquéreur</span></p>
+        <p>L'Acquéreur s'engage à déposer ses demandes de prêt dans un délai de <span class="field">10</span> jours ouvrés à compter de la signature du présent acte et à notifier au Vendeur la décision de l'établissement prêteur dans un délai de <span class="field">45</span> jours.</p>
+        <p class="art">Réf. : Art. L313-41 Code de la consommation — toute clause pénalisant l'Acquéreur en cas de non-obtention du prêt est réputée non écrite.</p>
+ 
+        <h2>2. Condition suspensive d'absence de préemption</h2>
+        <p>La présente vente est conclue sous la condition suspensive de non-exercice par les titulaires d'un droit de préemption (commune, SAFER, locataire en place) de ce droit dans les délais légaux à compter de la déclaration d'intention d'aliéner (DIA). Le Vendeur s'engage à notifier la DIA dans les <span class="field">5</span> jours ouvrés suivant la signature.</p>
+        <p class="art">Réf. : Art. L211-1 Code de l'urbanisme (DPU) — Art. L143-1 Code rural (SAFER)</p>
+ 
+        <h2>3. Condition suspensive d'obtention de permis</h2>
+        <p>La présente vente est conclue sous la condition suspensive de l'obtention d'un permis de <span class="field">construire / démolir / diviser</span> pour le bien objet de la vente, dans un délai de <span class="field">____</span> mois à compter de la signature. L'Acquéreur s'engage à déposer la demande dans un délai de <span class="field">____</span> jours.</p>
+ 
+        <h2>4. Clause de substitution</h2>
+        <p>L'Acquéreur se réserve expressément la faculté de se substituer toute personne physique ou morale de son choix pour la réalisation de la vente, sans que cette substitution ne modifie les conditions de prix et de paiement convenues.</p>
+ 
+        <h2>5. Condition résolutoire en cas de non-réalisation</h2>
+        <p>Dans le cas où l'une des conditions suspensives ci-dessus ne serait pas réalisée dans les délais impartis, la vente sera résolue de plein droit, sans indemnité de part ni d'autre, et les sommes versées par l'Acquéreur lui seront immédiatement restituées.</p>
+        <div class="note-bas">Ces clauses sont à insérer dans votre compromis. Leur rédaction définitive doit être validée par votre notaire qui adaptera les délais et conditions à votre situation précise.</div>
+      </div>
+    </div>
+    <div class="mft">
+      <button class="btn-s2" onclick="document.getElementById('overlay-contrat-cs').classList.remove('open')">Fermer</button>
+      <button class="btn-p2" onclick="printContrat('overlay-contrat-cs')"><i class="ti ti-printer" style="font-size:11px"></i> Imprimer / Sauvegarder</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- MODAL 4 — DÉCLARATION TRAVAUX VENDEUR -->
+<div class="overlay" id="overlay-contrat-travaux" onclick="cm('overlay-contrat-travaux',event)">
+  <div class="modal modal-lg" onclick="event.stopPropagation()" style="max-width:640px">
+    <div class="mhd">
+      <div class="mtitle"><i class="ti ti-file-text" style="font-size:15px;color:var(--t)"></i> Déclaration travaux vendeur — Adapté Erdeven</div>
+      <button class="mclose" onclick="document.getElementById('overlay-contrat-travaux').classList.remove('open')"><i class="ti ti-x" style="font-size:13px"></i></button>
+    </div>
+    <div class="mbody">
+      <div style="background:var(--t50);border-radius:var(--radius-sm);padding:8px 12px;font-size:11px;color:var(--t800);margin-bottom:16px;display:flex;gap:7px;align-items:flex-start"><i class="ti ti-home-check" style="font-size:13px;flex-shrink:0"></i><div>Ce modèle est pré-rempli pour votre maison d'Erdeven (169m², avant 1997) — à compléter avec vos travaux réels</div></div>
+      <div class="contrat-doc">
+        <h1>Déclaration des travaux réalisés par le vendeur</h1>
+        <p style="text-align:center;font-size:12px;color:var(--text2)">Art. 1641 Code civil — Garantie des vices cachés<br>À annexer à la promesse de vente ou au compromis</p>
+ 
+        <h2>Identité du vendeur</h2>
+        <p>Je soussigné(e) <span class="field">Roger Vluys</span>, propriétaire de la maison sise à <span class="field">Erdeven (56410)</span>, déclare avoir réalisé les travaux suivants sur ledit bien :</p>
+ 
+        <h2>Travaux réalisés — Liste détaillée</h2>
+        <p><strong>① Isolation</strong><br>
+        Nature : <span class="field">Isolation des combles perdus / murs / plancher bas</span><br>
+        Réalisé par : <span class="field">Nom artisan + SIRET</span><br>
+        Date : <span class="field">__/__/____</span> — Montant : <span class="field">___________</span> €<br>
+        N° garantie décennale : <span class="field">___________</span> — Aide perçue : <span class="field">MaPrimeRénov' / CEE</span></p>
+ 
+        <p><strong>② PAC / Chauffage</strong><br>
+        Nature : <span class="field">Pompe à chaleur air/eau / poêle à granulés</span><br>
+        Réalisé par : <span class="field">Nom artisan + SIRET</span><br>
+        Date : <span class="field">__/__/____</span> — Montant : <span class="field">___________</span> €<br>
+        N° garantie décennale : <span class="field">___________</span></p>
+ 
+        <p><strong>③ VMC</strong><br>
+        Nature : <span class="field">Ventilation mécanique contrôlée double flux</span><br>
+        Réalisé par : <span class="field">Nom artisan + SIRET</span><br>
+        Date : <span class="field">__/__/____</span> — Montant : <span class="field">___________</span> €</p>
+ 
+        <p><strong>④ Cuisine / Salle(s) de bains</strong><br>
+        Nature : <span class="field">Rénovation cuisine / SDB principale / SDB secondaire</span><br>
+        Réalisé par : <span class="field">Nom artisan + SIRET</span><br>
+        Date : <span class="field">__/__/____</span> — Montant : <span class="field">___________</span> €</p>
+ 
+        <p><strong>⑤ Autres travaux</strong><br>
+        <span class="field-block">Décrire ici tout autre travaux significatif réalisé sur le bien</span></p>
+ 
+        <h2>Défauts et réserves connus</h2>
+        <p>Je déclare, en application de l'Art. 1641 Code civil, ne pas avoir connaissance de vices cachés affectant le bien, à l'exception de ce qui suit :</p>
+        <span class="field-block">Décrire tout défaut connu, même apparent (humidité, fissure, problème de voisinage, servitude...) ou indiquer « Néant » si aucun défaut connu</span>
+ 
+        <h2>Déclarations complémentaires</h2>
+        <p>□ Le bien n'a pas subi d'inondation à ma connaissance<br>
+        □ Il n'existe pas de litige en cours concernant ce bien<br>
+        □ Il n'existe pas de servitude non mentionnée au titre de propriété<br>
+        □ Les travaux listés ci-dessus ont été réalisés par des artisans qualifiés et couverts par une assurance décennale</p>
+ 
+        <div class="sig-block">
+          <div class="sig-box"><div class="sig-lbl">Le Vendeur</div><div class="sig-zone"></div><div style="font-size:11px;color:var(--text3)">Lu et approuvé · Date et lieu<br>Signature précédée de « Certifié sincère et véritable »</div></div>
+          <div class="sig-box"><div class="sig-lbl">L'Acquéreur</div><div class="sig-zone"></div><div style="font-size:11px;color:var(--text3)">Lu et approuvé · Prise de connaissance<br>Date et lieu</div></div>
+        </div>
+        <div class="note-bas"><strong>Important :</strong> Toute fausse déclaration ou omission volontaire d'un défaut connu peut entraîner la nullité de la vente ou une action en réduction du prix dans un délai de 2 ans après la découverte du vice (Art. 1648 Code civil).</div>
+      </div>
+    </div>
+    <div class="mft">
+      <button class="btn-s2" onclick="document.getElementById('overlay-contrat-travaux').classList.remove('open')">Fermer</button>
+      <button class="btn-p2" onclick="printContrat('overlay-contrat-travaux')"><i class="ti ti-printer" style="font-size:11px"></i> Imprimer / Sauvegarder</button>
+    </div>
+  </div>
+</div>
+ 
+<script>
+function printContrat(id){
+  const modal = document.querySelector('#'+id+' .contrat-doc');
+  if(!modal) return;
+  const w = window.open('','_blank');
+  w.document.write('<html><head><title>Contrat IMMATCH</title><style>body{font-family:Georgia,serif;font-size:13px;line-height:1.8;color:#1a1a1a;max-width:700px;margin:30px auto;padding:0 20px}h1{font-size:16px;font-weight:700;text-align:center;margin-bottom:4px;text-transform:uppercase}h2{font-size:13px;font-weight:700;margin:16px 0 6px;text-transform:uppercase;border-bottom:1px solid #ddd;padding-bottom:4px;color:#555}p{margin-bottom:8px;text-align:justify}.field{background:#f5f5f3;border:1px dashed #ccc;border-radius:3px;padding:1px 6px;font-style:italic;color:#888;display:inline-block;min-width:100px}.field-block{background:#f5f5f3;border:1px dashed #ccc;border-radius:3px;padding:6px 10px;font-style:italic;color:#888;display:block;margin:4px 0;min-height:28px}.sig-block{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}.sig-box{border:1px solid #ddd;border-radius:6px;padding:12px;text-align:center}.sig-lbl{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;margin-bottom:8px}.sig-zone{height:50px;border-bottom:1px solid #ddd;margin-bottom:6px}.note-bas{background:#f5f5f3;border-radius:6px;padding:8px 10px;font-size:11px;color:#888;margin-top:16px;line-height:1.5}.art{font-size:11px;color:#999;font-style:italic}@media print{body{margin:10px}}</style></head><body>');
+  w.document.write(modal.innerHTML);
+  w.document.write('</body></html>');
+  w.document.close();
+  w.focus();
+  setTimeout(()=>w.print(), 500);
+}
+</script>
+ 
 </body>
 </html>
