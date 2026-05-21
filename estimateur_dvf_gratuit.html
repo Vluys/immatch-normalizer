@@ -35,7 +35,7 @@ body{
 /* HERO HEADER */
 .hero{
   background:var(--dark);
-  padding:28px 32px 0;
+  padding:36px 32px 0;
   text-align:center;
   border-bottom:1px solid rgba(201,168,76,0.2);
 }
@@ -44,18 +44,18 @@ body{
   align-items:center;
   justify-content:center;
   gap:16px;
-  margin-bottom:12px;
+  margin-bottom:16px;
 }
 .logo-img{
-  height:64px;
+  height:100px;
   width:auto;
 }
 .hero-tagline{
-  font-size:13px;
-  color:rgba(255,255,255,0.45);
-  letter-spacing:1.5px;
+  font-size:14px;
+  color:rgba(255,255,255,0.70);
+  letter-spacing:2px;
   text-transform:uppercase;
-  font-weight:300;
+  font-weight:400;
   margin-bottom:20px;
 }
 .hero-tabs{
@@ -670,7 +670,7 @@ footer span{color:var(--gold);opacity:0.6;}
   <div class="sec" style="background:var(--dark2);border-color:rgba(201,168,76,0.2);">
     <div class="sec-title" style="color:rgba(255,255,255,0.5);"><i class="ti ti-phone"></i>Être rappelé par un expert</div>
     <div style="margin-bottom:16px;font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;">
-      Notre équipe de mandataires vous accompagne pour vendre au meilleur prix. Réponse sous 24h.
+      Vous souhaitez une étude, un avis ou un accompagnement professionnel ? Profitez de nos avantages, vous serez recontacté(e) sous 24h.
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
       <div class="fld">
@@ -688,11 +688,18 @@ footer span{color:var(--gold);opacity:0.6;}
     </div>
     <div class="fld" style="margin-bottom:16px;">
       <label class="lbl" style="color:rgba(255,255,255,0.45);margin-bottom:5px;">Votre projet</label>
-      <select class="sel" id="c-projet" style="background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.12);color:#fff;">
-        <option value="vendre">Je veux vendre mon bien</option>
-        <option value="estimer">Je veux une estimation précise</option>
-        <option value="acheter">Je cherche à acheter</option>
-        <option value="autre">Autre demande</option>
+      <select class="sel" id="c-projet" style="background:#1c1c1e;border-color:rgba(255,255,255,0.12);color:#fff;">
+        <option value="" disabled selected style="color:#888;background:#1c1c1e;">-- Choisissez votre projet --</option>
+        <option value="vendre" style="color:#fff;background:#1c1c1e;">Je veux vendre mon bien</option>
+        <option value="acheter" style="color:#fff;background:#1c1c1e;">Je cherche à acheter</option>
+        <option value="louer" style="color:#fff;background:#1c1c1e;">Je cherche à louer</option>
+        <option value="louer_out" style="color:#fff;background:#1c1c1e;">Je veux mettre mon bien en location</option>
+        <option value="estimer" style="color:#fff;background:#1c1c1e;">Je souhaite une étude de valeur</option>
+        <option value="travaux" style="color:#fff;background:#1c1c1e;">Artisans / devis travaux</option>
+        <option value="diagnostics" style="color:#fff;background:#1c1c1e;">Diagnostics / DPE</option>
+        <option value="financement" style="color:#fff;background:#1c1c1e;">Financement / courtier</option>
+        <option value="demenagement" style="color:#fff;background:#1c1c1e;">Déménagement</option>
+        <option value="autre" style="color:#fff;background:#1c1c1e;">Autre demande</option>
       </select>
     </div>
     <button class="lead-btn" onclick="submitContact()" style="margin-top:4px;">
