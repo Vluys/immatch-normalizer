@@ -1,0 +1,496 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+.r{font-family:'DM Sans',sans-serif;color:var(--color-text-primary);max-width:680px;padding:0 0 2rem;}
+.hdr{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:1rem;}
+.logo{width:42px;height:42px;background:#1B4332;border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo i{font-size:20px;color:#74C69D;}
+.htitle{font-family:'Playfair Display',serif;font-size:19px;font-weight:500;}
+.hsub{font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
+.badge{margin-left:auto;background:#EAF3DE;color:#27500A;font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+.sec{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.1rem;margin-bottom:.9rem;}
+.stitle{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.9rem;display:flex;align-items:center;gap:6px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.fld{display:flex;flex-direction:column;gap:5px;}
+.lbl{font-size:12px;color:var(--color-text-secondary);}
+.inp,.sel{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--color-text-primary);background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:8px 11px;width:100%;outline:none;transition:border-color .15s;}
+.inp:focus,.sel:focus{border-color:#1B4332;box-shadow:0 0 0 2px rgba(27,67,50,.1);}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+.tbtn{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:9px 4px;background:var(--color-background-primary);cursor:pointer;text-align:center;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.tbtn i{font-size:19px;color:var(--color-text-secondary);}
+.tbtn span{font-size:11px;color:var(--color-text-secondary);font-family:'DM Sans',sans-serif;}
+.tbtn.active{border:1.5px solid #1B4332;background:#EAF3DE;}
+.tbtn.active i,.tbtn.active span{color:#1B4332;}
+.srow{display:flex;align-items:center;gap:10px;margin-top:3px;}
+.sl{flex:1;-webkit-appearance:none;height:4px;background:var(--color-border-secondary);border-radius:2px;outline:none;}
+.sl::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:#1B4332;cursor:pointer;border:2px solid var(--color-background-primary);box-shadow:0 0 0 1px #1B4332;}
+.sv{font-size:14px;font-weight:500;color:#1B4332;min-width:34px;text-align:right;}
+.chkgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.chi{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--color-text-secondary);cursor:pointer;padding:6px 9px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);transition:all .15s;}
+.chi:hover{border-color:var(--color-border-secondary);}
+.chi.checked{border-color:#1B4332;background:#EAF3DE;color:#1B4332;}
+.chi input{display:none;}
+.chico{width:15px;height:15px;border:1.5px solid var(--color-border-secondary);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.checked .chico{background:#1B4332;border-color:#1B4332;}
+.checked .chico::after{content:'';width:7px;height:4px;border-left:1.5px solid white;border-bottom:1.5px solid white;transform:rotate(-45deg) translateY(-1px);}
+.sbtn{width:100%;padding:13px;background:#1B4332;color:white;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;border:none;border-radius:var(--border-radius-lg);cursor:pointer;transition:background .15s,transform .1s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:1.25rem;}
+.sbtn:hover{background:#144129;}
+.sbtn:active{transform:scale(.99);}
+.sbtn:disabled{background:var(--color-border-secondary);cursor:not-allowed;}
+.loading{display:none;padding:1.5rem;text-align:center;color:var(--color-text-secondary);font-size:13px;}
+.dots{display:inline-flex;gap:4px;margin-right:6px;vertical-align:middle;}
+.dots span{width:6px;height:6px;background:#52B788;border-radius:50%;animation:dp 1.2s ease-in-out infinite;}
+.dots span:nth-child(2){animation-delay:.2s;}
+.dots span:nth-child(3){animation-delay:.4s;}
+@keyframes dp{0%,80%,100%{opacity:.3;transform:scale(.8);}40%{opacity:1;transform:scale(1);}}
+.res{display:none;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-top:.9rem;}
+.reshdr{background:#1B4332;padding:1.1rem 1.25rem;display:flex;align-items:center;gap:10px;}
+.reshdr i{font-size:19px;color:#74C69D;}
+.restitle{font-family:'Playfair Display',serif;color:white;font-size:15px;font-weight:500;}
+.resaddr{font-size:12px;color:#74C69D;margin-top:1px;}
+.resbody{padding:1.1rem 1.25rem;}
+.pmain{font-family:'Playfair Display',serif;font-size:34px;font-weight:600;color:#1B4332;}
+.prange{font-size:13px;color:var(--color-text-secondary);margin:.25rem 0 .8rem;}
+.cbar-row{display:flex;align-items:center;gap:8px;margin-bottom:1rem;}
+.cbar{flex:1;height:5px;background:var(--color-border-tertiary);border-radius:3px;overflow:hidden;}
+.cfill{height:100%;background:#52B788;border-radius:3px;transition:width 1s ease;}
+.mets{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:1rem;}
+.met{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:9px 11px;}
+.metl{font-size:11px;color:var(--color-text-secondary);margin-bottom:3px;}
+.metv{font-size:14px;font-weight:500;color:var(--color-text-primary);}
+.txts{font-size:13px;line-height:1.7;color:var(--color-text-secondary);border-top:0.5px solid var(--color-border-tertiary);padding-top:.9rem;}
+.txts p{margin-bottom:.6rem;}
+.txts p:last-child{margin-bottom:0;}
+.ctarow{display:flex;gap:9px;margin-top:.9rem;}
+.ctabtn{flex:1;padding:9px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;border-radius:var(--border-radius-md);cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px;}
+.cta1{background:#1B4332;color:white;border:none;}
+.cta1:hover{background:#144129;}
+.cta2{background:transparent;color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);}
+.cta2:hover{background:var(--color-background-secondary);}
+.dvf-src{font-size:11px;color:var(--color-text-secondary);text-align:center;margin-top:.75rem;display:flex;align-items:center;justify-content:center;gap:4px;}
+.warn{background:#FAEEDA;border:0.5px solid #FAC775;border-radius:var(--border-radius-md);padding:10px 14px;font-size:12px;color:#633806;margin-bottom:.9rem;display:none;align-items:center;gap:7px;}
+.addr-sug{position:relative;}
+.sugs{position:absolute;top:100%;left:0;right:0;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);z-index:10;max-height:200px;overflow-y:auto;display:none;}
+.sug-item{padding:9px 12px;font-size:13px;cursor:pointer;border-bottom:0.5px solid var(--color-border-tertiary);transition:background .1s;}
+.sug-item:last-child{border-bottom:none;}
+.sug-item:hover{background:var(--color-background-secondary);}
+.sug-main{font-weight:500;color:var(--color-text-primary);}
+.sug-sub{font-size:11px;color:var(--color-text-secondary);margin-top:1px;}
+</style>
+
+<h2 class="sr-only">Estimateur immobilier gratuit basé sur les données DVF — transactions réelles en France</h2>
+
+<div class="r">
+  <div class="hdr">
+    <div class="logo"><i class="ti ti-building-estate" aria-hidden="true"></i></div>
+    <div>
+      <div class="htitle">Estimation Immobilière</div>
+      <div class="hsub">Basée sur les vraies transactions DVF — données gouvernementales</div>
+    </div>
+    <div class="badge"><i class="ti ti-database" aria-hidden="true"></i> 100% Gratuit</div>
+  </div>
+
+  <div class="warn" id="warnBox">
+    <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+    <span id="warnMsg"></span>
+  </div>
+
+  <div class="sec">
+    <div class="stitle"><i class="ti ti-map-pin" aria-hidden="true"></i> Localisation</div>
+    <div class="fld addr-sug">
+      <label class="lbl">Adresse complète (autocomplétion)</label>
+      <input class="inp" id="adresse" type="text" placeholder="Commencez à taper : 12 rue de la Paix Paris..." autocomplete="off" oninput="suggestAdresse(this.value)" />
+      <div class="sugs" id="sugs"></div>
+    </div>
+    <div class="g2" style="margin-top:9px;">
+      <div class="fld">
+        <label class="lbl">Commune détectée</label>
+        <input class="inp" id="commune" type="text" placeholder="Détectée automatiquement..." readonly style="background:var(--color-background-secondary);color:var(--color-text-secondary);" />
+      </div>
+      <div class="fld">
+        <label class="lbl">Code postal</label>
+        <input class="inp" id="codepostal" type="text" placeholder="75002" maxlength="5" oninput="onCpChange()" />
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="stitle"><i class="ti ti-home" aria-hidden="true"></i> Type de bien</div>
+    <div class="tgrid" id="typeGrid">
+      <button class="tbtn active" data-val="Appartement" onclick="selType(this)"><i class="ti ti-building" aria-hidden="true"></i><span>Appartement</span></button>
+      <button class="tbtn" data-val="Maison" onclick="selType(this)"><i class="ti ti-home" aria-hidden="true"></i><span>Maison</span></button>
+      <button class="tbtn" data-val="Villa" onclick="selType(this)"><i class="ti ti-smart-home" aria-hidden="true"></i><span>Villa</span></button>
+      <button class="tbtn" data-val="Studio" onclick="selType(this)"><i class="ti ti-bed" aria-hidden="true"></i><span>Studio</span></button>
+      <button class="tbtn" data-val="Loft" onclick="selType(this)"><i class="ti ti-building-warehouse" aria-hidden="true"></i><span>Loft</span></button>
+      <button class="tbtn" data-val="Terrain" onclick="selType(this)"><i class="ti ti-trees" aria-hidden="true"></i><span>Terrain</span></button>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="stitle"><i class="ti ti-ruler" aria-hidden="true"></i> Caractéristiques</div>
+    <div class="g2" style="margin-bottom:.9rem;">
+      <div class="fld">
+        <label class="lbl">Surface (m²)</label>
+        <div class="srow">
+          <input type="range" class="sl" id="surface" min="10" max="500" value="70" step="1" oninput="document.getElementById('sv').textContent=this.value" />
+          <span class="sv" id="sv">70</span>
+        </div>
+      </div>
+      <div class="fld">
+        <label class="lbl">Pièces</label>
+        <div class="srow">
+          <input type="range" class="sl" id="pieces" min="1" max="12" value="3" step="1" oninput="document.getElementById('pv').textContent=this.value" />
+          <span class="sv" id="pv">3</span>
+        </div>
+      </div>
+    </div>
+    <div class="g3">
+      <div class="fld">
+        <label class="lbl">État général</label>
+        <select class="sel" id="etat">
+          <option value="neuf">Neuf / Rénové</option>
+          <option value="bon" selected>Bon état</option>
+          <option value="moyen">État moyen</option>
+          <option value="travaux">Travaux</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label class="lbl">DPE</label>
+        <select class="sel" id="dpe">
+          <option value="A">A</option><option value="B">B</option><option value="C" selected>C</option>
+          <option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label class="lbl">Année construction</label>
+        <select class="sel" id="annee">
+          <option value="avant1900">Av. 1900</option>
+          <option value="1900-1950">1900–1950</option>
+          <option value="1950-1970">1950–1970</option>
+          <option value="1970-1990" selected>1970–1990</option>
+          <option value="1990-2010">1990–2010</option>
+          <option value="2010+">2010+</option>
+          <option value="neuf">Neuf</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="stitle"><i class="ti ti-star" aria-hidden="true"></i> Atouts</div>
+    <div class="chkgrid">
+      <label class="chi" onclick="toggleCh(this)"><input type="checkbox" value="parking"/><div class="chico"></div><i class="ti ti-car" aria-hidden="true"></i> Parking / Garage</label>
+      <label class="chi" onclick="toggleCh(this)"><input type="checkbox" value="balcon"/><div class="chico"></div><i class="ti ti-building-arch" aria-hidden="true"></i> Balcon / Terrasse</label>
+      <label class="chi" onclick="toggleCh(this)"><input type="checkbox" value="cave"/><div class="chico"></div><i class="ti ti-box" aria-hidden="true"></i> Cave / Cellier</label>
+      <label class="chi" onclick="toggleCh(this)"><input type="checkbox" value="jardin"/><div class="chico"></div><i class="ti ti-trees" aria-hidden="true"></i> Jardin</label>
+      <label class="chi" onclick="toggleCh(this)"><input type="checkbox" value="piscine"/><div class="chico"></div><i class="ti ti-wave-sine" aria-hidden="true"></i> Piscine</label>
+      <label class="chi" onclick="toggleCh(this)"><input type="checkbox" value="vue"/><div class="chico"></div><i class="ti ti-eye" aria-hidden="true"></i> Vue dégagée</label>
+    </div>
+  </div>
+
+  <button class="sbtn" id="submitBtn" onclick="estimer()">
+    <i class="ti ti-calculator" aria-hidden="true"></i>
+    Estimer avec les données DVF
+  </button>
+
+  <div class="loading" id="loadingBox">
+    <div style="margin-bottom:8px;"><div class="dots"><span></span><span></span><span></span></div><span id="lstep">Recherche des transactions DVF...</span></div>
+    <div style="font-size:11px;color:var(--color-text-secondary);">Données en temps réel — gouvernement français</div>
+  </div>
+
+  <div class="res" id="resBox">
+    <div class="reshdr">
+      <i class="ti ti-chart-bar" aria-hidden="true"></i>
+      <div>
+        <div class="restitle">Estimation de votre bien</div>
+        <div class="resaddr" id="resAddr"></div>
+      </div>
+    </div>
+    <div class="resbody">
+      <div style="display:flex;align-items:baseline;gap:7px;margin-bottom:.2rem;">
+        <span class="pmain" id="prixMain"></span>
+        <span style="font-size:14px;color:var(--color-text-secondary);">€</span>
+      </div>
+      <div class="prange" id="prixRange"></div>
+      <div class="cbar-row">
+        <span style="font-size:12px;color:var(--color-text-secondary);">Fiabilité</span>
+        <div class="cbar"><div class="cfill" id="cfill" style="width:0%"></div></div>
+        <span style="font-size:12px;color:var(--color-text-secondary);" id="clabel"></span>
+      </div>
+      <div class="mets" id="mets"></div>
+      <div class="txts" id="txts"></div>
+      <div class="ctarow">
+        <button class="ctabtn cta1" onclick="sendPrompt('J\'ai une estimation de mon bien. Je souhaite maintenant des conseils pour vendre rapidement au meilleur prix et comprendre les étapes avec un mandataire immobilier.')">
+          <i class="ti ti-rocket" aria-hidden="true"></i> Stratégie de vente ↗
+        </button>
+        <button class="ctabtn cta2" onclick="reset()">
+          <i class="ti ti-refresh" aria-hidden="true"></i> Nouvelle estimation
+        </button>
+      </div>
+      <div class="dvf-src">
+        <i class="ti ti-database" style="font-size:13px;" aria-hidden="true"></i>
+        Source : DVF — Demandes de Valeurs Foncières — data.gouv.fr
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let selTyp = 'Appartement';
+let geoLat = null, geoLon = null, cpDetected = '';
+let sugTimeout = null;
+
+function selType(btn) {
+  document.querySelectorAll('.tbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selTyp = btn.dataset.val;
+}
+
+function toggleCh(lbl) { lbl.classList.toggle('checked'); }
+
+function showWarn(msg) {
+  const w = document.getElementById('warnBox');
+  document.getElementById('warnMsg').textContent = msg;
+  w.style.display = 'flex';
+}
+
+function hideWarn() { document.getElementById('warnBox').style.display = 'none'; }
+
+async function suggestAdresse(val) {
+  clearTimeout(sugTimeout);
+  const sugs = document.getElementById('sugs');
+  if (val.length < 4) { sugs.style.display = 'none'; return; }
+  sugTimeout = setTimeout(async () => {
+    try {
+      const r = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(val)}&limit=5&type=housenumber,street,municipality`);
+      const d = await r.json();
+      sugs.innerHTML = '';
+      if (!d.features || !d.features.length) { sugs.style.display = 'none'; return; }
+      d.features.forEach(f => {
+        const div = document.createElement('div');
+        div.className = 'sug-item';
+        div.innerHTML = `<div class="sug-main">${f.properties.label}</div><div class="sug-sub">${f.properties.context}</div>`;
+        div.onclick = () => {
+          document.getElementById('adresse').value = f.properties.label;
+          document.getElementById('commune').value = f.properties.city || f.properties.municipality || '';
+          document.getElementById('codepostal').value = f.properties.postcode || '';
+          cpDetected = f.properties.postcode || '';
+          geoLat = f.geometry.coordinates[1];
+          geoLon = f.geometry.coordinates[0];
+          sugs.style.display = 'none';
+          hideWarn();
+        };
+        sugs.appendChild(div);
+      });
+      sugs.style.display = 'block';
+    } catch(e) { sugs.style.display = 'none'; }
+  }, 300);
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.addr-sug')) document.getElementById('sugs').style.display = 'none';
+});
+
+async function onCpChange() {
+  const cp = document.getElementById('codepostal').value;
+  if (cp.length === 5) {
+    try {
+      const r = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${cp}&postcode=${cp}&limit=1`);
+      const d = await r.json();
+      if (d.features && d.features.length) {
+        const f = d.features[0];
+        document.getElementById('commune').value = f.properties.city || '';
+        geoLat = f.geometry.coordinates[1];
+        geoLon = f.geometry.coordinates[0];
+        cpDetected = cp;
+      }
+    } catch(e) {}
+  }
+}
+
+const lsteps = ['Géolocalisation du bien...','Interrogation DVF...','Analyse des transactions...','Calcul prix au m²...','Génération estimation...'];
+
+async function estimer() {
+  hideWarn();
+  const cp = document.getElementById('codepostal').value.trim() || cpDetected;
+  if (!cp && !geoLat) { showWarn('Veuillez saisir une adresse ou un code postal pour lancer l\'estimation.'); return; }
+
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('resBox').style.display = 'none';
+  const lb = document.getElementById('loadingBox');
+  lb.style.display = 'block';
+  const lstep = document.getElementById('lstep');
+  let li = 0;
+  const iv = setInterval(() => { li = (li+1)%lsteps.length; lstep.textContent = lsteps[li]; }, 1200);
+
+  const surface = parseInt(document.getElementById('surface').value);
+  const pieces = parseInt(document.getElementById('pieces').value);
+  const etat = document.getElementById('etat').value;
+  const dpe = document.getElementById('dpe').value;
+  const annee = document.getElementById('annee').value;
+  const atouts = [...document.querySelectorAll('.chi.checked input')].map(i => i.value);
+
+  try {
+    let dvfData = null;
+    let dvfPrixM2 = null;
+    let nbTransactions = 0;
+    let prixMin = null, prixMax = null;
+
+    if (geoLat && geoLon) {
+      const dvfType = (selTyp === 'Appartement' || selTyp === 'Studio' || selTyp === 'Loft') ? 'Appartement' : 'Maison';
+      const url = `https://apidf-preprod.cerema.fr/dvf_opendata/geomutations/?lat=${geoLat}&lon=${geoLon}&rayon=1500&type_local=${dvfType}&page_size=50`;
+      try {
+        const resp = await fetch(url);
+        if (resp.ok) {
+          dvfData = await resp.json();
+        }
+      } catch(e) {}
+
+      if (!dvfData || !dvfData.results || !dvfData.results.length) {
+        const url2 = `https://apidf-preprod.cerema.fr/dvf_opendata/geomutations/?lat=${geoLat}&lon=${geoLon}&rayon=5000&type_local=${dvfType}&page_size=50`;
+        try {
+          const resp2 = await fetch(url2);
+          if (resp2.ok) dvfData = await resp2.json();
+        } catch(e) {}
+      }
+    }
+
+    if (dvfData && dvfData.results && dvfData.results.length > 0) {
+      const mutations = dvfData.results.filter(m => m.valeur_fonciere && m.surface_reelle_bati && m.surface_reelle_bati > 5);
+      if (mutations.length > 0) {
+        const prixM2s = mutations.map(m => m.valeur_fonciere / m.surface_reelle_bati).filter(p => p > 500 && p < 30000);
+        if (prixM2s.length > 0) {
+          prixM2s.sort((a,b)=>a-b);
+          const q1 = prixM2s[Math.floor(prixM2s.length*0.25)];
+          const q3 = prixM2s[Math.floor(prixM2s.length*0.75)];
+          const filtered = prixM2s.filter(p => p >= q1*0.7 && p <= q3*1.3);
+          dvfPrixM2 = Math.round(filtered.reduce((a,b)=>a+b,0)/filtered.length);
+          nbTransactions = filtered.length;
+          prixMin = Math.round(q1);
+          prixMax = Math.round(q3);
+        }
+      }
+    }
+
+    if (!dvfPrixM2) {
+      dvfPrixM2 = getPrixM2Fallback(cp, selTyp);
+      nbTransactions = 0;
+      showWarn('Pas de données DVF récentes dans ce secteur. Estimation basée sur les prix moyens nationaux de la zone.');
+    }
+
+    const prixM2Ajuste = appliquerCoefficients(dvfPrixM2, etat, dpe, annee, atouts, selTyp, pieces, surface);
+    const prixEstime = Math.round(prixM2Ajuste * surface);
+    const margeBase = nbTransactions > 10 ? 0.08 : 0.12;
+    const prixBas = Math.round(prixEstime * (1 - margeBase));
+    const prixHaut = Math.round(prixEstime * (1 + margeBase));
+    const fiabilite = Math.min(95, Math.max(45, nbTransactions > 20 ? 88 : nbTransactions > 10 ? 78 : nbTransactions > 3 ? 65 : 52));
+
+    clearInterval(iv);
+    lb.style.display = 'none';
+    afficher(prixEstime, prixBas, prixHaut, prixM2Ajuste, dvfPrixM2, prixMin, prixMax, fiabilite, nbTransactions, surface, cp);
+
+  } catch(err) {
+    clearInterval(iv);
+    lb.style.display = 'none';
+    document.getElementById('submitBtn').disabled = false;
+    showWarn('Erreur de connexion aux données DVF. Vérifiez votre connexion et réessayez.');
+  }
+}
+
+function appliquerCoefficients(prixM2, etat, dpe, annee, atouts, type, pieces, surface) {
+  let coef = 1.0;
+  if (etat === 'neuf') coef *= 1.12;
+  else if (etat === 'moyen') coef *= 0.93;
+  else if (etat === 'travaux') coef *= 0.82;
+  const dpeCoefs = {A:1.08,B:1.04,C:1.01,D:1.0,E:0.96,F:0.90,G:0.85,nc:1.0};
+  coef *= (dpeCoefs[dpe] || 1.0);
+  const anneeCoefs = {'avant1900':1.05,'1900-1950':1.02,'1950-1970':0.94,'1970-1990':0.97,'1990-2010':1.0,'2010+':1.06,'neuf':1.15};
+  coef *= (anneeCoefs[annee] || 1.0);
+  if (atouts.includes('piscine')) coef *= 1.08;
+  if (atouts.includes('jardin')) coef *= 1.04;
+  if (atouts.includes('parking')) coef *= 1.03;
+  if (atouts.includes('balcon')) coef *= 1.02;
+  if (atouts.includes('vue')) coef *= 1.05;
+  if (atouts.includes('cave')) coef *= 1.01;
+  if (surface > 150) coef *= 0.96;
+  if (surface < 25) coef *= 1.1;
+  if (type === 'Terrain') coef *= 0.25;
+  return Math.round(prixM2 * coef);
+}
+
+function getPrixM2Fallback(cp, type) {
+  const dep = cp.substring(0,2);
+  const base = {
+    '75':9800,'92':7200,'94':5800,'93':4200,'77':3400,'78':4200,'91':3300,'95':3200,
+    '69':4800,'13':3600,'06':5200,'33':3800,'31':3500,'59':3000,'57':2400,'67':3600,
+    '44':3800,'35':3400,'76':2800,'62':2400,'80':2200,'60':3200,'02':1900,'51':2400,
+    '68':3200,'25':2800,'21':2800,'54':2200,'57':2300,'72':2100,'49':2600,'85':2800,
+    '83':4200,'84':3400,'34':3200,'30':2800,'66':2600,'11':2100,'09':1600,'12':1600,
+    '15':1700,'43':1900,'63':2200,'03':1600,'23':1200,'87':1900,'19':1600,'24':2000,
+    '47':2100,'40':3000,'64':3200,'65':1800,'32':1600,'82':1700,'81':1900,'46':1700,
+    '48':1500,'07':2100,'26':2600,'38':3200,'73':3200,'74':5200,'01':3400,'71':2200,
+    '39':2000,'70':1800,'90':2200,'58':1600,'89':1700,'10':2000,'52':1600,'08':1500,
+    '55':1600,'88':1800,'67':3600,'68':3200
+  };
+  let pm2 = base[dep] || 2500;
+  if (type === 'Maison' || type === 'Villa') pm2 = Math.round(pm2 * 0.9);
+  return pm2;
+}
+
+function fmt(n) { return Math.round(n).toLocaleString('fr-FR'); }
+
+function afficher(prix, bas, haut, pm2, pm2Ref, pmin, pmax, fid, nb, surf, cp) {
+  document.getElementById('resAddr').textContent = `${document.getElementById('adresse').value || cp} — ${selTyp} ${document.getElementById('sv').textContent}m²`;
+  document.getElementById('prixMain').textContent = fmt(prix);
+  document.getElementById('prixRange').textContent = `Fourchette : ${fmt(bas)} € — ${fmt(haut)} €`;
+  document.getElementById('cfill').style.width = fid + '%';
+  document.getElementById('clabel').textContent = fid + '%';
+
+  const rangeStr = pmin && pmax ? `${fmt(pmin)}–${fmt(pmax)} €/m²` : `~${fmt(pm2Ref)} €/m²`;
+  const srcStr = nb > 0 ? `${nb} ventes DVF` : 'Base nationale';
+
+  document.getElementById('mets').innerHTML = `
+    <div class="met"><div class="metl">Prix au m²</div><div class="metv">${fmt(pm2)} €/m²</div></div>
+    <div class="met"><div class="metl">Secteur DVF</div><div class="metv">${rangeStr}</div></div>
+    <div class="met"><div class="metl">Données source</div><div class="metv">${srcStr}</div></div>
+  `;
+
+  const txts = document.getElementById('txts');
+  const etat = document.getElementById('etat').value;
+  const dpe = document.getElementById('dpe').value;
+  const atouts = [...document.querySelectorAll('.chi.checked input')].map(i=>i.value);
+
+  const plusVals = [], moinsVals = [];
+  if (['A','B','C'].includes(dpe)) plusVals.push('bon DPE ('+dpe+')');
+  if (['F','G'].includes(dpe)) moinsVals.push('DPE dégradé ('+dpe+') — décote passoire thermique');
+  if (etat === 'neuf') plusVals.push('bien rénové ou neuf');
+  if (etat === 'travaux') moinsVals.push('travaux à prévoir');
+  if (atouts.includes('piscine')) plusVals.push('piscine (+8%)');
+  if (atouts.includes('jardin')) plusVals.push('jardin (+4%)');
+  if (atouts.includes('parking')) plusVals.push('parking (+3%)');
+  if (atouts.includes('vue')) plusVals.push('vue dégagée (+5%)');
+
+  let analyse = `<p>Estimation basée sur ${nb > 0 ? nb + ' transactions réelles DVF dans un rayon de 1 à 5 km' : 'les références de prix moyens de la zone postale'}. Le prix au m² de référence du secteur est de ${fmt(pm2Ref)} €/m², ajusté à ${fmt(pm2)} €/m² selon les caractéristiques du bien.</p>`;
+
+  if (plusVals.length || moinsVals.length) {
+    analyse += `<p>`;
+    if (plusVals.length) analyse += `Points valorisants : ${plusVals.join(', ')}. `;
+    if (moinsVals.length) analyse += `Points de vigilance : ${moinsVals.join(', ')}. `;
+    analyse += `</p>`;
+  }
+
+  analyse += `<p>Pour affiner cette estimation, un avis de valeur sur place permettrait de prendre en compte les finitions, la luminosité et les spécificités de la copropriété.</p>`;
+
+  txts.innerHTML = analyse;
+  document.getElementById('resBox').style.display = 'block';
+  document.getElementById('submitBtn').disabled = false;
+}
+
+function reset() {
+  document.getElementById('resBox').style.display = 'none';
+  hideWarn();
+  document.getElementById('submitBtn').disabled = false;
+}
+</script>
