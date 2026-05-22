@@ -315,8 +315,8 @@ textarea{resize:vertical;min-height:70px;}
             <div class="field"><label>Date d'expiration</label><input type="date" id="v-doc-exp" oninput="checkVendeurDoc()"></div>
           </div>
           <div id="v-doc-alert"></div>
-          <div class="chk-row"><input type="checkbox" id="v-chk-photo" onchange="autoSave()"><label for="v-chk-photo">Copie recueillie avec photo</label></div>
-          <div class="chk-row"><input type="checkbox" id="v-chk-gel" onchange="autoSave()"><label for="v-chk-gel">Vérifié sur le registre de gel des avoirs (DG Trésor)</label></div>
+          <div class="chk-row"><input type="checkbox" id="v-chk-photo" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="v-chk-photo">Copie recueillie avec photo</label></div>
+          <div class="chk-row"><input type="checkbox" id="v-chk-gel" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="v-chk-gel">Vérifié sur le <a href="https://www.tresor.economie.gouv.fr/services-aux-entreprises/sanctions-economiques" target="_blank" style="color:var(--teal);">registre de gel des avoirs</a> (DG Trésor)</label></div>
         </div>
         <div class="card">
           <div class="card-title"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Bien mis en vente</div>
@@ -364,9 +364,9 @@ textarea{resize:vertical;min-height:70px;}
             <div class="field"><label>Date d'expiration</label><input type="date" id="a-doc-exp" oninput="checkAcquereurDoc()"></div>
           </div>
           <div id="a-doc-alert"></div>
-          <div class="chk-row"><input type="checkbox" id="a-chk-photo" onchange="autoSave()"><label for="a-chk-photo">Copie recueillie avec photo</label></div>
+          <div class="chk-row"><input type="checkbox" id="a-chk-photo" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="a-chk-photo">Copie recueillie avec photo</label></div>
           <div class="chk-row"><input type="checkbox" id="a-chk-physique" onchange="autoSave()"><label for="a-chk-physique">Identification en présence physique</label></div>
-          <div class="chk-row"><input type="checkbox" id="a-chk-gel" onchange="autoSave()"><label for="a-chk-gel">Vérifié sur le registre de gel des avoirs</label></div>
+          <div class="chk-row"><input type="checkbox" id="a-chk-gel" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="a-chk-gel">Vérifié sur le <a href="https://www.tresor.economie.gouv.fr/services-aux-entreprises/sanctions-economiques" target="_blank" style="color:var(--teal);">registre de gel des avoirs</a> (DG Trésor)</label></div>
         </div>
         <div class="card">
           <div class="card-title"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Opération & financement</div>
@@ -413,8 +413,8 @@ textarea{resize:vertical;min-height:70px;}
             <div class="field"><label>Numéro</label><input type="text" id="c1-doc-num" oninput="autoSave()"></div>
             <div class="field"><label>Expiration</label><input type="date" id="c1-doc-exp" oninput="autoSave()"></div>
           </div>
-          <div class="chk-row"><input type="checkbox" id="c1-chk-photo" onchange="autoSave()"><label for="c1-chk-photo">Copie avec photo recueillie</label></div>
-          <div class="chk-row"><input type="checkbox" id="c1-chk-gel" onchange="autoSave()"><label for="c1-chk-gel">Vérifié registre gel des avoirs</label></div>
+          <div class="chk-row"><input type="checkbox" id="c1-chk-photo" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="c1-chk-photo">Copie avec photo recueillie</label></div>
+          <div class="chk-row"><input type="checkbox" id="c1-chk-gel" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="c1-chk-gel">Vérifié <a href="https://www.tresor.economie.gouv.fr/services-aux-entreprises/sanctions-economiques" target="_blank" style="color:var(--teal);">registre de gel des avoirs</a> (DG Trésor)</label></div>
         </div>
         <div class="person-block">
           <div class="person-block-title"><span>2</span>Second acquéreur</div>
@@ -436,8 +436,8 @@ textarea{resize:vertical;min-height:70px;}
             <div class="field"><label>Numéro</label><input type="text" id="c2-doc-num" oninput="autoSave()"></div>
             <div class="field"><label>Expiration</label><input type="date" id="c2-doc-exp" oninput="autoSave()"></div>
           </div>
-          <div class="chk-row"><input type="checkbox" id="c2-chk-photo" onchange="autoSave()"><label for="c2-chk-photo">Copie avec photo recueillie</label></div>
-          <div class="chk-row"><input type="checkbox" id="c2-chk-gel" onchange="autoSave()"><label for="c2-chk-gel">Vérifié registre gel des avoirs</label></div>
+          <div class="chk-row"><input type="checkbox" id="c2-chk-photo" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="c2-chk-photo">Copie avec photo recueillie</label></div>
+          <div class="chk-row"><input type="checkbox" id="c2-chk-gel" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="c2-chk-gel">Vérifié <a href="https://www.tresor.economie.gouv.fr/services-aux-entreprises/sanctions-economiques" target="_blank" style="color:var(--teal);">registre de gel des avoirs</a> (DG Trésor)</label></div>
         </div>
         <div class="card">
           <div class="card-title">Opération & financement commun</div>
@@ -476,7 +476,7 @@ textarea{resize:vertical;min-height:70px;}
             <div class="field"><label>Date du document</label><input type="date" id="s-doc-date" oninput="autoSave()"></div>
             <div class="field"><label>Vérifié INPI bénéficiaires</label><select id="s-inpi" onchange="autoSave()"><option value="">— Choisir —</option><option>Oui</option><option>Non</option></select></div>
           </div>
-          <div class="chk-row"><input type="checkbox" id="s-chk-gel" onchange="autoSave()"><label for="s-chk-gel">Société vérifiée sur le registre de gel des avoirs</label></div>
+          <div class="chk-row"><input type="checkbox" id="s-chk-gel" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="s-chk-gel">Société vérifiée sur le <a href="https://www.tresor.economie.gouv.fr/services-aux-entreprises/sanctions-economiques" target="_blank" style="color:var(--teal);">registre de gel des avoirs</a> (DG Trésor)</label></div>
         </div>
         <div class="card">
           <div class="card-title">Représentant légal</div>
@@ -489,7 +489,7 @@ textarea{resize:vertical;min-height:70px;}
             <div class="field"><label>Nationalité</label><input type="text" id="s-rep-nat" value="Française" oninput="autoSave()"></div>
             <div class="field"><label>Pièce d'identité</label><select id="s-rep-doc" onchange="autoSave()"><option value="">— Choisir —</option><option>CNI</option><option>Passeport</option></select></div>
           </div>
-          <div class="chk-row"><input type="checkbox" id="s-rep-chk" onchange="autoSave()"><label for="s-rep-chk">Pièce d'identité du représentant recueillie</label></div>
+          <div class="chk-row"><input type="checkbox" id="s-rep-chk" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="s-rep-chk">Pièce d'identité du représentant recueillie</label></div>
         </div>
         <div class="card">
           <div class="card-title">Bénéficiaires effectifs (&gt;25%)</div>
@@ -538,8 +538,8 @@ textarea{resize:vertical;min-height:70px;}
             <div class="field"><label>Numéro</label><input type="text" id="l-doc-num" oninput="autoSave()"></div>
             <div class="field"><label>Expiration</label><input type="date" id="l-doc-exp" oninput="autoSave()"></div>
           </div>
-          <div class="chk-row"><input type="checkbox" id="l-chk-photo" onchange="autoSave()"><label for="l-chk-photo">Copie recueillie avec photo</label></div>
-          <div class="chk-row"><input type="checkbox" id="l-chk-gel" onchange="autoSave()"><label for="l-chk-gel">Vérifié registre gel des avoirs</label></div>
+          <div class="chk-row"><input type="checkbox" id="l-chk-photo" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="l-chk-photo">Copie recueillie avec photo</label></div>
+          <div class="chk-row"><input type="checkbox" id="l-chk-gel" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="l-chk-gel">Vérifié <a href="https://www.tresor.economie.gouv.fr/services-aux-entreprises/sanctions-economiques" target="_blank" style="color:var(--teal);">registre de gel des avoirs</a> (DG Trésor)</label></div>
         </div>
         <div class="card">
           <div class="card-title">Bail & financement</div>
@@ -573,8 +573,8 @@ textarea{resize:vertical;min-height:70px;}
             <div class="field"><label>Adresse</label><input type="text" id="vg-v-adresse" oninput="autoSave()"></div>
             <div class="field"><label>Pièce d'identité</label><select id="vg-v-doc" onchange="autoSave()"><option value="">— Choisir —</option><option>CNI</option><option>Passeport</option></select></div>
           </div>
-          <div class="chk-row"><input type="checkbox" id="vg-v-chk" onchange="autoSave()"><label for="vg-v-chk">Copie pièce d'identité recueillie</label></div>
-          <div class="chk-row"><input type="checkbox" id="vg-v-gel" onchange="autoSave()"><label for="vg-v-gel">Vérifié registre gel des avoirs</label></div>
+          <div class="chk-row"><input type="checkbox" id="vg-v-chk" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="vg-v-chk">Copie pièce d'identité recueillie</label></div>
+          <div class="chk-row"><input type="checkbox" id="vg-v-gel" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="vg-v-gel">Vérifié <a href="https://www.tresor.economie.gouv.fr/services-aux-entreprises/sanctions-economiques" target="_blank" style="color:var(--teal);">registre de gel des avoirs</a> (DG Trésor)</label></div>
         </div>
         <div class="person-block">
           <div class="person-block-title"><span>A</span>Débirentier (acheteur)</div>
@@ -595,8 +595,8 @@ textarea{resize:vertical;min-height:70px;}
             <div class="field"><label>Pièce d'identité</label><select id="vg-a-doc" onchange="autoSave()"><option value="">— Choisir —</option><option>CNI</option><option>Passeport</option></select></div>
             <div class="field"><label>Numéro</label><input type="text" id="vg-a-doc-num" oninput="autoSave()"></div>
           </div>
-          <div class="chk-row"><input type="checkbox" id="vg-a-chk" onchange="autoSave()"><label for="vg-a-chk">Copie pièce d'identité recueillie</label></div>
-          <div class="chk-row"><input type="checkbox" id="vg-a-gel" onchange="autoSave()"><label for="vg-a-gel">Vérifié registre gel des avoirs</label></div>
+          <div class="chk-row"><input type="checkbox" id="vg-a-chk" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="vg-a-chk">Copie pièce d'identité recueillie</label></div>
+          <div class="chk-row"><input type="checkbox" id="vg-a-gel" onchange="autoSave();checkAlertes(getCurrentSuivi())"><label for="vg-a-gel">Vérifié <a href="https://www.tresor.economie.gouv.fr/services-aux-entreprises/sanctions-economiques" target="_blank" style="color:var(--teal);">registre de gel des avoirs</a> (DG Trésor)</label></div>
         </div>
         <div class="card">
           <div class="card-title">Modalités du viager</div>
@@ -1082,15 +1082,37 @@ function renderSuivi(events){
   el.innerHTML=events.map(function(e){return'<div class="history-item"><div class="hi-date">'+e.date+'</div><div class="hi-type">'+e.type+'</div>'+(e.note?'<div class="hi-note">'+e.note+'</div>':'')+'</div>';}).join('');
 }
  
+function getCurrentSuivi(){
+  if(!currentClientId) return [];
+  var c=getClient(currentClientId);
+  return c?(c.suivi||[]):[];
+}
+ 
+function identiteRecueillie(){
+  // Retourne true si la copie de pièce d'identité a été cochée dans le KYC
+  var chkIds=['v-chk-photo','a-chk-photo','c1-chk-photo','c2-chk-photo','l-chk-photo','vg-v-chk','vg-a-chk','s-rep-chk'];
+  return chkIds.some(function(id){var el=document.getElementById(id);return el&&el.checked;});
+}
+ 
+function gelVerifie(){
+  var chkIds=['v-chk-gel','a-chk-gel','c1-chk-gel','c2-chk-gel','s-chk-gel','l-chk-gel','vg-v-gel','vg-a-gel'];
+  return chkIds.some(function(id){var el=document.getElementById(id);return el&&el.checked;});
+}
+ 
 function checkAlertes(events){
   var el=document.getElementById('alertes-auto');
-  if(!events||!events.length){el.innerHTML='<p style="font-size:13px;color:var(--gray-400);">Ajoutez des événements.</p>';return;}
-  var types=events.map(function(e){return e.type;});
+  var types=(events||[]).map(function(e){return e.type;});
   var alerts=[];
-  if(!types.includes('Remise de pièces d\'identité'))alerts.push('<div class="alert alert-warn">Aucune remise de pièce d\'identité enregistrée.</div>');
-  if(types.includes('Incohérence détectée')&&!types.includes('Examen renforcé effectué'))alerts.push('<div class="alert alert-danger">Incohérence sans examen renforcé.</div>');
-  if((types.includes('Signature compromis / bail'))&&!types.includes('Remise de pièces d\'identité'))alerts.push('<div class="alert alert-danger">Compromis/bail signé sans vérification d\'identité.</div>');
-  el.innerHTML=alerts.length?alerts.join(''):'<div class="alert alert-success">✓ Aucune alerte.</div>';
+  // Vérification identité : case KYC OU événement suivi
+  var idOk=identiteRecueillie()||types.includes('Remise de pièces d\'identité');
+  if(!idOk) alerts.push('<div class="alert alert-warn">⚠️ Aucune copie de pièce d\'identité enregistrée — à recueillir avant le compromis.</div>');
+  // Gel des avoirs
+  if(!gelVerifie()) alerts.push('<div class="alert alert-warn">⚠️ Registre de gel des avoirs non vérifié — <a href="https://www.tresor.economie.gouv.fr/services-aux-entreprises/sanctions-economiques" target="_blank" style="color:var(--teal);">Consulter le registre DG Trésor</a></div>');
+  // Incohérence sans examen renforcé
+  if(types.includes('Incohérence détectée')&&!types.includes('Examen renforcé effectué')) alerts.push('<div class="alert alert-danger">🚨 Incohérence détectée sans examen renforcé enregistré.</div>');
+  // Compromis sans identité
+  if(types.includes('Signature compromis / bail')&&!idOk) alerts.push('<div class="alert alert-danger">🚨 Compromis/bail signé sans vérification d\'identité préalable.</div>');
+  el.innerHTML=alerts.length?alerts.join(''):'<div class="alert alert-success">✓ Toutes les vérifications sont à jour.</div>';
 }
  
 function genTracfin(){
@@ -1177,3 +1199,4 @@ renderDashboard();
 </script>
 </body>
 </html>
+ 
