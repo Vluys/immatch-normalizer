@@ -202,6 +202,36 @@ textarea{resize:vertical;min-height:70px;}
 </style>
 </head>
 <body>
+<div id="login-screen" style="position:fixed;inset:0;z-index:9999;background:#0d0d0d;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;">
+  <div style="background:#1a1a1a;border:1px solid #0f8191;border-radius:14px;padding:44px 40px;width:380px;max-width:90vw;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+    <!-- Logo -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:28px;">
+      <div style="width:26px;height:26px;border:2.5px solid #b8963e;transform:rotate(45deg);flex-shrink:0;"></div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#ffffff;">im<span style="color:#1aa3b5;">match</span><span style="font-size:12px;vertical-align:super;">®</span></div>
+        <div style="font-size:9px;color:#b8963e;letter-spacing:.15em;text-transform:uppercase;">by Cadre Estate Solutions</div>
+      </div>
+    </div>
+    <div style="background:#0f8191;color:#fff;font-size:11px;padding:4px 14px;border-radius:20px;display:inline-block;margin-bottom:24px;font-weight:500;">Outil LCB-FT Partenaires</div>
+    <p style="font-size:13px;color:#8a9099;margin-bottom:20px;line-height:1.6;">Accès réservé aux professionnels<br>partenaires de Cadre Estate Solutions.</p>
+    <input type="password" id="pwd-input" placeholder="Mot de passe partenaire" 
+      style="width:100%;padding:11px 14px;font-size:14px;font-family:'DM Sans',sans-serif;background:#111;border:1.5px solid #333;border-radius:8px;color:#fff;outline:none;margin-bottom:10px;text-align:center;letter-spacing:.1em;"
+      onkeydown="if(event.key==='Enter')checkPassword()"
+      onfocus="this.style.borderColor='#0f8191'"
+      onblur="this.style.borderColor='#333'">
+    <div id="pwd-error" style="color:#c0392b;font-size:12px;margin-bottom:10px;min-height:16px;"></div>
+    <button onclick="checkPassword()" 
+      style="width:100%;padding:11px;background:#0f8191;color:#fff;border:none;border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:background .15s;"
+      onmouseover="this.style.background='#0a5f6b'"
+      onmouseout="this.style.background='#0f8191'">
+      Accéder à l'outil
+    </button>
+    <p style="font-size:11px;color:#444;margin-top:20px;">Vous n'avez pas encore de mot de passe ?<br>Contactez Cadre Estate Solutions.</p>
+  </div>
+</div>
+ 
+<div id="app-content" style="display:none;">
+ 
  
 <div class="header">
   <div class="header-inner">
@@ -1197,6 +1227,36 @@ function deleteClient(){
  
 renderDashboard();
 </script>
+</div>
+<script>
+(function(){
+  var SESSION_KEY = 'immatch_auth';
+  var ENCODED = 'SW1tYXRjaExDQkZUMjAyNg==';
+  function checkPassword(){
+    var val = document.getElementById('pwd-input').value;
+    var err = document.getElementById('pwd-error');
+    if(btoa(val) === ENCODED){
+      sessionStorage.setItem(SESSION_KEY, '1');
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app-content').style.display = 'block';
+      err.textContent = '';
+    } else {
+      err.textContent = 'Mot de passe incorrect.';
+      document.getElementById('pwd-input').value = '';
+      document.getElementById('pwd-input').focus();
+      document.getElementById('pwd-input').style.borderColor = '#c0392b';
+      setTimeout(function(){document.getElementById('pwd-input').style.borderColor='#333';}, 1500);
+    }
+  }
+  window.checkPassword = checkPassword;
+  // Auto-check session (stays unlocked for the browser session)
+  if(sessionStorage.getItem(SESSION_KEY) === '1'){
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app-content').style.display = 'block';
+  }
+})();
+</script>
+ 
 </body>
 </html>
  
