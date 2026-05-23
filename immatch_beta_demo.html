@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMMATCH — Espace Investisseur · Bêta</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --t:#0F8191;--td:#096d7a;--tl:rgba(15,129,145,.1);--tll:rgba(15,129,145,.05);
+  --g:#C9A84C;--gl:rgba(201,168,76,.12);
+  --dark:#111214;--dark2:#1a1c20;--dark3:#222428;
+  --bg:#F7F6F3;--bg2:#fff;
+  --text:#141414;--text2:#52525A;--text3:#9A9AAF;
+  --border:rgba(0,0,0,.07);
+  --r:14px;--rs:9px;
+  --sh:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.05);
+  --sh2:0 4px 24px rgba(0,0,0,.08),0 1px 4px rgba(0,0,0,.04);
+}
+
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;overflow-x:hidden}
+
+/* ═══════════════════════════════
+   NAV
+═══════════════════════════════ */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(247,246,243,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'DM Serif Display',serif;font-size:20px;color:var(--t);letter-spacing:-.3px}
+.nav-logo span{color:var(--g);font-size:10px;font-family:'DM Sans',sans-serif;font-weight:600;vertical-align:super;letter-spacing:.04em}
+.nav-links{display:flex;gap:4px}
+.nav-link{font-size:12.5px;font-weight:500;color:var(--text2);padding:6px 14px;border-radius:20px;cursor:pointer;transition:all .18s;border:none;background:none}
+.nav-link:hover{background:var(--bg2);color:var(--t)}
+.nav-link.active{background:var(--t);color:#fff}
+.nav-cta{height:34px;padding:0 18px;background:var(--dark);color:#fff;border:none;border-radius:20px;font-size:12.5px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .15s}
+.nav-cta:hover{opacity:.85}
+
+/* ═══════════════════════════════
+   HERO
+═══════════════════════════════ */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 32px 80px;text-align:center;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(15,129,145,.06) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 80% 80%,rgba(201,168,76,.05) 0%,transparent 60%);pointer-events:none}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--t);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:30px;height:1px;background:var(--t);opacity:.4}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(42px,7vw,84px);line-height:1.05;color:var(--dark);max-width:820px;margin-bottom:16px;letter-spacing:-.03em}
+.hero-title em{color:var(--t);font-style:italic}
+.hero-sub{font-size:17px;font-weight:300;color:var(--text2);max-width:520px;line-height:1.65;margin-bottom:48px}
+.hero-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center}
+.btn-hero-p{height:48px;padding:0 28px;background:linear-gradient(135deg,var(--t),var(--td));color:#fff;border:none;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(15,129,145,.35);transition:transform .15s,box-shadow .15s}
+.btn-hero-p:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(15,129,145,.4)}
+.btn-hero-s{height:48px;padding:0 28px;background:var(--bg2);color:var(--text);border:1px solid var(--border);border-radius:24px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .15s}
+.btn-hero-s:hover{border-color:var(--t);color:var(--t)}
+.hero-note{font-size:11.5px;color:var(--text3);margin-top:32px}
+.hero-scroll{margin-top:60px;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--text3);font-size:11px;cursor:pointer}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--text3),transparent);animation:scrollpulse 2s ease-in-out infinite}
+@keyframes scrollpulse{0%,100%{opacity:.3;transform:scaleY(.8)}50%{opacity:1;transform:scaleY(1)}}
+
+/* STATS BAND */
+.stats-band{background:var(--dark);padding:28px 32px;display:flex;justify-content:center;gap:64px;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-num{font-family:'DM Serif Display',serif;font-size:36px;color:#fff;line-height:1}
+.stat-num span{color:var(--g)}
+.stat-lbl{font-size:11px;color:#666;margin-top:5px;text-transform:uppercase;letter-spacing:.07em}
+
+/* ═══════════════════════════════
+   SECTIONS COMMUNES
+═══════════════════════════════ */
+.section{padding:80px 32px;max-width:1060px;margin:0 auto}
+.section-eyebrow{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--t);margin-bottom:12px}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,46px);line-height:1.1;color:var(--dark);margin-bottom:16px;letter-spacing:-.02em}
+.section-title em{color:var(--t);font-style:italic}
+.section-sub{font-size:15px;color:var(--text2);line-height:1.7;max-width:580px;margin-bottom:48px}
+
+/* ═══════════════════════════════
+   TOOLKIT — OUTILS ACTUELS
+═══════════════════════════════ */
+.toolkit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:24px;box-shadow:var(--sh);position:relative;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s}
+.tool-card:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:var(--t)}
+.tool-card.active-now{border-color:var(--t)}
+.tool-card-badge{position:absolute;top:16px;right:16px;font-size:9.5px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.05em}
+.badge-live{background:#E1F5EE;color:#0F6E56}
+.badge-soon{background:var(--gl);color:#7a5a00}
+.badge-roadmap{background:var(--bg);color:var(--text3);border:1px solid var(--border)}
+.tool-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px}
+.ti-green{background:var(--tl)}
+.ti-gold{background:var(--gl)}
+.ti-dark{background:var(--dark2)}
+.ti-soft{background:#F0EDFB}
+.tool-name{font-size:15px;font-weight:600;color:var(--dark);margin-bottom:6px;letter-spacing:-.01em}
+.tool-desc{font-size:12.5px;color:var(--text2);line-height:1.6}
+.tool-chip-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px}
+.chip{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--bg);border:1px solid var(--border);color:var(--text3)}
+.chip.hl{background:var(--tll);border-color:rgba(15,129,145,.2);color:var(--td)}
+
+/* ═══════════════════════════════
+   ROADMAP TIMELINE
+═══════════════════════════════ */
+.roadmap-wrap{position:relative;padding-left:32px}
+.roadmap-line{position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--t),var(--g),var(--border))}
+.roadmap-phase{position:relative;margin-bottom:40px}
+.roadmap-dot{position:absolute;left:-32px;top:4px;width:16px;height:16px;border-radius:50%;border:2.5px solid var(--bg);background:var(--t);box-shadow:0 0 0 3px rgba(15,129,145,.2)}
+.roadmap-dot.gold{background:var(--g);box-shadow:0 0 0 3px rgba(201,168,76,.2)}
+.roadmap-dot.grey{background:var(--border);box-shadow:none}
+.roadmap-phase-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t);margin-bottom:6px}
+.roadmap-phase-label.gold{color:var(--g)}
+.roadmap-phase-label.grey{color:var(--text3)}
+.roadmap-phase-title{font-size:17px;font-weight:600;color:var(--dark);margin-bottom:8px;letter-spacing:-.01em}
+.roadmap-items{display:flex;flex-direction:column;gap:6px}
+.roadmap-item{display:flex;align-items:flex-start;gap:9px;font-size:12.5px;color:var(--text2);line-height:1.5}
+.ri-dot{width:5px;height:5px;border-radius:50%;background:var(--text3);margin-top:6px;flex-shrink:0}
+.ri-dot.green{background:var(--t)}
+.ri-dot.gold{background:var(--g)}
+
+/* ═══════════════════════════════
+   COCKPIT PREVIEW INTERACTIF
+═══════════════════════════════ */
+.preview-frame{background:var(--dark);border-radius:18px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.25),0 0 0 1px rgba(255,255,255,.05);margin-bottom:48px}
+.pf-bar{display:flex;align-items:center;gap:8px;padding:13px 18px;background:var(--dark2);border-bottom:1px solid rgba(255,255,255,.06)}
+.pf-dot{width:10px;height:10px;border-radius:50%}
+.d1{background:#FF5F56}.d2{background:#FFBD2E}.d3{background:#27C93F}
+.pf-url{flex:1;background:var(--dark3);border-radius:5px;padding:4px 10px;font-size:11px;color:#555;margin:0 10px}
+.pf-content{padding:20px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+.pf-kpi{background:var(--dark3);border-radius:10px;padding:13px;border:1px solid rgba(255,255,255,.06)}
+.pf-kpi-l{font-size:9.5px;color:#555;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.pf-kpi-v{font-size:22px;font-weight:600;line-height:1}
+.pf-kpi-v.teal{color:var(--t)}.pf-kpi-v.gold{color:var(--g)}.pf-kpi-v.white{color:#eee}
+.pf-kpi-sub{font-size:10px;color:#555;margin-top:3px}
+.pf-ima{grid-column:1/-1;background:var(--dark2);border-radius:10px;padding:14px;display:flex;gap:12px;border:1px solid rgba(15,129,145,.2)}
+.pf-av{width:34px;height:34px;border-radius:50%;background:var(--dark3);border:1.5px solid var(--t);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--t);flex-shrink:0}
+.pf-ima-msg{font-size:11.5px;color:#ccc;line-height:1.6}
+.pf-ima-msg em{color:var(--g);font-style:normal;font-weight:500}
+.pf-tools-row{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pf-tool{background:var(--dark3);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,.06);cursor:pointer;transition:border-color .15s}
+.pf-tool:hover{border-color:var(--t)}
+.pf-tool-name{font-size:12px;font-weight:600;color:#ddd;margin-bottom:4px}
+.pf-tool-desc{font-size:10.5px;color:#555;line-height:1.5}
+.pf-tool-tag{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;margin-top:6px}
+.tt-live{background:rgba(15,129,145,.2);color:var(--t)}
+.tt-beta{background:rgba(201,168,76,.15);color:var(--g)}
+.tt-coming{background:rgba(255,255,255,.05);color:#555}
+
+/* ═══════════════════════════════
+   IMA SECTION
+═══════════════════════════════ */
+.ima-section{background:var(--dark);border-radius:24px;padding:48px;position:relative;overflow:hidden}
+.ima-bg-glow{position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(15,129,145,.15),transparent 70%);pointer-events:none}
+.ima-split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.ima-tag{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--g);margin-bottom:16px}
+.ima-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:glow 2s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.5;box-shadow:0 0 4px var(--g)}50%{opacity:1;box-shadow:0 0 12px var(--g)}}
+.ima-title{font-family:'DM Serif Display',serif;font-size:38px;line-height:1.1;color:#fff;margin-bottom:16px;letter-spacing:-.02em}
+.ima-title em{color:var(--t);font-style:italic}
+.ima-desc{font-size:13.5px;color:#888;line-height:1.75;margin-bottom:28px}
+.ima-modes{display:flex;flex-direction:column;gap:10px}
+.ima-mode{display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px 14px}
+.ima-mode-num{width:24px;height:24px;border-radius:50%;background:var(--t);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ima-mode-title{font-size:12.5px;font-weight:600;color:#ddd;margin-bottom:3px}
+.ima-mode-desc{font-size:11.5px;color:#666;line-height:1.55}
+.ima-chat-demo{background:var(--dark2);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,.06)}
+.chat-msg{margin-bottom:12px;display:flex;gap:10px}
+.chat-msg.user{flex-direction:row-reverse}
+.chat-bubble{max-width:78%;padding:10px 14px;border-radius:12px;font-size:12px;line-height:1.6}
+.chat-bubble.ima{background:rgba(255,255,255,.05);color:#ccc;border-radius:12px 12px 12px 2px}
+.chat-bubble.user{background:var(--t);color:#fff;border-radius:12px 12px 2px 12px}
+.chat-av{width:28px;height:28px;border-radius:50%;background:var(--dark3);border:1.5px solid var(--t);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:var(--t);flex-shrink:0;margin-top:2px}
+.ima-cursor{display:inline-block;width:2px;height:13px;background:var(--t);margin-left:2px;animation:blink .9s step-end infinite;vertical-align:middle}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ═══════════════════════════════
+   BETA CTA
+═══════════════════════════════ */
+.beta-section{background:linear-gradient(135deg,var(--t) 0%,var(--td) 100%);padding:80px 32px;text-align:center;position:relative;overflow:hidden}
+.beta-bg{position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(255,255,255,.06)'/%3E%3C/svg%3E");pointer-events:none}
+.beta-eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:16px}
+.beta-title{font-family:'DM Serif Display',serif;font-size:clamp(32px,5vw,58px);color:#fff;margin-bottom:16px;line-height:1.1;letter-spacing:-.02em}
+.beta-sub{font-size:16px;color:rgba(255,255,255,.7);margin-bottom:40px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.65}
+.beta-form{display:flex;gap:10px;justify-content:center;max-width:480px;margin:0 auto;flex-wrap:wrap}
+.beta-input{flex:1;min-width:220px;height:50px;padding:0 18px;border:2px solid rgba(255,255,255,.25);border-radius:25px;background:rgba(255,255,255,.1);color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
+.beta-input::placeholder{color:rgba(255,255,255,.45)}
+.beta-input:focus{border-color:rgba(255,255,255,.6)}
+.btn-beta{height:50px;padding:0 28px;background:#fff;color:var(--td);border:none;border-radius:25px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:transform .15s,box-shadow .15s}
+.btn-beta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.beta-guarantee{font-size:11.5px;color:rgba(255,255,255,.5);margin-top:20px}
+
+/* ═══════════════════════════════
+   TOAST INSCRIT
+═══════════════════════════════ */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--dark);color:#fff;padding:13px 24px;border-radius:30px;font-size:13.5px;font-weight:500;z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s;opacity:0;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast-dot{width:8px;height:8px;border-radius:50%;background:var(--t)}
+
+/* ═══════════════════════════════
+   FOOTER
+═══════════════════════════════ */
+footer{padding:32px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);flex-wrap:wrap;gap:12px}
+.footer-logo{font-family:'DM Serif Display',serif;font-size:16px;color:var(--t)}
+.footer-logo span{color:var(--g);font-size:9px;font-family:'DM Sans',sans-serif;vertical-align:super}
+.footer-note{font-size:11px;color:var(--text3)}
+.footer-links{display:flex;gap:16px}
+.footer-link{font-size:11.5px;color:var(--text3);text-decoration:none;transition:color .15s}
+.footer-link:hover{color:var(--t)}
+
+/* ═══════════════════════════════
+   ANIMATIONS ENTRÉE
+═══════════════════════════════ */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:none}
+
+/* MODAL OUTIL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;opacity:0;pointer-events:none;transition:opacity .25s;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--bg2);border-radius:20px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;transform:scale(.95);transition:transform .25s cubic-bezier(.34,1.56,.64,1);box-shadow:0 32px 80px rgba(0,0,0,.25)}
+.modal-overlay.open .modal{transform:scale(1)}
+.modal-head{padding:24px 24px 0;display:flex;justify-content:space-between;align-items:flex-start}
+.modal-close{width:32px;height:32px;border-radius:50%;background:var(--bg);border:1px solid var(--border);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--text2)}
+.modal-body{padding:20px 24px 28px}
+.modal-tool-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px}
+.modal-title{font-family:'DM Serif Display',serif;font-size:26px;color:var(--dark);margin-bottom:8px;letter-spacing:-.01em}
+.modal-status{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:4px 11px;border-radius:12px;margin-bottom:14px}
+.ms-live{background:#E1F5EE;color:#0F6E56}
+.ms-beta{background:var(--tl);color:var(--td)}
+.ms-soon{background:var(--gl);color:#7a5a00}
+.modal-desc{font-size:13.5px;color:var(--text2);line-height:1.7;margin-bottom:16px}
+.modal-features{margin-bottom:20px}
+.modal-feat-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:8px}
+.modal-feat{display:flex;align-items:flex-start;gap:9px;font-size:12.5px;color:var(--text2);margin-bottom:7px;line-height:1.5}
+.feat-check{width:18px;height:18px;border-radius:50%;background:var(--tl);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--t);flex-shrink:0;margin-top:1px}
+.modal-coming{background:var(--bg);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--text2);line-height:1.6;border-left:3px solid var(--g)}
+.btn-modal-cta{width:100%;height:44px;background:linear-gradient(135deg,var(--t),var(--td));color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:16px;transition:opacity .15s}
+.btn-modal-cta:hover{opacity:.9}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">immatch<span>™</span></div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="scrollTo('#outils')">Les outils</button>
+    <button class="nav-link" onclick="scrollTo('#roadmap')">Roadmap</button>
+    <button class="nav-link" onclick="scrollTo('#ima')">IMA</button>
+    <button class="nav-link" onclick="scrollTo('#beta')">Bêta</button>
+  </div>
+  <button class="nav-cta" onclick="scrollTo('#beta')">Accès bêta →</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-eyebrow">Espace Investisseur · Bêta privée</div>
+  <h1 class="hero-title">
+    L'intelligence immobilière<br>au service du <em>marchand de biens</em>
+  </h1>
+  <p class="hero-sub">MARG'IMMO et ses outils connectés vous donnent tout ce qu'un tableur Excel ne peut pas faire — alertes pro, données publiques en temps réel, et IMA pour guider vos décisions.</p>
+  <div class="hero-actions">
+    <button class="btn-hero-p" onclick="scrollTo('#outils')">Découvrir les outils</button>
+    <button class="btn-hero-s" onclick="scrollTo('#beta')">Rejoindre la bêta</button>
+  </div>
+  <p class="hero-note">Accès gratuit pendant la bêta · Données réelles · Aucune CB requise</p>
+  <div class="hero-scroll" onclick="scrollTo('#stats')">
+    <div class="scroll-line"></div>
+    <span>Défiler</span>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<div class="stats-band" id="stats">
+  <div class="stat-item">
+    <div class="stat-num">12<span>+</span></div>
+    <div class="stat-lbl">Modules MdB intégrés</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num"><span>0</span></div>
+    <div class="stat-lbl">Post critique oublié</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">4<span>×</span></div>
+    <div class="stat-lbl">APIs publiques connectées</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num"><span>∞</span></div>
+    <div class="stat-lbl">Simulations à faire</div>
+  </div>
+</div>
+
+<!-- SECTION OUTILS -->
+<div class="section fade-in" id="outils">
+  <div class="section-eyebrow">L'écosystème</div>
+  <h2 class="section-title">Tous les outils,<br><em>dans un seul espace</em></h2>
+  <p class="section-sub">Chaque outil est conçu pour s'emboîter avec les autres. Pas de double saisie. Pas de tableur. Un flux de décision continu.</p>
+
+  <div class="toolkit-grid">
+
+    <div class="tool-card active-now" onclick="openModal('marg')">
+      <span class="tool-card-badge badge-live">✓ Disponible</span>
+      <div class="tool-icon ti-green">📊</div>
+      <div class="tool-name">MARG'IMMO PRO</div>
+      <div class="tool-desc">Calculateur de marge MdB complet — 12 postes de coût, alertes TVA, alerte lésion, scénarios levier vs fonds propres.</div>
+      <div class="tool-chip-row">
+        <span class="chip hl">TVA art. 245A</span>
+        <span class="chip hl">Alerte lésion</span>
+        <span class="chip">IS calculé</span>
+        <span class="chip">Levier vs FP</span>
+      </div>
+    </div>
+
+    <div class="tool-card" onclick="openModal('zone')">
+      <span class="tool-card-badge badge-live">✓ Disponible</span>
+      <div class="tool-icon ti-green">🗺</div>
+      <div class="tool-name">ANALYSE ZONE</div>
+      <div class="tool-desc">DVF réels, DPE ADEME, données INSEE et parcelles cadastrales — depuis une adresse, en quelques secondes.</div>
+      <div class="tool-chip-row">
+        <span class="chip hl">DVF data.gouv.fr</span>
+        <span class="chip hl">DPE ADEME</span>
+        <span class="chip">Cadastre DGFIP</span>
+        <span class="chip">INSEE</span>
+      </div>
+    </div>
+
+    <div class="tool-card" onclick="openModal('cerfa')">
+      <span class="tool-card-badge badge-live">✓ Disponible</span>
+      <div class="tool-icon ti-gold">📄</div>
+      <div class="tool-name">CERFA PROPRIÉTAIRE</div>
+      <div class="tool-desc">Demande de coordonnées du propriétaire en 1 clic — email prérempli + CERFA 6815-EM-SD téléchargeable instantanément.</div>
+      <div class="tool-chip-row">
+        <span class="chip hl">CERFA 6815</span>
+        <span class="chip">DGFIP Morbihan</span>
+        <span class="chip">Prérempli auto</span>
+      </div>
+    </div>
+
+    <div class="tool-card" onclick="openModal('estim')">
+      <span class="tool-card-badge badge-soon">Bientôt</span>
+      <div class="tool-icon ti-soft">🔨</div>
+      <div class="tool-name">ESTIM'TRAVAUX</div>
+      <div class="tool-desc">Estimation travaux par poste avec base de coûts officielle — import automatique dans MARG'IMMO, zéro double saisie.</div>
+      <div class="tool-chip-row">
+        <span class="chip">Fourchette basse/haute</span>
+        <span class="chip">Import MARG'IMMO</span>
+        <span class="chip">MaPrimeRénov</span>
+      </div>
+    </div>
+
+    <div class="tool-card" onclick="openModal('renov')">
+      <span class="tool-card-badge badge-soon">Bientôt</span>
+      <div class="tool-icon ti-soft">📸</div>
+      <div class="tool-name">RENO'VISION</div>
+      <div class="tool-desc">Photo de la pièce + description en langage naturel → IMA analyse et génère l'estimation travaux en 10 secondes.</div>
+      <div class="tool-chip-row">
+        <span class="chip">Claude Vision</span>
+        <span class="chip">IA</span>
+        <span class="chip">Photo → Devis</span>
+      </div>
+    </div>
+
+    <div class="tool-card" onclick="openModal('ima_mdb')">
+      <span class="tool-card-badge badge-roadmap">Roadmap</span>
+      <div class="tool-icon ti-dark">🤖</div>
+      <div class="tool-name">IMA DÉCISION MdB</div>
+      <div class="tool-desc">IMA lit votre simulation MARG'IMMO et engage un dialogue — elle questionne vos hypothèses et vous signale les variables fragiles.</div>
+      <div class="tool-chip-row">
+        <span class="chip">Formateur MdB IA</span>
+        <span class="chip">Analyse alertes</span>
+        <span class="chip">Règles BOFIP</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- COCKPIT PREVIEW -->
+<div class="section fade-in" style="padding-top:0">
+  <div class="preview-frame">
+    <div class="pf-bar">
+      <div class="pf-dot d1"></div>
+      <div class="pf-dot d2"></div>
+      <div class="pf-dot d3"></div>
+      <div class="pf-url">immatch.fr/espace-investisseur</div>
+    </div>
+    <div class="pf-content">
+      <div class="pf-kpi">
+        <div class="pf-kpi-l">Marge brute</div>
+        <div class="pf-kpi-v teal">22,4%</div>
+        <div class="pf-kpi-sub">Seuil mini 20% ✓</div>
+      </div>
+      <div class="pf-kpi">
+        <div class="pf-kpi-l">Bénéfice net</div>
+        <div class="pf-kpi-v gold">67 200 €</div>
+        <div class="pf-kpi-sub">Après IS</div>
+      </div>
+      <div class="pf-kpi">
+        <div class="pf-kpi-l">Prix/m² zone</div>
+        <div class="pf-kpi-v white">1 373 €</div>
+        <div class="pf-kpi-sub">DVF · Erdeven</div>
+      </div>
+      <div class="pf-kpi">
+        <div class="pf-kpi-l">Passoires F+G</div>
+        <div class="pf-kpi-v" style="color:#F44336">38%</div>
+        <div class="pf-kpi-sub">Zone · ADEME</div>
+      </div>
+      <div class="pf-ima">
+        <div class="pf-av">IMA</div>
+        <div class="pf-ima-msg">
+          Votre ratio <em>huisseries 70%</em> + <em>sanitaires 80%</em> croise déjà 2 des 6 critères de l'art. 245A. Si l'électricité dépasse 66,67%, la <em>TVA bascule sur le prix total → +63 000 €</em>. C'est le point le plus fragile de cette opération. Avez-vous un retour de votre expert-comptable sur ce point ?<span class="ima-cursor"></span>
+        </div>
+      </div>
+      <div class="pf-tools-row">
+        <div class="pf-tool">
+          <div class="pf-tool-name">📊 MARG'IMMO PRO</div>
+          <div class="pf-tool-desc">220 000 € achat · 65 000 € travaux · 9 mois</div>
+          <span class="pf-tool-tag tt-live">Simulation active</span>
+        </div>
+        <div class="pf-tool">
+          <div class="pf-tool-name">🗺 ANALYSE ZONE</div>
+          <div class="pf-tool-desc">Erdeven 56 · 87 ventes DVF · 34 sections</div>
+          <span class="pf-tool-tag tt-live">Chargé</span>
+        </div>
+        <div class="pf-tool">
+          <div class="pf-tool-name">🔨 ESTIM'TRAVAUX</div>
+          <div class="pf-tool-desc">Import auto vers MARG'IMMO</div>
+          <span class="pf-tool-tag tt-coming">Bientôt</span>
+        </div>
+        <div class="pf-tool">
+          <div class="pf-tool-name">📸 RENO'VISION</div>
+          <div class="pf-tool-desc">Photo → estimation IMA</div>
+          <span class="pf-tool-tag tt-coming">Bientôt</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ROADMAP -->
+<div class="section fade-in" id="roadmap">
+  <div class="section-eyebrow">Ce qui arrive</div>
+  <h2 class="section-title">La roadmap<br><em>transparente</em></h2>
+  <p class="section-sub">Chaque phase ajoute une couche. Les bêta-testeurs accèdent à tout en premier.</p>
+
+  <div class="roadmap-wrap">
+    <div class="roadmap-line"></div>
+
+    <div class="roadmap-phase">
+      <div class="roadmap-dot"></div>
+      <div class="roadmap-phase-label">Phase actuelle · Disponible</div>
+      <div class="roadmap-phase-title">Le socle décisionnel</div>
+      <div class="roadmap-items">
+        <div class="roadmap-item"><div class="ri-dot green"></div>MARG'IMMO PRO — calculateur marge complet avec 12 postes et toutes les alertes MdB</div>
+        <div class="roadmap-item"><div class="ri-dot green"></div>ANALYSE ZONE — DVF réels, DPE ADEME, INSEE, Cadastre par adresse</div>
+        <div class="roadmap-item"><div class="ri-dot green"></div>CERFA PROPRIÉTAIRE — email prérempli + formulaire DGFIP téléchargeable</div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="roadmap-dot gold"></div>
+      <div class="roadmap-phase-label gold">Phase 2 · Dans les prochaines semaines</div>
+      <div class="roadmap-phase-title">Les outils connectés</div>
+      <div class="roadmap-items">
+        <div class="roadmap-item"><div class="ri-dot gold"></div>ESTIM'TRAVAUX — estimation par poste avec import automatique dans MARG'IMMO</div>
+        <div class="roadmap-item"><div class="ri-dot gold"></div>RENO'VISION — photo de la pièce + description IMA → estimation travaux instantanée</div>
+        <div class="roadmap-item"><div class="ri-dot gold"></div>Connexion CAPACI'ACHAT → calcul levier automatisé sans ressaisie</div>
+        <div class="roadmap-item"><div class="ri-dot gold"></div>Historique des simulations — retrouver et comparer vos opérations passées</div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="roadmap-dot grey"></div>
+      <div class="roadmap-phase-label grey">Phase 3 · IA complète</div>
+      <div class="roadmap-phase-title">IMA Décision MdB</div>
+      <div class="roadmap-items">
+        <div class="roadmap-item"><div class="ri-dot"></div>IMA lit votre simulation et dialogue sur les alertes en langage naturel</div>
+        <div class="roadmap-item"><div class="ri-dot"></div>Base de connaissances MdB professionnelle intégrée dans IMA</div>
+        <div class="roadmap-item"><div class="ri-dot"></div>RENDLOCATIF — scénario garder en locatif vs revendre dans le même cockpit</div>
+        <div class="roadmap-item"><div class="ri-dot"></div>Export PDF du bilan prévisionnel complet signable</div>
+        <div class="roadmap-item"><div class="ri-dot"></div>Comparateur multi-opérations — analyser 3 bien côte à côte</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- IMA SECTION -->
+<div class="section fade-in" id="ima">
+  <div class="ima-section">
+    <div class="ima-bg-glow"></div>
+    <div class="ima-split">
+      <div>
+        <div class="ima-tag"><div class="ima-tag-dot"></div>Intelligence Matching Advisor</div>
+        <h2 class="ima-title">IMA n'est pas<br>un <em>chatbot</em></h2>
+        <p class="ima-desc">IMA est un personnage. Elle a été formée sur les mêmes règles que vous — TVA article 245A, alerte lésion ÷2,4, délais urbanisme. Elle ne répond pas à des questions génériques. Elle lit vos chiffres et pose les bonnes questions.</p>
+        <div class="ima-modes">
+          <div class="ima-mode">
+            <div class="ima-mode-num">1</div>
+            <div>
+              <div class="ima-mode-title">Mode Alerte</div>
+              <div class="ima-mode-desc">IMA lit le résultat MARG'IMMO et explique chaque alerte en langage naturel — pas de jargon, pas de copier-coller du BOFIP.</div>
+            </div>
+          </div>
+          <div class="ima-mode">
+            <div class="ima-mode-num">2</div>
+            <div>
+              <div class="ima-mode-title">Mode Dialogue</div>
+              <div class="ima-mode-desc">Elle interroge vos hypothèses fragiles. Si votre prix de revente vous semble évident, elle vous demande pourquoi — avec les DVF de la zone sous les yeux.</div>
+            </div>
+          </div>
+          <div class="ima-mode">
+            <div class="ima-mode-num">3</div>
+            <div>
+              <div class="ima-mode-title">Mode Vision (Roadmap)</div>
+              <div class="ima-mode-desc">Photo + description → estimation travaux. IMA analyse visuellement et génère les postes en 10 secondes.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ima-chat-demo">
+        <div class="chat-msg">
+          <div class="chat-av">IMA</div>
+          <div class="chat-bubble ima">Je viens d'analyser votre simulation. Votre marge brute est à 22,4% — c'est dans les clous. Mais j'ai un point à vérifier avec vous.</div>
+        </div>
+        <div class="chat-msg user">
+          <div class="chat-bubble user">Vas-y, qu'est-ce qui t'inquiète ?</div>
+        </div>
+        <div class="chat-msg">
+          <div class="chat-av">IMA</div>
+          <div class="chat-bubble ima">Vos huisseries sont à 70% et vos sanitaires à 80%. Deux critères dépassent déjà le seuil de 66,67%. Si l'électricité ou les cloisons basculent aussi, vous passez en TVA sur le prix total — soit <strong style="color:var(--g)">63 000 € de plus</strong> que prévu. Vous avez fait estimer l'électricité ?</div>
+        </div>
+        <div class="chat-msg user">
+          <div class="chat-bubble user">Pas encore, je dois demander un devis.</div>
+        </div>
+        <div class="chat-msg">
+          <div class="chat-av">IMA</div>
+          <div class="chat-bubble ima">C'est le devis le plus important à avoir avant de signer. Je vous recommande de cibler 55-60% maximum sur l'électricité pour rester en zone verte. Voulez-vous que je recalcule la marge avec une hypothèse TVA totale pour voir le pire scénario ?<span class="ima-cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BETA CTA -->
+<div class="beta-section" id="beta">
+  <div class="beta-bg"></div>
+  <div class="beta-eyebrow">Bêta privée · Places limitées</div>
+  <h2 class="beta-title">Testez avant tout le monde</h2>
+  <p class="beta-sub">Accès gratuit et complet pendant la bêta. Vos retours construisent le produit. Les premiers bêta-testeurs gardent l'accès prioritaire.</p>
+  <div class="beta-form">
+    <input class="beta-input" type="email" id="betaEmail" placeholder="votre@email.fr" />
+    <button class="btn-beta" onclick="inscrireBeta()">Rejoindre →</button>
+  </div>
+  <p class="beta-guarantee">Sans engagement · Sans CB · Données confidentielles</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">immatch<span>™</span></div>
+  <div class="footer-note">Cadre Estate Solutions ™ 2026 · Marque déposée INPI n°5180656</div>
+  <div class="footer-links">
+    <a class="footer-link" href="#">Mentions légales</a>
+    <a class="footer-link" href="#">CGU</a>
+    <a class="footer-link" href="#">Confidentialité</a>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-dot"></div>
+  <span id="toastMsg">Inscription confirmée ✓</span>
+</div>
+
+<!-- MODALS DATA -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em" id="modal-eyebrow">Outil</div>
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// ── SCROLL ──
+function scrollTo(id) {
+  document.querySelector(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ── FADE IN OBSERVER ──
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, {threshold:0.12});
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+// ── NAV ACTIVE ──
+window.addEventListener('scroll', () => {
+  const sections = ['outils','roadmap','ima','beta'];
+  const links = document.querySelectorAll('.nav-link');
+  sections.forEach((id,i) => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    const rect = el.getBoundingClientRect();
+    if(rect.top <= 80 && rect.bottom >= 80) {
+      links.forEach(l => l.classList.remove('active'));
+      links[i].classList.add('active');
+    }
+  });
+});
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+// ── BETA ──
+function inscrireBeta() {
+  const email = document.getElementById('betaEmail').value.trim();
+  if(!email || !email.includes('@')) { showToast('Veuillez entrer un email valide'); return; }
+  showToast('✓ Inscription confirmée — bienvenue dans la bêta !');
+  document.getElementById('betaEmail').value = '';
+}
+
+// ── MODALS ──
+const modals = {
+  marg: {
+    eyebrow: 'Outil · Disponible',
+    icon: '📊', iconClass: 'ti-green',
+    status: 'ms-live', statusLabel: '✓ Disponible maintenant',
+    title: "MARG'IMMO PRO",
+    desc: "Le premier calculateur de marge MdB construit sur une vraie logique professionnelle — pas des approximations généralistes. Intègre les vraies règles fiscales issues de 12 modules de formation et les postes de coût que les tabeurs Excel oublient toujours.",
+    features: [
+      "DMTO 2,5% avec engagement / 8,5% sans — votre choix",
+      "Alerte TVA bascule dans le neuf — critères BOFIP art. 245A",
+      "Alerte lésion automatique — formule ÷2,4 (art. 1674 CC)",
+      "Dommage Ouvrage, géomètre, huissiers, ASL, Enedis",
+      "Comparaison levier vs fonds propres avec rendement annualisé",
+      "Alertes délai réaliste selon autorisation urbanisme"
+    ],
+    coming: "Phase 2 : import depuis ESTIM'TRAVAUX, historique des simulations, export PDF du bilan prévisionnel."
+  },
+  zone: {
+    eyebrow: 'Outil · Disponible',
+    icon: '🗺', iconClass: 'ti-green',
+    status: 'ms-live', statusLabel: '✓ Disponible maintenant',
+    title: "ANALYSE ZONE",
+    desc: "Toutes les données publiques immobilières d'une zone, accessibles depuis une adresse. DVF réels issus des actes notariés, DPE ADEME, données INSEE, et parcelles cadastrales DGFIP — sans abonnement, sans inscription.",
+    features: [
+      "DVF : mutations réelles, prix médian/m², répartition par type",
+      "DPE ADEME : répartition classes A à G, % passoires thermiques",
+      "INSEE : population, densité, profil logements",
+      "Cadastre : parcelles, sections, contenance, GeoJSON téléchargeable",
+      "Rayon réglable de 200m à commune entière",
+      "Autocomplete adresse avec coordonnées GPS"
+    ],
+    coming: "Phase 2 : carte interactive avec cercle dessinable, historique des zones analysées, alertes sur nouvelles mutations."
+  },
+  cerfa: {
+    eyebrow: 'Outil · Disponible',
+    icon: '📄', iconClass: 'ti-gold',
+    status: 'ms-live', statusLabel: '✓ Disponible maintenant',
+    title: "CERFA PROPRIÉTAIRE",
+    desc: "Demandez les coordonnées du propriétaire d'une parcelle en 1 clic. L'email au service des impôts fonciers est prérempli, le CERFA 6815-EM-SD est généré et téléchargeable instantanément — signable avant envoi.",
+    features: [
+      "Email prérempli avec références cadastrales",
+      "CERFA 6815-EM-SD généré dynamiquement avec vos données",
+      "Ouverture directe dans votre messagerie (mailto:)",
+      "SDIF Morbihan préconfigré — adaptable par département",
+      "Date du jour injectée automatiquement",
+      "Zéro saisie manuelle"
+    ],
+    coming: "Phase 2 : adaptation automatique du service SDIF selon le département détecté, suivi des demandes."
+  },
+  estim: {
+    eyebrow: 'Outil · Bientôt',
+    icon: '🔨', iconClass: 'ti-soft',
+    status: 'ms-beta', statusLabel: '⏳ Phase 2',
+    title: "ESTIM'TRAVAUX",
+    desc: "Estimez vos travaux poste par poste avec une base de coûts officielle — isolation, chauffage, électricité, salle de bain, cuisine, toiture. Import direct dans MARG'IMMO sans ressaisie.",
+    features: [
+      "Estimation par poste avec fourchette basse/haute",
+      "Base de coûts actualisée par région",
+      "Calcul des aides MaPrimeRénov et TVA réduite",
+      "Import automatique du total dans MARG'IMMO PRO",
+      "DPE avant/après estimé selon les travaux"
+    ],
+    coming: "Phase 3 : RENO'VISION — IMA analyse vos photos et génère l'estimation automatiquement."
+  },
+  renov: {
+    eyebrow: 'Outil · Roadmap',
+    icon: '📸', iconClass: 'ti-soft',
+    status: 'ms-soon', statusLabel: '🔮 Phase 3',
+    title: "RENO'VISION",
+    desc: "La fonctionnalité la plus différenciante de l'écosystème. Prenez une photo de la pièce, indiquez les dimensions, dites à IMA ce que vous voulez faire en 1 phrase — elle génère l'estimation en 10 secondes.",
+    features: [
+      "Photo + dimensions + description en langage naturel",
+      "Claude Vision analyse la vétusté visible",
+      "Extraction automatique des postes de travaux",
+      "Calcul depuis la base de coûts renovation_costs",
+      "Export direct vers ESTIM'TRAVAUX et MARG'IMMO"
+    ],
+    coming: "Aucun outil grand public ne combine aujourd'hui vision IA + langage naturel + base de prix officielle. Cette fonctionnalité est protégée dans la documentation technique."
+  },
+  ima_mdb: {
+    eyebrow: 'IA · Roadmap Phase 3',
+    icon: '🤖', iconClass: 'ti-dark',
+    status: 'ms-soon', statusLabel: '🔮 Phase 3',
+    title: "IMA DÉCISION MdB",
+    desc: "IMA a été formée sur les mêmes règles que vous. Elle lit votre simulation MARG'IMMO et engage un vrai dialogue — pas des conseils génériques, des questions sur vos hypothèses fragiles, avec les DVF de la zone sous les yeux.",
+    features: [
+      "Lecture automatique des résultats MARG'IMMO",
+      "Explication des alertes en langage naturel (pas de jargon)",
+      "Questionnement des hypothèses fragiles",
+      "Base de connaissances MdB professionnelle intégrée (12 modules)",
+      "Croisement DVF zone + simulation en temps réel",
+      "Recommandations d'actions concrètes"
+    ],
+    coming: "IMA MdB est le Prompt 5 de l'écosystème — un registre différent des autres modes. Pas Karine Le Marchand, mais un formateur terrain qui ne vous laisse pas passer à côté d'une variable critique."
+  }
+};
+
+function openModal(id) {
+  const d = modals[id];
+  if(!d) return;
+  document.getElementById('modal-eyebrow').textContent = d.eyebrow;
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-tool-icon ${d.iconClass}">${d.icon}</div>
+    <h3 class="modal-title">${d.title}</h3>
+    <div class="modal-status ${d.status}">${d.statusLabel}</div>
+    <p class="modal-desc">${d.desc}</p>
+    <div class="modal-features">
+      <div class="modal-feat-title">Ce que ça fait</div>
+      ${d.features.map(f=>`<div class="modal-feat"><div class="feat-check">✓</div>${f}</div>`).join('')}
+    </div>
+    <div class="modal-coming">🗓 <strong>Ce qui arrive :</strong> ${d.coming}</div>
+    <button class="btn-modal-cta" onclick="closeModalBtn();setTimeout(()=>scrollTo('#beta'),300)">Accès bêta pour tester →</button>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if(e.target === document.getElementById('modalOverlay')) closeModalBtn();
+}
+function closeModalBtn() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModalBtn(); });
+</script>
+</body>
+</html>
