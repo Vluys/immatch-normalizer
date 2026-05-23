@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RENO'VISION — IMMATCH Pro</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --t:#0F8191;--td:#096d7a;--tl:rgba(15,129,145,.1);--tll:rgba(15,129,145,.05);
+  --g:#C9A84C;--gl:rgba(201,168,76,.1);
+  --dark:#111214;--dark2:#1a1c20;--dark3:#222428;
+  --bg:#F7F6F3;--bg2:#fff;--bg3:#F0EFEC;
+  --text:#141414;--text2:#52525A;--text3:#9A9AAF;
+  --border:rgba(0,0,0,.07);--border2:rgba(0,0,0,.12);
+  --r:14px;--rs:9px;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --sh2:0 8px 32px rgba(0,0,0,.1);
+  --green:#0F6E56;--gbg:#E1F5EE;
+  --orange:#854F0B;--obg:#FAEEDA;
+  --red:#A32D2D;--rbg:#FCEBEB;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
+
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:11px 24px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:var(--sh)}
+.logo{font-family:'DM Serif Display',serif;font-size:18px;color:var(--t);letter-spacing:-.3px}
+.logo sup{color:var(--g);font-size:9px;font-family:'DM Sans',sans-serif;font-weight:700;letter-spacing:.04em}
+.tool-badge{display:flex;align-items:center;gap:8px}
+.tool-name{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.3px}
+.badge{font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:.04em}
+.b-pro{background:var(--dark);color:#fff}
+.b-beta{background:var(--gl);color:#7a5a00;border:1px solid rgba(201,168,76,.3)}
+
+/* ── PAGE ── */
+.page{max-width:860px;margin:0 auto;padding:24px 16px 80px}
+
+/* ── STEPS INDICATOR ── */
+.steps{display:flex;align-items:center;gap:0;margin-bottom:24px;background:var(--bg2);border:1px solid var(--border);border-radius:40px;padding:5px;box-shadow:var(--sh)}
+.step{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:8px 12px;border-radius:36px;cursor:pointer;transition:all .2s;font-size:12.5px;font-weight:500;color:var(--text3)}
+.step.active{background:var(--dark);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.step.done{color:var(--t)}
+.step-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:rgba(255,255,255,.15);flex-shrink:0}
+.step.active .step-num{background:rgba(255,255,255,.2)}
+.step.done .step-num{background:var(--tl);color:var(--t)}
+.step-arrow{color:var(--border2);font-size:12px;margin:0 2px}
+
+/* ── PANEL ── */
+.panel{display:none}.panel.active{display:block}
+
+/* ── BLOC PIÈCE ── */
+.piece-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px;box-shadow:var(--sh)}
+.pb-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.pb-title{font-size:13px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:8px}
+.pb-title .dot{width:8px;height:8px;border-radius:50%;background:var(--t)}
+.pb-num{font-size:11px;color:var(--text3)}
+
+/* ── FORM ── */
+.fg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+.fg-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
+.field input,.field select,.field textarea{
+  width:100%;padding:9px 11px;border:1px solid var(--border2);border-radius:var(--rs);
+  background:var(--bg3);color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;
+  transition:border-color .15s,background .15s;-webkit-appearance:none;
+}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+.field textarea{resize:vertical;min-height:90px;line-height:1.6}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--t);background:#fff}
+
+/* ── DESCRIPTION IMA ── */
+.desc-block{background:var(--dark);border-radius:var(--r);padding:16px 18px;margin-bottom:14px}
+.desc-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ima-av{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--t);background:var(--dark2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--t);flex-shrink:0}
+.desc-label{font-size:10px;color:var(--g);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.desc-msg{font-size:12.5px;color:#ccc;line-height:1.65;margin-bottom:12px}
+.desc-msg em{color:var(--g);font-style:normal;font-weight:500}
+.desc-textarea{width:100%;min-height:80px;padding:10px 13px;background:var(--dark2);border:1px solid rgba(255,255,255,.1);border-radius:var(--rs);color:#ddd;font-size:13px;font-family:'DM Sans',sans-serif;resize:vertical;line-height:1.6;transition:border-color .15s}
+.desc-textarea:focus{outline:none;border-color:var(--t)}
+.desc-textarea::placeholder{color:#555}
+
+/* ── SUGGESTIONS RAPIDES ── */
+.quick-desc{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.qdesc{font-size:11px;padding:4px 11px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#888;cursor:pointer;transition:all .15s}
+.qdesc:hover{background:var(--tl);border-color:var(--t);color:var(--t)}
+
+/* ── BOUTON ANALYSER ── */
+.btn-analyse{
+  width:100%;height:50px;
+  background:linear-gradient(135deg,var(--t),var(--td));
+  color:#fff;border:none;border-radius:var(--rs);
+  font-size:15px;font-weight:600;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  box-shadow:0 4px 16px rgba(15,129,145,.3);
+  transition:transform .15s,box-shadow .15s,opacity .15s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-top:14px;letter-spacing:.01em;
+}
+.btn-analyse:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(15,129,145,.4)}
+.btn-analyse:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-analyse .btn-icon{font-size:18px}
+
+/* ── BOUTON SECONDAIRE ── */
+.btn-sec{height:42px;padding:0 20px;background:var(--bg2);color:var(--text);border:1px solid var(--border2);border-radius:var(--rs);font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .15s}
+.btn-sec:hover{border-color:var(--t);color:var(--t)}
+
+/* ── PHASE 2 : PHOTO ── */
+.photo-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px;box-shadow:var(--sh)}
+.photo-zone{border:2px dashed var(--border2);border-radius:var(--r);padding:32px 20px;text-align:center;cursor:pointer;transition:all .2s;position:relative;background:var(--bg3)}
+.photo-zone:hover{border-color:var(--t);background:var(--tll)}
+.photo-zone.has-photo{border-style:solid;border-color:var(--t);background:var(--tll);padding:12px}
+.photo-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.photo-icon{font-size:32px;margin-bottom:10px;display:block}
+.photo-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.photo-sub{font-size:12px;color:var(--text3)}
+.photo-preview{width:100%;max-height:280px;object-fit:cover;border-radius:var(--rs);display:block}
+.photo-change{font-size:11px;color:var(--t);margin-top:8px;cursor:pointer;text-align:center}
+
+.photo-tips{background:var(--tll);border:1px solid rgba(15,129,145,.15);border-radius:var(--rs);padding:12px 14px;margin-top:12px}
+.tips-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--td);margin-bottom:8px}
+.tip-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text2);margin-bottom:5px;line-height:1.5}
+.tip-item:last-child{margin-bottom:0}
+.tip-ico{font-size:13px;flex-shrink:0;margin-top:1px}
+
+.btn-vision{
+  width:100%;height:50px;
+  background:linear-gradient(135deg,var(--g),#a8863a);
+  color:#fff;border:none;border-radius:var(--rs);
+  font-size:15px;font-weight:600;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  box-shadow:0 4px 16px rgba(201,168,76,.3);
+  transition:transform .15s,box-shadow .15s,opacity .15s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-top:14px;
+}
+.btn-vision:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,168,76,.4)}
+.btn-vision:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.skip-photo{text-align:center;margin-top:10px;font-size:12px;color:var(--text3)}
+.skip-photo span{color:var(--t);cursor:pointer;text-decoration:underline}
+
+/* ── RÉSULTATS ── */
+.result-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px;box-shadow:var(--sh)}
+.result-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.result-ima-msg{font-size:13px;color:var(--text);line-height:1.7;flex:1}
+.result-ima-msg strong{color:var(--td)}
+
+/* KPI TOTAL */
+.kpi-total{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.kpi{background:var(--bg3);border-radius:var(--rs);padding:13px 14px}
+.kpi-l{font-size:10px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.kpi-v{font-size:22px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.kpi-v.teal{color:var(--t)}.kpi-v.gold{color:var(--g)}.kpi-v.green{color:var(--green)}
+.kpi-sub{font-size:10px;color:var(--text3);margin-top:3px}
+
+/* POSTES TABLE */
+.postes-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.postes-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.poste-row{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:12.5px}
+.poste-row:last-child{border-bottom:none}
+.poste-name{color:var(--text);font-weight:500}
+.poste-qty{color:var(--text3);font-size:11.5px}
+.poste-prix{text-align:right}
+.poste-low{color:var(--text3);font-size:11px}
+.poste-high{font-weight:600;color:var(--text)}
+.conf-badge{font-size:9px;padding:2px 7px;border-radius:10px;margin-left:6px}
+.ch{background:var(--gbg);color:var(--green)}.cm{background:var(--obg);color:var(--orange)}.cb{background:var(--rbg);color:var(--red)}
+
+/* AIDES */
+.aides-block{background:var(--gbg);border:1px solid rgba(15,110,86,.15);border-radius:var(--rs);padding:12px 14px;margin:14px 0}
+.aides-title{font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.aide-item{display:flex;justify-content:space-between;font-size:12.5px;padding:4px 0;border-bottom:1px solid rgba(15,110,86,.1)}
+.aide-item:last-child{border-bottom:none}
+.aide-name{color:var(--text2)}.aide-val{font-weight:600;color:var(--green)}
+
+/* QUESTIONS IMA */
+.ima-questions{background:var(--dark);border-radius:var(--rs);padding:14px 16px;margin-top:14px}
+.ima-q-title{font-size:10px;color:var(--g);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:10px}
+.ima-q-item{display:flex;align-items:flex-start;gap:9px;font-size:12.5px;color:#bbb;margin-bottom:8px;line-height:1.6}
+.ima-q-item:last-child{margin-bottom:0}
+.ima-q-dot{width:6px;height:6px;border-radius:50%;background:var(--g);margin-top:6px;flex-shrink:0}
+
+/* ACTIONS RÉSULTAT */
+.result-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.btn-export{height:40px;padding:0 18px;background:var(--t);color:#fff;border:none;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .15s}
+.btn-export:hover{opacity:.88}
+.btn-reset{height:40px;padding:0 18px;background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:var(--rs);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* LOADING */
+.loading-state{padding:40px 20px;text-align:center;display:none}
+.loading-state.active{display:block}
+.loader-ring{width:48px;height:48px;border:3px solid var(--border2);border-top-color:var(--t);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-msg{font-size:14px;color:var(--text2);margin-bottom:6px}
+.loader-sub{font-size:12px;color:var(--text3)}
+
+/* MENTION LÉGALE */
+.mention{font-size:10.5px;color:var(--text3);line-height:1.65;border-top:1px solid var(--border);padding-top:12px;margin-top:14px}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:#fff;padding:11px 18px;border-radius:var(--rs);font-size:13px;font-weight:500;z-index:999;transform:translateY(20px);opacity:0;transition:all .25s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* RESPONSIVE */
+@media(max-width:600px){.fg{grid-template-columns:1fr 1fr}.kpi-total{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">immatch<sup>™</sup></div>
+  <div class="tool-badge">
+    <span class="tool-name">RENO'VISION</span>
+    <span class="badge b-pro">Espace Investisseur</span>
+    <span class="badge b-beta">Bêta</span>
+  </div>
+  <div style="font-size:11px;color:var(--text3)">Powered by IMA</div>
+</div>
+
+<div class="page">
+
+  <!-- STEPS -->
+  <div class="steps">
+    <div class="step active" id="step1-btn">
+      <div class="step-num">1</div>
+      La pièce & description
+    </div>
+    <span class="step-arrow">›</span>
+    <div class="step" id="step2-btn">
+      <div class="step-num">2</div>
+      Photo (optionnel)
+    </div>
+    <span class="step-arrow">›</span>
+    <div class="step" id="step3-btn">
+      <div class="step-num">3</div>
+      Estimation IMA
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 1 ══════════════════ -->
+  <div class="panel active" id="panel1">
+
+    <!-- INFOS PIÈCE -->
+    <div class="piece-block">
+      <div class="pb-head">
+        <div class="pb-title"><div class="dot"></div>Informations de la pièce</div>
+      </div>
+      <div class="fg">
+        <div class="field">
+          <label>Type de pièce</label>
+          <select id="type_piece">
+            <option value="salle_de_bain">Salle de bain</option>
+            <option value="cuisine">Cuisine</option>
+            <option value="salon">Salon / Séjour</option>
+            <option value="chambre">Chambre</option>
+            <option value="wc">WC</option>
+            <option value="couloir">Couloir / Entrée</option>
+            <option value="combles">Combles</option>
+            <option value="sous_sol">Sous-sol / Cave</option>
+            <option value="facade">Façade / Extérieur</option>
+            <option value="toiture">Toiture</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Surface (m²)</label>
+          <input type="number" id="surface_piece" placeholder="Ex : 8" min="1" max="500" />
+        </div>
+        <div class="field">
+          <label>Zone géo</label>
+          <select id="zone_geo">
+            <option value="province">Province</option>
+            <option value="idf">Île-de-France</option>
+            <option value="rural">Rural</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg">
+        <div class="field">
+          <label>Hauteur sous plafond (m)</label>
+          <input type="number" id="hauteur" placeholder="Ex : 2.5" step="0.1" value="2.5" />
+        </div>
+        <div class="field">
+          <label>Nb de fenêtres / ouvertures</label>
+          <input type="number" id="nb_fenetres" placeholder="Ex : 1" min="0" />
+        </div>
+        <div class="field">
+          <label>DPE actuel du bien</label>
+          <select id="dpe_actuel">
+            <option value="">Non renseigné</option>
+            <option value="A">A</option><option value="B">B</option>
+            <option value="C">C</option><option value="D">D</option>
+            <option value="E">E</option><option value="F">F</option>
+            <option value="G">G</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESCRIPTION IMA -->
+    <div class="desc-block">
+      <div class="desc-head">
+        <div class="ima-av">IMA</div>
+        <div>
+          <div class="desc-label">IMA — Décrivez vos travaux</div>
+        </div>
+      </div>
+      <div class="desc-msg">
+        Dites-moi en <em>une ou deux phrases</em> ce que vous voulez faire dans cette pièce. Soyez concret : matériaux souhaités, ce qui reste ou ce qui part, style visé. Je m'occupe du reste.
+      </div>
+      <textarea class="desc-textarea" id="description_travaux" placeholder="Ex : Je veux tout refaire la salle de bain — carrelage gris anthracite 60×60, douche à l'italienne 90×90, meuble vasque suspendu blanc, et repeindre les murs en gris clair..."></textarea>
+      <div class="quick-desc">
+        <span class="qdesc" onclick="addDesc('Tout refaire à neuf')">Tout refaire à neuf</span>
+        <span class="qdesc" onclick="addDesc('Carrelage à casser et reposer')">Carrelage à casser et reposer</span>
+        <span class="qdesc" onclick="addDesc('Juste réparer et remettre au goût du jour')">Rafraîchir / remettre au goût du jour</span>
+        <span class="qdesc" onclick="addDesc('Sol abîmé à remplacer')">Sol abîmé à remplacer</span>
+        <span class="qdesc" onclick="addDesc('Murs à détapisser, enduire et repeindre')">Détapisser + enduire + peindre</span>
+        <span class="qdesc" onclick="addDesc('Fenêtres vétustes à remplacer')">Fenêtres à remplacer</span>
+      </div>
+    </div>
+
+    <button class="btn-analyse" id="btnEtape1" onclick="goStep2()">
+      <span class="btn-icon">→</span>
+      Continuer — Ajouter une photo (recommandé)
+    </button>
+
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 2 ══════════════════ -->
+  <div class="panel" id="panel2">
+
+    <div class="photo-block">
+      <div class="pb-head">
+        <div class="pb-title"><div class="dot"></div>Photo de la pièce</div>
+        <span style="font-size:11px;color:var(--t);font-weight:600">Recommandé</span>
+      </div>
+
+      <div class="photo-zone" id="photoZone" onclick="document.getElementById('photoInput').click()">
+        <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" onchange="onPhotoChange(event)" style="display:none" />
+        <span class="photo-icon" id="photoIcon">📷</span>
+        <div class="photo-title" id="photoTitle">Ajouter une photo de la pièce</div>
+        <div class="photo-sub" id="photoSub">JPG, PNG ou WEBP · Max 5 Mo · IMA analyse l'état visible</div>
+        <img id="photoPreview" class="photo-preview" style="display:none" />
+      </div>
+      <div class="photo-change" id="photoChange" style="display:none" onclick="document.getElementById('photoInput').click()">📎 Changer de photo</div>
+
+      <div class="photo-tips">
+        <div class="tips-title">Pour une meilleure analyse</div>
+        <div class="tip-item"><span class="tip-ico">💡</span>Photo prise depuis l'entrée de la pièce, lumière allumée</div>
+        <div class="tip-item"><span class="tip-ico">🎯</span>Cadrez le sol, les murs et le plafond dans le même plan</div>
+        <div class="tip-item"><span class="tip-ico">🔍</span>Si le carrelage est fissuré ou décollé — prenez un gros plan en 2ème photo</div>
+        <div class="tip-item"><span class="tip-ico">🪟</span>Fenêtres et menuiseries visibles si vous envisagez de les changer</div>
+      </div>
+    </div>
+
+    <button class="btn-vision" id="btnAnalyseVision" onclick="lancerAnalyse(true)">
+      <span>📸</span>
+      Analyser la photo avec IMA
+    </button>
+
+    <div class="skip-photo">
+      Pas de photo disponible ? <span onclick="lancerAnalyse(false)">Continuer sans photo →</span>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 3 : RÉSULTATS ══════════════════ -->
+  <div class="panel" id="panel3">
+
+    <!-- LOADING -->
+    <div class="loading-state" id="loadingState">
+      <div class="loader-ring"></div>
+      <div class="loader-msg" id="loaderMsg">IMA analyse votre description…</div>
+      <div class="loader-sub" id="loaderSub">Extraction des postes de travaux en cours</div>
+    </div>
+
+    <!-- RÉSULTAT -->
+    <div id="resultContent" style="display:none">
+
+      <div class="result-block" id="resultBlock">
+        <!-- injecté par JS -->
+      </div>
+
+      <div class="result-actions">
+        <button class="btn-export" onclick="exporterMargImmo()">⬇ Exporter vers MARG'IMMO</button>
+        <button class="btn-sec" onclick="resetTout()">↺ Nouvelle analyse</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════
+// BASE DE COÛTS — renovation_costs
+// ══════════════════════════════════════════════════
+const COSTS = {
+  // SOL
+  carrelage_casser_reposer:  { label:'Carrelage — dépose + repose', low:45, high:90,  unit:'m2', cat:'sol' },
+  carrelage_repose:          { label:'Carrelage — repose seule',     low:30, high:60,  unit:'m2', cat:'sol' },
+  parquet_flottant:          { label:'Parquet flottant',             low:20, high:45,  unit:'m2', cat:'sol' },
+  parquet_massif:            { label:'Parquet massif posé',          low:60, high:120, unit:'m2', cat:'sol' },
+  regrerage_sol:             { label:'Ragréage sol',                 low:8,  high:20,  unit:'m2', cat:'sol' },
+  iso_mince_sol:             { label:'Isolation mince avant parquet',low:8,  high:18,  unit:'m2', cat:'sol' },
+  // MUR
+  detapisser_enduire_peindre:{ label:'Détapisser + enduire + peindre',low:20,high:45, unit:'m2', cat:'mur' },
+  enduire_peindre:           { label:'Enduire + peindre',            low:15, high:32,  unit:'m2', cat:'mur' },
+  peindre_seul:              { label:'Peinture seule',               low:8,  high:18,  unit:'m2', cat:'mur' },
+  carrelage_mural:           { label:'Carrelage mural',              low:40, high:85,  unit:'m2', cat:'mur' },
+  faience_depose_repose:     { label:'Faïence — dépose + repose',    low:55, high:100, unit:'m2', cat:'mur' },
+  // PLAFOND
+  plafond_peindre:           { label:'Plafond — peinture',           low:8,  high:18,  unit:'m2', cat:'plafond' },
+  plafond_enduire_peindre:   { label:'Plafond — enduire + peindre',  low:15, high:30,  unit:'m2', cat:'plafond' },
+  faux_plafond:              { label:'Faux plafond BA13',            low:25, high:55,  unit:'m2', cat:'plafond' },
+  // MENUISERIES
+  fenetre_pvc_double:        { label:'Fenêtre PVC double vitrage',   low:400,high:800, unit:'unit', cat:'menuiserie' },
+  fenetre_alu:               { label:'Fenêtre aluminium',            low:600,high:1200,unit:'unit', cat:'menuiserie' },
+  porte_interieure:          { label:'Porte intérieure posée',       low:200,high:500, unit:'unit', cat:'menuiserie' },
+  // SANITAIRES
+  sdb_complete:              { label:'SDB complète (équipements + pose)', low:4000,high:12000,unit:'forfait',cat:'sanitaire' },
+  douche_italienne:          { label:'Douche à l\'italienne',        low:1500,high:4000,unit:'forfait',cat:'sanitaire' },
+  baignoire:                 { label:'Baignoire posée',              low:800, high:2500,unit:'forfait',cat:'sanitaire' },
+  wc:                        { label:'WC suspendu posé',             low:400, high:1200,unit:'forfait',cat:'sanitaire' },
+  meuble_vasque:             { label:'Meuble vasque suspendu',       low:300, high:1500,unit:'forfait',cat:'sanitaire' },
+  plomberie_modif:           { label:'Plomberie — modifications',    low:800, high:3000,unit:'forfait',cat:'sanitaire' },
+  // CUISINE
+  cuisine_equipee:           { label:'Cuisine équipée complète',     low:5000,high:20000,unit:'forfait',cat:'cuisine' },
+  cuisine_plan_travail:      { label:'Plan de travail seul',         low:300, high:1200,unit:'forfait',cat:'cuisine' },
+  // ISOLATION
+  isolation_combles:         { label:'Isolation combles perdus',     low:25,  high:50,  unit:'m2', cat:'isolation' },
+  isolation_murs_ext:        { label:'Isolation murs extérieurs',    low:80,  high:160, unit:'m2', cat:'isolation' },
+  iso_murs_int:              { label:'Isolation murs intérieurs',    low:30,  high:70,  unit:'m2', cat:'isolation' },
+  // ELECTRICITE
+  electricite_complete:      { label:'Électricité — mise aux normes',low:3000,high:8000,unit:'forfait',cat:'electricite' },
+  electricite_partielle:     { label:'Électricité — partielle',      low:800, high:2500,unit:'forfait',cat:'electricite' },
+  // CHAUFFAGE
+  pompe_chaleur:             { label:'Pompe à chaleur air/air',      low:8000,high:15000,unit:'forfait',cat:'chauffage' },
+  radiateurs:                { label:'Radiateurs électriques',       low:150, high:400, unit:'unit', cat:'chauffage' },
+  // TOITURE
+  toiture_complete:          { label:'Toiture complète',             low:80,  high:200, unit:'m2', cat:'toiture' },
+  zinguerie:                 { label:'Zinguerie',                    low:30,  high:80,  unit:'m2', cat:'toiture' },
+};
+
+const GEO_COEF = { idf: 1.25, province: 1.00, rural: 0.85 };
+
+// Aides simplifiées
+const AIDES = [
+  { label:'MaPrimeRénov\' (iso/chauffage)', cles:['isolation_combles','isolation_murs_ext','iso_murs_int','pompe_chaleur'], pct:0.30 },
+  { label:'TVA réduite 5,5%', cles:['isolation_combles','isolation_murs_ext','pompe_chaleur'], type:'info' },
+  { label:'CEE (économies énergie)', cles:['isolation_combles','isolation_murs_ext','pompe_chaleur'], pct:0.10 },
+];
+
+// ══════════════════════════════════════════════════
+// NAVIGATION ÉTAPES
+// ══════════════════════════════════════════════════
+let photoBase64 = null;
+let photoType = null;
+let resultData = null;
+
+function goStep2() {
+  const desc = document.getElementById('description_travaux').value.trim();
+  const surf = document.getElementById('surface_piece').value;
+  if(!desc || desc.length < 10) { showToast('Décrivez vos travaux en quelques mots'); return; }
+  if(!surf || parseFloat(surf) <= 0) { showToast('Indiquez la surface de la pièce'); return; }
+  setStep(2);
+}
+
+function setStep(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('panel'+i).classList.toggle('active', i===n);
+    const btn = document.getElementById('step'+i+'-btn');
+    btn.classList.remove('active','done');
+    if(i < n) btn.classList.add('done');
+    if(i === n) btn.classList.add('active');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function addDesc(txt) {
+  const ta = document.getElementById('description_travaux');
+  ta.value = ta.value ? ta.value + ' ' + txt + '.' : txt + '.';
+  ta.focus();
+}
+
+// ══════════════════════════════════════════════════
+// PHOTO
+// ══════════════════════════════════════════════════
+function onPhotoChange(event) {
+  const file = event.target.files[0];
+  if(!file) return;
+  if(file.size > 5 * 1024 * 1024) { showToast('Image trop lourde — max 5 Mo'); return; }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const result = e.target.result;
+    photoBase64 = result.split(',')[1];
+    photoType = file.type;
+
+    const preview = document.getElementById('photoPreview');
+    preview.src = result;
+    preview.style.display = 'block';
+    document.getElementById('photoIcon').style.display = 'none';
+    document.getElementById('photoTitle').style.display = 'none';
+    document.getElementById('photoSub').style.display = 'none';
+    document.getElementById('photoChange').style.display = 'block';
+    document.getElementById('photoZone').classList.add('has-photo');
+
+    // Activer le bouton vision
+    document.getElementById('btnAnalyseVision').textContent = '';
+    document.getElementById('btnAnalyseVision').innerHTML = '<span>✨</span> Analyser la photo avec IMA';
+  };
+  reader.readAsDataURL(file);
+}
+
+// ══════════════════════════════════════════════════
+// LANCEMENT ANALYSE
+// ══════════════════════════════════════════════════
+async function lancerAnalyse(avecPhoto) {
+  setStep(3);
+
+  const loadingState = document.getElementById('loadingState');
+  const resultContent = document.getElementById('resultContent');
+  loadingState.classList.add('active');
+  resultContent.style.display = 'none';
+
+  const formData = {
+    type_piece: document.getElementById('type_piece').value,
+    surface: parseFloat(document.getElementById('surface_piece').value) || 10,
+    zone: document.getElementById('zone_geo').value,
+    hauteur: parseFloat(document.getElementById('hauteur').value) || 2.5,
+    nb_fenetres: parseInt(document.getElementById('nb_fenetres').value) || 0,
+    dpe: document.getElementById('dpe_actuel').value,
+    description: document.getElementById('description_travaux').value.trim(),
+    avecPhoto: avecPhoto && photoBase64 !== null
+  };
+
+  // Mise à jour message loader
+  if(formData.avecPhoto) {
+    document.getElementById('loaderMsg').textContent = 'IMA analyse votre photo…';
+    document.getElementById('loaderSub').textContent = 'Détection de l\'état de la pièce + extraction des postes';
+  }
+
+  try {
+    const postes = await callIMA(formData);
+    renderResultats(postes, formData);
+  } catch(e) {
+    // Fallback : analyse par description seule (règles locales)
+    const postes = analyseLocale(formData);
+    renderResultats(postes, formData, true);
+  }
+
+  loadingState.classList.remove('active');
+  resultContent.style.display = 'block';
+}
+
+// ══════════════════════════════════════════════════
+// APPEL API ANTHROPIC (Claude Vision ou texte)
+// ══════════════════════════════════════════════════
+async function callIMA(formData) {
+  const postesListe = Object.entries(COSTS).map(([k,v]) =>
+    `${k} | ${v.label} | ${v.unit} | ${v.low}-${v.high}€`
+  ).join('\n');
+
+  const systemPrompt = `Tu es IMA — conseillère IMMATCH spécialisée en estimation de travaux immobiliers.
+L'utilisateur décrit les travaux qu'il souhaite réaliser dans une pièce.
+${formData.avecPhoto ? 'Une photo de la pièce t\'est fournie — analyse l\'état visible.' : ''}
+
+CONTEXTE :
+- Type de pièce : ${formData.type_piece.replace(/_/g,' ')}
+- Surface : ${formData.surface} m²
+- Hauteur sous plafond : ${formData.hauteur} m
+- Nb fenêtres/ouvertures : ${formData.nb_fenetres}
+- Zone géographique : ${formData.zone}
+- DPE actuel : ${formData.dpe || 'non renseigné'}
+
+Surface murs estimée : ${Math.round(2*(formData.surface/1+formData.hauteur)*2)} m² environ
+Surface plafond : ${formData.surface} m²
+
+POSTES DISPONIBLES (clé | label | unité | fourchette €) :
+${postesListe}
+
+INSTRUCTIONS :
+1. Lis la description et ${formData.avecPhoto ? 'analyse la photo' : 'extrait les travaux décrits'}
+2. Mappe UNIQUEMENT sur les postes disponibles ci-dessus
+3. Calcule les quantités réalistes selon les surfaces fournies
+4. Retourne UNIQUEMENT un JSON valide, sans texte avant/après, sans backticks
+
+FORMAT JSON :
+{
+  "analyse": "1 phrase décrivant ce que tu as compris de la pièce${formData.avecPhoto ? ' et vu sur la photo' : ''}",
+  "postes": [
+    {
+      "key": "cle_poste",
+      "label": "label exact",
+      "quantite": nombre,
+      "unite": "m2|unit|forfait",
+      "confiance": "haute|moyenne|basse",
+      "source": "${formData.avecPhoto ? 'image|description|les_deux' : 'description'}"
+    }
+  ],
+  "message_ima": "Message conversationnel court (2-3 phrases) confirmant les travaux et signalant 1 point d'attention important",
+  "questions": ["Question de précision si nécessaire (max 2)"]
+}`;
+
+  const userContent = formData.avecPhoto ? [
+    {
+      type: 'image',
+      source: { type: 'base64', media_type: photoType, data: photoBase64 }
+    },
+    { type: 'text', text: formData.description }
+  ] : formData.description;
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1500,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userContent }]
+    })
+  });
+
+  if(!response.ok) throw new Error('API ' + response.status);
+  const data = await response.json();
+  const text = data.content[0].text;
+
+  // Parser le JSON retourné
+  const clean = text.replace(/```json|```/g,'').trim();
+  return JSON.parse(clean);
+}
+
+// ══════════════════════════════════════════════════
+// ANALYSE LOCALE (fallback sans API)
+// ══════════════════════════════════════════════════
+function analyseLocale(formData) {
+  const desc = formData.description.toLowerCase();
+  const surf = formData.surface;
+  const postes = [];
+
+  // Règles par mots-clés
+  const rules = [
+    { keys:['carrelage','casser','déposer','enlever'], poste:'carrelage_casser_reposer', qty:surf },
+    { keys:['carrelage','repose','reposer'], poste:'carrelage_repose', qty:surf },
+    { keys:['carrelage mural','faïence'], poste:'carrelage_mural', qty:surf*1.5 },
+    { keys:['parquet flottant'], poste:'parquet_flottant', qty:surf },
+    { keys:['parquet massif'], poste:'parquet_massif', qty:surf },
+    { keys:['ragréage','ragreaer','réagréage'], poste:'regrerage_sol', qty:surf },
+    { keys:['iso mince','isolation mince'], poste:'iso_mince_sol', qty:surf },
+    { keys:['détapisser','tapisserie'], poste:'detapisser_enduire_peindre', qty:surf*2 },
+    { keys:['enduire','enduit'], poste:'enduire_peindre', qty:surf*2 },
+    { keys:['repeindre','peinture','peindre'], poste:'peindre_seul', qty:surf*2 },
+    { keys:['plafond'], poste:'plafond_enduire_peindre', qty:surf },
+    { keys:['fenêtre','fenetre','double vitrage'], poste:'fenetre_pvc_double', qty:formData.nb_fenetres||1 },
+    { keys:['porte'], poste:'porte_interieure', qty:1 },
+    { keys:['salle de bain','sdb','tout refaire'], poste:'sdb_complete', qty:1, type:'sdb' },
+    { keys:['douche italienne','douche à l\'italienne'], poste:'douche_italienne', qty:1 },
+    { keys:['baignoire'], poste:'baignoire', qty:1 },
+    { keys:['wc','toilette'], poste:'wc', qty:1 },
+    { keys:['vasque','meuble salle'], poste:'meuble_vasque', qty:1 },
+    { keys:['plomberie'], poste:'plomberie_modif', qty:1 },
+    { keys:['cuisine'], poste:'cuisine_equipee', qty:1, type:'cuisine' },
+    { keys:['isolation combles','combles'], poste:'isolation_combles', qty:surf },
+    { keys:['isolation murs','ite'], poste:'isolation_murs_ext', qty:surf*2 },
+    { keys:['électricité','electricite','normes élec'], poste:'electricite_complete', qty:1 },
+    { keys:['pompe à chaleur','pac','climatisation'], poste:'pompe_chaleur', qty:1 },
+    { keys:['toiture','toit','couverture'], poste:'toiture_complete', qty:surf },
+  ];
+
+  const dejaoAjoute = new Set();
+
+  rules.forEach(rule => {
+    if(dejaoAjoute.has(rule.poste)) return;
+    const match = rule.keys.some(k => desc.includes(k));
+    if(match) {
+      postes.push({
+        key: rule.poste,
+        label: COSTS[rule.poste]?.label || rule.poste,
+        quantite: rule.qty,
+        unite: COSTS[rule.poste]?.unit || 'm2',
+        confiance: 'moyenne',
+        source: 'description'
+      });
+      dejaoAjoute.add(rule.poste);
+    }
+  });
+
+  // Si rien détecté — poste générique
+  if(postes.length === 0) {
+    postes.push({
+      key:'peindre_seul', label:'Peinture générale', quantite:surf*2,
+      unite:'m2', confiance:'basse', source:'description'
+    });
+  }
+
+  return {
+    analyse: `Analyse de la ${formData.type_piece.replace(/_/g,' ')} (${surf} m²) — ${postes.length} poste(s) identifié(s)`,
+    postes,
+    message_ima: `J'ai identifié ${postes.length} poste(s) de travaux depuis votre description. Les quantités sont calculées automatiquement depuis la surface indiquée. Ajoutez une photo pour affiner l'analyse.`,
+    questions: ['L\'état du carrelage existant est-il fissuré ou simplement daté ?', 'Y a-t-il des travaux de plomberie à prévoir ?']
+  };
+}
+
+// ══════════════════════════════════════════════════
+// RENDU DES RÉSULTATS
+// ══════════════════════════════════════════════════
+function renderResultats(data, formData, isFallback=false) {
+  const coef = GEO_COEF[formData.zone] || 1;
+  let totalLow = 0, totalHigh = 0;
+  const postesRendus = [];
+
+  (data.postes || []).forEach(p => {
+    const cout = COSTS[p.key];
+    if(!cout) return;
+    const qty = p.quantite || 1;
+    const low  = Math.round(cout.low  * qty * coef);
+    const high = Math.round(cout.high * qty * coef);
+    totalLow  += low;
+    totalHigh += high;
+    postesRendus.push({...p, low, high, qty});
+  });
+
+  // Aides
+  const aidesApplicables = [];
+  let totalAides = 0;
+  (data.postes || []).forEach(p => {
+    AIDES.forEach(aide => {
+      if(aide.cles.includes(p.key) && aide.pct && !aidesApplicables.find(a=>a.label===aide.label)) {
+        const montant = Math.round(totalLow * aide.pct);
+        aidesApplicables.push({ label: aide.label, montant });
+        totalAides += montant;
+      }
+    });
+  });
+
+  resultData = { totalLow, totalHigh, totalAides, postes: postesRendus, formData };
+
+  const confBadge = c => c==='haute'?'<span class="conf-badge ch">Haute</span>':c==='moyenne'?'<span class="conf-badge cm">Moyenne</span>':'<span class="conf-badge cb">Basse</span>';
+
+  document.getElementById('resultBlock').innerHTML = `
+    ${isFallback ? `<div style="background:var(--obg);border-radius:var(--rs);padding:10px 13px;margin-bottom:14px;font-size:12px;color:var(--orange)">⚠ Analyse locale (API non configurée) — résultats basés sur la description uniquement. <a href="#" style="color:var(--t)" onclick="showApiConfig()">Configurer l'API</a></div>` : ''}
+
+    <div class="result-head">
+      <div class="ima-av">IMA</div>
+      <div class="result-ima-msg">
+        <strong>Analyse : ${data.analyse}</strong><br>
+        ${data.message_ima || ''}
+      </div>
+    </div>
+
+    <div class="kpi-total">
+      <div class="kpi">
+        <div class="kpi-l">Fourchette basse</div>
+        <div class="kpi-v teal">${totalLow.toLocaleString('fr')} €</div>
+        <div class="kpi-sub">Zone ${formData.zone} × ${coef}</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-l">Fourchette haute</div>
+        <div class="kpi-v gold">${totalHigh.toLocaleString('fr')} €</div>
+        <div class="kpi-sub">${postesRendus.length} poste(s)</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-l">Reste à charge estimé</div>
+        <div class="kpi-v green">${Math.max(0,totalLow-totalAides).toLocaleString('fr')} €</div>
+        <div class="kpi-sub">Après aides estimées</div>
+      </div>
+    </div>
+
+    <div class="postes-title">Détail par poste</div>
+    ${postesRendus.map(p => `
+      <div class="poste-row">
+        <div>
+          <div class="poste-name">${p.label}${confBadge(p.confiance)}</div>
+          <div class="poste-qty">${p.quantite} ${p.unite==='m2'?'m²':p.unite==='unit'?'unité(s)':'forfait'} · source : ${p.source}</div>
+        </div>
+        <div></div>
+        <div class="poste-prix">
+          <div class="poste-low">${p.low.toLocaleString('fr')} €</div>
+          <div class="poste-high">${p.high.toLocaleString('fr')} €</div>
+        </div>
+      </div>`).join('')}
+
+    ${aidesApplicables.length > 0 ? `
+    <div class="aides-block">
+      <div class="aides-title">🎁 Aides estimées applicables</div>
+      ${aidesApplicables.map(a=>`
+        <div class="aide-item">
+          <span class="aide-name">${a.label}</span>
+          <span class="aide-val">− ${a.montant.toLocaleString('fr')} €</span>
+        </div>`).join('')}
+    </div>` : ''}
+
+    ${data.questions && data.questions.length > 0 ? `
+    <div class="ima-questions">
+      <div class="ima-q-title">IMA — Questions de précision</div>
+      ${data.questions.map(q=>`
+        <div class="ima-q-item"><div class="ima-q-dot"></div>${q}</div>`).join('')}
+    </div>` : ''}
+
+    <div class="mention">
+      Cette estimation est fournie à titre indicatif uniquement. Elle est calculée automatiquement sur la base de grilles de coûts moyens. Elle ne remplace pas un devis professionnel et ne peut être utilisée comme base contractuelle. Les aides affichées sont indicatives — consultez France Rénov' pour votre situation personnelle. — Cadre Estate Solutions ™ 2026
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════════════════
+// EXPORT MARG'IMMO
+// ══════════════════════════════════════════════════
+function exporterMargImmo() {
+  if(!resultData) return;
+  const msg = `Travaux estimés :\n- Fourchette basse : ${resultData.totalLow.toLocaleString('fr')} €\n- Fourchette haute : ${resultData.totalHigh.toLocaleString('fr')} €\n- Reste à charge : ${Math.max(0,resultData.totalLow-resultData.totalAides).toLocaleString('fr')} €\n\nPoste : ${resultData.postes.map(p=>p.label+' — '+p.high.toLocaleString('fr')+'€').join('\n')}`;
+  navigator.clipboard.writeText(msg).catch(()=>{});
+  showToast('✓ Données copiées — à coller dans MARG\'IMMO');
+}
+
+function resetTout() {
+  photoBase64 = null; photoType = null; resultData = null;
+  document.getElementById('description_travaux').value = '';
+  document.getElementById('surface_piece').value = '';
+  document.getElementById('nb_fenetres').value = '';
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('photoIcon').style.display = 'block';
+  document.getElementById('photoTitle').style.display = 'block';
+  document.getElementById('photoSub').style.display = 'block';
+  document.getElementById('photoChange').style.display = 'none';
+  document.getElementById('photoZone').classList.remove('has-photo');
+  setStep(1);
+}
+
+function showApiConfig() {
+  showToast('Clé API Anthropic requise — à configurer dans l\'Edge Function Supabase');
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
