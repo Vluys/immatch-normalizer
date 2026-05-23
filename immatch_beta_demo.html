@@ -6,7 +6,7 @@
 <title>IMMATCH — Espace Investisseur · Bêta</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
-
+ 
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --t:#0F8191;--td:#096d7a;--tl:rgba(15,129,145,.1);--tll:rgba(15,129,145,.05);
@@ -19,10 +19,10 @@
   --sh:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.05);
   --sh2:0 4px 24px rgba(0,0,0,.08),0 1px 4px rgba(0,0,0,.04);
 }
-
+ 
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;overflow-x:hidden}
-
+ 
 /* ═══════════════════════════════
    NAV
 ═══════════════════════════════ */
@@ -35,7 +35,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .nav-link.active{background:var(--t);color:#fff}
 .nav-cta{height:34px;padding:0 18px;background:var(--dark);color:#fff;border:none;border-radius:20px;font-size:12.5px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .15s}
 .nav-cta:hover{opacity:.85}
-
+ 
 /* ═══════════════════════════════
    HERO
 ═══════════════════════════════ */
@@ -55,14 +55,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .hero-scroll{margin-top:60px;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--text3);font-size:11px;cursor:pointer}
 .scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--text3),transparent);animation:scrollpulse 2s ease-in-out infinite}
 @keyframes scrollpulse{0%,100%{opacity:.3;transform:scaleY(.8)}50%{opacity:1;transform:scaleY(1)}}
-
+ 
 /* STATS BAND */
 .stats-band{background:var(--dark);padding:28px 32px;display:flex;justify-content:center;gap:64px;flex-wrap:wrap}
 .stat-item{text-align:center}
 .stat-num{font-family:'DM Serif Display',serif;font-size:36px;color:#fff;line-height:1}
 .stat-num span{color:var(--g)}
 .stat-lbl{font-size:11px;color:#666;margin-top:5px;text-transform:uppercase;letter-spacing:.07em}
-
+ 
 /* ═══════════════════════════════
    SECTIONS COMMUNES
 ═══════════════════════════════ */
@@ -71,7 +71,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .section-title{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,46px);line-height:1.1;color:var(--dark);margin-bottom:16px;letter-spacing:-.02em}
 .section-title em{color:var(--t);font-style:italic}
 .section-sub{font-size:15px;color:var(--text2);line-height:1.7;max-width:580px;margin-bottom:48px}
-
+ 
 /* ═══════════════════════════════
    TOOLKIT — OUTILS ACTUELS
 ═══════════════════════════════ */
@@ -93,7 +93,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .tool-chip-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px}
 .chip{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--bg);border:1px solid var(--border);color:var(--text3)}
 .chip.hl{background:var(--tll);border-color:rgba(15,129,145,.2);color:var(--td)}
-
+ 
 /* ═══════════════════════════════
    ROADMAP TIMELINE
 ═══════════════════════════════ */
@@ -112,7 +112,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .ri-dot{width:5px;height:5px;border-radius:50%;background:var(--text3);margin-top:6px;flex-shrink:0}
 .ri-dot.green{background:var(--t)}
 .ri-dot.gold{background:var(--g)}
-
+ 
 /* ═══════════════════════════════
    COCKPIT PREVIEW INTERACTIF
 ═══════════════════════════════ */
@@ -140,7 +140,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .tt-live{background:rgba(15,129,145,.2);color:var(--t)}
 .tt-beta{background:rgba(201,168,76,.15);color:var(--g)}
 .tt-coming{background:rgba(255,255,255,.05);color:#555}
-
+ 
 /* ═══════════════════════════════
    IMA SECTION
 ═══════════════════════════════ */
@@ -167,7 +167,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .chat-av{width:28px;height:28px;border-radius:50%;background:var(--dark3);border:1.5px solid var(--t);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:var(--t);flex-shrink:0;margin-top:2px}
 .ima-cursor{display:inline-block;width:2px;height:13px;background:var(--t);margin-left:2px;animation:blink .9s step-end infinite;vertical-align:middle}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-
+ 
 /* ═══════════════════════════════
    BETA CTA
 ═══════════════════════════════ */
@@ -183,14 +183,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .btn-beta{height:50px;padding:0 28px;background:#fff;color:var(--td);border:none;border-radius:25px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:transform .15s,box-shadow .15s}
 .btn-beta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
 .beta-guarantee{font-size:11.5px;color:rgba(255,255,255,.5);margin-top:20px}
-
+ 
 /* ═══════════════════════════════
    TOAST INSCRIT
 ═══════════════════════════════ */
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--dark);color:#fff;padding:13px 24px;border-radius:30px;font-size:13.5px;font-weight:500;z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s;opacity:0;white-space:nowrap;display:flex;align-items:center;gap:8px}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .toast-dot{width:8px;height:8px;border-radius:50%;background:var(--t)}
-
+ 
 /* ═══════════════════════════════
    FOOTER
 ═══════════════════════════════ */
@@ -201,13 +201,13 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
 .footer-links{display:flex;gap:16px}
 .footer-link{font-size:11.5px;color:var(--text3);text-decoration:none;transition:color .15s}
 .footer-link:hover{color:var(--t)}
-
+ 
 /* ═══════════════════════════════
    ANIMATIONS ENTRÉE
 ═══════════════════════════════ */
 .fade-in{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .fade-in.visible{opacity:1;transform:none}
-
+ 
 /* MODAL OUTIL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;opacity:0;pointer-events:none;transition:opacity .25s;display:flex;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.open{opacity:1;pointer-events:all}
@@ -233,7 +233,7 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
 </style>
 </head>
 <body>
-
+ 
 <!-- NAV -->
 <nav>
   <div class="nav-logo">immatch<span>™</span></div>
@@ -245,7 +245,7 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
   </div>
   <button class="nav-cta" onclick="scrollTo('#beta')">Accès bêta →</button>
 </nav>
-
+ 
 <!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-bg"></div>
@@ -264,7 +264,7 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
     <span>Défiler</span>
   </div>
 </section>
-
+ 
 <!-- STATS BAND -->
 <div class="stats-band" id="stats">
   <div class="stat-item">
@@ -284,15 +284,15 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
     <div class="stat-lbl">Simulations à faire</div>
   </div>
 </div>
-
+ 
 <!-- SECTION OUTILS -->
 <div class="section fade-in" id="outils">
   <div class="section-eyebrow">L'écosystème</div>
   <h2 class="section-title">Tous les outils,<br><em>dans un seul espace</em></h2>
   <p class="section-sub">Chaque outil est conçu pour s'emboîter avec les autres. Pas de double saisie. Pas de tableur. Un flux de décision continu.</p>
-
+ 
   <div class="toolkit-grid">
-
+ 
     <div class="tool-card active-now" onclick="openModal('marg')">
       <span class="tool-card-badge badge-live">✓ Disponible</span>
       <div class="tool-icon ti-green">📊</div>
@@ -305,7 +305,7 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
         <span class="chip">Levier vs FP</span>
       </div>
     </div>
-
+ 
     <div class="tool-card" onclick="openModal('zone')">
       <span class="tool-card-badge badge-live">✓ Disponible</span>
       <div class="tool-icon ti-green">🗺</div>
@@ -318,7 +318,7 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
         <span class="chip">INSEE</span>
       </div>
     </div>
-
+ 
     <div class="tool-card" onclick="openModal('cerfa')">
       <span class="tool-card-badge badge-live">✓ Disponible</span>
       <div class="tool-icon ti-gold">📄</div>
@@ -330,7 +330,7 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
         <span class="chip">Prérempli auto</span>
       </div>
     </div>
-
+ 
     <div class="tool-card" onclick="openModal('estim')">
       <span class="tool-card-badge badge-soon">Bientôt</span>
       <div class="tool-icon ti-soft">🔨</div>
@@ -342,7 +342,7 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
         <span class="chip">MaPrimeRénov</span>
       </div>
     </div>
-
+ 
     <div class="tool-card" onclick="openModal('renov')">
       <span class="tool-card-badge badge-soon">Bientôt</span>
       <div class="tool-icon ti-soft">📸</div>
@@ -354,7 +354,7 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
         <span class="chip">Photo → Devis</span>
       </div>
     </div>
-
+ 
     <div class="tool-card" onclick="openModal('ima_mdb')">
       <span class="tool-card-badge badge-roadmap">Roadmap</span>
       <div class="tool-icon ti-dark">🤖</div>
@@ -366,10 +366,10 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
         <span class="chip">Règles BOFIP</span>
       </div>
     </div>
-
+ 
   </div>
 </div>
-
+ 
 <!-- COCKPIT PREVIEW -->
 <div class="section fade-in" style="padding-top:0">
   <div class="preview-frame">
@@ -431,16 +431,16 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
     </div>
   </div>
 </div>
-
+ 
 <!-- ROADMAP -->
 <div class="section fade-in" id="roadmap">
   <div class="section-eyebrow">Ce qui arrive</div>
   <h2 class="section-title">La roadmap<br><em>transparente</em></h2>
   <p class="section-sub">Chaque phase ajoute une couche. Les bêta-testeurs accèdent à tout en premier.</p>
-
+ 
   <div class="roadmap-wrap">
     <div class="roadmap-line"></div>
-
+ 
     <div class="roadmap-phase">
       <div class="roadmap-dot"></div>
       <div class="roadmap-phase-label">Phase actuelle · Disponible</div>
@@ -451,7 +451,7 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
         <div class="roadmap-item"><div class="ri-dot green"></div>CERFA PROPRIÉTAIRE — email prérempli + formulaire DGFIP téléchargeable</div>
       </div>
     </div>
-
+ 
     <div class="roadmap-phase">
       <div class="roadmap-dot gold"></div>
       <div class="roadmap-phase-label gold">Phase 2 · Dans les prochaines semaines</div>
@@ -463,7 +463,7 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
         <div class="roadmap-item"><div class="ri-dot gold"></div>Historique des simulations — retrouver et comparer vos opérations passées</div>
       </div>
     </div>
-
+ 
     <div class="roadmap-phase">
       <div class="roadmap-dot grey"></div>
       <div class="roadmap-phase-label grey">Phase 3 · IA complète</div>
@@ -476,10 +476,10 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
         <div class="roadmap-item"><div class="ri-dot"></div>Comparateur multi-opérations — analyser 3 bien côte à côte</div>
       </div>
     </div>
-
+ 
   </div>
 </div>
-
+ 
 <!-- IMA SECTION -->
 <div class="section fade-in" id="ima">
   <div class="ima-section">
@@ -536,7 +536,7 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
     </div>
   </div>
 </div>
-
+ 
 <!-- BETA CTA -->
 <div class="beta-section" id="beta">
   <div class="beta-bg"></div>
@@ -549,7 +549,7 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
   </div>
   <p class="beta-guarantee">Sans engagement · Sans CB · Données confidentielles</p>
 </div>
-
+ 
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">immatch<span>™</span></div>
@@ -560,13 +560,13 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
     <a class="footer-link" href="#">Confidentialité</a>
   </div>
 </footer>
-
+ 
 <!-- TOAST -->
 <div class="toast" id="toast">
   <div class="toast-dot"></div>
   <span id="toastMsg">Inscription confirmée ✓</span>
 </div>
-
+ 
 <!-- MODALS DATA -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal" id="modal">
@@ -577,19 +577,19 @@ footer{padding:32px;display:flex;align-items:center;justify-content:space-betwee
     <div class="modal-body" id="modal-content"></div>
   </div>
 </div>
-
+ 
 <script>
 // ── SCROLL ──
 function scrollTo(id) {
   document.querySelector(id)?.scrollIntoView({behavior:'smooth',block:'start'});
 }
-
+ 
 // ── FADE IN OBSERVER ──
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
 }, {threshold:0.12});
 document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
-
+ 
 // ── NAV ACTIVE ──
 window.addEventListener('scroll', () => {
   const sections = ['outils','roadmap','ima','beta'];
@@ -604,7 +604,7 @@ window.addEventListener('scroll', () => {
     }
   });
 });
-
+ 
 // ── TOAST ──
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -612,15 +612,34 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3200);
 }
-
+ 
 // ── BETA ──
-function inscrireBeta() {
+async function inscrireBeta() {
   const email = document.getElementById('betaEmail').value.trim();
   if(!email || !email.includes('@')) { showToast('Veuillez entrer un email valide'); return; }
-  showToast('✓ Inscription confirmée — bienvenue dans la bêta !');
-  document.getElementById('betaEmail').value = '';
+ 
+  const btn = document.querySelector('.btn-beta');
+  btn.textContent = '…'; btn.disabled = true;
+ 
+  try {
+    const res = await fetch('https://formspree.io/f/xwvzqrbj', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email, source: 'IMMATCH Bêta Demo', date: new Date().toLocaleDateString('fr') })
+    });
+    if(res.ok) {
+      showToast('✓ Inscription confirmée — bienvenue dans la bêta !');
+      document.getElementById('betaEmail').value = '';
+    } else {
+      showToast('Erreur — réessayez dans un instant');
+    }
+  } catch(e) {
+    showToast('Erreur réseau — réessayez');
+  }
+ 
+  btn.textContent = 'Rejoindre →'; btn.disabled = false;
 }
-
+ 
 // ── MODALS ──
 const modals = {
   marg: {
@@ -718,7 +737,7 @@ const modals = {
     coming: "IMA MdB est le Prompt 5 de l'écosystème — un registre différent des autres modes. Pas Karine Le Marchand, mais un formateur terrain qui ne vous laisse pas passer à côté d'une variable critique."
   }
 };
-
+ 
 function openModal(id) {
   const d = modals[id];
   if(!d) return;
@@ -738,7 +757,7 @@ function openModal(id) {
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-
+ 
 function closeModal(e) {
   if(e.target === document.getElementById('modalOverlay')) closeModalBtn();
 }
@@ -746,7 +765,7 @@ function closeModalBtn() {
   document.getElementById('modalOverlay').classList.remove('open');
   document.body.style.overflow = '';
 }
-
+ 
 document.addEventListener('keydown', e => { if(e.key==='Escape') closeModalBtn(); });
 </script>
 </body>
