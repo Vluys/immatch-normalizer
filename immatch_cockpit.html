@@ -321,6 +321,14 @@ body{font-family:'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI',sa
 .p-green{background:var(--t50);color:var(--t800)}.p-amber{background:#FAEEDA;color:#633806}
 .p-red{background:#FCEBEB;color:#791F1F}.p-blue{background:#E6F1FB;color:#0C447C}
 .p-purple{background:#EEEDFE;color:#3C3489}
+ 
+.guide-bloc{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.guide-bloc:last-child{border-bottom:none;margin-bottom:0}
+.gb-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:6px}
+.gb-txt{font-size:12px;color:var(--text2);line-height:1.65}
+.guide-ima{background:#1a1c20;border-radius:8px;padding:11px 13px;display:flex;gap:10px;align-items:flex-start;margin-top:4px}
+.gi-dot{width:28px;height:28px;border-radius:50%;border:1.5px solid #0F8191;background:#111;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#0F8191;flex-shrink:0}
+ 
 </style>
 </head>
 <body>
@@ -575,7 +583,8 @@ body{font-family:'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI',sa
     <button class="analyse-btn" onclick="analyserBesoin()">
       <i class="ti ti-sparkles" style="font-size:14px"></i> IMA analyse ma demande
     </button>
-    <div class="analyse-result" id="analyse-result">
+    <div class="analyse-result" id="analyse-result" style="position:relative">
+      <button onclick="fermerAnalyse()" style="position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#aaa;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;z-index:2" title="Fermer">✕</button>
       <div class="ima-analyse">
         <div class="ima-dot">IMA</div>
         <div class="lc-content">
@@ -595,11 +604,11 @@ body{font-family:'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI',sa
   <div class="section-hd"><h2 class="section-lbl" id="guides-lbl">Guides juridiques & pratiques</h2></div>
   <div class="guides-grid">
     <button class="guide-btn active" onclick="document.getElementById('obli-overlay').classList.add('open')"><i class="ti ti-scale" style="font-size:13px"></i> Obligations du vendeur</button>
-    <button class="guide-btn"><i class="ti ti-calendar" style="font-size:13px"></i> Compromis & délai SRU</button>
-    <button class="guide-btn"><i class="ti ti-file-certificate" style="font-size:13px"></i> Diagnostics obligatoires</button>
-    <button class="guide-btn"><i class="ti ti-receipt-euro" style="font-size:13px"></i> Plus-value immobilière</button>
-    <button class="guide-btn"><i class="ti ti-folder" style="font-size:13px"></i> Documents pour vendre</button>
-    <button class="guide-btn"><i class="ti ti-file-text" style="font-size:13px"></i> Contrats types & modèles</button>
+    <button class="guide-btn" onclick="ouvrirGuide('compromis')"><i class="ti ti-calendar" style="font-size:13px"></i> Compromis & délai SRU</button>
+    <button class="guide-btn" onclick="ouvrirGuide('diagnostics')"><i class="ti ti-file-certificate" style="font-size:13px"></i> Diagnostics obligatoires</button>
+    <button class="guide-btn" onclick="ouvrirGuide('plusvalue')"><i class="ti ti-receipt-euro" style="font-size:13px"></i> Plus-value immobilière</button>
+    <button class="guide-btn" onclick="ouvrirGuide('documents')"><i class="ti ti-folder" style="font-size:13px"></i> Documents pour vendre</button>
+    <button class="guide-btn" onclick="ouvrirGuide('contrats')"><i class="ti ti-file-text" style="font-size:13px"></i> Contrats types & modèles</button>
   </div>
 </section>
  
@@ -817,7 +826,7 @@ body{font-family:'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI',sa
     <div class="lc-content">
       <div class="lc-msg-light">Votre bien d'Erdeven a une configuration atypique — deux lots, hangar, terrain divisible. Je peux adapter chaque modèle à votre situation spécifique.</div>
       <div class="lc-row" style="margin-top:5px">
-        <button class="lc-btn-s" style="font-size:11px;padding:4px 10px">Pack Erdeven <i class="ti ti-arrow-right" style="font-size:11px"></i></button>
+        <button class="lc-btn-s" style="font-size:11px;padding:4px 10px" onclick="document.getElementById('pack-erdeven-overlay').classList.add('open')">Pack Erdeven <i class="ti ti-arrow-right" style="font-size:11px"></i></button>
       </div>
     </div>
   </div>
@@ -828,7 +837,7 @@ body{font-family:'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI',sa
 <!-- ===== MODAL ÉDITION PROJET ===== -->
 <div class="modal-overlay" id="modal-edit" onclick="closeModal('modal-edit',event)" role="dialog" aria-modal="true" aria-labelledby="modal-edit-title">
   <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-hd">
+    <div class="obli-hd">
       <div class="modal-title" id="modal-edit-title"><i class="ti ti-pencil" style="font-size:15px;color:var(--t)"></i> Modifier — Maison Erdeven (56)</div>
       <button class="modal-close" onclick="document.getElementById('modal-edit').classList.remove('open')" aria-label="Fermer"><i class="ti ti-x" style="font-size:13px"></i></button>
     </div>
@@ -977,6 +986,26 @@ function selChoice(el,g){el.closest('.choices').querySelectorAll('.choice').forE
  
 // ===== EXEMPLES =====
 function setEx(txt){document.getElementById('besoin-input').value=txt;}
+ 
+ 
+function ouvrirGuide(id) {
+  const ids = {
+    compromis: 'compromis-overlay',
+    diagnostics: 'diagnostics-overlay',
+    plusvalue: 'plusvalue-overlay',
+    documents: 'documents-overlay',
+    contrats: 'contrats-overlay'
+  };
+  const overlayId = ids[id];
+  if(overlayId) document.getElementById(overlayId).classList.add('open');
+}
+ 
+function fermerAnalyse(){
+  const r = document.getElementById('analyse-result');
+  r.style.display = 'none';
+  // Réinitialiser aussi le textarea
+  document.getElementById('besoin-input').value = '';
+}
  
 // ===== ANALYSE BESOIN =====
 function analyserBesoin(){
@@ -1131,6 +1160,153 @@ function resetEtude(){
   document.getElementById('etape-result').classList.remove('active');
   document.getElementById('etape-1').classList.add('active');
 }
+ 
 </script>
+ 
+<!-- ═══ MODALES GUIDES ═══ -->
+ 
+<!-- COMPROMIS & DÉLAI SRU -->
+<div class="obli-overlay" id="compromis-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="obli-modal" role="dialog" onclick="event.stopPropagation()">
+    <div class="obli-hd">
+      <div><div class="obli-title"><div style="width:30px;height:30px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center"><i class="ti ti-calendar" style="font-size:14px;color:#0C447C"></i></div> Compromis & délai SRU</div></div>
+      <button class="modal-close" onclick="document.getElementById('compromis-overlay').classList.remove('open')"><i class="ti ti-x" style="font-size:13px"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="guide-bloc"><div class="gb-title">⏱ Délai de rétractation SRU</div><div class="gb-txt">L'acheteur non professionnel dispose de <strong>10 jours calendaires</strong> à compter du lendemain de la notification du compromis pour se rétracter sans pénalité.</div></div>
+      <div class="guide-bloc"><div class="gb-title">📋 Contenu du compromis</div><div class="gb-txt">Désignation du bien · Prix et modalités · Conditions suspensives (prêt, absence de servitude) · Date de l'acte authentique · Dépôt de garantie (5 à 10% du prix).</div></div>
+      <div class="guide-bloc"><div class="gb-title">⚠ Points de vigilance vendeur</div><div class="gb-txt">Vérifiez que les conditions suspensives sont précisément rédigées. En cas de rétractation hors délai SRU, le dépôt de garantie vous reste acquis.</div></div>
+      <div class="guide-ima"><div class="gi-dot">IMA</div><div style="font-size:12px;color:#ccc;line-height:1.6">Pour votre maison d'Erdeven, le compromis doit impérativement inclure le DPE et l'amiante en annexes — sans quoi il est nul.</div></div>
+    </div>
+    <div class="modal-ft"><button class="btn-base btn-secondary" onclick="document.getElementById('compromis-overlay').classList.remove('open')">Fermer</button></div>
+  </div>
+</div>
+ 
+<!-- DIAGNOSTICS OBLIGATOIRES -->
+<div class="obli-overlay" id="diagnostics-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="obli-modal" role="dialog" onclick="event.stopPropagation()">
+    <div class="obli-hd">
+      <div><div class="obli-title"><div style="width:30px;height:30px;border-radius:50%;background:#FAEEDA;display:flex;align-items:center;justify-content:center"><i class="ti ti-file-certificate" style="font-size:14px;color:#854F0B"></i></div> Diagnostics obligatoires</div></div>
+      <button class="modal-close" onclick="document.getElementById('diagnostics-overlay').classList.remove('open')"><i class="ti ti-x" style="font-size:13px"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="guide-bloc"><div class="gb-title">📋 Le DDT — Dossier de Diagnostics Techniques</div><div class="gb-txt">À annexer obligatoirement au compromis et à l'acte authentique. Loi ALUR — Art. L271-4 CCH.</div></div>
+      <div class="guide-bloc"><div class="gb-title">✓ Diagnostics requis pour votre bien</div><div class="gb-txt"><strong style="color:#A32D2D">DPE — manquant · prioritaire</strong> · Freine 2 acheteurs compatibles<br><strong style="color:#A32D2D">Amiante — obligatoire</strong> · Construction avant 1997<br>État des risques naturels (ERP) · Électricité si installation &gt; 15 ans</div></div>
+      <div class="guide-ima"><div class="gi-dot">IMA</div><div style="font-size:12px;color:#ccc;line-height:1.6">Un diagnostiqueur certifié IMMATCH peut réaliser DPE + amiante en une seule intervention avec devis groupé avantageux.</div></div>
+      <div class="lc-row" style="margin-top:12px"><button class="lc-btn-p" onclick="document.getElementById('diagnostics-overlay').classList.remove('open');demanderLead('diagnostiqueur DPE + amiante','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lc-free">Gratuit pour vous</span></div>
+    </div>
+    <div class="modal-ft"><button class="btn-base btn-secondary" onclick="document.getElementById('diagnostics-overlay').classList.remove('open')">Fermer</button></div>
+  </div>
+</div>
+ 
+<!-- PLUS-VALUE IMMOBILIÈRE -->
+<div class="obli-overlay" id="plusvalue-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="obli-modal" role="dialog" onclick="event.stopPropagation()">
+    <div class="obli-hd">
+      <div><div class="obli-title"><div style="width:30px;height:30px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center"><i class="ti ti-receipt-euro" style="font-size:14px;color:#0F6E56"></i></div> Plus-value immobilière</div></div>
+      <button class="modal-close" onclick="document.getElementById('plusvalue-overlay').classList.remove('open')"><i class="ti ti-x" style="font-size:13px"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="guide-bloc"><div class="gb-title">🏠 Résidence principale — exonération totale</div><div class="gb-txt">La cession de votre résidence principale est <strong>totalement exonérée</strong> de plus-value, quelle que soit la durée de détention. Le bien doit être votre résidence principale au jour de la vente.</div></div>
+      <div class="guide-bloc"><div class="gb-title">📅 Abattements pour durée de détention</div><div class="gb-txt">IR (19%) : exonération totale après <strong>22 ans</strong><br>Prélèvements sociaux (17,2%) : exonération totale après <strong>30 ans</strong><br>Abattement progressif à partir de la 6ème année.</div></div>
+      <div class="guide-bloc"><div class="gb-title">🧮 Calcul de la plus-value brute</div><div class="gb-txt">Prix de vente − (Prix d'acquisition + frais d'acquisition + travaux). Les frais de notaire et travaux justifiés réduisent la base taxable.</div></div>
+    </div>
+    <div class="modal-ft"><button class="btn-base btn-secondary" onclick="document.getElementById('plusvalue-overlay').classList.remove('open')">Fermer</button></div>
+  </div>
+</div>
+ 
+<!-- DOCUMENTS POUR VENDRE -->
+<div class="obli-overlay" id="documents-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="obli-modal" role="dialog" onclick="event.stopPropagation()">
+    <div class="obli-hd">
+      <div><div class="obli-title"><div style="width:30px;height:30px;border-radius:50%;background:#EDE9F8;display:flex;align-items:center;justify-content:center"><i class="ti ti-folder" style="font-size:14px;color:#5B3A8A"></i></div> Documents pour vendre</div></div>
+      <button class="modal-close" onclick="document.getElementById('documents-overlay').classList.remove('open')"><i class="ti ti-x" style="font-size:13px"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="guide-bloc"><div class="gb-title">📂 Documents à préparer</div><div class="gb-txt"><strong>Titre de propriété</strong> (acte de vente ou succession)<br><strong>Plans du bien</strong> si disponibles<br><strong>DDT complet</strong> (tous les diagnostics)<br><strong>Derniers avis de taxe foncière</strong><br><strong>Factures travaux</strong> réalisés (réduisent la plus-value)<br>Si copropriété : règlement + 3 derniers PV d'AG + charges</div></div>
+      <div class="guide-bloc"><div class="gb-title">⏱ Délais à anticiper</div><div class="gb-txt">DDT : 1 à 2 semaines · Notaire : 2 à 3 mois entre compromis et acte · Purge SRU : 10 jours après signature.</div></div>
+    </div>
+    <div class="modal-ft"><button class="btn-base btn-secondary" onclick="document.getElementById('documents-overlay').classList.remove('open')">Fermer</button></div>
+  </div>
+</div>
+ 
+<!-- CONTRATS TYPES & MODÈLES -->
+<div class="obli-overlay" id="contrats-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="obli-modal" role="dialog" onclick="event.stopPropagation()">
+    <div class="obli-hd">
+      <div><div class="obli-title"><div style="width:30px;height:30px;border-radius:50%;background:#F0EFEC;display:flex;align-items:center;justify-content:center"><i class="ti ti-file-text" style="font-size:14px;color:#52525A"></i></div> Contrats types & modèles</div></div>
+      <button class="modal-close" onclick="document.getElementById('contrats-overlay').classList.remove('open')"><i class="ti ti-x" style="font-size:13px"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="guide-bloc"><div class="gb-title">📄 Mandats de vente</div><div class="gb-txt"><strong>Mandat simple</strong> — vous pouvez vendre en parallèle par vos propres moyens.<br><strong>Mandat exclusif</strong> — confié à un seul professionnel, généralement plus efficace.</div></div>
+      <div class="guide-bloc"><div class="gb-title">🤝 Promesse vs Compromis</div><div class="gb-txt"><strong>Compromis de vente</strong> — engage les deux parties. Le plus courant.<br><strong>Promesse unilatérale</strong> — vous accordez une option à l'acheteur moyennant une indemnité d'immobilisation.</div></div>
+      <div class="guide-ima"><div class="gi-dot">IMA</div><div style="font-size:12px;color:#ccc;line-height:1.6">Pour votre situation, le compromis avec conditions suspensives est le plus sécurisant. Un notaire partenaire IMMATCH peut vous accompagner.</div></div>
+      <div class="lc-row" style="margin-top:12px"><button class="lc-btn-p" onclick="document.getElementById('contrats-overlay').classList.remove('open');demanderLead('notaire conseil vente','Erdeven')"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation</button><span class="lc-free">Gratuit pour vous</span></div>
+    </div>
+    <div class="modal-ft"><button class="btn-base btn-secondary" onclick="document.getElementById('contrats-overlay').classList.remove('open')">Fermer</button></div>
+  </div>
+</div>
+ 
+ 
+<!-- PACK ERDEVEN -->
+<div class="obli-overlay" id="pack-erdeven-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="obli-modal" role="dialog" onclick="event.stopPropagation()">
+    <div class="obli-hd">
+      <div class="obli-title">
+        <div style="width:30px;height:30px;border-radius:50%;background:var(--t50);display:flex;align-items:center;justify-content:center">
+          <i class="ti ti-building-estate" style="font-size:14px;color:var(--t)"></i>
+        </div>
+        Pack Erdeven — Configuration atypique
+      </div>
+      <button class="modal-close" onclick="document.getElementById('pack-erdeven-overlay').classList.remove('open')">
+        <i class="ti ti-x" style="font-size:13px"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+ 
+      <div class="obli-banner" style="margin-bottom:14px">
+        <i class="ti ti-info-circle" style="font-size:14px;flex-shrink:0"></i>
+        <div>Votre bien présente une configuration atypique : <strong>deux lots distincts, hangar d'activité de 166m², terrain potentiellement divisible.</strong> Cette situation nécessite une approche documentaire spécifique.</div>
+      </div>
+ 
+      <div class="guide-bloc">
+        <div class="gb-title">📋 Ce que comprend le Pack</div>
+        <div class="gb-txt">
+          <strong>Avenant de séparation de lots</strong> — pour distinguer la maison d'habitation du hangar d'activité dans les actes<br><br>
+          <strong>Clause descriptive hangar</strong> — surface, usage, état, accès, mention des garanties décennales applicables<br><br>
+          <strong>Note de division parcellaire</strong> — à soumettre à un géomètre pour confirmer la faisabilité et les surfaces<br><br>
+          <strong>Déclaration travaux récents adaptée</strong> — isolation, PAC, VMC, cuisine, SDB avec références artisans
+        </div>
+      </div>
+ 
+      <div class="guide-bloc">
+        <div class="gb-title">⚠ Points d'attention spécifiques</div>
+        <div class="gb-txt">
+          Un bien avec hangar d'activité peut être soumis à des règles d'urbanisme différentes selon le PLU d'Erdeven. Vérifier le zonage avant de proposer une division.<br><br>
+          La présence de deux lots distincts peut impacter le calcul des honoraires et la rédaction du compromis — un professionnel qualifié est indispensable.
+        </div>
+      </div>
+ 
+      <div class="guide-ima">
+        <div class="gi-dot">IMA</div>
+        <div style="font-size:12px;color:#ccc;line-height:1.6">
+          Pour une configuration comme la vôtre, un professionnel qualifié — agent, mandataire ou expert immobilier — saura valoriser correctement les deux composantes du bien et sécuriser la transaction. IMMATCH vous met en relation sous <strong style="color:var(--g)">24 à 48h ouvrés</strong>.
+        </div>
+      </div>
+ 
+      <div class="lc-row" style="margin-top:14px">
+        <button class="lc-btn-p" onclick="document.getElementById('pack-erdeven-overlay').classList.remove('open');demanderLead('professionnel qualifié — bien atypique deux lots hangar','Erdeven')">
+          <i class="ti ti-arrows-exchange" style="font-size:11px"></i> Être mis en relation
+        </button>
+        <span class="lc-free">Gratuit pour vous</span>
+      </div>
+ 
+    </div>
+    <div class="modal-ft">
+      <button class="btn-base btn-secondary" onclick="document.getElementById('pack-erdeven-overlay').classList.remove('open')">Fermer</button>
+    </div>
+  </div>
+</div>
+ 
 </body>
 </html>
