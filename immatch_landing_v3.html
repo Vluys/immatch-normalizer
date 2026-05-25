@@ -36,10 +36,17 @@
   }
  
   /* NAV */
+  .container {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 40px;
+    width: 100%;
+  }
+ 
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 20px max(32px, calc((100vw - 1200px) / 2 + 32px));
+    padding: 20px 40px;
     background: rgba(253,252,250,0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--stone-mid);
@@ -89,7 +96,7 @@
   }
   .hero-left {
     display: flex; flex-direction: column; justify-content: center;
-    padding: 80px 48px 80px max(40px, calc((100vw - 1200px) / 2 + 40px));
+    padding: 80px 48px 80px 0;
   }
   .hero-eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
@@ -213,7 +220,7 @@
  
   /* PILLIERS */
   .pillars {
-    padding: 120px max(40px, calc((100vw - 1200px) / 2 + 40px));
+    padding: 100px 0;
     background: var(--ink);
     color: var(--white);
   }
@@ -257,7 +264,7 @@
  
   /* PROCESS */
   .process {
-    padding: 120px max(40px, calc((100vw - 1200px) / 2 + 40px));
+    padding: 100px 0;
     background: var(--white);
   }
   .section-eyebrow {
@@ -289,7 +296,7 @@
  
   /* PROFILS */
   .profiles {
-    padding: 0 max(40px, calc((100vw - 1200px) / 2 + 40px)) 120px;
+    padding: 0 0 100px;
     background: var(--white);
   }
   .profiles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -339,7 +346,7 @@
  
   /* CONFIANCE */
   .trust {
-    padding: 120px max(40px, calc((100vw - 1200px) / 2 + 40px));
+    padding: 100px 0;
     background: var(--stone);
     display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
   }
@@ -365,7 +372,7 @@
  
   /* CTA FINAL */
   .cta-final {
-    padding: 140px max(40px, calc((100vw - 1200px) / 2 + 40px));
+    padding: 120px 0;
     background: var(--white);
     text-align: center;
   }
@@ -387,7 +394,7 @@
   /* FOOTER */
   footer {
     background: var(--ink); color: rgba(253,252,250,.5);
-    padding: 64px max(40px, calc((100vw - 1200px) / 2 + 40px)) 40px;
+    padding: 64px 0 40px;
   }
   .footer-top {
     display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
@@ -418,7 +425,7 @@
 <body>
  
 <!-- NAV -->
-<nav>
+<nav><div style="max-width:1160px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;">
   <div class="nav-brand" style="display:flex;align-items:center;gap:0;">
     <!-- Diamant doré -->
     <div style="position:relative;width:44px;height:44px;flex-shrink:0;">
@@ -440,12 +447,12 @@
   <div class="nav-right">
     <button class="btn-ghost">Connexion</button>
     <button class="btn-primary">Décrivez votre projet</button>
-  </div>
+  </div></div>
 </nav>
  
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-left">
+  <div class="hero-left" style="max-width:580px;padding-left:max(40px,calc((100vw - 1160px)/2));padding-right:40px;">
     <span class="hero-eyebrow">Matching immobilier off-market</span>
     <h1 class="hero-title">
       Donnez du sens<br>à votre<br>
@@ -522,7 +529,7 @@
  
 <!-- PILLIERS -->
 <section class="pillars">
-  <div class="pillars-header">
+  <div class="pillars-header" style="max-width:1160px;margin:0 auto;padding:0 40px;">
     <h2 class="pillars-title">
       Donnez du sens<br>à votre projet immobilier.<br>
       <em>Simplement et en toute discrétion.</em>
@@ -531,7 +538,7 @@
       Entre portails saturés, sollicitations non désirées et manque de contrôle, vendeurs et acheteurs méritent mieux.
     </p>
   </div>
-  <div class="pillars-grid">
+  <div class="pillars-grid" style="max-width:1160px;margin:0 auto;">
     <div class="pillar">
       <div class="pillar-num">01</div>
       <div class="pillar-title">Votre bien n'est jamais exposé</div>
@@ -552,9 +559,9 @@
  
 <!-- PROCESS -->
 <section class="process" id="process">
-  <div class="section-eyebrow">Comment ça marche</div>
-  <h2 class="process-title">Trois étapes pour faire avancer votre projet sans pression</h2>
-  <div class="process-steps">
+  <div class="section-eyebrow" style="max-width:1160px;margin-left:auto;margin-right:auto;">Comment ça marche</div>
+  <h2 class="process-title" style="max-width:1160px;margin-left:auto;margin-right:auto;">Trois étapes pour faire avancer votre projet sans pression</h2>
+  <div class="process-steps" style="max-width:1160px;margin:0 auto;">
     <div class="step">
       <div class="step-num">I.</div>
       <h3 class="step-title">Décrivez votre projet</h3>
@@ -575,7 +582,7 @@
  
 <!-- PROFILS -->
 <section class="profiles" id="profiles">
-  <div style="display:flex;flex-direction:column;gap:24px;">
+  <div style="display:flex;flex-direction:column;gap:24px;max-width:1160px;margin:0 auto;padding:0 40px;">
     <div class="profile-card">
       <div class="profile-eyebrow">Particuliers</div>
       <h3 class="profile-title">Vous gardez le contrôle. Toujours.</h3>
@@ -600,7 +607,7 @@
 </section>
  
 <!-- CONFIANCE -->
-<section class="trust">
+<section class="trust"><div style="max-width:1160px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;">
   <div class="trust-left">
     <div class="section-eyebrow">Engagement & confiance</div>
     <h2 class="trust-title">
@@ -629,12 +636,12 @@
       <p class="trust-item-body">Chaque partenaire est validé manuellement (Kbis, RCP, certifications). Ils n'interviennent que si vous le demandez explicitement — jamais de leur propre initiative.</p>
     </div>
   </div>
-</section>
+</div></section>
  
 <!-- CTA FINAL -->
 <section class="cta-final">
-  <div class="cta-final-eyebrow">Prêt à commencer ?</div>
-  <h2 class="cta-final-title">Donnez du sens<br>à votre <em>projet immobilier.</em></h2>
+  <div class="cta-final-eyebrow" style="max-width:1160px;margin-left:auto;margin-right:auto;">Prêt à commencer ?</div>
+  <h2 class="cta-final-title" style="max-width:700px;margin:0 auto 24px;">Donnez du sens<br>à votre <em>projet immobilier.</em></h2>
   <p class="cta-final-sub">Simple, discret, rapide et efficace. Sans diffusion massive. Sans obligation.</p>
   <div class="cta-final-actions">
     <button class="btn-hero">Décrivez votre projet →</button>
@@ -644,7 +651,7 @@
  
 <!-- FOOTER -->
 <footer>
-  <div class="footer-top">
+  <div style="max-width:1160px;margin:0 auto;padding:0 40px;"><div class="footer-top">
     <div class="footer-brand">
       <div style="display:flex;align-items:center;gap:0;margin-bottom:8px;">
         <svg width="34" height="34" viewBox="0 0 44 44" fill="none" style="flex-shrink:0;">
@@ -684,7 +691,7 @@
       <a href="#">Connexion</a>
     </div>
   </div>
-  <div class="footer-bottom">
+  </div><div class="footer-bottom" style="max-width:1160px;margin:0 auto;padding:0 40px;">
     <span>Cadre Estate Solutions est la société éditrice d'IMMATCH™</span>
     <div class="status-dot"><span class="dot-green"></span> Tous les systèmes opérationnels</div>
   </div>
@@ -692,3 +699,4 @@
  
 </body>
 </html>
+ 
