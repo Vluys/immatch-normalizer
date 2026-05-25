@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMMATCH — Retour bêta testeur · Professionnel</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --teal: #0F8191;
+  --teal-light: #1aa3b5;
+  --teal-pale: #e1f5f7;
+  --teal-deep: #085060;
+  --ink: #1a1a18;
+  --ink-soft: #4a4a45;
+  --stone: #f4f2ed;
+  --stone-mid: #e8e5de;
+  --white: #fdfcfa;
+  --gold: #B8952A;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+body { font-family: var(--sans); background: var(--stone); color: var(--ink); min-height: 100vh; padding-bottom: 80px; }
+
+header {
+  background: var(--teal-deep);
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.logo { display: flex; align-items: center; gap: 0; }
+.logo svg { flex-shrink: 0; }
+.logo-text { background: rgba(255,255,255,.15); border-radius: 6px; padding: 4px 10px 4px 6px; margin-left: -6px; }
+.logo-text .wordmark { font-family: var(--serif); font-size: 20px; font-weight: 400; font-style: italic; color: #fff; line-height: 1.1; }
+.logo-text .sub { font-size: 8px; letter-spacing: .11em; text-transform: uppercase; color: rgba(255,255,255,.65); display: block; margin-top: 1px; }
+.header-badge { margin-left: auto; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.2); padding: 6px 14px; border-radius: 100px; }
+
+.hero { background: var(--teal-deep); padding: 64px 40px 80px; text-align: center; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; bottom: -40%; left: 50%; transform: translateX(-50%); width: 500px; height: 500px; background: radial-gradient(circle, rgba(255,255,255,.06) 0%, transparent 70%); pointer-events: none; }
+.hero-eyebrow { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.6); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+.hero-eyebrow::before, .hero-eyebrow::after { content: ''; display: block; width: 24px; height: 1px; background: rgba(255,255,255,.4); }
+.hero h1 { font-family: var(--serif); font-size: clamp(30px, 4vw, 48px); font-weight: 300; color: #fff; line-height: 1.1; margin-bottom: 16px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.hero h1 em { font-style: italic; color: rgba(255,255,255,.65); }
+.hero p { font-size: 15px; color: rgba(255,255,255,.55); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+.progress-wrap { max-width: 680px; margin: -20px auto 0; padding: 0 24px; position: relative; z-index: 2; }
+.progress-bar-bg { height: 3px; background: var(--stone-mid); border-radius: 2px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: var(--teal); border-radius: 2px; transition: width .4s ease; width: 0%; }
+.progress-label { font-size: 11px; color: var(--ink-soft); margin-top: 8px; text-align: right; letter-spacing: .05em; }
+
+.form-wrap { max-width: 680px; margin: 40px auto 0; padding: 0 24px; }
+
+.question-block { background: var(--white); border-radius: 16px; padding: 36px 40px; margin-bottom: 20px; border: 1px solid var(--stone-mid); display: none; animation: slideIn .35s ease; }
+.question-block.active { display: block; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+.q-num { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); font-weight: 500; margin-bottom: 10px; }
+.q-label { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--ink); line-height: 1.3; margin-bottom: 8px; }
+.q-hint { font-size: 13px; color: var(--ink-soft); margin-bottom: 28px; line-height: 1.5; }
+
+.stars { display: flex; gap: 8px; margin-bottom: 8px; }
+.star { width: 44px; height: 44px; border-radius: 10px; border: 1.5px solid var(--stone-mid); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; transition: all .2s; user-select: none; font-weight: 500; }
+.star:hover, .star.selected { border-color: var(--teal); background: var(--teal-pale); }
+.star-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-soft); }
+
+.choices { display: flex; flex-direction: column; gap: 10px; }
+.choice { border: 1.5px solid var(--stone-mid); border-radius: 12px; padding: 14px 20px; cursor: pointer; transition: all .2s; font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 12px; background: var(--white); }
+.choice:hover { border-color: var(--teal); background: var(--teal-pale); }
+.choice.selected { border-color: var(--teal); background: var(--teal-pale); color: var(--teal-deep); font-weight: 500; }
+.choice-dot { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--stone-mid); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .2s; }
+.choice.selected .choice-dot { background: var(--teal); border-color: var(--teal); }
+.choice.selected .choice-dot::after { content: ''; width: 6px; height: 6px; background: #fff; border-radius: 50%; }
+
+textarea { width: 100%; border: 1.5px solid var(--stone-mid); border-radius: 12px; padding: 16px 20px; font-family: var(--sans); font-size: 14px; color: var(--ink); background: var(--white); resize: vertical; min-height: 110px; transition: border-color .2s; line-height: 1.6; }
+textarea:focus { outline: none; border-color: var(--teal); }
+textarea::placeholder { color: var(--stone-mid); }
+input[type="text"] { width: 100%; border: 1.5px solid var(--stone-mid); border-radius: 12px; padding: 14px 20px; font-family: var(--sans); font-size: 14px; color: var(--ink); background: var(--white); transition: border-color .2s; }
+input:focus { outline: none; border-color: var(--teal); }
+
+.nav-buttons { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; }
+.btn-back { font-family: var(--sans); font-size: 13px; color: var(--ink-soft); background: none; border: none; cursor: pointer; padding: 10px 0; display: flex; align-items: center; gap: 6px; transition: color .2s; }
+.btn-back:hover { color: var(--teal); }
+.btn-next { font-family: var(--sans); font-size: 14px; font-weight: 500; background: var(--teal); color: #fff; border: none; cursor: pointer; padding: 13px 32px; border-radius: 100px; transition: background .2s, transform .15s; }
+.btn-next:hover { background: var(--teal-deep); transform: translateY(-1px); }
+
+.merci { display: none; text-align: center; padding: 80px 40px; }
+.merci.active { display: block; }
+.merci-icon { width: 72px; height: 72px; background: var(--teal-pale); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 32px; font-size: 32px; }
+.merci h2 { font-family: var(--serif); font-size: 36px; font-weight: 300; margin-bottom: 12px; }
+.merci h2 em { font-style: italic; color: var(--teal); }
+.merci p { font-size: 15px; color: var(--ink-soft); max-width: 400px; margin: 0 auto; line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <svg width="34" height="34" viewBox="0 0 44 44" fill="none">
+      <rect x="11" y="6" width="22" height="22" rx="2" transform="rotate(45 22 17)" stroke="#B8952A" stroke-width="3" fill="none"/>
+    </svg>
+    <div class="logo-text">
+      <span class="wordmark">immatch<sup style="font-size:9px;font-style:normal;font-weight:300;">®</sup></span>
+      <span class="sub">by Cadre Estate Solutions</span>
+    </div>
+  </div>
+  <span class="header-badge">Bêta test · Professionnel</span>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">Espace partenaires</div>
+  <h1>Votre retour terrain,<br><em>notre meilleure boussole.</em></h1>
+  <p>5 minutes pour nous dire si IMMATCH correspond à votre façon de travailler. Pas de filtre, pas de langue de bois.</p>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar"></div></div>
+  <div class="progress-label" id="progressLabel">Question 1 sur 8</div>
+</div>
+
+<div class="form-wrap">
+
+  <!-- Q1 -->
+  <div class="question-block active" data-q="1">
+    <div class="q-num">Question 1 — Votre activité</div>
+    <div class="q-label">Quelle est votre activité principale ?</div>
+    <div class="choices" id="q1">
+      <div class="choice" onclick="selectOne(this,'q1')"><span class="choice-dot"></span>Agent / mandataire immobilier</div>
+      <div class="choice" onclick="selectOne(this,'q1')"><span class="choice-dot"></span>Courtier en financement</div>
+      <div class="choice" onclick="selectOne(this,'q1')"><span class="choice-dot"></span>Diagnostiqueur / notaire / assureur</div>
+      <div class="choice" onclick="selectOne(this,'q1')"><span class="choice-dot"></span>Artisan / entreprise du bâtiment</div>
+      <div class="choice" onclick="selectOne(this,'q1')"><span class="choice-dot"></span>Autre</div>
+    </div>
+    <div class="nav-buttons">
+      <div></div>
+      <button class="btn-next" onclick="next(1)">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-block" data-q="2">
+    <div class="q-num">Question 2 — Inscription</div>
+    <div class="q-label">Le parcours d'inscription était-il adapté à votre activité ?</div>
+    <div class="choices" id="q2">
+      <div class="choice" onclick="selectOne(this,'q2')"><span class="choice-dot"></span>Oui, parfaitement adapté à mon métier</div>
+      <div class="choice" onclick="selectOne(this,'q2')"><span class="choice-dot"></span>Plutôt oui, mais quelques champs manquaient</div>
+      <div class="choice" onclick="selectOne(this,'q2')"><span class="choice-dot"></span>Pas vraiment, certaines questions ne me correspondaient pas</div>
+      <div class="choice" onclick="selectOne(this,'q2')"><span class="choice-dot"></span>Non, le formulaire était trop générique</div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prev(2)">← Retour</button>
+      <button class="btn-next" onclick="next(2)">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-block" data-q="3">
+    <div class="q-num">Question 3 — Cockpit</div>
+    <div class="q-label">Le cockpit professionnel correspond-il à votre façon de travailler ?</div>
+    <div class="q-hint">1 = pas du tout · 5 = parfaitement</div>
+    <div class="stars" id="q3">
+      <div class="star" onclick="selectStar('q3',1)">1</div>
+      <div class="star" onclick="selectStar('q3',2)">2</div>
+      <div class="star" onclick="selectStar('q3',3)">3</div>
+      <div class="star" onclick="selectStar('q3',4)">4</div>
+      <div class="star" onclick="selectStar('q3',5)">5</div>
+    </div>
+    <div class="star-labels"><span>Pas du tout</span><span>Parfaitement</span></div>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prev(3)">← Retour</button>
+      <button class="btn-next" onclick="next(3)">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-block" data-q="4">
+    <div class="q-num">Question 4 — Leads</div>
+    <div class="q-label">La logique de réception des demandes de contact vous semble-t-elle claire ?</div>
+    <div class="choices" id="q4">
+      <div class="choice" onclick="selectOne(this,'q4')"><span class="choice-dot"></span>Oui, je comprends comment je reçois les contacts</div>
+      <div class="choice" onclick="selectOne(this,'q4')"><span class="choice-dot"></span>Pas tout à fait, j'aurais besoin d'explications</div>
+      <div class="choice" onclick="selectOne(this,'q4')"><span class="choice-dot"></span>Non, je ne sais pas comment ça fonctionne</div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prev(4)">← Retour</button>
+      <button class="btn-next" onclick="next(4)">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question-block" data-q="5">
+    <div class="q-num">Question 5 — Manques</div>
+    <div class="q-label">Qu'est-ce qui manque selon vous pour que ce soit vraiment utile au quotidien ?</div>
+    <div class="q-hint">Outils, informations, fonctionnalités — soyez concret.</div>
+    <textarea id="q5" placeholder="Ex : je voudrais voir le DPE du bien avant d'accepter le contact, ou avoir un historique des échanges..."></textarea>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prev(5)">← Retour</button>
+      <button class="btn-next" onclick="next(5)">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="question-block" data-q="6">
+    <div class="q-num">Question 6 — Valeur perçue</div>
+    <div class="q-label">Seriez-vous prêt à payer 49,90 €/mois pour accéder à IMMATCH en tant que partenaire ?</div>
+    <div class="choices" id="q6">
+      <div class="choice" onclick="selectOne(this,'q6')"><span class="choice-dot"></span>Oui sans hésiter, si les contacts sont qualifiés</div>
+      <div class="choice" onclick="selectOne(this,'q6')"><span class="choice-dot"></span>Oui, après avoir testé quelques mois</div>
+      <div class="choice" onclick="selectOne(this,'q6')"><span class="choice-dot"></span>C'est trop cher pour l'instant</div>
+      <div class="choice" onclick="selectOne(this,'q6')"><span class="choice-dot"></span>Non, le modèle ne me correspond pas</div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prev(6)">← Retour</button>
+      <button class="btn-next" onclick="next(6)">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="question-block" data-q="7">
+    <div class="q-num">Question 7 — Expérience globale</div>
+    <div class="q-label">Comment évaluez-vous votre expérience globale sur l'espace professionnel ?</div>
+    <div class="q-hint">1 = décevante · 5 = excellente</div>
+    <div class="stars" id="q7">
+      <div class="star" onclick="selectStar('q7',1)">1</div>
+      <div class="star" onclick="selectStar('q7',2)">2</div>
+      <div class="star" onclick="selectStar('q7',3)">3</div>
+      <div class="star" onclick="selectStar('q7',4)">4</div>
+      <div class="star" onclick="selectStar('q7',5)">5</div>
+    </div>
+    <div class="star-labels"><span>Décevante</span><span>Excellente</span></div>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prev(7)">← Retour</button>
+      <button class="btn-next" onclick="next(7)">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="question-block" data-q="8">
+    <div class="q-num">Question 8 — Ce qui ferait la différence</div>
+    <div class="q-label">En une phrase : qu'est-ce qui vous ferait rester ou partir ?</div>
+    <div class="q-hint">Votre réponse la plus importante.</div>
+    <textarea id="q8" placeholder="Ex : si les contacts sont vraiment qualifiés et pas juste des curieux, je reste. Sinon..." style="margin-bottom:20px;"></textarea>
+    <input type="text" id="q8_prenom" placeholder="Votre prénom et votre activité (optionnel)">
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prev(8)">← Retour</button>
+      <button class="btn-next" onclick="submit()" style="background:var(--teal-deep);">Envoyer mon retour ✓</button>
+    </div>
+  </div>
+
+  <!-- MERCI -->
+  <div class="merci" id="merci">
+    <div class="merci-icon">✓</div>
+    <h2>Retour bien reçu.<br><em>Merci.</em></h2>
+    <p>Votre avis terrain est précieux. Nous construisons IMMATCH avec les professionnels qui nous font confiance — vous en faites partie.</p>
+  </div>
+
+</div>
+
+<script>
+const TOTAL = 8;
+const answers = {};
+
+function updateProgress(current) {
+  document.getElementById('progressBar').style.width = ((current-1)/TOTAL*100)+'%';
+  document.getElementById('progressLabel').textContent = `Question ${current} sur ${TOTAL}`;
+}
+function show(n) {
+  document.querySelectorAll('.question-block').forEach(b => b.classList.remove('active'));
+  document.getElementById('merci').classList.remove('active');
+  const block = document.querySelector(`[data-q="${n}"]`);
+  if (block) { block.classList.add('active'); updateProgress(n); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+function next(current) { collectAnswer(current); if (current < TOTAL) show(current + 1); }
+function prev(current) { if (current > 1) show(current - 1); }
+
+function collectAnswer(q) {
+  const single = document.querySelector(`#q${q} .choice.selected`);
+  if (single) { answers[`q${q}`] = single.textContent.trim(); return; }
+  const starSelected = document.querySelectorAll(`#q${q} .star.selected`);
+  if (starSelected.length) { answers[`q${q}`] = starSelected.length + '/5'; return; }
+  const ta = document.getElementById(`q${q}`);
+  if (ta) answers[`q${q}`] = ta.value.trim();
+}
+function selectOne(el, groupId) {
+  document.querySelectorAll(`#${groupId} .choice`).forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function selectStar(groupId, val) {
+  const stars = document.querySelectorAll(`#${groupId} .star`);
+  stars.forEach((s, i) => s.classList.toggle('selected', i < val));
+  answers[groupId] = val + '/5';
+}
+function submit() {
+  collectAnswer(8);
+  answers['prenom'] = document.getElementById('q8_prenom').value.trim() || 'Anonyme';
+  const body = `
+RETOUR BÊTA TEST IMMATCH — PROFESSIONNEL
+=========================================
+Date : ${new Date().toLocaleDateString('fr-FR')}
+Identité : ${answers['prenom']}
+
+Q1 - Activité : ${answers['q1']||'Non renseigné'}
+Q2 - Parcours inscription : ${answers['q2']||'Non renseigné'}
+Q3 - Cockpit adapté : ${answers['q3']||'Non renseigné'}
+Q4 - Logique contacts : ${answers['q4']||'Non renseigné'}
+Q5 - Ce qui manque : ${answers['q5']||'Rien signalé'}
+Q6 - Prêt à payer 49,90€/mois : ${answers['q6']||'Non renseigné'}
+Q7 - Expérience globale : ${answers['q7']||'Non renseigné'}
+Q8 - Ce qui ferait rester/partir : ${answers['q8']||'Non renseigné'}
+  `.trim();
+  const subject = encodeURIComponent(`[IMMATCH Bêta Pro] Retour — ${answers['prenom']}`);
+  window.location.href = `mailto:contact@cadreestatesolutions.fr?subject=${subject}&body=${encodeURIComponent(body)}`;
+  document.querySelectorAll('.question-block').forEach(b => b.classList.remove('active'));
+  document.getElementById('merci').classList.add('active');
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('progressLabel').textContent = 'Retour envoyé — Merci !';
+}
+updateProgress(1);
+</script>
+</body>
+</html>
