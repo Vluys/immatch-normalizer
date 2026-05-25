@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMMATCH — Une solution Cadre Estate Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal: #0F8191;
+    --teal-light: #1aa3b5;
+    --teal-pale: #e1f5f7;
+    --teal-deep: #085060;
+    --ink: #1a1a18;
+    --ink-soft: #3a3a35;
+    --stone: #f4f2ed;
+    --stone-mid: #e8e5de;
+    --stone-dark: #c8c4bb;
+    --white: #fdfcfa;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--white);
+    color: var(--ink);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(253,252,250,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--stone-mid);
+  }
+  .nav-brand { display: flex; flex-direction: column; }
+  .nav-wordmark {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: var(--ink);
+  }
+  .nav-sub {
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 400;
+    margin-top: 1px;
+  }
+  .nav-links {
+    display: flex; gap: 36px; align-items: center;
+    font-size: 13px; color: var(--ink-soft); letter-spacing: .02em;
+  }
+  .nav-links a { text-decoration: none; color: inherit; transition: color .2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-right { display: flex; gap: 12px; align-items: center; }
+  .btn-ghost {
+    font-family: var(--sans); font-size: 13px; font-weight: 400;
+    color: var(--ink-soft); background: none; border: none; cursor: pointer;
+    letter-spacing: .02em; padding: 8px 16px;
+  }
+  .btn-primary {
+    font-family: var(--sans); font-size: 13px; font-weight: 500;
+    background: var(--teal); color: #fff; border: none; cursor: pointer;
+    padding: 10px 22px; border-radius: 100px; letter-spacing: .03em;
+    transition: background .2s, transform .15s;
+  }
+  .btn-primary:hover { background: var(--teal-deep); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 64px 80px 80px;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 32px; font-weight: 500;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 28px; height: 1px; background: var(--teal);
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(48px, 5vw, 72px);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--teal);
+  }
+  .hero-subtitle {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 300;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 40px;
+    max-width: 440px;
+  }
+  .hero-actions { display: flex; gap: 16px; align-items: center; margin-bottom: 64px; }
+  .btn-hero {
+    font-family: var(--sans); font-size: 14px; font-weight: 500;
+    background: var(--ink); color: #fff; border: none; cursor: pointer;
+    padding: 14px 32px; border-radius: 100px; letter-spacing: .03em;
+    transition: background .2s, transform .15s; display: flex; align-items: center; gap: 8px;
+  }
+  .btn-hero:hover { background: var(--teal); transform: translateY(-1px); }
+  .btn-hero-ghost {
+    font-family: var(--sans); font-size: 14px; font-weight: 400;
+    background: none; color: var(--ink-soft); border: 1px solid var(--stone-dark);
+    cursor: pointer; padding: 13px 28px; border-radius: 100px; letter-spacing: .03em;
+    transition: border-color .2s, color .2s;
+  }
+  .btn-hero-ghost:hover { border-color: var(--teal); color: var(--teal); }
+  .hero-proof {
+    display: flex; gap: 32px; align-items: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--stone-mid);
+  }
+  .proof-item { display: flex; flex-direction: column; gap: 2px; }
+  .proof-num {
+    font-family: var(--serif); font-size: 28px; font-weight: 600; color: var(--teal);
+    line-height: 1;
+  }
+  .proof-label { font-size: 11px; color: var(--ink-soft); letter-spacing: .05em; }
+
+  /* HERO RIGHT — Illustration immersive */
+  .hero-right {
+    position: relative;
+    background: var(--stone);
+    overflow: hidden;
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 60px,
+      rgba(15,129,145,0.03) 60px,
+      rgba(15,129,145,0.03) 61px
+    );
+  }
+  .hero-card-stack {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 340px;
+  }
+  .match-card {
+    background: var(--white);
+    border: 1px solid var(--stone-mid);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 20px rgba(26,26,24,0.06);
+    transition: transform .3s ease;
+    animation: floatIn .6s ease both;
+  }
+  .match-card:nth-child(1) { animation-delay: 0s; transform: rotate(-1deg); }
+  .match-card:nth-child(2) { animation-delay: .15s; transform: rotate(.5deg); }
+  .match-card:nth-child(3) { animation-delay: .3s; transform: rotate(-0.5deg); }
+  .match-card:hover { transform: rotate(0) translateY(-4px); }
+
+  @keyframes floatIn {
+    from { opacity: 0; transform: translateY(20px) rotate(var(--r, 0deg)); }
+    to { opacity: 1; }
+  }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .card-badge {
+    font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 100px;
+  }
+  .badge-match { background: var(--teal-pale); color: var(--teal-deep); }
+  .badge-new { background: #f0fdf4; color: #166534; }
+  .score-ring {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 2px solid var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 15px; font-weight: 600; color: var(--teal);
+  }
+  .card-body { font-size: 13px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 12px; }
+  .card-body strong { color: var(--ink); font-weight: 500; }
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    font-size: 11px; color: var(--ink-soft);
+    background: var(--stone); padding: 3px 10px; border-radius: 100px;
+    border: 1px solid var(--stone-mid);
+  }
+
+  /* PILLIERS */
+  .pillars {
+    padding: 120px 80px;
+    background: var(--ink);
+    color: var(--white);
+  }
+  .pillars-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 72px;
+  }
+  .pillars-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300; line-height: 1.1;
+    max-width: 520px;
+  }
+  .pillars-title em { font-style: italic; color: var(--teal-light); }
+  .pillars-lead {
+    max-width: 280px;
+    font-size: 14px;
+    color: rgba(253,252,250,.55);
+    line-height: 1.7;
+    text-align: right;
+  }
+  .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,.08); }
+  .pillar {
+    background: var(--ink);
+    padding: 48px 40px;
+    transition: background .25s;
+  }
+  .pillar:hover { background: #222220; }
+  .pillar-num {
+    font-family: var(--serif);
+    font-size: 48px; font-weight: 300;
+    color: var(--teal-light);
+    opacity: .4;
+    line-height: 1; margin-bottom: 24px;
+  }
+  .pillar-title {
+    font-family: var(--serif); font-size: 24px; font-weight: 400;
+    color: var(--white); margin-bottom: 12px; line-height: 1.2;
+  }
+  .pillar-body { font-size: 13px; color: rgba(253,252,250,.55); line-height: 1.7; }
+
+  /* PROCESS */
+  .process {
+    padding: 120px 80px;
+    background: var(--white);
+  }
+  .section-eyebrow {
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--teal); font-weight: 500;
+    display: flex; align-items: center; gap: 10px; margin-bottom: 24px;
+  }
+  .section-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--teal); }
+  .process-title {
+    font-family: var(--serif); font-size: clamp(36px, 4vw, 54px);
+    font-weight: 300; line-height: 1.1; max-width: 560px; margin-bottom: 80px;
+  }
+  .process-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+  .step { position: relative; }
+  .step::after {
+    content: '→'; position: absolute; top: 28px; right: -24px;
+    font-size: 18px; color: var(--stone-dark); font-family: var(--serif);
+  }
+  .step:last-child::after { display: none; }
+  .step-num {
+    font-family: var(--serif); font-size: 64px; font-weight: 300;
+    color: var(--stone-mid); line-height: 1; margin-bottom: 24px;
+  }
+  .step-title {
+    font-family: var(--serif); font-size: 22px; font-weight: 400;
+    margin-bottom: 12px; color: var(--ink);
+  }
+  .step-body { font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+
+  /* PROFILS */
+  .profiles {
+    padding: 0 80px 120px;
+    background: var(--white);
+  }
+  .profiles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .profile-card {
+    border: 1px solid var(--stone-mid); border-radius: 20px;
+    padding: 48px;
+    position: relative; overflow: hidden;
+    transition: border-color .25s, transform .25s;
+    cursor: pointer;
+  }
+  .profile-card:hover { border-color: var(--teal); transform: translateY(-4px); }
+  .profile-card.featured {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: #fff;
+  }
+  .profile-eyebrow {
+    font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--teal); font-weight: 500; margin-bottom: 16px;
+  }
+  .profile-card.featured .profile-eyebrow { color: rgba(255,255,255,.7); }
+  .profile-title {
+    font-family: var(--serif); font-size: 28px; font-weight: 400;
+    margin-bottom: 16px; line-height: 1.2;
+  }
+  .profile-body { font-size: 13px; color: var(--ink-soft); line-height: 1.7; margin-bottom: 32px; }
+  .profile-card.featured .profile-body { color: rgba(255,255,255,.75); }
+  .profile-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 36px; }
+  .profile-list li {
+    font-size: 13px; color: var(--ink-soft);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .profile-card.featured .profile-list li { color: rgba(255,255,255,.8); }
+  .profile-list li::before {
+    content: ''; display: block; width: 4px; height: 4px;
+    background: var(--teal); border-radius: 50%; flex-shrink: 0;
+  }
+  .profile-card.featured .profile-list li::before { background: rgba(255,255,255,.6); }
+  .profile-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 500; color: var(--teal);
+    text-decoration: none;
+    transition: gap .2s;
+  }
+  .profile-cta:hover { gap: 14px; }
+  .profile-card.featured .profile-cta { color: #fff; }
+
+  /* CONFIANCE */
+  .trust {
+    padding: 120px 80px;
+    background: var(--stone);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .trust-left {}
+  .trust-title {
+    font-family: var(--serif); font-size: clamp(32px, 3.5vw, 48px);
+    font-weight: 300; line-height: 1.1; margin-bottom: 24px;
+  }
+  .trust-title em { font-style: italic; color: var(--teal); }
+  .trust-body { font-size: 14px; color: var(--ink-soft); line-height: 1.8; margin-bottom: 40px; }
+  .trust-right { display: flex; flex-direction: column; gap: 24px; }
+  .trust-item {
+    background: var(--white); border-radius: 16px;
+    padding: 28px 32px;
+    border: 1px solid var(--stone-mid);
+  }
+  .trust-item-title {
+    font-family: var(--serif); font-size: 18px; font-weight: 400;
+    margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
+  }
+  .trust-dot { width: 6px; height: 6px; background: var(--teal); border-radius: 50%; flex-shrink: 0; }
+  .trust-item-body { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+
+  /* CTA FINAL */
+  .cta-final {
+    padding: 140px 80px;
+    background: var(--white);
+    text-align: center;
+  }
+  .cta-final-eyebrow {
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--teal); font-weight: 500; margin-bottom: 24px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .cta-final-eyebrow::before,
+  .cta-final-eyebrow::after { content: ''; display: block; width: 24px; height: 1px; background: var(--teal); }
+  .cta-final-title {
+    font-family: var(--serif); font-size: clamp(40px, 5vw, 72px);
+    font-weight: 300; line-height: 1.05; max-width: 700px; margin: 0 auto 24px;
+  }
+  .cta-final-title em { font-style: italic; color: var(--teal); }
+  .cta-final-sub { font-size: 15px; color: var(--ink-soft); margin-bottom: 48px; }
+  .cta-final-actions { display: flex; gap: 16px; justify-content: center; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: rgba(253,252,250,.5);
+    padding: 64px 80px 40px;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 48px; padding-bottom: 48px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    margin-bottom: 32px;
+  }
+  .footer-brand .nav-wordmark { color: var(--white); margin-bottom: 4px; }
+  .footer-brand .nav-sub { color: var(--teal-light); }
+  .footer-brand p { font-size: 12px; margin-top: 16px; line-height: 1.6; max-width: 220px; }
+  .footer-col h4 {
+    font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(253,252,250,.35); font-weight: 500; margin-bottom: 16px;
+  }
+  .footer-col a {
+    display: block; font-size: 12px; color: rgba(253,252,250,.5);
+    text-decoration: none; margin-bottom: 8px; transition: color .2s;
+  }
+  .footer-col a:hover { color: var(--teal-light); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11px; color: rgba(253,252,250,.3);
+  }
+  .status-dot { display: flex; align-items: center; gap: 6px; }
+  .dot-green { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand" style="display:flex;align-items:center;gap:0;">
+    <!-- Diamant doré -->
+    <div style="position:relative;width:44px;height:44px;flex-shrink:0;">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+        <rect x="11" y="6" width="22" height="22" rx="2" transform="rotate(45 22 17)" stroke="#B8952A" stroke-width="3" fill="none"/>
+      </svg>
+    </div>
+    <!-- Bloc teal avec script immatch -->
+    <div style="background:var(--teal);border-radius:6px;padding:4px 10px 4px 6px;display:flex;flex-direction:column;justify-content:center;margin-left:-8px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;letter-spacing:.01em;color:#fff;line-height:1.05;">immatch<span style="font-size:10px;vertical-align:super;font-weight:300;font-style:normal;">®</span></div>
+      <div style="font-size:8px;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.75);font-weight:500;margin-top:1px;">by Cadre Estate Solutions</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="#process">Comment ça marche</a>
+    <a href="#profiles">Particuliers</a>
+    <a href="#pro">Espace pro</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-ghost">Connexion</button>
+    <button class="btn-primary">Décrivez votre projet</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <span class="hero-eyebrow">Matching immobilier off-market</span>
+    <h1 class="hero-title">
+      Donnez du sens<br>à votre<br>
+      <em>projet immobilier.</em>
+    </h1>
+    <p class="hero-subtitle">
+      Donnez du sens à votre projet immobilier — simplement et en toute discrétion. Sans diffusion massive, sans obligation.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-hero">Décrivez votre projet →</button>
+      <button class="btn-hero-ghost">Espace professionnel</button>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-item">
+        <span class="proof-num">0</span>
+        <span class="proof-label">Diffusion sans accord</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-num">0</span>
+        <span class="proof-label">Contact imposé</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-num">0€</span>
+        <span class="proof-label">Pour commencer</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-card-stack">
+      <div class="match-card">
+        <div class="card-top">
+          <span class="card-badge badge-match">Match détecté</span>
+          <div class="score-ring">94</div>
+        </div>
+        <div class="card-body">
+          <strong>Maison 4p · Carnac (56)</strong><br>
+          Correspond à votre recherche : budget, zone, type de bien et critères de vie alignés.
+        </div>
+        <div class="card-tags">
+          <span class="tag">Budget ✓</span>
+          <span class="tag">Zone ✓</span>
+          <span class="tag">4 pièces ✓</span>
+        </div>
+      </div>
+
+      <div class="match-card">
+        <div class="card-top">
+          <span class="card-badge badge-new">Nouveau</span>
+          <div class="score-ring" style="border-color: var(--stone-dark); color: var(--ink-soft);">78</div>
+        </div>
+        <div class="card-body">
+          <strong>Appartement 3p · Auray (56)</strong><br>
+          Compatible sur 6 critères. Score insuffisant pour mise en relation — améliorez votre profil pour atteindre 80.
+        </div>
+        <div class="card-tags">
+          <span class="tag">Lumineux</span>
+          <span class="tag">Pas de travaux</span>
+        </div>
+      </div>
+
+      <div class="match-card" style="background: var(--teal-pale); border-color: rgba(15,129,145,.2);">
+        <div style="display:flex;align-items:flex-start;gap:12px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--serif);font-size:13px;font-weight:600;color:#fff;font-style:italic;">I</div>
+          <div>
+            <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:6px;">IMA — Intelligence Matching Advisor</div>
+            <div style="font-size:13px;color:var(--teal-deep);line-height:1.6;font-style:italic;">"Ce bien correspond à vos critères essentiels. Mais Carnac, c'est un choix de vie — pas juste une adresse. Est-ce que vous cherchez à vous poser, ou à investir ?"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLIERS -->
+<section class="pillars">
+  <div class="pillars-header">
+    <h2 class="pillars-title">
+      Donnez du sens<br>à votre projet immobilier.<br>
+      <em>Simplement et en toute discrétion.</em>
+    </h2>
+    <p class="pillars-lead">
+      Entre portails saturés, sollicitations non désirées et manque de contrôle, vendeurs et acheteurs méritent mieux.
+    </p>
+  </div>
+  <div class="pillars-grid">
+    <div class="pillar">
+      <div class="pillar-num">01</div>
+      <div class="pillar-title">Votre bien n'est jamais exposé</div>
+      <p class="pillar-body">Aucune annonce publique. Aucune diffusion sans votre accord. Votre projet est qualifié en coulisse — vous gardez la maîtrise totale de ce qui sort et ce qui ne sort pas.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">02</div>
+      <div class="pillar-title">Zéro contact non désiré</div>
+      <p class="pillar-body">Pas de sollicitations non demandées. Pas de professionnels qui s'invitent. Vous choisissez à qui vous parlez, quand vous le souhaitez, sur la base de compatibilités réelles.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">03</div>
+      <div class="pillar-title">Vous pouvez arrêter à tout moment</div>
+      <p class="pillar-body">Aucun engagement, aucune obligation. Si vous changez d'avis, vous suspendez ou supprimez votre projet en un clic. Vos données disparaissent avec.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-eyebrow">Comment ça marche</div>
+  <h2 class="process-title">Trois étapes pour faire avancer votre projet sans pression</h2>
+  <div class="process-steps">
+    <div class="step">
+      <div class="step-num">I.</div>
+      <h3 class="step-title">Décrivez votre projet</h3>
+      <p class="step-body">En quelques minutes, qualifiez votre recherche, votre vente ou votre estimation. IMA, votre conseillère virtuelle, vous guide naturellement.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">II.</div>
+      <h3 class="step-title">Découvrez vos matchs</h3>
+      <p class="step-body">IMMATCH identifie les projets ou profils les plus cohérents avec vos critères. Votre cockpit vous présente les compatibilités avec leur score détaillé.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">III.</div>
+      <h3 class="step-title">Avancez à votre rythme</h3>
+      <p class="step-body">Vous choisissez quand ouvrir le contact. Aucune obligation, aucune pression. Les professionnels n'interviennent qu'en cas de besoin réel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILS -->
+<section class="profiles" id="profiles">
+  <div style="display:flex;flex-direction:column;gap:24px;">
+    <div class="profile-card">
+      <div class="profile-eyebrow">Particuliers</div>
+      <h3 class="profile-title">Vous gardez le contrôle. Toujours.</h3>
+      <p class="profile-body">Que vous vendiez, achetiez ou souhaitiez estimer discrètement, IMMATCH vous offre un espace sécurisé, sans exposition prématurée.</p>
+      <ul class="profile-list">
+        <li>Votre bien jamais exposé sans accord</li>
+        <li>Zéro contact non souhaité</li>
+        <li>Estimation gratuite, sans engagement</li>
+        <li>Professionnels disponibles uniquement si vous le demandez</li>
+      </ul>
+      <a href="#" class="profile-cta">Décrivez votre projet →</a>
+    </div>
+    <div style="border:1px solid var(--stone-mid);border-radius:20px;padding:40px 52px;display:flex;align-items:center;justify-content:space-between;gap:40px;background:var(--stone);">
+      <div>
+        <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:500;margin-bottom:12px;">Espace professionnel</div>
+        <div style="font-family:var(--serif);font-size:26px;font-weight:400;margin-bottom:10px;color:var(--ink);line-height:1.2;">Vous êtes professionnel et nos principes<br>ont du sens pour vous ?</div>
+        <div style="font-size:14px;color:var(--ink-soft);font-style:italic;">Alors faisons connaissance.</div>
+      </div>
+      <a href="#" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--sans);font-size:14px;font-weight:500;background:var(--teal);color:#fff;text-decoration:none;padding:14px 32px;border-radius:100px;white-space:nowrap;flex-shrink:0;transition:background .2s;">Découvrir l'espace pro →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIANCE -->
+<section class="trust">
+  <div class="trust-left">
+    <div class="section-eyebrow">Engagement & confiance</div>
+    <h2 class="trust-title">
+      Personne ne vend<br>
+      ce qui<br>
+      <em>vous appartient.</em>
+    </h2>
+    <p class="trust-body">Cadre Estate Solutions a conçu IMMATCH sur une certitude : la peur de perdre le contrôle de son projet est légitime. Chaque fonctionnalité a été pensée pour que vous ne la ressentiez jamais.</p>
+    <button class="btn-primary" style="padding: 12px 28px;">Lire notre Charte de confiance</button>
+  </div>
+  <div class="trust-right">
+    <div class="trust-item">
+      <div class="trust-item-title"><span class="trust-dot"></span>Coordonnées protégées</div>
+      <p class="trust-item-body">Vos coordonnées ne sont partagées qu'après validation mutuelle explicite des deux parties.</p>
+    </div>
+    <div class="trust-item">
+      <div class="trust-item-title"><span class="trust-dot"></span>Vos données ne sont pas un produit</div>
+      <p class="trust-item-body">Cadre Estate Solutions ne vend pas vos données. Elles ne sont transmises qu'aux professionnels que vous sollicitez, et uniquement dans ce cadre.</p>
+    </div>
+    <div class="trust-item">
+      <div class="trust-item-title"><span class="trust-dot"></span>Conformité RGPD</div>
+      <p class="trust-item-body">Cadre Estate Solutions est responsable de traitement. Vos droits d'accès, rectification et suppression sont garantis.</p>
+    </div>
+    <div class="trust-item">
+      <div class="trust-item-title"><span class="trust-dot"></span>Professionnels vérifiés</div>
+      <p class="trust-item-body">Chaque partenaire est validé manuellement (Kbis, RCP, certifications). Ils n'interviennent que si vous le demandez explicitement — jamais de leur propre initiative.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <div class="cta-final-eyebrow">Prêt à commencer ?</div>
+  <h2 class="cta-final-title">Donnez du sens<br>à votre <em>projet immobilier.</em></h2>
+  <p class="cta-final-sub">Simple, discret, rapide et efficace. Sans diffusion massive. Sans obligation.</p>
+  <div class="cta-final-actions">
+    <button class="btn-hero">Décrivez votre projet →</button>
+    <button class="btn-hero-ghost">Découvrir l'espace pro</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:0;margin-bottom:8px;">
+        <svg width="34" height="34" viewBox="0 0 44 44" fill="none" style="flex-shrink:0;">
+          <rect x="11" y="6" width="22" height="22" rx="2" transform="rotate(45 22 17)" stroke="#B8952A" stroke-width="3" fill="none"/>
+        </svg>
+        <div style="background:var(--teal);border-radius:5px;padding:3px 8px 3px 5px;margin-left:-6px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;font-style:italic;color:#fff;line-height:1.1;">immatch<span style="font-size:8px;vertical-align:super;font-weight:300;font-style:normal;">®</span></div>
+          <div style="font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);">by Cadre Estate Solutions</div>
+        </div>
+      </div>
+      <p>Plateforme de matching immobilier off-market. Simple, discret, rapide et efficace.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Particuliers</h4>
+      <a href="#">CGU Particuliers</a>
+      <a href="#">CGV Particuliers</a>
+      <a href="#">Charte de confiance</a>
+    </div>
+    <div class="footer-col">
+      <h4>Professionnels</h4>
+      <a href="#">CGU Pros</a>
+      <a href="#">CGV Pros</a>
+      <a href="#">Charte déontologique</a>
+      <a href="#">Conditions partenaires</a>
+    </div>
+    <div class="footer-col">
+      <h4>Légal</h4>
+      <a href="#">Mentions légales</a>
+      <a href="#">Confidentialité</a>
+      <a href="#">Cookies</a>
+      <a href="#">Tous les documents</a>
+    </div>
+    <div class="footer-col">
+      <h4>Plateforme</h4>
+      <a href="#">Contact</a>
+      <a href="#">Espace pro</a>
+      <a href="#">Connexion</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Cadre Estate Solutions est la société éditrice d'IMMATCH™</span>
+    <div class="status-dot"><span class="dot-green"></span> Tous les systèmes opérationnels</div>
+  </div>
+</footer>
+
+</body>
+</html>
