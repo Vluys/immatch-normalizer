@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMMATCH — Espace professionnel</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--t:#0F8191;--g:#C9A84C;--dark:#1c1c1e;--bg:#FAF9F7;--bg2:#FFFFFF;--text:#1a1a1a;--text2:#555;--text3:#888;--border:rgba(0,0,0,.07);--radius:16px;--radius-sm:10px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 48px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.nav-logo{display:flex;flex-direction:column}
+.wordmark{font-size:22px;color:var(--t);letter-spacing:-.6px;font-style:italic;font-weight:300}
+.wordmark sup{font-size:11px;font-style:normal;color:var(--g);font-weight:600}
+.nav-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.nav-links{display:flex;gap:28px;font-size:13px;color:var(--text2)}
+.nav-links a{text-decoration:none;color:inherit;transition:color .15s}
+.nav-links a:hover{color:var(--t)}
+.nav-cta{font-size:13px;font-weight:600;padding:9px 22px;border-radius:30px;background:var(--dark);color:#fff;border:none;cursor:pointer;transition:opacity .15s}
+.nav-cta:hover{opacity:.85}
+
+/* HERO */
+.hero{max-width:780px;margin:0 auto;padding:96px 24px 80px;text-align:center}
+.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t);margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:8px}
+.hero-eyebrow-line{width:32px;height:1px;background:var(--t)}
+.hero-title{font-size:clamp(32px,5vw,52px);font-weight:300;color:var(--text);line-height:1.15;margin-bottom:24px;letter-spacing:-.02em}
+.hero-title strong{font-weight:700;color:var(--dark)}
+.hero-text{font-size:18px;color:var(--text2);line-height:1.75;max-width:600px;margin:0 auto 48px;font-weight:300}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:600;padding:14px 32px;border-radius:30px;background:var(--t);color:#fff;border:none;cursor:pointer;transition:all .2s;text-decoration:none}
+.hero-cta:hover{background:var(--dark);transform:translateY(-1px)}
+.hero-cta i{font-size:14px}
+
+/* DIVIDER */
+.divider{max-width:1px;height:64px;background:var(--border);margin:0 auto}
+
+/* PHILOSOPHIE */
+.philo{max-width:840px;margin:0 auto;padding:80px 24px}
+.philo-intro{font-size:22px;color:var(--text2);line-height:1.7;font-weight:300;text-align:center;margin-bottom:64px;letter-spacing:-.01em}
+.philo-intro em{font-style:italic;color:var(--t)}
+
+.philo-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:64px}
+.philo-cell{background:var(--bg2);padding:36px 32px}
+.philo-cell:first-child{border-radius:var(--radius) 0 0 0}
+.philo-cell:nth-child(2){border-radius:0 var(--radius) 0 0}
+.philo-cell:nth-child(3){border-radius:0 0 0 var(--radius)}
+.philo-cell:last-child{border-radius:0 0 var(--radius) 0}
+.philo-cell-icon{width:40px;height:40px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--t);margin-bottom:16px}
+.philo-cell-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.3}
+.philo-cell-txt{font-size:14px;color:var(--text2);line-height:1.7;font-weight:300}
+
+/* CITATION */
+.citation{background:var(--dark);border-radius:var(--radius);padding:56px 48px;max-width:840px;margin:0 auto 80px;text-align:center}
+.citation-txt{font-size:clamp(18px,2.5vw,24px);color:#eee;line-height:1.6;font-weight:300;font-style:italic;margin-bottom:24px;letter-spacing:-.01em}
+.citation-txt strong{color:var(--g);font-style:normal;font-weight:600}
+.citation-source{font-size:13px;color:#666;font-style:normal}
+
+/* CE QUE NOUS CHERCHONS */
+.cherchons{max-width:840px;margin:0 auto;padding:0 24px 80px}
+.section-title{font-size:clamp(24px,3vw,32px);font-weight:300;color:var(--text);letter-spacing:-.02em;margin-bottom:8px}
+.section-title strong{font-weight:700}
+.section-sub{font-size:16px;color:var(--text2);margin-bottom:40px;font-weight:300;line-height:1.6}
+.traits{display:flex;flex-direction:column;gap:0}
+.trait{display:flex;align-items:flex-start;gap:20px;padding:24px 0;border-bottom:1px solid var(--border)}
+.trait:last-child{border-bottom:none}
+.trait-num{font-size:11px;font-weight:700;color:var(--text3);width:28px;flex-shrink:0;padding-top:3px}
+.trait-body{flex:1}
+.trait-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:5px}
+.trait-txt{font-size:14px;color:var(--text2);line-height:1.7;font-weight:300}
+
+/* PROCESSUS */
+.processus{background:var(--bg2);border-radius:var(--radius);max-width:840px;margin:0 auto 80px;padding:48px;border:1px solid var(--border)}
+.processus-title{font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:32px}
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;align-items:flex-start;gap:20px;padding:20px 0;border-bottom:1px solid var(--border);position:relative}
+.step:last-child{border-bottom:none}
+.step-dot{width:32px;height:32px;border-radius:50%;background:var(--t);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px}
+.step-body{flex:1}
+.step-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+.step-txt{font-size:13px;color:var(--text2);line-height:1.6;font-weight:300}
+.step-note{font-size:11px;color:var(--text3);margin-top:4px;font-style:italic}
+
+/* CTA FINAL */
+.cta-final{max-width:840px;margin:0 auto;padding:0 24px 96px;text-align:center}
+.cta-final-title{font-size:clamp(24px,3vw,36px);font-weight:300;color:var(--text);letter-spacing:-.02em;margin-bottom:16px;line-height:1.2}
+.cta-final-title strong{font-weight:700}
+.cta-final-txt{font-size:16px;color:var(--text2);line-height:1.7;font-weight:300;margin-bottom:40px;max-width:560px;margin-left:auto;margin-right:auto}
+.cta-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.cta-box-left{text-align:left}
+.cta-box-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px}
+.cta-box-sub{font-size:13px;color:var(--text2);line-height:1.6;font-weight:300}
+.cta-suivant{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:700;padding:14px 32px;border-radius:30px;background:var(--t);color:#fff;border:none;cursor:pointer;transition:all .2s;white-space:nowrap}
+.cta-suivant:hover{background:var(--dark);transform:translateY(-1px)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--text3)}
+
+@media(max-width:640px){
+  .nav{padding:16px 20px}.hero{padding:64px 20px 48px}
+  .philo-grid{grid-template-columns:1fr}.philo-cell:first-child,.philo-cell:nth-child(2),.philo-cell:nth-child(3),.philo-cell:last-child{border-radius:0}
+  .citation{padding:36px 24px}.cta-box{flex-direction:column;padding:28px 24px;text-align:center}.cta-box-left{text-align:center}.cherchons,.philo{padding:48px 20px}
+  .processus{padding:28px 20px;margin:0 20px 48px}.nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="wordmark">immatch<sup>®</sup></div>
+    <div class="nav-sub">Une solution Cadre Estate Solutions</div>
+  </div>
+  <div class="nav-links">
+    <a href="#">Comment ça marche</a>
+    <a href="#">Estimation gratuite</a>
+    <a href="#" style="color:var(--t);font-weight:600">Espace pro</a>
+  </div>
+  <button class="nav-cta">Mon cockpit</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <div class="hero-eyebrow-line"></div>
+    Espace professionnel
+    <div class="hero-eyebrow-line"></div>
+  </div>
+  <h1 class="hero-title">
+    Nous ne cherchons pas<br>
+    des partenaires.<br>
+    <strong>Nous cherchons des gens bien.</strong>
+  </h1>
+  <p class="hero-text">
+    Chez IMMATCH, chaque personne que nous accompagnons — particulier ou professionnel — mérite le meilleur de ce que nous pouvons offrir. C'est aussi simple, et aussi exigeant, que ça.
+  </p>
+  <a href="#processus" class="hero-cta">
+    Déposer une demande de référencement
+    <i class="ti ti-arrow-down"></i>
+  </a>
+</section>
+
+<div class="divider"></div>
+
+<!-- PHILOSOPHIE -->
+<section class="philo">
+  <p class="philo-intro">
+    Nous sommes convaincus qu'un service immobilier peut être <em>humain</em>. Qu'il est possible de simplifier la vie des gens, de réduire leur stress, d'améliorer leur quotidien — sans jamais les traiter comme un numéro ou une transaction.
+    <br><br>
+    C'est cette conviction qui guide chaque décision que nous prenons, chaque professionnel que nous intégrons, chaque relation que nous construisons.
+  </p>
+
+  <div class="philo-grid">
+    <div class="philo-cell">
+      <div class="philo-cell-icon"><i class="ti ti-heart"></i></div>
+      <div class="philo-cell-title">Des personnes avant tout</div>
+      <div class="philo-cell-txt">Derrière chaque projet immobilier, il y a une vie qui change. Une famille qui grandit, un retraité qui simplifie, un jeune qui s'installe. Nous n'oublions jamais ça.</div>
+    </div>
+    <div class="philo-cell">
+      <div class="philo-cell-icon"><i class="ti ti-award"></i></div>
+      <div class="philo-cell-title">La qualité comme seule boussole</div>
+      <div class="philo-cell-txt">Nous préférons recommander peu — et bien. Un professionnel que nous recommandons, c'est quelqu'un que nous serions prêts à envoyer chez notre propre famille.</div>
+    </div>
+    <div class="philo-cell">
+      <div class="philo-cell-icon"><i class="ti ti-shield-check"></i></div>
+      <div class="philo-cell-title">La confiance se mérite</div>
+      <div class="philo-cell-txt">Nos utilisateurs nous font confiance parce qu'ils savent que nous ne recommandons pas n'importe qui. Cette confiance est notre bien le plus précieux — et nous la protégeons.</div>
+    </div>
+    <div class="philo-cell">
+      <div class="philo-cell-icon"><i class="ti ti-users"></i></div>
+      <div class="philo-cell-title">Un réseau qui se respecte</div>
+      <div class="philo-cell-txt">Chaque professionnel référencé contribue à la réputation de l'ensemble. Nous construisons quelque chose ensemble — et ça se mérite des deux côtés.</div>
+    </div>
+  </div>
+
+  <div class="citation">
+    <p class="citation-txt">
+      « Nous ne cherchons pas à croître pour croître. Nous cherchons à <strong>être utiles</strong> — vraiment utiles — à chaque personne qui nous fait confiance. Si ça prend du temps, tant mieux. Les choses qui durent méritent d'être bien faites. »
+    </p>
+    <div class="citation-source">Roger Vluys · Fondateur · Cadre Estate Solutions</div>
+  </div>
+</section>
+
+<!-- CE QUE NOUS CHERCHONS -->
+<section class="cherchons">
+  <h2 class="section-title">Ce que nous cherchons<br><strong>chez un professionnel référencé</strong></h2>
+  <p class="section-sub">Pas des critères commerciaux. Des valeurs humaines.</p>
+
+  <div class="traits">
+    <div class="trait">
+      <div class="trait-num">01</div>
+      <div class="trait-body">
+        <div class="trait-title">La réactivité comme marque de respect</div>
+        <div class="trait-txt">Répondre vite, c'est dire à quelqu'un que son temps compte. Que sa demande a été entendue. C'est le premier geste de considération — et souvent le plus important.</div>
+      </div>
+    </div>
+    <div class="trait">
+      <div class="trait-num">02</div>
+      <div class="trait-body">
+        <div class="trait-title">L'honnêteté sans détour</div>
+        <div class="trait-txt">Dire ce qu'on peut faire. Ne pas promettre ce qu'on ne peut pas tenir. Informer clairement, même quand ce n'est pas la réponse attendue. La transparence, ce n'est pas une contrainte — c'est une forme de respect.</div>
+      </div>
+    </div>
+    <div class="trait">
+      <div class="trait-num">03</div>
+      <div class="trait-body">
+        <div class="trait-title">L'absence de pression</div>
+        <div class="trait-txt">Les personnes que nous accompagnons ont parfois des décisions importantes à prendre. Elles ont besoin d'espace, de temps, de clarté. Jamais de pression, jamais d'urgence artificielle.</div>
+      </div>
+    </div>
+    <div class="trait">
+      <div class="trait-num">04</div>
+      <div class="trait-body">
+        <div class="trait-title">Le soin du travail bien fait</div>
+        <div class="trait-txt">Peu importe la taille de l'intervention. Un diagnostic réalisé avec soin, une estimation honnête, un conseil donné avec pédagogie — chaque geste compte et laisse une impression durable.</div>
+      </div>
+    </div>
+    <div class="trait">
+      <div class="trait-num">05</div>
+      <div class="trait-body">
+        <div class="trait-title">La confidentialité comme évidence</div>
+        <div class="trait-txt">Les informations que nous partageons avec vous sont confiées dans un cadre de confiance. Elles n'existent que pour vous permettre de bien accompagner la personne concernée — et pour rien d'autre.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSUS -->
+<section class="processus" id="processus">
+  <div class="processus-title">Comment nous procédons</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-dot">1</div>
+      <div class="step-body">
+        <div class="step-title">Vous déposez une demande de référencement</div>
+        <div class="step-txt">Un formulaire simple pour nous présenter qui vous êtes, ce que vous faites, et dans quelle zone vous intervenez. Pas de dossier complexe — juste les essentiels pour commencer à vous connaître.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">2</div>
+      <div class="step-body">
+        <div class="step-title">Nous prenons le temps de vous étudier</div>
+        <div class="step-txt">Nous vérifions vos documents professionnels et nous nous intéressons à votre notoriété — avis clients, présence en ligne, secteur d'intervention. Pas pour vous juger, mais pour vous comprendre.</div>
+        <div class="step-note">Ce temps de vérification est aussi un respect de votre travail — nous ne référençons pas à la légère.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">3</div>
+      <div class="step-body">
+        <div class="step-title">Nous vous contactons pour un échange</div>
+        <div class="step-txt">Si votre profil nous semble aligné avec nos valeurs, nous vous appelons — pas pour vous vendre quoi que ce soit, mais pour discuter ensemble. De vos attentes, de notre façon de fonctionner, et de ce qui a du sens pour vous.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">4</div>
+      <div class="step-body">
+        <div class="step-title">Une période d'essai avant toute décision</div>
+        <div class="step-txt">Nous croyons qu'une relation se construit dans la durée. Avant toute inscription définitive, nous proposons une période d'essai — pour vérifier que notre façon de travailler vous convient, et que la vôtre nous convient aussi.</div>
+        <div class="step-note">La décision finale est mutuelle. Vous êtes libre de poursuivre ou non — tout comme nous.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <h2 class="cta-final-title">Si cette philosophie<br><strong>résonne en vous</strong></h2>
+  <p class="cta-final-txt">
+    Alors nous serions sincèrement heureux de faire connaissance. Pas pour grossir notre réseau. Pour le rendre meilleur.
+  </p>
+  <div class="cta-box">
+    <div class="cta-box-left">
+      <div class="cta-box-title">Déposer une demande de référencement</div>
+      <div class="cta-box-sub">Quelques minutes suffisent. Nous revenons vers vous dans les meilleurs délais.<br>Aucun engagement de votre part à ce stade.</div>
+    </div>
+    <button class="cta-suivant" onclick="window.location.href='immatch_validation_candidature_admin.html'">
+      Suivant <i class="ti ti-arrow-right" style="font-size:14px"></i>
+    </button>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <span style="font-style:italic;font-size:14px;color:var(--t)">immatch<sup style="font-size:9px;color:var(--g);font-style:normal">®</sup></span>
+    <span style="margin-left:8px">Une solution Cadre Estate Solutions · SASU · RCS 103 586 327</span>
+  </div>
+  <div style="display:flex;gap:20px">
+    <a href="#" style="color:var(--text3);text-decoration:none">Charte déontologique</a>
+    <a href="#" style="color:var(--text3);text-decoration:none">Mentions légales</a>
+    <a href="#" style="color:var(--text3);text-decoration:none">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
