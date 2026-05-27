@@ -1,357 +1,409 @@
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMMATCH — Cockpit Pro Immo · Jean R.</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--t:#0F8191;--g:#C9A84C;--dark:#1c1c1e}
-.w{padding:.5rem 0 2rem;font-family:var(--font-sans)}
+:root{
+  --t:#0F8191;--t50:#E1F5EE;--t800:#085041;
+  --g:#C9A84C;--g50:#FAEEDA;--g800:#633806;
+  --dark:#1c1c1e;--bg:#F8F8F6;--bg2:#FFFFFF;--bg3:#F0F0EE;
+  --text:#1a1a1a;--text2:#555;--text3:#888;
+  --border:rgba(0,0,0,.08);--radius:12px;--radius-sm:8px;
+  --shadow:0 1px 4px rgba(0,0,0,.06);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
+.page{max-width:1000px;margin:0 auto;padding:0 20px 60px}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-
-.header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.25rem;border-bottom:.5px solid var(--color-border-tertiary);margin-bottom:1.25rem}
-.wordmark{font-size:18px;color:var(--t);letter-spacing:-.5px;font-style:italic;font-weight:400}
-.header-right{display:flex;align-items:center;gap:12px}
-.pro-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;background:#E1F5EE;color:#085041;border:.5px solid #9FE1CB}
-.av{width:30px;height:30px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#085041}
-
-.ima-hero{background:var(--dark);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:14px}
-.ima-circle{width:52px;height:52px;border-radius:50%;border:2px solid var(--t);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
-.ima-score{font-size:16px;font-weight:500;color:var(--t)}
-.ima-pts{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);background:#1D9E75;color:#fff;font-size:9px;font-weight:500;padding:1px 5px;border-radius:20px;white-space:nowrap}
-.ima-content{flex:1}
-.ima-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
-.ima-msg{font-size:13px;color:#fff;line-height:1.6;margin-bottom:8px}
-.ima-actions{display:flex;gap:8px;flex-wrap:wrap}
-.ima-btn{font-size:11px;padding:4px 12px;border-radius:20px;border:.5px solid #444;color:#ccc;background:transparent;cursor:pointer}
+ 
+/* HEADER — identique au cockpit particulier */
+.header{display:flex;align-items:center;justify-content:space-between;padding:16px 0 12px;border-bottom:1px solid var(--border);margin-bottom:20px;position:sticky;top:0;background:var(--bg);z-index:50}
+.wordmark{font-size:22px;color:var(--t);letter-spacing:-.6px;font-style:italic;font-weight:300}
+.wordmark sup{font-size:11px;font-style:normal;color:var(--g);font-weight:600}
+.header-right{display:flex;align-items:center;gap:10px}
+.pro-badge{font-size:11px;font-weight:600;padding:3px 12px;border-radius:20px;background:var(--t50);color:var(--t800);border:1px solid rgba(15,129,145,.2)}
+.uav{width:32px;height:32px;border-radius:50%;background:var(--t50);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--t800)}
+.header-nav{display:flex;gap:4px}
+.hn{font-size:12px;padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
+.hn:hover{background:var(--bg3)}
+ 
+/* IMA HERO — identique au cockpit particulier */
+.ima-hero{background:var(--dark);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px}
+.ima-av-lg{width:56px;height:56px;border-radius:50%;border:2.5px solid var(--t);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;background:var(--dark);font-size:11px;font-weight:700;color:var(--t)}
+.ima-pts{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);background:#1D9E75;color:#fff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:20px;white-space:nowrap}
+.ima-body{flex:1}
+.ima-label{font-size:10px;color:#666;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.ima-dot{width:6px;height:6px;border-radius:50%;background:var(--t)}
+.ima-msg{font-size:13px;color:#eee;line-height:1.6;margin-bottom:10px}
+.ima-msg strong{color:var(--g)}
+.ima-btns{display:flex;gap:6px;flex-wrap:wrap}
+.ima-btn{font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid #444;color:#bbb;background:transparent;cursor:pointer;transition:all .15s}
 .ima-btn:hover{border-color:var(--t);color:var(--t)}
-
-.nav{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
-.nb{font-size:12px;padding:5px 13px;border-radius:20px;cursor:pointer;border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .15s}
+ 
+/* METRICS — en grille 4 col */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.met{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}
+.ml{font-size:11px;color:var(--text2);margin-bottom:4px;font-weight:500}
+.mv{font-size:22px;font-weight:700;color:var(--text)}
+.ms{font-size:11px;color:#3B6D11;margin-top:3px}
+.msw{font-size:11px;color:#854F0B;margin-top:3px}
+ 
+/* NAV TABS */
+.nav{display:flex;gap:5px;margin-bottom:20px;flex-wrap:wrap}
+.nb{font-size:12px;padding:6px 14px;border-radius:20px;cursor:pointer;border:1px solid var(--border);background:var(--bg2);color:var(--text2);transition:all .15s;font-weight:500}
 .nb.active{background:var(--t);color:#fff;border-color:var(--t)}
-.nb:hover:not(.active){background:var(--color-background-secondary)}
-.nbadge{background:#FAEEDA;color:#633806;font-size:10px;padding:1px 5px;border-radius:20px;margin-left:3px}
-
-.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.25rem}
-.met{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem 1rem}
-.ml{font-size:11px;color:var(--color-text-secondary);margin-bottom:3px}
-.mv{font-size:20px;font-weight:500;color:var(--color-text-primary)}
-.ms{font-size:11px;color:#3B6D11;margin-top:2px}
-.msw{font-size:11px;color:#854F0B;margin-top:2px}
-
-.section-lbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.65rem;display:flex;align-items:center;justify-content:space-between}
-.card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:1rem;overflow:hidden}
-.chd{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1.25rem;border-bottom:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
-.ct{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;display:flex;align-items:center;gap:6px}
-
-.pill{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px}
-.pa{background:#E1F5EE;color:#085041}.pw{background:#FAEEDA;color:#633806}
+.nb:hover:not(.active){background:var(--bg3)}
+.nbadge{background:var(--g50);color:var(--g800);font-size:10px;padding:1px 5px;border-radius:20px;margin-left:3px;font-weight:700}
+ 
+/* SECTION LABEL */
+.section-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.slbl{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.07em}
+ 
+/* CARD */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow)}
+.chd{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg3)}
+.ct{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:6px}
+ 
+/* PILLS */
+.pill{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
+.pa{background:var(--t50);color:var(--t800)}.pw{background:var(--g50);color:var(--g800)}
 .pe{background:#FCEBEB;color:#791F1F}.pb{background:#E6F1FB;color:#0C447C}
-.pn{background:#EEEDFE;color:#3C3489}.pg{background:#EAF3DE;color:#27500A}
-
-.btn{font-size:12px;padding:5px 12px;border-radius:20px;border:.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer}
-.btn:hover{background:var(--color-background-secondary)}
-.btn-p{background:var(--t);color:#fff;border-color:var(--t)}
-.btn-p:hover{opacity:.9}
-
-.bien-wrap{padding:.85rem 1.25rem}
-.bien{border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:.85rem 1rem;margin-bottom:.75rem}
+.pn{background:#EEEDFE;color:#3C3489}
+ 
+/* BTN */
+.btn{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg2);color:var(--text);cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:5px;transition:all .15s}
+.btn:hover{background:var(--bg3)}
+.btn-p{background:var(--t);color:#fff;border-color:var(--t)}.btn-p:hover{opacity:.9}
+ 
+/* BIEN CARD */
+.bien{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
 .bien.active{border-color:var(--t)}
-.bien-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.65rem;gap:8px}
-.bien-title{font-size:13px;font-weight:500;color:var(--color-text-primary)}
-.bien-meta{font-size:11px;color:var(--color-text-secondary);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.bien-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:.65rem}
-.bi{font-size:11px;color:var(--color-text-secondary)}
-.biv{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-top:2px}
-
-.compat-section{border-top:.5px solid var(--color-border-tertiary);padding-top:.65rem;margin-top:.65rem}
-.compat-lbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.5rem}
-.compat-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:.5px solid var(--color-border-tertiary)}
+.bien-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px}
+.bien-title{font-size:14px;font-weight:700;color:var(--text)}
+.bien-meta{font-size:11px;color:var(--text2);margin-top:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.bien-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.bi{font-size:11px;color:var(--text2)}
+.biv{font-size:13px;font-weight:600;color:var(--text);margin-top:2px}
+ 
+/* COMPAT */
+.compat-section{border-top:1px solid var(--border);padding-top:12px;margin-top:8px}
+.compat-lbl{font-size:11px;color:var(--text2);margin-bottom:8px;font-weight:500}
+.compat-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border)}
 .compat-row:last-child{border-bottom:none}
-.score-ring{width:38px;height:38px;border-radius:50%;border:2.5px solid;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
-.compat-info{flex:1;min-width:0}
-.compat-main{font-size:12px;font-weight:500;color:var(--color-text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.compat-sub{font-size:11px;color:var(--color-text-secondary)}
-.mer-btn{font-size:11px;padding:4px 10px;border-radius:20px;white-space:nowrap;cursor:pointer}
-.mer-on{border:.5px solid var(--t);color:var(--t);background:var(--color-background-primary)}
-.mer-on:hover{background:#E1F5EE}
-.mer-off{border:.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);background:var(--color-background-secondary);cursor:not-allowed}
-
-.lead-card{padding:1rem 1.25rem;border-bottom:.5px solid var(--color-border-tertiary)}
+.sring{width:42px;height:42px;border-radius:50%;border:2.5px solid;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.cinfo{flex:1;min-width:0}
+.cmain{font-size:12px;font-weight:600;color:var(--text)}
+.csub{font-size:11px;color:var(--text2);margin-top:2px}
+.mer-btn{font-size:11px;padding:5px 12px;border-radius:20px;cursor:pointer;white-space:nowrap;font-weight:600;transition:all .15s}
+.mer-on{border:1px solid var(--t);color:var(--t);background:transparent}.mer-on:hover{background:var(--t50)}
+.mer-off{border:1px solid var(--border);color:var(--text3);background:var(--bg3);cursor:not-allowed}
+ 
+/* LEAD CARD */
+.lead-card{padding:16px;border-bottom:1px solid var(--border)}
 .lead-card:last-child{border-bottom:none}
-.lead-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.65rem}
-.lead-demande{background:var(--color-background-secondary);border-left:3px solid var(--t);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:.6rem .85rem;font-size:12px;line-height:1.6;color:var(--color-text-primary);margin-bottom:.65rem}
-.lead-demande-lbl{font-size:10px;color:var(--color-text-secondary);font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
-.lead-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:.65rem}
-.li{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.4rem .65rem}
-.ll{font-size:10px;color:var(--color-text-secondary)}
-.lv{font-size:12px;font-weight:500;color:var(--color-text-primary)}
-.commission-box{background:#FAEEDA;border-radius:var(--border-radius-md);padding:.6rem 1rem;margin-bottom:.65rem;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.cb-txt{font-size:12px;color:#633806;line-height:1.4}
-.cb-val{font-size:16px;font-weight:500;color:#633806;white-space:nowrap}
-.lead-actions{display:flex;gap:8px}
-.zt{display:inline-flex;align-items:center;gap:3px;font-size:11px;background:#E6F1FB;color:#0C447C;padding:2px 7px;border-radius:20px}
-
-.form-section{padding:.85rem 1.25rem;border-bottom:.5px solid var(--color-border-tertiary)}
-.form-section:last-of-type{border-bottom:none}
-.fs-lbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
-.fr{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.lead-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px}
+.lead-demande{background:var(--bg3);border-left:3px solid var(--t);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;font-size:13px;line-height:1.6;color:var(--text);margin-bottom:12px}
+.lead-lbl{font-size:10px;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
+.lead-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.li{background:var(--bg3);border-radius:var(--radius-sm);padding:8px 10px}
+.ll{font-size:10px;color:var(--text2)}
+.lv{font-size:12px;font-weight:600;color:var(--text);margin-top:1px}
+.comm-box{background:var(--g50);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cb-txt{font-size:12px;color:var(--g800);line-height:1.4}
+.cb-val{font-size:18px;font-weight:700;color:var(--g800);white-space:nowrap}
+.comm-box-loc{background:var(--bg3);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:10px;font-size:12px;color:var(--text2)}
+.cd{font-size:11px;color:#791F1F;font-weight:700;white-space:nowrap}
+.cd-ok{font-size:11px;color:#854F0B;font-weight:700;white-space:nowrap}
+.zt{display:inline-flex;align-items:center;gap:3px;font-size:11px;background:#E6F1FB;color:#0C447C;padding:2px 8px;border-radius:20px}
+ 
+/* FORM */
+.form-sec{padding:16px;border-bottom:1px solid var(--border)}
+.form-sec:last-of-type{border-bottom:none}
+.fs-lbl{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.fr{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
 .fr:last-child{margin-bottom:0}
-.fl{font-size:12px;color:var(--color-text-secondary);width:180px;flex-shrink:0;padding-top:6px}
-.fi{font-size:13px;padding:5px 8px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-primary);flex:1}
-.ftxt{font-size:13px;padding:7px 8px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-primary);flex:1;min-height:60px;resize:vertical}
-.tag-g{display:flex;gap:6px;flex-wrap:wrap;flex:1}
-.tag{font-size:11px;padding:3px 9px;border-radius:20px;border:.5px solid var(--color-border-tertiary);cursor:pointer;color:var(--color-text-secondary);background:var(--color-background-primary)}
-.tag.s{background:#E1F5EE;color:#085041;border-color:#9FE1CB}
-.tag:hover:not(.s){background:var(--color-background-secondary)}
-
-.rev-preview{background:#FAEEDA;border-radius:var(--border-radius-md);padding:.65rem 1rem;margin:.75rem 1.25rem;display:none;align-items:center;justify-content:space-between;gap:8px}
-.rev-txt{font-size:12px;color:#633806;line-height:1.4}
-.rev-val{font-size:18px;font-weight:500;color:#633806;white-space:nowrap}
-
-.prog-bar{display:flex;gap:0;margin:0 0 .5rem}
-.prog-step{flex:1;text-align:center;font-size:10px;padding:5px 2px;border-top:3px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
-.prog-step.done{border-color:var(--t);color:#085041;font-weight:500}
-.prog-step.cur{border-color:var(--g);color:#633806;font-weight:500}
-
-.tbl{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
-.tbl th{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;padding:.4rem 1rem;text-align:left;border-bottom:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tbl td{padding:.5rem 1rem;border-bottom:.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fl{font-size:12px;color:var(--text2);width:180px;flex-shrink:0;padding-top:7px}
+.fi{font-size:13px;padding:7px 10px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg2);color:var(--text);flex:1;font-family:inherit;transition:border-color .15s}
+.fi:focus{outline:none;border-color:var(--t)}
+.ftxt{font-size:13px;padding:8px 10px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg2);color:var(--text);flex:1;min-height:70px;resize:vertical;font-family:inherit}
+.tg{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.tag{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);cursor:pointer;color:var(--text2);background:var(--bg3);transition:all .15s}
+.tag.s{background:var(--t50);color:var(--t800);border-color:rgba(15,129,145,.3)}
+.tag:hover:not(.s){background:var(--border)}
+.photo-zone{border:1.5px dashed var(--border);border-radius:var(--radius-sm);padding:20px;text-align:center;color:var(--text2);font-size:12px;cursor:pointer;flex:1}
+.photo-zone:hover{background:var(--bg3)}
+ 
+/* REV PREVIEW */
+.rev-box{background:var(--g50);border-radius:var(--radius-sm);padding:12px 16px;margin:12px 16px;display:none;align-items:center;justify-content:space-between;gap:8px}
+.rev-txt{font-size:12px;color:var(--g800);line-height:1.4}
+.rev-val{font-size:20px;font-weight:700;color:var(--g800);white-space:nowrap}
+ 
+/* BARÈME TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;padding:8px 14px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg3)}
+.tbl td{padding:8px 14px;border-bottom:1px solid var(--border);color:var(--text)}
 .tbl tr:last-child td{border-bottom:none}
-.tbl tr:hover td{background:var(--color-background-secondary)}
-.ico{width:24px;height:24px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:var(--color-text-secondary);font-size:12px}
-.ico:hover{background:var(--color-background-secondary)}
-.acd{display:flex;gap:4px}
-
-.doc-row{display:flex;align-items:center;justify-content:space-between;padding:6px 1.25rem;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px}
+.tbl tr:hover td{background:var(--bg3)}
+ 
+/* DÉCLARATION */
+.decl-result{background:var(--t50);border-radius:var(--radius-sm);padding:14px 16px;margin:12px 16px;display:none;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.dr-item{text-align:center}
+.dr-lbl{font-size:10px;color:var(--t800);margin-bottom:4px;font-weight:600}
+.dr-val{font-size:18px;font-weight:700;color:var(--t800)}
+ 
+/* ABO */
+.abo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:16px}
+.abo-card{border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;background:var(--bg2)}
+.abo-card.cur{border:2px solid var(--t);background:var(--t50)}
+.abo-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.abo-price{font-size:20px;font-weight:700;color:var(--t);margin-bottom:2px}
+.abo-sub{font-size:11px;color:var(--text2);margin-bottom:10px}
+.abo-desc{font-size:12px;color:var(--text);margin-bottom:12px;line-height:1.5}
+.abo-btn{font-size:11px;padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;color:var(--text2);font-weight:600}
+.abo-btn.cur{background:var(--t);color:#fff;border-color:var(--t);cursor:default}
+ 
+/* DOC ROW */
+.doc-row{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;border-bottom:1px solid var(--border);font-size:12px}
 .doc-row:last-child{border-bottom:none}
+ 
+/* PROG BAR */
+.prog-bar-wrap{padding:12px 16px;border-top:1px solid var(--border)}
+.prog-bar-hd{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
+.prog-bar{height:6px;border-radius:3px;background:var(--border);overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;background:var(--t)}
+ 
+/* PROFIL */
+.profil-grid{display:grid;grid-template-columns:1fr 1fr}
+.profil-col{padding:14px 16px}
+.profil-col:first-child{border-right:1px solid var(--border)}
+.prow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
+.prow:last-child{border-bottom:none}
+.pk{color:var(--text2)}.pv{font-weight:600;color:var(--text);text-align:right}
+ 
+/* BAREME RESULT */
+.bar-result{background:var(--t50);border-radius:var(--radius-sm);padding:14px 16px;margin:0 16px 12px;display:none;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.bri{text-align:center}
+.brl{font-size:10px;color:var(--t800);margin-bottom:3px;font-weight:600}
+.brv{font-size:18px;font-weight:700;color:var(--t800)}
+ 
+/* PANEL */
 .panel{display:none}.panel.active{display:block}
-
-.quota-bar{height:6px;border-radius:3px;background:var(--color-border-tertiary);overflow:hidden;margin:.35rem 0}
-.quota-fill{height:100%;border-radius:3px;background:var(--t)}
-.photo-zone{border:1.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-md);padding:1.25rem;text-align:center;color:var(--color-text-secondary);font-size:12px;cursor:pointer;flex:1}
-.photo-zone:hover{background:var(--color-background-secondary)}
+ 
+/* INFO BANNER */
+.info-banner{background:var(--t50);border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;color:var(--t800);display:flex;gap:8px;align-items:flex-start;margin:12px 0}
+.warn-banner{background:var(--g50);border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;color:var(--g800);display:flex;gap:8px;align-items:flex-start;margin:12px 0}
+ 
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
+.overlay.open{display:flex}
+.modal{background:var(--bg2);border-radius:var(--radius);width:100%;max-width:560px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.mhd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg2);z-index:1}
+.mtitle{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px}
+.mclose{width:26px;height:26px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2)}
+.mclose:hover{background:var(--border)}
+.mbody{padding:14px 18px}
+.mft{padding:12px 18px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px;background:var(--bg2)}
 </style>
-
-<h2 class="sr-only">Cockpit pro immobilier IMMATCH premium — Jean R., cohérence visuelle cockpit particulier</h2>
-
-<div class="w">
-
-<div class="header">
-  <div class="wordmark">immatch</div>
-  <div class="header-right">
-    <nav style="display:flex;gap:16px;font-size:13px">
-      <span style="color:var(--color-text-secondary);cursor:pointer">Mes biens</span>
-      <span style="color:var(--color-text-secondary);cursor:pointer">Leads</span>
-      <span style="color:var(--color-text-secondary);cursor:pointer">Affaires</span>
-    </nav>
-    <div class="pro-badge"><i class="ti ti-briefcase" style="font-size:10px" aria-hidden="true"></i> Pro immo · Actif</div>
-    <div class="av">JR</div>
+</head>
+<body>
+<div class="page">
+ 
+<!-- HEADER -->
+<header class="header">
+  <div class="wordmark">immatch<sup>®</sup></div>
+  <div class="header-nav">
+    <span class="hn" onclick="sw('biens',document.querySelectorAll('.nb')[0])">Mes biens</span>
+    <span class="hn" onclick="sw('leads',document.querySelectorAll('.nb')[2])">Leads</span>
+    <span class="hn" onclick="sw('affaires',document.querySelectorAll('.nb')[3])">Affaires</span>
   </div>
-</div>
-
+  <div class="header-right">
+    <span class="pro-badge"><i class="ti ti-briefcase" style="font-size:10px"></i> Pro immo · Actif</span>
+    <div class="uav">JR</div>
+    <span style="font-size:12px;color:var(--text2)">Jean R.</span>
+  </div>
+</header>
+ 
+<!-- IMA HERO -->
 <div class="ima-hero">
-  <div class="ima-circle">
-    <div class="ima-score">82</div>
+  <div class="ima-av-lg">
+    82
     <div class="ima-pts">+4 pts</div>
   </div>
-  <div class="ima-content">
-    <div class="ima-label">IMA — Intelligence Matching Advisor</div>
-    <div class="ima-msg">Bonjour Jean. Un acheteur à 91% est entré cette nuit sur votre bien d'Auray — financement attesté, timing urgent. Votre bien à Issy est en dessous du seuil MER (78%) : affiner le prix peut débloquer 2 acheteurs supplémentaires.</div>
-    <div class="ima-actions">
-      <button class="ima-btn">Voir les leads <i class="ti ti-arrow-right" style="font-size:11px" aria-hidden="true"></i></button>
-      <button class="ima-btn">Ajuster le prix Issy <i class="ti ti-arrow-right" style="font-size:11px" aria-hidden="true"></i></button>
-      <button class="ima-btn">Mon score <i class="ti ti-arrow-right" style="font-size:11px" aria-hidden="true"></i></button>
+  <div class="ima-body">
+    <div class="ima-label"><div class="ima-dot"></div>IMA — Intelligence Matching Advisor</div>
+    <div class="ima-msg">Bonjour Jean. <strong>Un acheteur à 91%</strong> est entré cette nuit sur votre bien d'Auray — financement attesté, timing urgent. Votre bien à Issy est en dessous du seuil de mise en relation (78%) : affiner le prix peut débloquer 2 acheteurs supplémentaires.</div>
+    <div class="ima-btns">
+      <button class="ima-btn" onclick="sw('leads',document.querySelectorAll('.nb')[2])">Voir les leads <i class="ti ti-arrow-right" style="font-size:10px"></i></button>
+      <button class="ima-btn" onclick="sw('biens',document.querySelectorAll('.nb')[0])">Ajuster le prix Issy <i class="ti ti-arrow-right" style="font-size:10px"></i></button>
+      <button class="ima-btn">Mon score <i class="ti ti-arrow-right" style="font-size:10px"></i></button>
     </div>
   </div>
 </div>
-
+ 
+<!-- METRICS -->
 <div class="metrics">
-  <div class="met"><div class="ml">Biens off-market publiés</div><div class="mv">7 <span style="font-size:13px;color:var(--color-text-secondary)">/10</span></div><div class="ms">3 slots disponibles</div></div>
-  <div class="met"><div class="ml">Leads entrants ce mois</div><div class="mv">6</div><div class="msw">2 en attente de décision</div></div>
+  <div class="met"><div class="ml">Biens publiés</div><div class="mv">7 <span style="font-size:14px;color:var(--text2)">/10</span></div><div class="ms">3 slots disponibles</div></div>
+  <div class="met"><div class="ml">Leads ce mois</div><div class="mv">6</div><div class="msw">2 en attente</div></div>
   <div class="met"><div class="ml">Affaires signées</div><div class="mv">18</div><div class="ms">Taux : 75%</div></div>
   <div class="met"><div class="ml">Commission CES versée</div><div class="mv" style="color:var(--t)">6 000 €</div><div class="ms">1 469 + 3 500 + 1 031</div></div>
 </div>
-
+ 
+<!-- NAV -->
 <div class="nav">
-  <button class="nb active" onclick="sw('biens',this)"><i class="ti ti-home" aria-hidden="true"></i> Mes biens</button>
-  <button class="nb" onclick="sw('publier',this)"><i class="ti ti-plus" aria-hidden="true"></i> Publier un bien</button>
-  <button class="nb" onclick="sw('leads',this)"><i class="ti ti-bell" aria-hidden="true"></i> Leads <span class="nbadge">2</span></button>
-  <button class="nb" onclick="sw('affaires',this)"><i class="ti ti-history" aria-hidden="true"></i> Affaires</button>
-  <button class="nb" onclick="sw('declarer',this)"><i class="ti ti-file-invoice" aria-hidden="true"></i> Déclarer</button>
-  <button class="nb" onclick="sw('profil',this)"><i class="ti ti-user" aria-hidden="true"></i> Profil & docs</button>
+  <button class="nb active" onclick="sw('biens',this)"><i class="ti ti-home"></i> Mes biens</button>
+  <button class="nb" onclick="sw('publier',this)"><i class="ti ti-plus"></i> Publier un bien</button>
+  <button class="nb" onclick="sw('leads',this)"><i class="ti ti-bell"></i> Leads <span class="nbadge">2</span></button>
+  <button class="nb" onclick="sw('affaires',this)"><i class="ti ti-history"></i> Affaires</button>
+  <button class="nb" onclick="sw('declarer',this)"><i class="ti ti-file-invoice"></i> Déclarer</button>
+  <button class="nb" onclick="sw('abo',this)"><i class="ti ti-credit-card"></i> Abonnement & zones</button>
+  <button class="nb" onclick="sw('profil',this)"><i class="ti ti-user"></i> Profil & docs</button>
 </div>
-
+ 
+<!-- ===== BIENS ===== -->
 <div class="panel active" id="panel-biens">
-  <div class="section-lbl">Mes biens off-market <button class="btn btn-p" onclick="sw('publier',document.querySelectorAll('.nb')[1])" style="font-size:11px;padding:3px 10px"><i class="ti ti-plus" aria-hidden="true"></i> Publier un bien</button></div>
-
+  <div class="section-hd">
+    <div class="slbl">Mes biens off-market</div>
+    <button class="btn btn-p" onclick="sw('publier',document.querySelectorAll('.nb')[1])"><i class="ti ti-plus" style="font-size:11px"></i> Publier un bien</button>
+  </div>
+ 
   <div class="bien active">
     <div class="bien-hd">
       <div>
         <div class="bien-title">Maison · Auray (56) · 5P · 169m² · terrain 800m²</div>
-        <div class="bien-meta">
-          <span class="zt"><i class="ti ti-map-pin" style="font-size:10px" aria-hidden="true"></i> Auray · ~13 000 hab.</span>
-          <span class="pill pa">Publié</span>
-          <span style="color:var(--color-text-secondary)">Depuis le 02/05/2026</span>
-        </div>
+        <div class="bien-meta"><span class="zt"><i class="ti ti-map-pin" style="font-size:10px"></i> Auray · ~13 000 hab.</span><span class="pill pa">Publié</span><span style="color:var(--text2)">Depuis le 02/05/2026</span></div>
       </div>
       <div style="display:flex;gap:6px">
-        <button class="btn"><i class="ti ti-edit" style="font-size:11px" aria-hidden="true"></i></button>
-        <button class="btn" style="color:#791F1F;border-color:#F09595"><i class="ti ti-eye-off" style="font-size:11px" aria-hidden="true"></i></button>
+        <button class="btn"><i class="ti ti-edit" style="font-size:11px"></i></button>
+        <button class="btn" style="color:#791F1F;border-color:#F09595"><i class="ti ti-eye-off" style="font-size:11px"></i></button>
       </div>
     </div>
     <div class="bien-grid">
       <div><div class="bi">Prix vendeur</div><div class="biv" style="color:var(--t)">550 000 €</div></div>
       <div><div class="bi">Délai souhaité</div><div class="biv">3 à 6 mois</div></div>
       <div><div class="bi">DPE</div><div class="biv">C</div></div>
-      <div><div class="bi">Réversion CES estimée</div><div class="biv" style="color:#633806">2 656 €</div></div>
+      <div><div class="bi">Réversion CES estimée</div><div class="biv" style="color:var(--g800)">2 656 €</div></div>
     </div>
     <div class="compat-section">
-      <div class="compat-lbl">Compatibilités détectées — <span style="color:#3B6D11">3 acheteurs</span> · MER disponible à partir de 80%</div>
+      <div class="compat-lbl">Compatibilités détectées — <span style="color:#3B6D11">3 acheteurs</span> · Mise en relation à partir de 80% · 29,90 € (80–93%) · 39,90 € (94–100%)</div>
       <div class="compat-row">
-        <div class="score-ring" style="border-color:#3B6D11;color:#3B6D11">91%</div>
-        <div class="compat-info">
-          <div class="compat-main">Acheteur · Maison + terrain · Dans 1 mois</div>
-          <div class="compat-sub">Morbihan 56 · 520–580k€ · Financement attesté · Locataire prêt à partir</div>
-        </div>
-        <button class="mer-btn mer-on">MER · 29,90 €</button>
+        <div class="sring" style="border-color:#3B6D11;color:#3B6D11">91%</div>
+        <div class="cinfo"><div class="cmain">Acheteur · Maison + terrain · Dans 1 mois</div><div class="csub">Morbihan 56 · 520–580k€ · Financement attesté · Locataire prêt</div></div>
+        <button class="mer-btn mer-on" onclick="openMer('91%','Acheteur Maison + terrain','29.90')">Contacter</button>
       </div>
       <div class="compat-row">
-        <div class="score-ring" style="border-color:#854F0B;color:#854F0B">87%</div>
-        <div class="compat-info">
-          <div class="compat-main">Acheteur · Bien + hangar activité · Dans 3 mois</div>
-          <div class="compat-sub">Morbihan 56 · 480–560k€ · Financement en cours</div>
-        </div>
-        <button class="mer-btn mer-on">MER · 29,90 €</button>
+        <div class="sring" style="border-color:#854F0B;color:#854F0B">87%</div>
+        <div class="cinfo"><div class="cmain">Acheteur · Bien + hangar activité · Dans 3 mois</div><div class="csub">Morbihan 56 · 480–560k€ · Financement en cours</div></div>
+        <button class="mer-btn mer-on" onclick="openMer('87%','Acheteur Bien + hangar','29.90')">Contacter</button>
       </div>
       <div class="compat-row">
-        <div class="score-ring" style="border-color:var(--color-border-secondary);color:var(--color-text-secondary)">74%</div>
-        <div class="compat-info">
-          <div class="compat-main">Acheteur · Terrain constructible · 6–12 mois</div>
-          <div class="compat-sub">Morbihan 56 · 500–550k€ · Score insuffisant pour MER</div>
-        </div>
+        <div class="sring" style="border-color:var(--border);color:var(--text3)">74%</div>
+        <div class="cinfo"><div class="cmain">Acheteur · Terrain constructible · 6–12 mois</div><div class="csub">Morbihan 56 · Score insuffisant</div></div>
         <button class="mer-btn mer-off">Score &lt; 80</button>
       </div>
-      <div style="font-size:11px;color:var(--color-text-secondary);margin-top:6px;padding-top:6px;border-top:.5px solid var(--color-border-tertiary)">Coordonnées vendeur transmises uniquement après accord mutuel · MER 29,90 € (80–93%) · MER 39,90 € (94–100%)</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">Coordonnées transmises uniquement après accord mutuel</div>
     </div>
   </div>
-
+ 
   <div class="bien">
     <div class="bien-hd">
       <div>
         <div class="bien-title">Appartement T3 · Issy-les-Moulineaux · 68m²</div>
-        <div class="bien-meta">
-          <span class="zt"><i class="ti ti-map-pin" style="font-size:10px" aria-hidden="true"></i> Issy-les-Moulineaux · ~7 100 hab.</span>
-          <span class="pill pa">Publié</span>
-          <span style="color:var(--color-text-secondary)">Depuis le 08/05/2026</span>
-        </div>
+        <div class="bien-meta"><span class="zt"><i class="ti ti-map-pin" style="font-size:10px"></i> Issy-les-Moulineaux · ~7 100 hab.</span><span class="pill pa">Publié</span><span style="color:var(--text2)">Depuis le 08/05/2026</span></div>
       </div>
       <div style="display:flex;gap:6px">
-        <button class="btn"><i class="ti ti-edit" style="font-size:11px" aria-hidden="true"></i></button>
-        <button class="btn" style="color:#791F1F;border-color:#F09595"><i class="ti ti-eye-off" style="font-size:11px" aria-hidden="true"></i></button>
+        <button class="btn"><i class="ti ti-edit" style="font-size:11px"></i></button>
+        <button class="btn" style="color:#791F1F;border-color:#F09595"><i class="ti ti-eye-off" style="font-size:11px"></i></button>
       </div>
     </div>
     <div class="bien-grid">
       <div><div class="bi">Prix vendeur</div><div class="biv" style="color:var(--t)">310 000 €</div></div>
       <div><div class="bi">Délai souhaité</div><div class="biv">6 à 12 mois</div></div>
       <div><div class="bi">DPE</div><div class="biv">D</div></div>
-      <div><div class="bi">Réversion CES estimée</div><div class="biv" style="color:#633806">1 469 €</div></div>
+      <div><div class="bi">Réversion CES estimée</div><div class="biv" style="color:var(--g800)">1 469 €</div></div>
     </div>
     <div class="compat-section">
-      <div class="compat-lbl">Compatibilités détectées — <span style="color:#854F0B">1 acheteur (78% — sous le seuil MER)</span></div>
+      <div class="compat-lbl">Compatibilités : <span style="color:#854F0B">1 acheteur (78% — sous le seuil)</span> — IMA suggère d'affiner le prix</div>
       <div class="compat-row">
-        <div class="score-ring" style="border-color:var(--color-border-secondary);color:var(--color-text-secondary)">78%</div>
-        <div class="compat-info">
-          <div class="compat-main">Acheteur · Appartement T3 · Dans 6 mois</div>
-          <div class="compat-sub">Issy / Boulogne · 280–320k€ · Financement en cours · IMA suggère d'affiner le prix</div>
-        </div>
+        <div class="sring" style="border-color:var(--border);color:var(--text3)">78%</div>
+        <div class="cinfo"><div class="cmain">Acheteur · Appartement T3 · Dans 6 mois</div><div class="csub">Issy / Boulogne · 280–320k€ · Financement en cours</div></div>
         <button class="mer-btn mer-off">Score &lt; 80</button>
       </div>
     </div>
   </div>
-
-  <div class="bien" style="border:.5px dashed var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer;text-align:center;padding:1.25rem" onclick="sw('publier',document.querySelectorAll('.nb')[1])">
-    <i class="ti ti-plus" style="font-size:20px;color:var(--color-text-secondary);display:block;margin-bottom:6px" aria-hidden="true"></i>
-    <div style="font-size:13px;color:var(--color-text-secondary)">Publier un nouveau bien off-market</div>
-    <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">3 slots disponibles · Formule 10 tests</div>
+ 
+  <div style="border:1.5px dashed var(--border);border-radius:var(--radius);padding:20px;text-align:center;cursor:pointer;color:var(--text2);font-size:13px;transition:all .15s" onclick="sw('publier',document.querySelectorAll('.nb')[1])" onmouseover="this.style.borderColor='var(--t)';this.style.color='var(--t)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">
+    <i class="ti ti-plus" style="font-size:20px;display:block;margin-bottom:6px"></i>
+    Publier un nouveau bien off-market · 3 slots disponibles
   </div>
-
-  <div style="margin-top:.5rem">
-    <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--color-text-secondary)">Quota de publication</span><span style="font-weight:500">7 / 10</span></div>
-    <div class="quota-bar"><div class="quota-fill" style="width:70%"></div></div>
+ 
+  <div class="prog-bar-wrap">
+    <div class="prog-bar-hd"><span style="font-size:12px;color:var(--text2)">Quota de publication</span><span style="font-size:12px;font-weight:700">7 / 10</span></div>
+    <div class="prog-bar"><div class="prog-fill" style="width:70%"></div></div>
   </div>
 </div>
-
+ 
+<!-- ===== PUBLIER ===== -->
 <div class="panel" id="panel-publier">
   <div class="card">
-    <div class="chd"><div class="ct"><i class="ti ti-home-plus" aria-hidden="true"></i> Publier un bien en off-market</div><span style="font-size:11px;color:var(--color-text-secondary)">Slot : 8/10 après publication</span></div>
-
-    <div style="padding:.75rem 1.25rem .25rem">
-      <div class="prog-bar">
-        <div class="prog-step done">Localisation</div>
-        <div class="prog-step done">Prix</div>
-        <div class="prog-step cur">Diagnostics</div>
-        <div class="prog-step">Description</div>
-        <div class="prog-step">Publication</div>
-      </div>
-      <div style="font-size:11px;color:var(--color-text-secondary)">Prochaine étape : renseigner le DPE pour débloquer le scoring acheteurs</div>
-    </div>
-
-    <div class="form-section">
-      <div class="fs-lbl">1 — Localisation & type de bien</div>
+    <div class="chd"><div class="ct"><i class="ti ti-home-plus"></i> Publier un bien en off-market</div><span style="font-size:11px;color:var(--text2)">Slot : 8/10 après publication</span></div>
+    <div class="form-sec">
+      <div class="fs-lbl">1 — Localisation & type</div>
       <div class="fr"><div class="fl">Ville <span style="color:#791F1F">*</span></div><input class="fi" type="text" placeholder="ex : Auray, Vannes, Hennebont..."></div>
-      <div class="fr"><div class="fl">Type de bien <span style="color:#791F1F">*</span></div><select class="fi"><option>Maison</option><option>Appartement</option><option>Terrain constructible</option><option>Bien + dépendances</option><option>Bien de prestige</option><option>Local commercial</option></select></div>
+      <div class="fr"><div class="fl">Type de bien <span style="color:#791F1F">*</span></div><select class="fi"><option>Maison</option><option>Appartement</option><option>Terrain</option><option>Bien + dépendances</option></select></div>
       <div class="fr"><div class="fl">Surface (m²) <span style="color:#791F1F">*</span></div><input class="fi" type="number" placeholder="ex : 169"></div>
       <div class="fr"><div class="fl">Terrain (m²)</div><input class="fi" type="number" placeholder="ex : 800"></div>
-      <div class="fr"><div class="fl">Nb de pièces <span style="color:#791F1F">*</span></div><select class="fi"><option>1P</option><option>2P</option><option>3P</option><option>4P</option><option>5P+</option></select></div>
-      <div class="fr"><div class="fl">Caractéristiques</div><div class="tag-g"><span class="tag" onclick="tog(this)">Zone littorale</span><span class="tag" onclick="tog(this)">Vue mer</span><span class="tag" onclick="tog(this)">Piscine</span><span class="tag" onclick="tog(this)">Garage</span><span class="tag" onclick="tog(this)">Ascenseur</span><span class="tag" onclick="tog(this)">Plain-pied</span><span class="tag" onclick="tog(this)">À rénover</span></div></div>
+      <div class="fr"><div class="fl">Caractéristiques</div><div class="tg"><span class="tag" onclick="t(this)">Zone littorale</span><span class="tag" onclick="t(this)">Vue mer</span><span class="tag" onclick="t(this)">Piscine</span><span class="tag" onclick="t(this)">Garage</span><span class="tag" onclick="t(this)">Plain-pied</span><span class="tag" onclick="t(this)">À rénover</span></div></div>
     </div>
-
-    <div class="form-section">
-      <div class="fs-lbl">2 — Prix & conditions vendeur</div>
-      <div class="fr"><div class="fl">Prix souhaité (€) <span style="color:#791F1F">*</span></div><input class="fi" type="number" id="pp" placeholder="ex : 550 000" oninput="calcRev()" step="5000"></div>
-      <div class="fr"><div class="fl">Négociabilité</div><div class="tag-g"><span class="tag s" onclick="togS(this,'neg')">À discuter</span><span class="tag" onclick="togS(this,'neg')">Prix ferme</span><span class="tag" onclick="togS(this,'neg')">Selon offre</span></div></div>
-      <div class="fr"><div class="fl">Délai souhaité <span style="color:#791F1F">*</span></div><div class="tag-g"><span class="tag" onclick="togS(this,'del')">Moins de 3 mois</span><span class="tag s" onclick="togS(this,'del')">3 à 6 mois</span><span class="tag" onclick="togS(this,'del')">6 à 12 mois</span><span class="tag" onclick="togS(this,'del')">Sans urgence</span></div></div>
-      <div class="fr"><div class="fl">Conditions</div><div class="tag-g"><span class="tag" onclick="tog(this)">Viager</span><span class="tag" onclick="tog(this)">Occupé</span><span class="tag" onclick="tog(this)">Succession</span></div></div>
+    <div class="form-sec">
+      <div class="fs-lbl">2 — Prix & conditions</div>
+      <div class="fr"><div class="fl">Prix souhaité (€) <span style="color:#791F1F">*</span></div><input class="fi" type="number" id="prix-pub" placeholder="ex : 550 000" oninput="calcRevPub()" step="5000"></div>
+      <div class="fr"><div class="fl">Négociabilité</div><div class="tg"><span class="tag s" onclick="ts(this,'neg')">À discuter</span><span class="tag" onclick="ts(this,'neg')">Prix ferme</span><span class="tag" onclick="ts(this,'neg')">Selon offre</span></div></div>
+      <div class="fr"><div class="fl">Délai <span style="color:#791F1F">*</span></div><div class="tg"><span class="tag" onclick="ts(this,'del')">- de 3 mois</span><span class="tag s" onclick="ts(this,'del')">3 à 6 mois</span><span class="tag" onclick="ts(this,'del')">6 à 12 mois</span><span class="tag" onclick="ts(this,'del')">Sans urgence</span></div></div>
     </div>
-
-    <div class="form-section">
+    <div class="form-sec">
       <div class="fs-lbl">3 — Diagnostics & DPE</div>
-      <div class="fr"><div class="fl">Classe DPE</div><div class="tag-g"><span class="tag" onclick="togS(this,'dpe')">A</span><span class="tag" onclick="togS(this,'dpe')">B</span><span class="tag s" onclick="togS(this,'dpe')">C</span><span class="tag" onclick="togS(this,'dpe')">D</span><span class="tag" onclick="togS(this,'dpe')">E</span><span class="tag" onclick="togS(this,'dpe')">F</span><span class="tag" onclick="togS(this,'dpe')">G</span><span class="tag" onclick="togS(this,'dpe')">Non réalisé</span></div></div>
-      <div class="fr"><div class="fl">Diagnostics réalisés</div><div class="tag-g"><span class="tag" onclick="tog(this)">Amiante</span><span class="tag" onclick="tog(this)">Plomb</span><span class="tag" onclick="tog(this)">Électricité</span><span class="tag" onclick="tog(this)">Gaz</span><span class="tag" onclick="tog(this)">Termites</span><span class="tag" onclick="tog(this)">ERP</span></div></div>
+      <div class="fr"><div class="fl">DPE</div><div class="tg"><span class="tag" onclick="ts(this,'dpe')">A</span><span class="tag" onclick="ts(this,'dpe')">B</span><span class="tag s" onclick="ts(this,'dpe')">C</span><span class="tag" onclick="ts(this,'dpe')">D</span><span class="tag" onclick="ts(this,'dpe')">E</span><span class="tag" onclick="ts(this,'dpe')">F</span><span class="tag" onclick="ts(this,'dpe')">G</span><span class="tag" onclick="ts(this,'dpe')">Non réalisé</span></div></div>
     </div>
-
-    <div class="form-section">
+    <div class="form-sec">
       <div class="fs-lbl">4 — Description & photos</div>
-      <div class="fr"><div class="fl">Description</div><textarea class="ftxt" placeholder="Décrivez le bien — atouts, environnement, particularités. Visible uniquement aux acheteurs ≥80%."></textarea></div>
-      <div class="fr"><div class="fl">Photos</div><div class="photo-zone"><i class="ti ti-photo" style="font-size:18px;display:block;margin-bottom:4px" aria-hidden="true"></i>Glisser ou cliquer · JPG/PNG · 5 photos max · Visibles acheteurs ≥80%</div></div>
+      <div class="fr"><div class="fl">Description</div><textarea class="ftxt" placeholder="Décrivez le bien — atouts, environnement. Visible uniquement aux acheteurs ≥80%."></textarea></div>
+      <div class="fr"><div class="fl">Photos</div><div class="photo-zone"><i class="ti ti-photo" style="font-size:18px;display:block;margin-bottom:4px"></i>Glisser ou cliquer · JPG/PNG · 5 max</div></div>
     </div>
-
-    <div class="rev-preview" id="rev-prev">
+    <div class="rev-box" id="rev-pub">
       <div class="rev-txt"><strong>Réversion CES estimée si vente</strong><br><span id="rev-tr" style="font-size:11px"></span></div>
       <div class="rev-val" id="rev-v">—</div>
     </div>
-
-    <div style="padding:.75rem 1.25rem;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-      <button class="btn btn-p"><i class="ti ti-eye" style="font-size:12px" aria-hidden="true"></i> Prévisualiser</button>
-      <button class="btn btn-p"><i class="ti ti-send" style="font-size:12px" aria-hidden="true"></i> Publier en off-market</button>
-      <span style="font-size:11px;color:var(--color-text-secondary)">Acheteurs compatibles détectés sous 24h</span>
+    <div style="padding:12px 16px;display:flex;gap:10px;align-items:center">
+      <button class="btn btn-p"><i class="ti ti-send" style="font-size:12px"></i> Publier en off-market</button>
+      <span style="font-size:11px;color:var(--text2)">Acheteurs compatibles détectés sous 24h</span>
     </div>
   </div>
 </div>
-
+ 
+<!-- ===== LEADS ===== -->
 <div class="panel" id="panel-leads">
   <div class="card">
-    <div class="chd"><div class="ct"><i class="ti ti-bell" aria-hidden="true"></i> Leads entrants — décision sous 24h</div><span class="pill pw">2 nouveaux</span></div>
-
+    <div class="chd"><div class="ct"><i class="ti ti-bell"></i> Leads entrants — décision sous 24h</div><span class="pill pw">2 nouveaux</span></div>
+    <div class="info-banner" style="margin:12px 16px">
+      <div class="ima-av" style="width:24px;height:24px;border-radius:50%;background:var(--t);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0">IMA</div>
+      <div style="font-size:12px;color:var(--t800);line-height:1.5">Jean, 2 opportunités correspondent à vos zones. Les coordonnées du particulier ne sont transmises qu'après acceptation. Sans réponse sous 24h, le lead passe au pro suivant.</div>
+    </div>
+ 
     <div class="lead-card">
       <div class="lead-hd">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <span style="font-size:13px;font-weight:500">#L-0051</span>
+          <span style="font-size:13px;font-weight:700">#L-0051</span>
           <span class="pill pn">Nouveau</span>
-          <span class="zt"><i class="ti ti-map-pin" style="font-size:10px" aria-hidden="true"></i> Auray · 56</span>
+          <span class="zt"><i class="ti ti-map-pin" style="font-size:10px"></i> Auray · 56</span>
           <span class="pill pa">Estimation + vente</span>
         </div>
-        <span style="font-size:11px;color:#791F1F;font-weight:500"><i class="ti ti-clock" style="font-size:11px" aria-hidden="true"></i> 18h 42min</span>
+        <span class="cd"><i class="ti ti-clock" style="font-size:11px"></i> 18h 42min</span>
       </div>
       <div class="lead-demande">
-        <div class="lead-demande-lbl">Demande du particulier</div>
+        <div class="lead-lbl">Demande du particulier</div>
         M. M. souhaite prendre rendez-vous pour une estimation précise de sa maison sur Auray car il souhaite vendre d'ici 6 à 12 mois.
       </div>
       <div class="lead-grid">
@@ -360,73 +412,70 @@
         <div class="li"><div class="ll">Valeur IMMATCH</div><div class="lv" style="color:var(--t)">580 000 €</div></div>
         <div class="li"><div class="ll">Calendrier</div><div class="lv">6 à 12 mois</div></div>
       </div>
-      <div class="commission-box">
+      <div class="comm-box">
         <div class="cb-txt"><strong>Commission CES si transaction</strong> · Tranche 500–750k€ · Base barème : 26 563 €</div>
         <div class="cb-val">2 656 €</div>
       </div>
-      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:.65rem">Coordonnées transmises après acceptation · Sans réponse 24h → lead transmis au pro suivant</div>
-      <div class="lead-actions">
-        <button class="btn btn-p" style="padding:5px 16px"><i class="ti ti-check" aria-hidden="true"></i> Accepter</button>
-        <button class="btn" style="padding:5px 16px;color:#791F1F;border-color:#F09595"><i class="ti ti-x" aria-hidden="true"></i> Refuser</button>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:10px">Coordonnées transmises après acceptation · En acceptant, vous confirmez les conditions de réversion CES prévues à votre contrat</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-p" style="padding:6px 18px"><i class="ti ti-check"></i> Accepter</button>
+        <button class="btn" style="padding:6px 18px;color:#791F1F;border-color:#F09595"><i class="ti ti-x"></i> Refuser</button>
       </div>
     </div>
-
+ 
     <div class="lead-card">
       <div class="lead-hd">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <span style="font-size:13px;font-weight:500">#L-0052</span>
+          <span style="font-size:13px;font-weight:700">#L-0052</span>
           <span class="pill pn">Nouveau</span>
-          <span class="zt"><i class="ti ti-map-pin" style="font-size:10px" aria-hidden="true"></i> Hennebont · 56</span>
+          <span class="zt"><i class="ti ti-map-pin" style="font-size:10px"></i> Hennebont · 56</span>
           <span class="pill pb">Location / conseil</span>
         </div>
-        <span style="font-size:11px;color:#854F0B;font-weight:500"><i class="ti ti-clock" style="font-size:11px" aria-hidden="true"></i> 6h 15min</span>
+        <span class="cd-ok"><i class="ti ti-clock" style="font-size:11px"></i> 6h 15min</span>
       </div>
       <div class="lead-demande">
-        <div class="lead-demande-lbl">Demande du particulier</div>
+        <div class="lead-lbl">Demande du particulier</div>
         Mme C. souhaite mettre son appartement sur Hennebont en location et demande des conseils sur les démarches et la valorisation locative.
       </div>
       <div class="lead-grid">
         <div class="li"><div class="ll">Type de bien</div><div class="lv">Appartement</div></div>
-        <div class="li"><div class="ll">Mission initiale</div><div class="lv">Mise en location</div></div>
+        <div class="li"><div class="ll">Mission</div><div class="lv">Location / conseil</div></div>
         <div class="li"><div class="ll">Loyer estimé</div><div class="lv">~780 €/mois</div></div>
-        <div class="li"><div class="ll">Valeur IMMATCH</div><div class="lv" style="color:var(--color-text-secondary)">Non renseignée</div></div>
+        <div class="li"><div class="ll">Valeur IMMATCH</div><div class="lv" style="color:var(--text2)">Non renseignée</div></div>
       </div>
-      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.6rem 1rem;margin-bottom:.65rem;font-size:12px;color:var(--color-text-secondary)">
-        <strong style="color:var(--color-text-primary)">Aucune commission CES sur la location</strong> — couvert par votre abonnement. Si cette mission évolue vers une vente, vous devrez déclarer le CA et la commission barème s'applique.
-      </div>
-      <div class="lead-actions">
-        <button class="btn btn-p" style="padding:5px 16px"><i class="ti ti-check" aria-hidden="true"></i> Accepter</button>
-        <button class="btn" style="padding:5px 16px;color:#791F1F;border-color:#F09595"><i class="ti ti-x" aria-hidden="true"></i> Refuser</button>
+      <div class="comm-box-loc"><strong style="color:var(--text)">Aucune commission CES sur la location</strong> — couvert par votre abonnement. <span style="color:#854F0B;font-weight:600">Si cette mission évolue vers une vente, vous devrez déclarer le CA.</span></div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn btn-p" style="padding:6px 18px"><i class="ti ti-check"></i> Accepter</button>
+        <button class="btn" style="padding:6px 18px;color:#791F1F;border-color:#F09595"><i class="ti ti-x"></i> Refuser</button>
       </div>
     </div>
   </div>
 </div>
-
+ 
+<!-- ===== AFFAIRES ===== -->
 <div class="panel" id="panel-affaires">
   <div class="card">
-    <div class="chd"><div class="ct"><i class="ti ti-history" aria-hidden="true"></i> Historique des affaires</div><button class="btn">Exporter</button></div>
+    <div class="chd"><div class="ct"><i class="ti ti-history"></i> Historique des affaires</div><button class="btn">Exporter</button></div>
     <table class="tbl">
-      <colgroup><col style="width:7%"><col style="width:18%"><col style="width:12%"><col style="width:10%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:9%"><col style="width:8%"></colgroup>
-      <thead><tr><th>Réf.</th><th>Demande</th><th>Zone</th><th>Signé</th><th>Prix réel</th><th>Comm. agence</th><th>Réversion CES</th><th>Note</th><th>Statut</th></tr></thead>
+      <colgroup><col style="width:7%"><col style="width:18%"><col style="width:10%"><col style="width:10%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:9%"><col style="width:10%"></colgroup>
+      <thead><tr><th>Réf.</th><th>Particulier</th><th>Zone</th><th>Signé</th><th>Prix réel</th><th>Comm. agence</th><th>Réversion CES</th><th>Note</th><th>Statut</th></tr></thead>
       <tbody>
-        <tr><td style="font-weight:500;color:var(--color-text-secondary)">#L-0041</td><td style="white-space:normal;font-size:11px">Mme L. · vente maison</td><td><span class="zt" style="font-size:10px">Paris 15e</span></td><td style="color:var(--color-text-secondary)">10/05</td><td>320 000 €</td><td style="color:var(--t);font-weight:500">14 688 €</td><td style="color:#633806;font-weight:500">1 469 €</td><td style="color:var(--g)">★★★★★</td><td><span class="pill pa">Réglée</span></td></tr>
-        <tr><td style="font-weight:500;color:var(--color-text-secondary)">#L-0036</td><td style="white-space:normal;font-size:11px">M. T. · vente appt</td><td><span class="zt" style="font-size:10px">Issy</span></td><td style="color:var(--color-text-secondary)">22/04</td><td>760 000 €</td><td style="color:var(--t);font-weight:500">35 000 €</td><td style="color:#633806;font-weight:500">3 500 €</td><td style="color:var(--g)">★★★★</td><td><span class="pill pa">Réglée</span></td></tr>
-        <tr><td style="font-weight:500;color:var(--color-text-secondary)">#L-0033</td><td style="white-space:normal;font-size:11px">M. B. · location→vente</td><td><span class="zt" style="font-size:10px">Paris 15e</span></td><td style="color:var(--color-text-secondary)">08/04</td><td>195 000 €</td><td style="color:var(--t);font-weight:500">10 313 €</td><td style="color:#633806;font-weight:500">1 031 €</td><td style="color:var(--g)">★★★</td><td><span class="pill pw">Facture émise</span></td></tr>
-        <tr><td style="font-weight:500;color:var(--color-text-secondary)">#L-0029</td><td style="white-space:normal;font-size:11px">Mme R. · location appt</td><td><span class="zt" style="font-size:10px">Issy</span></td><td style="color:var(--color-text-secondary)">18/03</td><td style="color:var(--color-text-secondary)">—</td><td style="color:var(--color-text-secondary)">—</td><td style="color:var(--color-text-secondary)">Pas de commission</td><td style="color:var(--g)">★★★★</td><td><span class="pill pa">Clôturée</span></td></tr>
+        <tr><td style="font-weight:700;color:var(--text2)">#L-0041</td><td style="white-space:normal;font-size:11px">Mme L. · vente maison</td><td><span class="zt" style="font-size:10px">Paris 15e</span></td><td style="color:var(--text2)">10/05</td><td>320 000 €</td><td style="color:var(--t);font-weight:700">14 688 €</td><td style="color:var(--g800);font-weight:700">1 469 €</td><td style="color:var(--g)">★★★★★</td><td><span class="pill pa">Réglée</span></td></tr>
+        <tr><td style="font-weight:700;color:var(--text2)">#L-0036</td><td style="white-space:normal;font-size:11px">M. T. · vente appt</td><td><span class="zt" style="font-size:10px">Issy</span></td><td style="color:var(--text2)">22/04</td><td>760 000 €</td><td style="color:var(--t);font-weight:700">35 000 €</td><td style="color:var(--g800);font-weight:700">3 500 €</td><td style="color:var(--g)">★★★★</td><td><span class="pill pa">Réglée</span></td></tr>
+        <tr><td style="font-weight:700;color:var(--text2)">#L-0033</td><td style="white-space:normal;font-size:11px">M. B. · location→vente</td><td><span class="zt" style="font-size:10px">Paris 15e</span></td><td style="color:var(--text2)">08/04</td><td>195 000 €</td><td style="color:var(--t);font-weight:700">10 313 €</td><td style="color:var(--g800);font-weight:700">1 031 €</td><td style="color:var(--g)">★★★</td><td><span class="pill pw">Facture émise</span></td></tr>
+        <tr><td style="font-weight:700;color:var(--text2)">#L-0029</td><td style="white-space:normal;font-size:11px">Mme R. · location appt</td><td><span class="zt" style="font-size:10px">Issy</span></td><td style="color:var(--text2)">18/03</td><td style="color:var(--text2)">—</td><td style="color:var(--text2)">—</td><td style="color:var(--text2);font-size:11px">Pas de commission</td><td style="color:var(--g)">★★★★</td><td><span class="pill pa">Clôturée</span></td></tr>
       </tbody>
     </table>
   </div>
 </div>
-
+ 
+<!-- ===== DÉCLARER ===== -->
 <div class="panel" id="panel-declarer">
   <div class="card">
-    <div class="chd"><div class="ct"><i class="ti ti-file-invoice" aria-hidden="true"></i> Déclarer un avant-contrat signé</div></div>
-    <div style="background:#E1F5EE;border-radius:var(--border-radius-md);padding:.55rem 1rem;font-size:12px;color:#085041;display:flex;gap:7px;align-items:flex-start;margin:.75rem 1.25rem">
-      <i class="ti ti-info-circle" style="font-size:14px;flex-shrink:0" aria-hidden="true"></i>
-      <div>Déclarez dès la signature de l'avant-contrat chez le notaire. CES émet une <strong>facture</strong> avec la réversion calculée sur votre commission réelle, échéance = date de l'acte authentique. Règlement par virement sur le RIB CES indiqué sur la facture.</div>
-    </div>
-    <div class="form-section">
-      <div class="fr"><div class="fl">Lead concerné <span style="color:#791F1F">*</span></div><select class="fi" id="ld" onchange="calcD()"><option value="">Sélectionner un lead accepté</option><option value="480000">#L-0044 · M. P. · vente maison · ~480 000 €</option><option value="195000">#L-0048 · Mme L. · location→vente · ~195 000 €</option></select></div>
+    <div class="chd"><div class="ct"><i class="ti ti-file-invoice"></i> Déclarer un avant-contrat signé</div></div>
+    <div class="info-banner" style="margin:12px 16px"><i class="ti ti-info-circle" style="font-size:14px;flex-shrink:0;color:var(--t800)"></i><div style="font-size:12px;color:var(--t800)">Déclarez dès la signature de l'avant-contrat. CES émettra une facture avec la réversion calculée sur votre commission réelle, échéance = date de l'acte authentique. Règlement par virement sur le RIB CES.</div></div>
+    <div class="form-sec">
+      <div class="fr"><div class="fl">Lead concerné <span style="color:#791F1F">*</span></div><select class="fi" id="ld" onchange="calcD()"><option value="">Sélectionner un lead accepté</option><option value="480000">#L-0044 · M. P. · vente · ~480 000 €</option><option value="195000">#L-0048 · Mme L. · location→vente · ~195 000 €</option></select></div>
       <div class="fr"><div class="fl">Nature <span style="color:#791F1F">*</span></div><select class="fi" id="nat"><option value="vente">Vente (commission CES applicable)</option><option value="loc">Location uniquement (pas de commission)</option><option value="lv">Location → vente (commission applicable)</option></select></div>
       <div class="fr"><div class="fl">Prix de vente réel (€) <span style="color:#791F1F">*</span></div><input class="fi" type="number" id="pd" placeholder="ex : 460 000" oninput="calcD()" step="1000"></div>
       <div class="fr"><div class="fl">Votre commission HT réelle (€) <span style="color:#791F1F">*</span></div><input class="fi" type="number" id="cd" placeholder="calculée selon barème ou à saisir" oninput="calcMD()"></div>
@@ -434,83 +483,133 @@
       <div class="fr"><div class="fl">Date prévue acte <span style="color:#791F1F">*</span></div><input class="fi" type="date"></div>
       <div class="fr"><div class="fl">Notaire</div><input class="fi" type="text" placeholder="ex : Maître Dupont · Auray"></div>
     </div>
-    <div id="brd" style="background:#E1F5EE;border-radius:var(--border-radius-md);padding:1rem 1.25rem;margin:.75rem 1.25rem;display:none;grid-template-columns:1fr 1fr 1fr;gap:12px">
-      <div style="text-align:center"><div style="font-size:11px;color:#085041;margin-bottom:4px">Prix de vente réel</div><div style="font-size:16px;font-weight:500;color:#085041" id="bdp">—</div></div>
-      <div style="text-align:center"><div style="font-size:11px;color:#085041;margin-bottom:4px">Votre commission HT</div><div style="font-size:16px;font-weight:500;color:#085041" id="bdc">—</div></div>
-      <div style="text-align:center"><div style="font-size:11px;color:#085041;margin-bottom:4px">Réversion CES (10%)</div><div style="font-size:16px;font-weight:500;color:#C9A84C" id="bdr">—</div></div>
+    <div class="bar-result" id="brd">
+      <div class="bri"><div class="brl">Prix de vente réel</div><div class="brv" id="bdp">—</div></div>
+      <div class="bri"><div class="brl">Votre commission HT</div><div class="brv" id="bdc">—</div></div>
+      <div class="bri"><div class="brl">Réversion CES (10%)</div><div class="brv" id="bdr" style="color:var(--g)">—</div></div>
     </div>
-    <div style="padding:0 1.25rem 1rem;display:flex;gap:10px;align-items:center">
-      <button class="btn btn-p"><i class="ti ti-send" style="font-size:12px" aria-hidden="true"></i> Déclarer — CES émet la facture</button>
-      <span style="font-size:11px;color:var(--color-text-secondary)">Facture par email · Virement à l'acte sur RIB CES</span>
+    <div style="padding:0 16px 14px;display:flex;gap:10px;align-items:center">
+      <button class="btn btn-p"><i class="ti ti-send" style="font-size:12px"></i> Déclarer — CES émet la facture</button>
+      <span style="font-size:11px;color:var(--text2)">Facture par email · Virement à l'acte sur RIB CES</span>
     </div>
   </div>
+ 
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-table"></i> Barème contractuel de réversion</div></div>
+    <table class="tbl"><colgroup><col style="width:45%"><col style="width:35%"><col style="width:20%"></colgroup>
+      <thead><tr><th>Tranche de prix</th><th>Commission agence (base)</th><th>Réversion CES (10%)</th></tr></thead>
+      <tbody id="btbl"></tbody>
+    </table>
+    <div style="padding:8px 14px;font-size:11px;color:var(--text2);border-top:1px solid var(--border)">Montants indicatifs — la réversion est calculée sur votre commission réellement perçue</div>
+  </div>
 </div>
-
+ 
+<!-- ===== ABONNEMENT ===== -->
+<div class="panel" id="panel-abo">
+  <div class="info-banner"><i class="ti ti-info-circle" style="font-size:14px;flex-shrink:0;color:var(--t800)"></i><div style="font-size:12px;color:var(--t800)">Les formules définissent le nombre de <strong>biens off-market publiables simultanément</strong>. Les leads entrants sont illimités et indépendants.</div></div>
+  <div class="card">
+    <div class="abo-grid">
+      <div class="abo-card"><div class="abo-name">Formule 5 tests</div><div class="abo-price">49,90 €</div><div class="abo-sub">HT/mois · 59,88 € TTC</div><div class="abo-desc">Jusqu'à <strong>5 biens</strong> simultanés · Leads illimités</div><button class="abo-btn">Passer à cette formule</button></div>
+      <div class="abo-card cur"><div class="abo-name">Formule 10 tests</div><div class="abo-price">99,90 €</div><div class="abo-sub">HT/mois · 119,88 € TTC</div><div class="abo-desc">Jusqu'à <strong>10 biens</strong> simultanés · Leads illimités</div><button class="abo-btn cur"><i class="ti ti-check" style="font-size:11px"></i> Formule actuelle</button></div>
+      <div class="abo-card"><div class="abo-name">Formule illimitée</div><div class="abo-price">149,90 €</div><div class="abo-sub">HT/mois · 179,88 € TTC</div><div class="abo-desc"><strong>Biens illimités</strong> · Leads illimités · Priorité matching</div><button class="abo-btn">Passer à illimité</button></div>
+    </div>
+    <div class="chd" style="border-top:1px solid var(--border)"><div class="ct"><i class="ti ti-map-pin"></i> Mes zones</div><button class="btn" style="font-size:11px"><i class="ti ti-plus" style="font-size:11px"></i> Ajouter</button></div>
+    <table class="tbl"><colgroup><col style="width:30%"><col style="width:20%"><col style="width:22%"><col style="width:16%"><col style="width:12%"></colgroup>
+      <thead><tr><th>Ville</th><th>Population</th><th>Pros sur zone</th><th>Biens publiés</th><th>Statut</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:700">Auray</td><td>~13 000 hab.</td><td>1 pro (vous seul)</td><td>3 biens</td><td><span class="pill pa">Active</span></td></tr>
+        <tr><td style="font-weight:700">Issy-les-Moulineaux</td><td>~7 100 hab.</td><td>2 pros (dont vous)</td><td>4 biens</td><td><span class="pill pa">Active</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+ 
+<!-- ===== PROFIL ===== -->
 <div class="panel" id="panel-profil">
   <div class="card">
-    <div class="chd"><div class="ct"><i class="ti ti-user" aria-hidden="true"></i> Mon profil partenaire</div><button class="btn"><i class="ti ti-edit" style="font-size:11px" aria-hidden="true"></i> Modifier</button></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr">
-      <div style="padding:.85rem 1.25rem;border-right:.5px solid var(--color-border-tertiary)">
-        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Nom</span><span style="font-weight:500">Jean R.</span></div>
-        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Société</span><span style="font-weight:500">Agence JR Immobilier</span></div>
-        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">SIRET</span><span style="font-weight:500">512 837 100 00018</span></div>
-        <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px"><span style="color:var(--color-text-secondary)">Carte pro T</span><span style="font-weight:500">CPI 7501 2019 000 012</span></div>
-      </div>
-      <div style="padding:.85rem 1.25rem">
-        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Formule</span><span style="font-weight:500;color:var(--t)">10 tests · 99,90 € HT/mois</span></div>
-        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Zones</span><span style="font-weight:500">Auray · Issy-les-Moulineaux</span></div>
-        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Réversion CES</span><span style="font-weight:500">10% comm. réelle / tranche</span></div>
-        <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px"><span style="color:var(--color-text-secondary)">MER</span><span style="font-weight:500">29,90 € (80–93%) · 39,90 € (94–100%)</span></div>
-      </div>
+    <div class="chd"><div class="ct"><i class="ti ti-user"></i> Mon profil partenaire</div><button class="btn"><i class="ti ti-edit" style="font-size:11px"></i> Modifier</button></div>
+    <div class="profil-grid">
+      <div class="profil-col"><div class="prow"><span class="pk">Nom</span><span class="pv">Jean R.</span></div><div class="prow"><span class="pk">Société</span><span class="pv">Agence JR Immobilier</span></div><div class="prow"><span class="pk">SIRET</span><span class="pv">512 837 100 00018</span></div><div class="prow"><span class="pk">Carte pro T</span><span class="pv">CPI 7501 2019 000 012</span></div><div class="prow"><span class="pk">Email</span><span class="pv" style="color:var(--t)">jr@agencejr.fr</span></div></div>
+      <div class="profil-col"><div class="prow"><span class="pk">Formule</span><span class="pv" style="color:var(--t)">10 tests · 99,90 € HT/mois</span></div><div class="prow"><span class="pk">Zones</span><span class="pv">Auray · Issy-les-Moulineaux</span></div><div class="prow"><span class="pk">Réversion CES</span><span class="pv">10% comm. réelle / tranche</span></div><div class="prow"><span class="pk">Mise en relation</span><span class="pv">29,90 € (80–93%) · 39,90 € (94–100%)</span></div></div>
     </div>
   </div>
   <div class="card">
-    <div class="chd"><div class="ct"><i class="ti ti-file-check" aria-hidden="true"></i> Documents contractuels acceptés</div></div>
-    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> Charte déontologique & d'engagement V2</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Signée 10/04/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
-    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> CGU Professionnels IMMATCH®</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Acceptées 10/04/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
-    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> CGV Professionnels IMMATCH®</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Acceptées 10/04/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
-    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> Conditions Partenaire Professionnel</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Acceptées 10/04/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
-    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> Avenant RGPD</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Signé 10/04/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
-    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-text" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> Barème contractuel de réversion CES</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Validé 10/04/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+    <div class="chd"><div class="ct"><i class="ti ti-file-check"></i> Documents contractuels</div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:7px;font-size:12px"><i class="ti ti-file-check" style="color:#3B6D11"></i> Charte déontologique V2</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Signée 10/04</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px"></i></button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:7px;font-size:12px"><i class="ti ti-file-check" style="color:#3B6D11"></i> CGU / CGV Professionnels</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Acceptés 10/04</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px"></i></button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:7px;font-size:12px"><i class="ti ti-file-check" style="color:#3B6D11"></i> Conditions Partenaire Professionnel</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Acceptées 10/04</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px"></i></button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:7px;font-size:12px"><i class="ti ti-file-check" style="color:#3B6D11"></i> Avenant RGPD</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Signé 10/04</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px"></i></button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:7px;font-size:12px"><i class="ti ti-file-text" style="color:#3B6D11"></i> Barème contractuel de réversion</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Validé 10/04</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px"></i></button></div></div>
   </div>
 </div>
-
+ 
+</div><!-- /page -->
+ 
+<!-- MODAL MER -->
+<div class="overlay" id="overlay-mer" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="mhd"><div class="mtitle"><i class="ti ti-user-check" style="font-size:15px;color:var(--t)"></i> Demande de mise en relation</div><button class="mclose" onclick="document.getElementById('overlay-mer').classList.remove('open')"><i class="ti ti-x" style="font-size:13px"></i></button></div>
+    <div class="mbody">
+      <div style="background:var(--t50);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--t800);line-height:1.6;display:flex;gap:8px"><i class="ti ti-info-circle" style="font-size:14px;flex-shrink:0"></i><div>Vous souhaitez contacter le profil <strong id="mer-profil"></strong> — compatibilité <strong id="mer-pct"></strong>.</div></div>
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">Comment ça se passe ?</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+        <div style="display:flex;gap:9px;font-size:12px"><div style="width:20px;height:20px;border-radius:50%;background:var(--t);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">1</div><div>Vous confirmez votre demande</div></div>
+        <div style="display:flex;gap:9px;font-size:12px"><div style="width:20px;height:20px;border-radius:50%;background:var(--t);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">2</div><div>Un règlement de <strong id="mer-prix"></strong> par carte bancaire vous est demandé</div></div>
+        <div style="display:flex;gap:9px;font-size:12px"><div style="width:20px;height:20px;border-radius:50%;background:var(--t);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">3</div><div>Les coordonnées de l'acheteur vous sont transmises dès validation du paiement</div></div>
+        <div style="display:flex;gap:9px;font-size:12px"><div style="width:20px;height:20px;border-radius:50%;background:var(--t);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">4</div><div>Vous le contactez directement — sans intermédiaire</div></div>
+      </div>
+      <div style="background:var(--g50);border-radius:var(--radius-sm);padding:8px 12px;font-size:11px;color:var(--g800)"><i class="ti ti-shield-check" style="font-size:12px"></i> Paiement sécurisé · Remboursé si la mise en relation n'aboutit pas dans les 7 jours</div>
+    </div>
+    <div class="mft"><button class="btn" onclick="document.getElementById('overlay-mer').classList.remove('open')">Annuler</button><button class="btn btn-p" onclick="document.getElementById('overlay-mer').classList.remove('open');alert('Redirection vers le paiement sécurisé...')"><i class="ti ti-arrow-right" style="font-size:11px"></i> Poursuivre</button></div>
+  </div>
 </div>
+ 
 <script>
-const B=[
-  {mn:0,mx:50000,c:0,r:0,l:"<50k"},
-  {mn:50001,mx:85000,c:6075,r:608},{mn:85001,mx:100000,c:7688,r:769},
-  {mn:100001,mx:125000,c:7875,r:788},{mn:125001,mx:150000,c:8938,r:894},
-  {mn:150001,mx:175000,c:9750,r:975},{mn:175001,mx:200000,c:10313,r:1031},
-  {mn:200001,mx:225000,c:11156,r:1116},{mn:225001,mx:250000,c:11875,r:1188},
-  {mn:250001,mx:275000,c:12600,r:1260},{mn:275001,mx:300000,c:13656,r:1366},
-  {mn:300001,mx:325000,c:14688,r:1469},{mn:325001,mx:350000,c:15694,r:1569},
-  {mn:350001,mx:375000,c:16675,r:1668},{mn:375001,mx:400000,c:17631,r:1763},
-  {mn:400001,mx:425000,c:18563,r:1856},{mn:425001,mx:450000,c:19469,r:1947},
-  {mn:450001,mx:475000,c:20350,r:2035},{mn:475001,mx:500000,c:20963,r:2096},
-  {mn:500001,mx:750000,c:26563,r:2656},{mn:750001,mx:1000000,c:35000,r:3500},
-  {mn:1000001,mx:1500000,c:47500,r:4750},{mn:1500001,mx:Infinity,c:61250,r:6125}
+const BAR=[
+  {mn:0,mx:50000,c:0,r:0,l:"< 50 000 €"},
+  {mn:50001,mx:85000,c:6075,r:608,l:"50 001–85 000 €"},
+  {mn:85001,mx:100000,c:7688,r:769,l:"85 001–100 000 €"},
+  {mn:100001,mx:125000,c:7875,r:788,l:"100 001–125 000 €"},
+  {mn:125001,mx:150000,c:8938,r:894,l:"125 001–150 000 €"},
+  {mn:150001,mx:175000,c:9750,r:975,l:"150 001–175 000 €"},
+  {mn:175001,mx:200000,c:10313,r:1031,l:"175 001–200 000 €"},
+  {mn:200001,mx:225000,c:11156,r:1116,l:"200 001–225 000 €"},
+  {mn:225001,mx:250000,c:11875,r:1188,l:"225 001–250 000 €"},
+  {mn:250001,mx:275000,c:12600,r:1260,l:"250 001–275 000 €"},
+  {mn:275001,mx:300000,c:13656,r:1366,l:"275 001–300 000 €"},
+  {mn:300001,mx:325000,c:14688,r:1469,l:"300 001–325 000 €"},
+  {mn:325001,mx:350000,c:15694,r:1569,l:"325 001–350 000 €"},
+  {mn:350001,mx:375000,c:16675,r:1668,l:"350 001–375 000 €"},
+  {mn:375001,mx:400000,c:17631,r:1763,l:"375 001–400 000 €"},
+  {mn:400001,mx:425000,c:18563,r:1856,l:"400 001–425 000 €"},
+  {mn:425001,mx:450000,c:19469,r:1947,l:"425 001–450 000 €"},
+  {mn:450001,mx:475000,c:20350,r:2035,l:"450 001–475 000 €"},
+  {mn:475001,mx:500000,c:20963,r:2096,l:"475 001–500 000 €"},
+  {mn:500001,mx:750000,c:26563,r:2656,l:"500 001–750 000 €"},
+  {mn:750001,mx:1000000,c:35000,r:3500,l:"750 001–1 000 000 €"},
+  {mn:1000001,mx:1500000,c:47500,r:4750,l:"1 000 001–1 500 000 €"},
+  {mn:1500001,mx:Infinity,c:61250,r:6125,l:"> 1 500 000 €"}
 ];
 const f=n=>Math.round(n).toLocaleString('fr-FR')+' €';
-const gt=p=>B.find(t=>p>=t.mn&&p<=t.mx)||null;
-
-function calcRev(){
-  const p=parseInt(document.getElementById('pp').value)||0;
-  const t=gt(p);const box=document.getElementById('rev-prev');
-  if(p>0&&t&&t.r>0){
-    document.getElementById('rev-v').textContent=f(t.r);
-    document.getElementById('rev-tr').textContent='Tranche '+t.l+' · Base : '+f(t.c);
-    box.style.display='flex';
-  } else box.style.display='none';
-}
+const gt=p=>BAR.find(t=>p>=t.mn&&p<=t.mx)||null;
+ 
+// Barème table
+const tb=document.getElementById('btbl');
+BAR.forEach(b=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${b.l}</td><td>${b.c>0?f(b.c):'—'}</td><td style="font-weight:700;color:var(--g800)">${b.r>0?f(b.r):'—'}</td>`;
+  tb.appendChild(tr);
+});
+ 
+// Déclaration calcul
 function calcD(){
   const pS=parseInt(document.getElementById('ld').value)||0;
   const pI=parseInt(document.getElementById('pd').value)||0;
   const p=pI||pS;
   if(!p){document.getElementById('brd').style.display='none';return;}
   if(pS&&!pI) document.getElementById('pd').value=pS;
-  const t=gt(p);
-  if(t){document.getElementById('cd').value=t.c;showD(p,t.c,t.r);}
+  const b=gt(p);
+  if(b){document.getElementById('cd').value=b.c;showD(p,b.c,b.r);}
 }
 function calcMD(){
   const c=parseInt(document.getElementById('cd').value)||0;
@@ -523,8 +622,31 @@ function showD(p,c,r){
   document.getElementById('bdr').textContent=f(r);
   document.getElementById('brd').style.display='grid';
 }
-function tog(el){el.classList.toggle('s');}
-function togS(el,g){el.closest('.tag-g').querySelectorAll('.tag').forEach(t=>t.classList.remove('s'));el.classList.add('s');}
+ 
+// Publication réversion
+function calcRevPub(){
+  const p=parseInt(document.getElementById('prix-pub').value)||0;
+  const b=gt(p);const box=document.getElementById('rev-pub');
+  if(p>0&&b&&b.r>0){
+    document.getElementById('rev-v').textContent=f(b.r);
+    document.getElementById('rev-tr').textContent='Tranche '+b.l+' · Base : '+f(b.c);
+    box.style.display='flex';
+  } else box.style.display='none';
+}
+ 
+// Tags
+function t(el){el.classList.toggle('s');}
+function ts(el,g){el.closest('.tg').querySelectorAll('.tag').forEach(x=>x.classList.remove('s'));el.classList.add('s');}
+ 
+// Modal MER
+function openMer(pct,profil,prix){
+  document.getElementById('mer-pct').textContent=pct;
+  document.getElementById('mer-profil').textContent=profil;
+  document.getElementById('mer-prix').textContent=prix.replace('.',',')+' €';
+  document.getElementById('overlay-mer').classList.add('open');
+}
+ 
+// Nav
 function sw(id,btn){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
@@ -532,3 +654,6 @@ function sw(id,btn){
   if(btn&&btn.classList) btn.classList.add('active');
 }
 </script>
+</body>
+</html>
+ 
