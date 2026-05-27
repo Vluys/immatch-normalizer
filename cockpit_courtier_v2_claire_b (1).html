@@ -1,0 +1,386 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--t:#0F8191;--g:#C9A84C;--dark:#1c1c1e}
+.w{padding:.5rem 0 2rem;font-family:var(--font-sans)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.25rem;border-bottom:.5px solid var(--color-border-tertiary);margin-bottom:1.25rem}
+.wordmark{font-size:18px;color:var(--t);letter-spacing:-.5px;font-style:italic;font-weight:400}
+.pro-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;background:#E6F1FB;color:#0C447C;border:.5px solid #85B7EB}
+.av{width:30px;height:30px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#0C447C}
+.ima-hero{background:var(--dark);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:14px}
+.ima-circle{width:52px;height:52px;border-radius:50%;border:2px solid var(--t);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+.ima-score{font-size:16px;font-weight:500;color:var(--t)}
+.ima-pts{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);background:#E24B4A;color:#fff;font-size:9px;font-weight:500;padding:1px 5px;border-radius:20px;white-space:nowrap}
+.ima-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.ima-msg{font-size:13px;color:#fff;line-height:1.6;margin-bottom:8px}
+.ima-actions{display:flex;gap:8px;flex-wrap:wrap}
+.ima-btn{font-size:11px;padding:4px 12px;border-radius:20px;border:.5px solid #444;color:#ccc;background:transparent;cursor:pointer}
+.ima-btn:hover{border-color:var(--t);color:var(--t)}
+.nav{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
+.nb{font-size:12px;padding:5px 13px;border-radius:20px;cursor:pointer;border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .15s}
+.nb.active{background:var(--t);color:#fff;border-color:var(--t)}
+.nb:hover:not(.active){background:var(--color-background-secondary)}
+.nbadge{background:#FCEBEB;color:#791F1F;font-size:10px;padding:1px 5px;border-radius:20px;margin-left:3px}
+.nbadgew{background:#FAEEDA;color:#633806;font-size:10px;padding:1px 5px;border-radius:20px;margin-left:3px}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.25rem}
+.met{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem 1rem}
+.ml{font-size:11px;color:var(--color-text-secondary);margin-bottom:3px}
+.mv{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.ms{font-size:11px;color:#3B6D11;margin-top:2px}
+.msw{font-size:11px;color:#854F0B;margin-top:2px}
+.mse{font-size:11px;color:#791F1F;margin-top:2px}
+.card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:1rem;overflow:hidden}
+.chd{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1.25rem;border-bottom:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+.ct{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;display:flex;align-items:center;gap:6px}
+.pill{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px}
+.pa{background:#E1F5EE;color:#085041}.pw{background:#FAEEDA;color:#633806}
+.pe{background:#FCEBEB;color:#791F1F}.pb{background:#E6F1FB;color:#0C447C}
+.pn{background:#EEEDFE;color:#3C3489}
+.btn{font-size:12px;padding:5px 12px;border-radius:20px;border:.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer}
+.btn:hover{background:var(--color-background-secondary)}
+.btn-p{background:var(--t);color:#fff;border-color:var(--t)}
+.btn-p:hover{opacity:.9}
+.tbl{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
+.tbl th{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;padding:.4rem 1rem;text-align:left;border-bottom:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbl td{padding:.5rem 1rem;border-bottom:.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--color-background-secondary)}
+.tbl tr.hl td{background:#FAEEDA}
+.tbl tr.hle td{background:#FCEBEB}
+.ico{width:24px;height:24px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:var(--color-text-secondary);font-size:12px}
+.ico:hover{background:var(--color-background-secondary)}
+.acd{display:flex;gap:4px}
+.lead-card{padding:1rem 1.25rem;border-bottom:.5px solid var(--color-border-tertiary)}
+.lead-card:last-child{border-bottom:none}
+.lead-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.65rem}
+.lead-demande{background:var(--color-background-secondary);border-left:3px solid var(--t);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:.6rem .85rem;font-size:12px;line-height:1.6;color:var(--color-text-primary);margin-bottom:.65rem}
+.lead-lbl{font-size:10px;color:var(--color-text-secondary);font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+.lead-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:.65rem}
+.li{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.4rem .65rem}
+.ll{font-size:10px;color:var(--color-text-secondary)}
+.lv{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.comm-box{background:#FAEEDA;border-radius:var(--border-radius-md);padding:.6rem 1rem;margin-bottom:.65rem;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.comm-txt{font-size:12px;color:#633806;line-height:1.4}
+.comm-val{font-size:18px;font-weight:500;color:#633806;white-space:nowrap}
+.zt{display:inline-flex;align-items:center;gap:3px;font-size:11px;background:#E6F1FB;color:#0C447C;padding:2px 7px;border-radius:20px}
+.form-section{padding:.85rem 1.25rem;border-bottom:.5px solid var(--color-border-tertiary)}
+.form-section:last-of-type{border-bottom:none}
+.fs-lbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
+.fr{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.fl{font-size:12px;color:var(--color-text-secondary);width:190px;flex-shrink:0;padding-top:6px}
+.fi{font-size:13px;padding:5px 8px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-primary);flex:1}
+.doc-row{display:flex;align-items:center;justify-content:space-between;padding:6px 1.25rem;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px}
+.doc-row:last-child{border-bottom:none}
+.alerte-block{background:#FCEBEB;border-radius:var(--border-radius-md);padding:.75rem 1rem;margin:.75rem 1.25rem;display:flex;gap:10px;align-items:flex-start}
+.alerte-actions{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+.abtn{font-size:11px;padding:4px 10px;border-radius:20px;border:.5px solid #F09595;color:#791F1F;background:var(--color-background-primary);cursor:pointer}
+.abtn:hover{background:#FCEBEB}
+.panel{display:none}.panel.active{display:block}
+.prog-bar{display:flex;gap:0;margin:.75rem 1.25rem .25rem}
+.prog-step{flex:1;text-align:center;font-size:10px;padding:5px 2px;border-top:3px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
+.prog-step.done{border-color:var(--t);color:#085041;font-weight:500}
+.prog-step.cur{border-color:var(--g);color:#633806;font-weight:500}
+.bareme-result{background:#E1F5EE;border-radius:var(--border-radius-md);padding:1rem 1.25rem;margin:.75rem 1.25rem;display:none;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.bri{text-align:center}
+.brl{font-size:11px;color:#085041;margin-bottom:4px}
+.brv{font-size:17px;font-weight:500;color:#085041}
+</style>
+
+<h2 class="sr-only">Cockpit courtier en financement IMMATCH v2 — Claire B., barème commission fixe par tranche</h2>
+
+<div class="w">
+
+<div class="header">
+  <div class="wordmark">immatch</div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <nav style="display:flex;gap:16px;font-size:13px">
+      <span style="color:var(--color-text-secondary);cursor:pointer">Mes dossiers</span>
+      <span style="color:var(--color-text-secondary);cursor:pointer">Leads</span>
+      <span style="color:var(--color-text-secondary);cursor:pointer">Déclarer</span>
+    </nav>
+    <div class="pro-badge"><i class="ti ti-file-certificate" style="font-size:10px" aria-hidden="true"></i> Courtier · En médiation</div>
+    <div class="av">CB</div>
+  </div>
+</div>
+
+<div class="ima-hero">
+  <div class="ima-circle">
+    <div class="ima-score">61</div>
+    <div class="ima-pts">−8 pts</div>
+  </div>
+  <div style="flex:1">
+    <div class="ima-label">IMA — Intelligence Matching Advisor</div>
+    <div class="ima-msg">Claire, votre note est en baisse. Le lead #L-0038 date du 18 avril — aucune déclaration reçue, le particulier indique que le contact n'a pas eu lieu. Une procédure de médiation est ouverte. Merci de régulariser sous 5 jours pour éviter la suspension de votre accès aux leads.</div>
+    <div class="ima-actions">
+      <button class="ima-btn" onclick="sw('dossiers',document.querySelectorAll('.nb')[0])">Dossier litigieux <i class="ti ti-arrow-right" style="font-size:11px" aria-hidden="true"></i></button>
+      <button class="ima-btn" onclick="sw('declarer',document.querySelectorAll('.nb')[2])">Déclarer un CA <i class="ti ti-arrow-right" style="font-size:11px" aria-hidden="true"></i></button>
+    </div>
+  </div>
+</div>
+
+<div class="metrics">
+  <div class="met"><div class="ml">Dossiers reçus</div><div class="mv">12</div><div class="msw">1 lead en attente</div></div>
+  <div class="met"><div class="ml">Attestations émises</div><div class="mv">7</div><div class="msw">4 en cours</div></div>
+  <div class="met"><div class="ml">CA déclaré total</div><div class="mv mse" style="font-size:16px">Non déclaré</div><div class="mse">Action requise</div></div>
+  <div class="met"><div class="ml">Note IMA</div><div class="mv">3,1 <span style="color:var(--g)">★</span></div><div class="mse">En baisse · médiation</div></div>
+</div>
+
+<div class="nav">
+  <button class="nb active" onclick="sw('dossiers',this)"><i class="ti ti-file-certificate" aria-hidden="true"></i> Mes dossiers <span class="nbadge">1</span></button>
+  <button class="nb" onclick="sw('leads',this)"><i class="ti ti-bell" aria-hidden="true"></i> Leads <span class="nbadgew">1</span></button>
+  <button class="nb" onclick="sw('declarer',this)"><i class="ti ti-currency-euro" aria-hidden="true"></i> Déclarer un CA</button>
+  <button class="nb" onclick="sw('bareme',this)"><i class="ti ti-table" aria-hidden="true"></i> Barème CES</button>
+  <button class="nb" onclick="sw('profil',this)"><i class="ti ti-user" aria-hidden="true"></i> Profil & docs</button>
+</div>
+
+<div class="panel active" id="panel-dossiers">
+  <div class="alerte-block">
+    <i class="ti ti-alert-circle" style="font-size:16px;color:#791F1F;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>
+    <div style="font-size:12px;color:#791F1F;line-height:1.5">
+      <strong>Action urgente — dossier #L-0038</strong><br>
+      Lead du 18/04/2026 · Pas de contact confirmé · Pas de déclaration · Médiation ouverte par Cadre Estate Solutions. Délai : <strong>5 jours</strong>. Sans réponse, accès leads suspendu.
+      <div class="alerte-actions">
+        <button class="abtn" onclick="sw('declarer',document.querySelectorAll('.nb')[2])"><i class="ti ti-currency-euro" style="font-size:11px" aria-hidden="true"></i> Déclarer</button>
+        <button class="abtn"><i class="ti ti-mail" style="font-size:11px" aria-hidden="true"></i> Répondre à CES</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-file-certificate" aria-hidden="true"></i> Mes dossiers de financement</div><button class="btn">Filtrer</button></div>
+    <table class="tbl">
+      <colgroup><col style="width:8%"><col style="width:20%"><col style="width:12%"><col style="width:10%"><col style="width:13%"><col style="width:12%"><col style="width:13%"><col style="width:12%"></colgroup>
+      <thead><tr><th>Réf.</th><th>Demande</th><th>Zone</th><th>Reçu</th><th>Montant emprunté</th><th>Comm. CES due</th><th>Attestation</th><th>Statut</th></tr></thead>
+      <tbody>
+        <tr class="hle">
+          <td style="font-weight:500;color:var(--color-text-secondary)">#L-0038</td>
+          <td style="white-space:normal;font-size:11px">M. D. · achat RP Lyon</td>
+          <td><span class="zt" style="font-size:10px">Lyon 6e</span></td>
+          <td style="color:var(--color-text-secondary)">18/04</td>
+          <td style="color:#791F1F;font-weight:500">Non déclaré</td>
+          <td style="color:#791F1F;font-weight:500">—</td>
+          <td><span class="pill pe">Non émise</span></td>
+          <td><span class="pill pe">Litige</span></td>
+        </tr>
+        <tr class="hl">
+          <td style="font-weight:500;color:var(--color-text-secondary)">#L-0042</td>
+          <td style="white-space:normal;font-size:11px">Mme B. · investissement locatif</td>
+          <td><span class="zt" style="font-size:10px">Lyon 3e</span></td>
+          <td style="color:var(--color-text-secondary)">08/05</td>
+          <td style="color:#854F0B;font-weight:500">En cours d'étude</td>
+          <td style="color:#854F0B;font-weight:500">À calculer</td>
+          <td><span class="pill pw">À uploader</span></td>
+          <td><span class="pill pb">En cours</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:500;color:var(--color-text-secondary)">#L-0035</td>
+          <td style="white-space:normal;font-size:11px">Mme M. · achat RP Lyon</td>
+          <td><span class="zt" style="font-size:10px">Lyon 6e</span></td>
+          <td style="color:var(--color-text-secondary)">02/04</td>
+          <td style="color:var(--t);font-weight:500">280 000 €</td>
+          <td style="color:#633806;font-weight:500">300 €</td>
+          <td><span class="pill pa">Émise</span></td>
+          <td><span class="pill pa">Réglé</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:500;color:var(--color-text-secondary)">#L-0031</td>
+          <td style="white-space:normal;font-size:11px">M. et Mme P. · achat + travaux</td>
+          <td><span class="zt" style="font-size:10px">Villeurbanne</span></td>
+          <td style="color:var(--color-text-secondary)">18/03</td>
+          <td style="color:var(--t);font-weight:500">340 000 €</td>
+          <td style="color:#633806;font-weight:500">400 €</td>
+          <td><span class="pill pa">Émise</span></td>
+          <td><span class="pill pa">Réglé</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-chart-bar" aria-hidden="true"></i> Progression — dossier #L-0042</div></div>
+    <div class="prog-bar">
+      <div class="prog-step done">Lead reçu</div>
+      <div class="prog-step done">Contact établi</div>
+      <div class="prog-step cur">Étude bancaire</div>
+      <div class="prog-step">Accord de principe</div>
+      <div class="prog-step">Attestation émise</div>
+      <div class="prog-step">CA déclaré</div>
+    </div>
+    <div style="padding:.5rem 1.25rem 1rem;font-size:11px;color:var(--color-text-secondary)">Prochaine étape : obtenir l'accord de principe et uploader l'attestation de financement</div>
+  </div>
+</div>
+
+<div class="panel" id="panel-leads">
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-bell" aria-hidden="true"></i> Leads entrants — décision sous 24h</div><span class="pill pw">1 nouveau</span></div>
+    <div class="lead-card">
+      <div class="lead-hd">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-size:13px;font-weight:500">#L-0053</span>
+          <span class="pill pn">Nouveau</span>
+          <span class="zt"><i class="ti ti-map-pin" style="font-size:10px" aria-hidden="true"></i> Lyon 6e</span>
+          <span class="pill pb">Financement</span>
+        </div>
+        <span style="font-size:11px;color:#854F0B;font-weight:500"><i class="ti ti-clock" style="font-size:11px" aria-hidden="true"></i> 14h 20min</span>
+      </div>
+      <div class="lead-demande">
+        <div class="lead-lbl">Demande du particulier</div>
+        M. et Mme K. souhaitent acquérir un appartement T4 à Lyon et cherchent un courtier pour les accompagner dans leur recherche de financement. Budget : 420 000 €. Apport : 60 000 €.
+      </div>
+      <div class="lead-grid">
+        <div class="li"><div class="ll">Type de projet</div><div class="lv">Achat RP</div></div>
+        <div class="li"><div class="ll">Montant à emprunter</div><div class="lv" style="color:var(--t)">360 000 €</div></div>
+        <div class="li"><div class="ll">Apport personnel</div><div class="lv">60 000 €</div></div>
+        <div class="li"><div class="ll">Délai souhaité</div><div class="lv">Dans 3 mois</div></div>
+      </div>
+      <div class="comm-box">
+        <div class="comm-txt">
+          <strong>Commission CES si dossier finalisé</strong><br>
+          Tranche 300 001 – 400 000 € · Montant fixe contractuel
+        </div>
+        <div class="comm-val">400 €</div>
+      </div>
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:.65rem">Commission fixe indépendante de vos honoraires · Due après encaissement de vos honoraires · Coordonnées transmises après acceptation uniquement · Sans réponse 24h → lead transmis au pro suivant</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-p" style="padding:5px 16px"><i class="ti ti-check" aria-hidden="true"></i> Accepter</button>
+        <button class="btn" style="padding:5px 16px;color:#791F1F;border-color:#F09595"><i class="ti ti-x" aria-hidden="true"></i> Refuser</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-declarer">
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-currency-euro" aria-hidden="true"></i> Déclarer un dossier finalisé</div></div>
+    <div style="background:#E1F5EE;border-radius:var(--border-radius-md);padding:.55rem 1rem;font-size:12px;color:#085041;display:flex;gap:7px;align-items:flex-start;margin:.75rem 1.25rem">
+      <i class="ti ti-info-circle" style="font-size:14px;flex-shrink:0" aria-hidden="true"></i>
+      <div>La commission CES est un <strong>montant fixe par tranche de crédit emprunté</strong> — indépendant de vos honoraires. Elle est due après encaissement de vos honoraires. CES émet une facture que vous réglez par virement sur le RIB indiqué. L'attestation de financement est obligatoire.</div>
+    </div>
+    <div class="form-section">
+      <div class="fs-lbl">Dossier concerné</div>
+      <div class="fr"><div class="fl">Lead concerné <span style="color:#791F1F">*</span></div>
+        <select class="fi" id="ld" onchange="calcC()">
+          <option value="">Sélectionner un dossier accepté</option>
+          <option value="0038">#L-0038 · M. D. · achat RP · Lyon 6e</option>
+          <option value="0042">#L-0042 · Mme B. · investissement · Lyon 3e</option>
+          <option value="0053">#L-0053 · M. et Mme K. · achat RP · Lyon 6e</option>
+        </select>
+      </div>
+      <div class="fr"><div class="fl">Montant réellement emprunté (€) <span style="color:#791F1F">*</span></div>
+        <input class="fi" type="number" id="me" placeholder="ex : 340 000" oninput="calcC()" step="1000">
+      </div>
+      <div class="fr"><div class="fl">Date d'encaissement de vos honoraires <span style="color:#791F1F">*</span></div>
+        <input class="fi" type="date">
+      </div>
+      <div class="fr"><div class="fl">Banque partenaire</div>
+        <input class="fi" type="text" placeholder="ex : Crédit Agricole, BNP, LCL...">
+      </div>
+      <div class="fr"><div class="fl">Attestation de financement <span style="color:#791F1F">*</span></div>
+        <input class="fi" type="text" placeholder="Uploader le document PDF...">
+      </div>
+      <div class="fr"><div class="fl">Commentaire (optionnel)</div>
+        <input class="fi" type="text" placeholder="ex : 2 refus avant accord final...">
+      </div>
+    </div>
+
+    <div class="bareme-result" id="br">
+      <div class="bri"><div class="brl">Montant emprunté</div><div class="brv" id="brm">—</div></div>
+      <div class="bri"><div class="brl">Tranche contractuelle</div><div class="brv" id="brt" style="font-size:13px">—</div></div>
+      <div class="bri"><div class="brl">Commission CES due</div><div class="brv" id="brc" style="color:#C9A84C">—</div></div>
+    </div>
+
+    <div style="padding:0 1.25rem 1rem;display:flex;gap:10px;align-items:center">
+      <button class="btn btn-p"><i class="ti ti-send" style="font-size:12px" aria-hidden="true"></i> Déclarer — CES émet la facture</button>
+      <span style="font-size:11px;color:var(--color-text-secondary)">Facture par email · Virement sur RIB CES</span>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-bareme">
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-table" aria-hidden="true"></i> Barème contractuel de commission CES — courtier</div></div>
+    <div style="background:#E1F5EE;border-radius:var(--border-radius-md);padding:.55rem 1rem;font-size:12px;color:#085041;display:flex;gap:7px;align-items:center;margin:.75rem 1.25rem">
+      <i class="ti ti-info-circle" style="font-size:14px;flex-shrink:0" aria-hidden="true"></i>
+      <div>Commission <strong>fixe par tranche</strong> de crédit réellement emprunté · Due après encaissement de vos honoraires · Indépendante du montant de vos honoraires · +100 € par tranche de 100 000 €</div>
+    </div>
+    <table class="tbl" style="margin:0">
+      <colgroup><col style="width:50%"><col style="width:50%"></colgroup>
+      <thead><tr><th>Montant emprunté</th><th>Commission CES (montant fixe)</th></tr></thead>
+      <tbody id="btbl"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="panel" id="panel-profil">
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-user" aria-hidden="true"></i> Mon profil partenaire</div><button class="btn"><i class="ti ti-edit" style="font-size:11px" aria-hidden="true"></i> Modifier</button></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr">
+      <div style="padding:.85rem 1.25rem;border-right:.5px solid var(--color-border-tertiary)">
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Nom</span><span style="font-weight:500">Claire B.</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Société</span><span style="font-weight:500">Courtage Lyon</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">N° ORIAS</span><span style="font-weight:500">21 003 456</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px"><span style="color:var(--color-text-secondary)">SIRET</span><span style="font-weight:500">412 837 291 00031</span></div>
+      </div>
+      <div style="padding:.85rem 1.25rem">
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Abonnement</span><span style="font-weight:500;color:var(--t)">49,90 € HT/mois</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Zones</span><span style="font-weight:500">Lyon · Villeurbanne · 69, 01, 38</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Commission CES</span><span style="font-weight:500">Fixe par tranche (voir barème)</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px"><span style="color:var(--color-text-secondary)">Statut</span><span style="font-weight:500;color:#791F1F">En médiation</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-file-check" aria-hidden="true"></i> Documents contractuels acceptés</div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> Charte déontologique & d'engagement V2</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Signée 15/03/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> CGU Professionnels IMMATCH®</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Acceptées 15/03/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> CGV Professionnels IMMATCH®</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Acceptées 15/03/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> Conditions Partenaire Professionnel</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Acceptées 15/03/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> Avenant RGPD</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Signé 15/03/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+  </div>
+</div>
+
+</div>
+<script>
+const BAREME=[
+  {mn:0,mx:300000,c:300,l:"Jusqu'à 300 000 €"},
+  {mn:300001,mx:400000,c:400,l:"300 001 – 400 000 €"},
+  {mn:400001,mx:500000,c:500,l:"400 001 – 500 000 €"},
+  {mn:500001,mx:600000,c:600,l:"500 001 – 600 000 €"},
+  {mn:600001,mx:700000,c:700,l:"600 001 – 700 000 €"},
+  {mn:700001,mx:800000,c:800,l:"700 001 – 800 000 €"},
+  {mn:800001,mx:900000,c:900,l:"800 001 – 900 000 €"},
+  {mn:900001,mx:1000000,c:1000,l:"900 001 – 1 000 000 €"},
+  {mn:1000001,mx:Infinity,c:1100,l:"> 1 000 000 €"}
+];
+const f=n=>Math.round(n).toLocaleString('fr-FR')+' €';
+const gt=p=>BAREME.find(t=>p>=t.mn&&p<=t.mx)||null;
+
+function calcC(){
+  const m=parseInt(document.getElementById('me').value)||0;
+  const box=document.getElementById('br');
+  if(m>0){
+    const t=gt(m);
+    if(t){
+      document.getElementById('brm').textContent=f(m);
+      document.getElementById('brt').textContent=t.l;
+      document.getElementById('brc').textContent=f(t.c);
+      box.style.display='grid';
+    }
+  } else box.style.display='none';
+}
+
+const tb=document.getElementById('btbl');
+BAREME.forEach(t=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${t.l}</td><td style="font-weight:500;color:#633806">${f(t.c)}</td>`;
+  tb.appendChild(tr);
+});
+
+function sw(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  if(btn&&btn.classList) btn.classList.add('active');
+}
+</script>
