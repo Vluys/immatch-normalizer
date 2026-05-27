@@ -1,0 +1,308 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--t:#0F8191;--g:#C9A84C;--dark:#1c1c1e}
+.w{padding:.5rem 0 2rem;font-family:var(--font-sans)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.25rem;border-bottom:.5px solid var(--color-border-tertiary);margin-bottom:1.25rem}
+.wordmark{font-size:18px;color:var(--t);letter-spacing:-.5px;font-style:italic;font-weight:400}
+.pro-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;background:#EEEDFE;color:#3C3489;border:.5px solid #AFA9EC}
+.pro-badge-att{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;background:#FAEEDA;color:#633806;border:.5px solid #FAC775}
+.av{width:30px;height:30px;border-radius:50%;background:#EEEDFE;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#3C3489}
+.ima-hero{background:var(--dark);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:14px}
+.ima-hero-att{background:#1a1206;border:1px solid #633806;border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:14px}
+.ima-circle{width:52px;height:52px;border-radius:50%;border:2px solid var(--t);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+.ima-circle-att{width:52px;height:52px;border-radius:50%;border:2px solid #C9A84C;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ima-score{font-size:16px;font-weight:500;color:var(--t)}
+.ima-score-att{font-size:13px;font-weight:500;color:#C9A84C;text-align:center;line-height:1.2}
+.ima-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.ima-msg{font-size:13px;color:#fff;line-height:1.6;margin-bottom:8px}
+.ima-msg-att{font-size:13px;color:#FAC775;line-height:1.6;margin-bottom:8px}
+.ima-actions{display:flex;gap:8px;flex-wrap:wrap}
+.ima-btn{font-size:11px;padding:4px 12px;border-radius:20px;border:.5px solid #444;color:#ccc;background:transparent;cursor:pointer}
+.ima-btn:hover{border-color:var(--t);color:var(--t)}
+.ima-btn-att{font-size:11px;padding:4px 12px;border-radius:20px;border:.5px solid #854F0B;color:#FAC775;background:transparent;cursor:pointer}
+.nav{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
+.nb{font-size:12px;padding:5px 13px;border-radius:20px;cursor:pointer;border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .15s}
+.nb.active{background:var(--t);color:#fff;border-color:var(--t)}
+.nb:hover:not(.active){background:var(--color-background-secondary)}
+.nbadgew{background:#FAEEDA;color:#633806;font-size:10px;padding:1px 5px;border-radius:20px;margin-left:3px}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.25rem}
+.met{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem 1rem}
+.ml{font-size:11px;color:var(--color-text-secondary);margin-bottom:3px}
+.mv{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.ms{font-size:11px;color:#3B6D11;margin-top:2px}
+.msw{font-size:11px;color:#854F0B;margin-top:2px}
+.card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:1rem;overflow:hidden}
+.chd{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1.25rem;border-bottom:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+.ct{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;display:flex;align-items:center;gap:6px}
+.pill{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px}
+.pa{background:#E1F5EE;color:#085041}.pw{background:#FAEEDA;color:#633806}
+.pe{background:#FCEBEB;color:#791F1F}.pb{background:#E6F1FB;color:#0C447C}
+.pn{background:#EEEDFE;color:#3C3489}.pg{background:#EAF3DE;color:#27500A}
+.btn{font-size:12px;padding:5px 12px;border-radius:20px;border:.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer}
+.btn:hover{background:var(--color-background-secondary)}
+.btn-p{background:var(--t);color:#fff;border-color:var(--t)}
+.btn-p:hover{opacity:.9}
+.tbl{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
+.tbl th{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;padding:.4rem 1rem;text-align:left;border-bottom:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbl td{padding:.5rem 1rem;border-bottom:.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--color-background-secondary)}
+.tbl tr.hl td{background:#FAEEDA}
+.ico{width:24px;height:24px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:var(--color-text-secondary);font-size:12px}
+.ico:hover{background:var(--color-background-secondary)}
+.acd{display:flex;gap:4px}
+.lead-card{padding:1rem 1.25rem;border-bottom:.5px solid var(--color-border-tertiary)}
+.lead-card:last-child{border-bottom:none}
+.lead-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.65rem}
+.lead-demande{background:var(--color-background-secondary);border-left:3px solid var(--t);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:.6rem .85rem;font-size:12px;line-height:1.6;color:var(--color-text-primary);margin-bottom:.65rem}
+.lead-lbl{font-size:10px;color:var(--color-text-secondary);font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+.lead-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:.65rem}
+.li{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.4rem .65rem}
+.ll{font-size:10px;color:var(--color-text-secondary)}
+.lv{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.comm-box{background:#FAEEDA;border-radius:var(--border-radius-md);padding:.6rem 1rem;margin-bottom:.65rem;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.comm-txt{font-size:12px;color:#633806;line-height:1.4}
+.comm-val{font-size:18px;font-weight:500;color:#633806;white-space:nowrap}
+.zt{display:inline-flex;align-items:center;gap:3px;font-size:11px;background:#E6F1FB;color:#0C447C;padding:2px 7px;border-radius:20px}
+.form-section{padding:.85rem 1.25rem;border-bottom:.5px solid var(--color-border-tertiary)}
+.form-section:last-of-type{border-bottom:none}
+.fs-lbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
+.fr{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.fl{font-size:12px;color:var(--color-text-secondary);width:190px;flex-shrink:0;padding-top:6px}
+.fi{font-size:13px;padding:5px 8px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-primary);flex:1}
+.doc-row{display:flex;align-items:center;justify-content:space-between;padding:6px 1.25rem;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px}
+.doc-row:last-child{border-bottom:none}
+.upload-zone{border:1.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-md);padding:1.25rem;text-align:center;color:var(--color-text-secondary);font-size:12px;cursor:pointer;flex:1}
+.upload-zone:hover{background:var(--color-background-secondary)}
+.bareme-result{background:#E1F5EE;border-radius:var(--border-radius-md);padding:1rem 1.25rem;margin:.75rem 1.25rem;display:none;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.bri{text-align:center}
+.brl{font-size:11px;color:#085041;margin-bottom:4px}
+.brv{font-size:17px;font-weight:500;color:#085041}
+.etape-list{padding:.85rem 1.25rem;display:flex;flex-direction:column;gap:8px}
+.etape{display:flex;align-items:flex-start;gap:10px}
+.etape-num{width:22px;height:22px;border-radius:50%;background:#E1F5EE;color:#085041;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.etape-num-att{width:22px;height:22px;border-radius:50%;background:#FAEEDA;color:#633806;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.etape-txt{font-size:12px;color:var(--color-text-primary);line-height:1.5}
+.etape-sub{font-size:11px;color:var(--color-text-secondary);margin-top:1px}
+.panel{display:none}.panel.active{display:block}
+.tag-g{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.tag{font-size:11px;padding:3px 9px;border-radius:20px;border:.5px solid var(--color-border-tertiary);cursor:pointer;color:var(--color-text-secondary);background:var(--color-background-primary)}
+.tag.s{background:#E1F5EE;color:#085041;border-color:#9FE1CB}
+.tag:hover:not(.s){background:var(--color-background-secondary)}
+</style>
+
+<h2 class="sr-only">Cockpit artisan IMMATCH — Jean-Marc R., électricien, compte en attente de validation, commission 5%</h2>
+
+<div class="w">
+
+<div class="header">
+  <div class="wordmark">immatch</div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <nav style="display:flex;gap:16px;font-size:13px">
+      <span style="color:var(--color-text-secondary);cursor:pointer">Mon dossier</span>
+      <span style="color:var(--color-text-secondary);cursor:pointer">Mes interventions</span>
+    </nav>
+    <div class="pro-badge-att"><i class="ti ti-clock" style="font-size:10px" aria-hidden="true"></i> Électricien · En attente</div>
+    <div class="av">JR</div>
+  </div>
+</div>
+
+<div class="ima-hero-att">
+  <div class="ima-circle-att">
+    <div class="ima-score-att">En<br>attente</div>
+  </div>
+  <div style="flex:1">
+    <div class="ima-label">IMA — Intelligence Matching Advisor</div>
+    <div class="ima-msg-att">Bienvenue Jean-Marc ! Votre dossier est bien reçu et en cours d'examen par Cadre Estate Solutions. Il manque votre attestation Qualifelec pour finaliser votre activation. Dès validation, vous recevrez vos premières demandes d'intervention sur Auray et ses environs. Transmettez le document manquant pour accélérer le traitement.</div>
+    <div class="ima-actions">
+      <button class="ima-btn-att" onclick="sw('dossier',document.querySelectorAll('.nb')[0])">Compléter mon dossier <i class="ti ti-arrow-right" style="font-size:11px" aria-hidden="true"></i></button>
+      <button class="ima-btn-att">Contacter CES <i class="ti ti-arrow-right" style="font-size:11px" aria-hidden="true"></i></button>
+    </div>
+  </div>
+</div>
+
+<div class="metrics">
+  <div class="met"><div class="ml">Demandes reçues</div><div class="mv" style="color:var(--color-text-secondary)">—</div><div class="msw">En attente activation</div></div>
+  <div class="met"><div class="ml">Interventions réalisées</div><div class="mv" style="color:var(--color-text-secondary)">—</div><div class="msw">En attente activation</div></div>
+  <div class="met"><div class="ml">CA HT déclaré</div><div class="mv" style="color:var(--color-text-secondary)">—</div><div class="msw">En attente activation</div></div>
+  <div class="met"><div class="ml">Commission CES (5%)</div><div class="mv" style="color:var(--color-text-secondary)">—</div><div class="msw">En attente activation</div></div>
+</div>
+
+<div class="nav">
+  <button class="nb active" onclick="sw('dossier',this)"><i class="ti ti-file-check" aria-hidden="true"></i> Mon dossier</button>
+  <button class="nb" onclick="sw('interventions',this)" style="opacity:.5;pointer-events:none"><i class="ti ti-tools" aria-hidden="true"></i> Mes interventions <span class="nbadgew">Verrouillé</span></button>
+  <button class="nb" onclick="sw('declarer',this)" style="opacity:.5;pointer-events:none"><i class="ti ti-currency-euro" aria-hidden="true"></i> Déclarer <span class="nbadgew">Verrouillé</span></button>
+  <button class="nb" onclick="sw('profil',this)"><i class="ti ti-user" aria-hidden="true"></i> Profil & docs</button>
+</div>
+
+<div class="panel active" id="panel-dossier">
+
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-list-check" aria-hidden="true"></i> État de votre dossier d'activation</div></div>
+    <div class="etape-list">
+      <div class="etape">
+        <div class="etape-num"><i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i></div>
+        <div><div class="etape-txt">Candidature soumise via espace partenaire</div><div class="etape-sub">16/05/2026 09h14 · Dossier #C-0047</div></div>
+      </div>
+      <div class="etape">
+        <div class="etape-num"><i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i></div>
+        <div><div class="etape-txt">Charte déontologique signée</div><div class="etape-sub">16/05/2026 · Signature électronique confirmée</div></div>
+      </div>
+      <div class="etape">
+        <div class="etape-num"><i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i></div>
+        <div><div class="etape-txt">CGU, CGV et Conditions Partenaire acceptées</div><div class="etape-sub">16/05/2026 · Tous les documents contractuels signés</div></div>
+      </div>
+      <div class="etape">
+        <div class="etape-num"><i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i></div>
+        <div><div class="etape-txt">Attestation RCP fournie</div><div class="etape-sub">Responsabilité civile professionnelle · Valide</div></div>
+      </div>
+      <div class="etape">
+        <div class="etape-num"><i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i></div>
+        <div><div class="etape-txt">Kbis fourni</div><div class="etape-sub">Électricité Rousseau SARL · SIRET 412 837 291 00024</div></div>
+      </div>
+      <div class="etape">
+        <div class="etape-num-att"><i class="ti ti-clock" style="font-size:11px" aria-hidden="true"></i></div>
+        <div>
+          <div class="etape-txt" style="color:#633806;font-weight:500">Qualification Qualifelec — document manquant</div>
+          <div class="etape-sub">Ce document est nécessaire pour finaliser votre activation. Transmettez-le ci-dessous.</div>
+        </div>
+      </div>
+      <div class="etape">
+        <div class="etape-num" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">7</div>
+        <div><div class="etape-txt" style="color:var(--color-text-secondary)">Validation par Cadre Estate Solutions</div><div class="etape-sub">En attente du document manquant · Délai de réponse : 72h ouvrées après réception</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-upload" aria-hidden="true"></i> Compléter mon dossier — document manquant</div></div>
+    <div style="background:#FAEEDA;border-radius:var(--border-radius-md);padding:.55rem 1rem;font-size:12px;color:#633806;display:flex;gap:7px;align-items:flex-start;margin:.75rem 1.25rem">
+      <i class="ti ti-alert-circle" style="font-size:14px;flex-shrink:0" aria-hidden="true"></i>
+      <div>Votre compte sera activé dès réception et validation de votre attestation Qualifelec (ou équivalent CONSUEL / RGE). Sans ce document, aucune demande d'intervention ne vous sera transmise.</div>
+    </div>
+    <div class="form-section">
+      <div class="fr"><div class="fl">Attestation Qualifelec <span style="color:#791F1F">*</span></div>
+        <div class="upload-zone"><i class="ti ti-file-certificate" style="font-size:18px;display:block;margin-bottom:4px" aria-hidden="true"></i>Glisser ou cliquer pour uploader<br><span style="font-size:11px">PDF · Max 5 Mo</span></div>
+      </div>
+      <div class="fr"><div class="fl">Ou qualification équivalente</div>
+        <div class="tag-g">
+          <span class="tag" onclick="tog(this)">CONSUEL</span>
+          <span class="tag" onclick="tog(this)">RGE</span>
+          <span class="tag" onclick="tog(this)">Autre qualification</span>
+        </div>
+      </div>
+      <div class="fr"><div class="fl">Commentaire (optionnel)</div>
+        <input class="fi" type="text" placeholder="ex : Qualification en cours de renouvellement — document provisoire joint">
+      </div>
+    </div>
+    <div style="padding:0 1.25rem 1rem;display:flex;gap:10px;align-items:center">
+      <button class="btn btn-p"><i class="ti ti-send" style="font-size:12px" aria-hidden="true"></i> Envoyer à Cadre Estate Solutions</button>
+      <span style="font-size:11px;color:var(--color-text-secondary)">Réponse sous 72h ouvrées · Activation immédiate si validé</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-info-circle" aria-hidden="true"></i> Comment fonctionne votre cockpit une fois activé</div></div>
+    <div style="padding:.85rem 1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem">
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px"><i class="ti ti-bell" style="font-size:13px;color:var(--t)" aria-hidden="true"></i> Demandes d'intervention</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">Vous recevrez les demandes de particuliers sur vos zones (Auray et environs). Vous voyez le type de prestation et la zone — pas le particulier. Vous acceptez ou refusez sous 24h.</div>
+      </div>
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem">
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px"><i class="ti ti-currency-euro" style="font-size:13px;color:var(--t)" aria-hidden="true"></i> Commission CES — 5% du CA HT</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">Après chaque intervention facturée, vous déclarez votre CA HT. CES émet une facture de 5% que vous réglez par virement sur le RIB CES après encaissement de votre règlement client.</div>
+      </div>
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem">
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px"><i class="ti ti-star" style="font-size:13px;color:var(--g)" aria-hidden="true"></i> Note IMA</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">Après chaque intervention, IMA contacte le particulier pour un retour. Votre note évolue à chaque évaluation et influence la priorité de réception des demandes.</div>
+      </div>
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem">
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px"><i class="ti ti-map-pin" style="font-size:13px;color:var(--t)" aria-hidden="true"></i> Zones couvertes</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">Paris 11e · 75, 92, 93, 94 — dans un rayon de 25 km. Vous pouvez ajuster vos zones depuis votre profil après activation.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-interventions">
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-tools" aria-hidden="true"></i> Demandes d'intervention</div><span class="pill pw">Compte non activé</span></div>
+    <div style="padding:2rem;text-align:center;color:var(--color-text-secondary)">
+      <i class="ti ti-lock" style="font-size:32px;display:block;margin-bottom:8px;color:var(--color-border-secondary)" aria-hidden="true"></i>
+      <div style="font-size:13px;font-weight:500;margin-bottom:4px">Accès verrouillé</div>
+      <div style="font-size:12px">Vos demandes d'intervention apparaîtront ici dès que votre compte sera activé par Cadre Estate Solutions.</div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-declarer">
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-currency-euro" aria-hidden="true"></i> Déclarer une intervention réalisée</div><span class="pill pw">Compte non activé</span></div>
+    <div style="padding:2rem;text-align:center;color:var(--color-text-secondary)">
+      <i class="ti ti-lock" style="font-size:32px;display:block;margin-bottom:8px;color:var(--color-border-secondary)" aria-hidden="true"></i>
+      <div style="font-size:13px;font-weight:500;margin-bottom:4px">Accès verrouillé</div>
+      <div style="font-size:12px">La déclaration de CA sera disponible après activation de votre compte. La commission CES est de 5% de votre CA HT réel par intervention.</div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-profil">
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-user" aria-hidden="true"></i> Mon profil partenaire</div><button class="btn"><i class="ti ti-edit" style="font-size:11px" aria-hidden="true"></i> Modifier</button></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr">
+      <div style="padding:.85rem 1.25rem;border-right:.5px solid var(--color-border-tertiary)">
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Nom</span><span style="font-weight:500">Jean-Marc Rousseau</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Société</span><span style="font-weight:500">Électricité Rousseau SARL</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Activité</span><span style="font-weight:500">Électricien · Pro local</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">SIRET</span><span style="font-weight:500">412 837 291 00024</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px"><span style="color:var(--color-text-secondary)">Email</span><span style="font-weight:500;color:var(--t)">jm@elec-rousseau.fr</span></div>
+      </div>
+      <div style="padding:.85rem 1.25rem">
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Abonnement</span><span style="font-weight:500;color:var(--t)">49,90 € HT/mois</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Zones</span><span style="font-weight:500">Paris 11e · 75, 92, 93, 94</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Délai d'intervention</span><span style="font-weight:500">Sous 48h</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary)">Commission CES</span><span style="font-weight:500;color:#633806">5% du CA HT réel</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px"><span style="color:var(--color-text-secondary)">Statut compte</span><span style="font-weight:500;color:#854F0B">En attente d'activation</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-file-check" aria-hidden="true"></i> Documents contractuels</div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> Charte déontologique & d'engagement V2</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Signée 16/05/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> CGU Professionnels IMMATCH®</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Acceptées 16/05/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> CGV Professionnels IMMATCH®</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Acceptées 16/05/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> Conditions Partenaire Professionnel</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Acceptées 16/05/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> Avenant RGPD</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Signé 16/05/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-alert-circle" style="font-size:14px;color:#854F0B" aria-hidden="true"></i> Attestation Qualifelec</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pw">Manquante</span><button class="btn btn-p" style="font-size:11px;padding:3px 8px" onclick="sw('dossier',document.querySelectorAll('.nb')[0])"><i class="ti ti-upload" style="font-size:11px" aria-hidden="true"></i> Uploader</button></div></div>
+    <div class="doc-row"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><i class="ti ti-file-check" style="font-size:14px;color:#3B6D11" aria-hidden="true"></i> Attestation RCP</div><div style="display:flex;gap:6px;align-items:center"><span class="pill pa">Fournie 16/05/2026</span><button class="btn" style="font-size:11px;padding:3px 8px"><i class="ti ti-download" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+  </div>
+
+  <div class="card">
+    <div class="chd"><div class="ct"><i class="ti ti-bolt" aria-hidden="true"></i> Mes prestations déclarées</div></div>
+    <div style="padding:.75rem 1.25rem">
+      <div style="font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.5rem">Prestations sélectionnées à l'inscription</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <span style="font-size:11px;padding:3px 9px;border-radius:20px;background:#E1F5EE;color:#085041;border:.5px solid #9FE1CB">Diagnostic électrique</span>
+        <span style="font-size:11px;padding:3px 9px;border-radius:20px;background:#E1F5EE;color:#085041;border:.5px solid #9FE1CB">Mise aux normes NF C 15-100</span>
+        <span style="font-size:11px;padding:3px 9px;border-radius:20px;background:#E1F5EE;color:#085041;border:.5px solid #9FE1CB">Dépannage & réparation</span>
+        <span style="font-size:11px;padding:3px 9px;border-radius:20px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:.5px solid var(--color-border-tertiary)">Installation tableau</span>
+        <span style="font-size:11px;padding:3px 9px;border-radius:20px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:.5px solid var(--color-border-tertiary)">Borne recharge VE</span>
+      </div>
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-top:.75rem">Tarif indicatif : 200 – 500 € · Remise particuliers IMMATCH : 10% sur diagnostic électrique · Délai d'intervention : sous 48h</div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+function tog(el){el.classList.toggle('s');}
+function sw(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  if(btn&&btn.classList) btn.classList.add('active');
+}
+</script>
