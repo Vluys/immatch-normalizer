@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMMATCH PRO — Cockpit Lead Complet</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --im-teal:#0F8191;--im-teal-light:#E6F4F6;--im-teal-dark:#0A5C68;
+  --im-gold:#C9A84C;--im-gold-light:#FDF6E3;--im-black:#0A0A0A;
+  --bg:#F4F3EF;--bg3:#F8F7F4;--t:#1A1A18;--t2:#5F5E5A;--t3:#B4B2A9;
+  --bd:rgba(0,0,0,0.08);--bd2:rgba(0,0,0,0.13);
+  --teal:var(--im-teal);--teal-d:var(--im-teal-light);--teal-b:#8ACDD5;--teal-t:var(--im-teal-dark);
+  --or:var(--im-gold);--or-d:var(--im-gold-light);--or-b:#E8C97A;
+  --rouge:#A32D2D;--rouge-d:#FCEBEB;--rouge-b:#F09595;
+  --ff:'DM Sans',system-ui,sans-serif;
+}
+body{font-family:var(--ff);background:var(--bg);color:var(--t);font-size:13px;-webkit-font-smoothing:antialiased}
+button{font-family:var(--ff);cursor:pointer;border:none;transition:all .15s}
+input,select,textarea{font-family:var(--ff);font-size:12px;background:#fff;border:0.5px solid var(--bd2);border-radius:6px;color:var(--t);padding:7px 10px;outline:none;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--im-teal);box-shadow:0 0 0 2px rgba(15,129,145,0.12)}
+input[type=range]{padding:0;background:transparent;border:none;box-shadow:none;accent-color:var(--im-teal)}
+input[type=checkbox]{width:auto;accent-color:var(--im-teal)}
+.lbl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;font-weight:500;margin-bottom:6px}
+.card{background:#fff;border:0.5px solid var(--bd);border-radius:10px;padding:14px}
+.tag{display:inline-flex;align-items:center;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500}
+.dv{height:0.5px;background:var(--bd);margin:10px 0}
+.btn{font-size:11px;font-weight:500;padding:6px 12px;border-radius:6px}
+.bp{background:var(--im-teal);color:#fff}.bp:hover{background:var(--im-teal-dark);transform:translateY(-1px)}
+.bg{background:#fff;color:var(--t2);border:0.5px solid var(--bd2)}.bg:hover{background:var(--bg3)}
+.bd-btn{background:var(--rouge-d);color:var(--rouge);border:0.5px solid var(--rouge-b)}
+.btn-gold{background:var(--im-gold);color:#fff}.btn-gold:hover{background:#B8962A}
+@keyframes su{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sp{to{transform:rotate(360deg)}}
+@keyframes sh{0%{background-position:-200% center}100%{background-position:200% center}}
+.su{animation:su .25s ease forwards}
+.spin{animation:sp .7s linear infinite}
+.shimmer{background:linear-gradient(90deg,var(--t3) 0%,var(--im-teal) 50%,var(--t3) 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:sh 1.5s linear infinite}
+@media print{
+  .no-print{display:none!important}
+  body{background:#fff}
+  .card{break-inside:avoid}
+  nav,footer{display:none!important}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ════════════════════════════════════════════════════════════
+// DONNÉES
+// ════════════════════════════════════════════════════════════
+const LEAD={
+  ref:"#L-0051",type:"Appartement",ville:"Carnac",cp:"56340",
+  // ── Données complètes (masquées avant acceptation) ──
+  prenom:"Martine",nom_complet:"ANGOUILLANT",nom:"A.",
+  tel:"06 14 82 37 91",email:"m.angouillant@email.fr",
+  adresse_complete:"2 All. Fleur de Sel",
+  // ── Données publiques (toujours visibles) ──
+  adresse:"Carnac (56340)",surface:44.3,terrain:40,pieces:3,chambres:2,etage:0,
+  annee:1989,etat:"Bon état",dpe:"D",ges:"D",chauffage:"Électrique individuel",
+  orientation:"Sud",exposition:"Calme",vue:"Sur cour",
+  parking:true,terrasse:true,jardin:true,cave:false,ascenseur:false,dv:true,fibre:true,
+  charges:70,prixSouhaite:250000,delai:"3 à 6 mois",
+  travaux:"Rafraîchissement léger",budgetTravaux:5000,deja_en_vente:false,
+  description_libre:"Appartement de caractère en rez-de-jardin avec jardin privatif exposé ouest. Cuisine entièrement rénovée. Environnement très calme à 10 min des plages à vélo.",
+  ima_portrait:"Cet appartement en rez-de-jardin à Carnac, c'est avant tout une histoire de douceur de vivre. Martine y a posé ses habitudes depuis plusieurs années — le jardin orienté ouest, les matinées calmes, la proximité de la mer à vélo. Elle parle de cet endroit avec une tendresse mesurée, celle de quelqu'un qui sait qu'il passe à autre chose mais ne le fait pas à la légère. Ce n'est pas un bien à vendre — c'est un bien à transmettre.",
+  ima_buyer:"Couple cherchant pied-à-terre côtier ou première résidence principale, sensible au calme et à la proximité des commerces.",
+  ima_motivation:72,ima_attachment:"moyen",
+  received:"2026-04-07T14:32:00Z",mission:"Estimation + vente",
+  valeur_immatch:245000,commission_ces:2563
+};
+const EST={
+  prix:245000,prixMin:232750,prixMax:257250,m2:5531,taux:0.0325,mens:1192,revenu:3405,total:358000,
+  m1:{p:235349,min:195097,max:269787,pm2:5312,fi:88,det:"23 transactions DVF (2020–2025)"},
+  m2:{p:335025,min:283500,max:375000,pm2:7662,fi:72,det:"4 annonces actives · Carnac 2km"},
+  m3:{p:198000,min:178200,max:217800,pm2:4469,fi:55,det:"Sol + Construction ICC"},
+  histo:[{a:2019,n:36,pm:4404,t:1.39},{a:2020,n:33,pm:4724,t:1.52},{a:2021,n:39,pm:5215,t:0.99},{a:2022,n:29,pm:5925,t:1.59},{a:2023,n:25,pm:6090,t:3.69},{a:2024,n:23,pm:5905,t:3.65},{a:2025,n:8,pm:5953,t:3.25}],
+  annonces:[{p:283500,s:37,pi:3,d:"E",j:66,src:"LBC"},{p:308100,s:48,pi:2,d:"D",j:13,src:"LBC"},{p:373500,s:38,pi:2,d:"E",j:60,src:"SeLoger"},{p:375000,s:43,pi:3,d:"C",j:37,src:"Orpi"}],
+  nbTotal:24,nbMoins:6,nbPlus:18
+};
+const DPE_C={A:"#00843B",B:"#3DAE2B",C:"#A8CE3B",D:"#D4AC0D",E:"#F7941D",F:"#E9401C",G:"#C1232B"};
+const TYPES_PIECES=[
+  {id:"entree",l:"Entrée",i:"🚪"},{id:"sejour",l:"Séjour",i:"🛋️"},{id:"cuisine",l:"Cuisine",i:"🍳"},
+  {id:"chambre",l:"Chambre",i:"🛏️"},{id:"sdb",l:"Salle de bain",i:"🚿"},{id:"wc",l:"WC",i:"🚽"},
+  {id:"bureau",l:"Bureau",i:"💼"},{id:"couloir",l:"Couloir",i:"🚶"},{id:"cellier",l:"Cellier",i:"📦"},
+  {id:"garage",l:"Garage",i:"🚗"},{id:"cave",l:"Cave",i:"🍷"},{id:"terrasse",l:"Terrasse",i:"☀️"},
+  {id:"jardin",l:"Jardin",i:"🌿"},{id:"autre",l:"Autre",i:"⬜"}
+];
+const ETATS=["Excellent","Bon état","Correct","Rafraîchissement","Travaux importants"];
+const SOLS=["Carrelage","Parquet","Béton ciré","Moquette","Vinyle","Plancher chauffant","Pierre","Autre"];
+const MURS=["Peinture","Papier peint","Enduit","Carrelage","Bois","Pierre apparente","Autre"];
+const NIVEAUX=["Sous-sol","RDC","1er étage","2ème étage","Combles"];
+const COLOR_PRESETS=[
+  {l:"IMMATCH Teal",c:"#0F8191"},{l:"Dr House Rouge",c:"#C0392B"},
+  {l:"Marine",c:"#185FA5"},{l:"Or prestige",c:"#C9A84C"},{l:"Ardoise",c:"#5D6D7E"}
+];
+
+const fmt=n=>new Intl.NumberFormat("fr-FR",{style:"currency",currency:"EUR",maximumFractionDigits:0}).format(n);
+const fmtPct=n=>(n*100).toFixed(2)+"%";
+const fmtM=n=>parseFloat(n).toFixed(2);
+
+// ── Helpers confidentialité ──────────────────────────────
+function leadAccepte(){return S.statut_lead==="accepte"}
+function affAdresse(){return leadAccepte()?LEAD.adresse_complete+", "+LEAD.cp+" "+LEAD.ville:LEAD.ville+" ("+LEAD.cp+")"}
+function affNom(){return leadAccepte()?LEAD.prenom+" "+LEAD.nom_complet:LEAD.prenom+" "+LEAD.nom+"."}
+function affTel(){return leadAccepte()?LEAD.tel:"•••• •••• ••••"}
+function affEmail(){return leadAccepte()?LEAD.email:"••••••@••••••"}
+function affAdresseH1(){return leadAccepte()?LEAD.type+" · "+LEAD.adresse_complete+", "+LEAD.cp+" "+LEAD.ville:LEAD.type+" · "+LEAD.ville+" ("+LEAD.cp+") — Acceptez le lead pour voir l'adresse"}
+
+// ════════════════════════════════════════════════════════════
+// ÉTAT GLOBAL
+// ════════════════════════════════════════════════════════════
+let S={
+  tab:"fiche", edit:false,
+  statut_lead:"nouveau", // nouveau | accepte | refuse
+  rapport:{
+    prix:245000,hpct:0.05,
+    desc:"Carnac, appartement 3 pièces de 44,3 m² en rez-de-jardin, comprenant une pièce de vie avec cuisine aménagée et équipée, deux chambres, une salle d'eau et un WC. Terrasse de 8 m², jardin privatif d'environ 40 m² exposé ouest et place de parking. Environnement calme, idéal pied-à-terre ou résidence principale.",
+    pf:["Jardin privatif exposé ouest","Terrasse et stationnement","Environnement calme","Cuisine rénovée"],
+    pa:["Rez-de-chaussée","Seconde chambre petite","Rafraîchissement à prévoir"],
+    photos:[],synthese:"",synthValide:false,statut:"brouillon"
+  },
+  // Surfaces
+  pieces:[
+    {id:1,type:"sejour",label:"Séjour / Salle à manger",surface:21.63,niveau:"RDC",etat:"Bon état",sol:"Carrelage",murs:"Peinture",notes:"",photo:null,expanded:false},
+    {id:2,type:"cuisine",label:"Cuisine",surface:9.0,niveau:"RDC",etat:"Bon état",sol:"Carrelage",murs:"Carrelage",notes:"Cuisine rénovée équipée",photo:null,expanded:false},
+    {id:3,type:"chambre",label:"Chambre 1",surface:7.71,niveau:"RDC",etat:"Bon état",sol:"Parquet",murs:"Peinture",notes:"",photo:null,expanded:false},
+    {id:4,type:"chambre",label:"Chambre 2 / Coin repos",surface:4.82,niveau:"RDC",etat:"Bon état",sol:"Parquet",murs:"Peinture",notes:"",photo:null,expanded:false},
+    {id:5,type:"sdb",label:"Salle de bain",surface:3.92,niveau:"RDC",etat:"Bon état",sol:"Carrelage",murs:"Carrelage",notes:"",photo:null,expanded:false},
+    {id:6,type:"wc",label:"WC",surface:1.04,niveau:"RDC",etat:"Bon état",sol:"Carrelage",murs:"Peinture",notes:"",photo:null,expanded:false},
+    {id:7,type:"entree",label:"Entrée + Placards",surface:5.79,niveau:"RDC",etat:"Bon état",sol:"Carrelage",murs:"Peinture",notes:"Placards 1.19m²",photo:null,expanded:false},
+    {id:8,type:"terrasse",label:"Terrasse",surface:7.73,niveau:"RDC",etat:"Bon état",sol:"Carrelage",murs:"",notes:"2.05 × 3.78m",photo:null,expanded:false},
+    {id:9,type:"jardin",label:"Jardin privatif",surface:22.3,niveau:"RDC",etat:"Bon état",sol:"Gazon",murs:"",notes:"Exposé ouest",photo:null,expanded:false},
+  ],
+  planPhoto:null,imaState:"idle",imaResult:"",imaExtracted:[],
+  showAddPiece:false,newPieceType:"chambre",nextId:10,
+  // Branding
+  agent:{prenom:"Jean",nom:"R.",agence:"Pro immo · Actif",tel:"06 XX XX XX XX",email:"agent@immo.fr",couleur:"#0F8191",
+    avis:[{a:"DESPLANQUES",r:"Acheteur",t:"Très efficace et très à l'écoute. Rare dans la profession."},{a:"MARCQ",r:"Vendeur",t:"Excellent conseiller. Un bonheur de se faire accompagner par un vrai pro."}]
+  },
+  imaGenState:"idle",imaGenResult:""
+};
+
+function totalCarrez(){
+  const excl=["terrasse","jardin","garage","cave"];
+  return Math.round(S.pieces.filter(p=>!excl.includes(p.type)).reduce((a,p)=>a+(parseFloat(p.surface)||0),0)*100)/100;
+}
+function totalExt(){
+  return Math.round(S.pieces.filter(p=>["terrasse","jardin"].includes(p.type)).reduce((a,p)=>a+(parseFloat(p.surface)||0),0)*100)/100;
+}
+
+// ════════════════════════════════════════════════════════════
+// RENDER PRINCIPAL
+// ════════════════════════════════════════════════════════════
+function r(){
+  const hon=Math.round(S.rapport.prix*S.rapport.hpct);
+  const net=S.rapport.prix-hon;
+  const jours=Math.floor((Date.now()-new Date(LEAD.received))/86400000);
+  const tabs=[["fiche","Fiche du bien"],["surfaces","Surfaces & Photos"],["rapport","Rapport"],["marche","Marché"],["prix","Prix"],["synthese","Synthèse IMA"],["branding","Branding"]];
+
+  document.getElementById("app").innerHTML=`
+<div style="min-height:100vh;background:var(--bg)">
+
+<!-- NAV -->
+<nav class="no-print" style="background:#fff;border-bottom:0.5px solid var(--bd);padding:0 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;height:52px">
+  <div style="display:flex;align-items:center;gap:16px">
+    <span style="font-size:16px;font-weight:500;letter-spacing:.3px">immatch<span style="color:var(--im-teal);font-size:12px">®</span></span>
+    <div style="display:flex;gap:1px">
+      ${["Mes biens","Leads","Affaires"].map(l=>`<button class="btn" style="font-size:12px;padding:7px 12px;background:${l==="Leads"?"var(--im-teal-light)":"transparent"};color:${l==="Leads"?"var(--im-teal-dark)":"var(--t2)"};border-radius:6px;font-weight:${l==="Leads"?"500":"400"}">${l}${l==="Leads"?`<span style="background:var(--im-teal);color:#fff;border-radius:10px;font-size:9px;padding:1px 5px;margin-left:4px">2</span>`:""}</button>`).join("")}
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span class="tag" style="background:var(--im-teal-light);color:var(--im-teal-dark);border:0.5px solid var(--teal-b)">● Pro immo · Actif</span>
+    <div style="width:30px;height:30px;border-radius:50%;background:${S.agent.couleur};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff">${S.agent.prenom[0]}${S.agent.nom[0]}</div>
+    <span style="font-size:12px;color:var(--t2)">${S.agent.prenom} ${S.agent.nom[0]}.</span>
+  </div>
+</nav>
+
+<!-- HEADER LEAD -->
+<div style="background:#fff;border-bottom:0.5px solid var(--bd);padding:12px 20px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+      <button class="btn bg no-print" onclick="window.history.back()" style="font-size:11px;padding:4px 10px">← Leads</button>
+      <span style="font-size:11px;color:var(--t3)">/</span>
+      <span style="font-size:11px;color:var(--t2)">${LEAD.ref} — ${affNom()}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+          <span class="tag" style="background:var(--im-teal-light);color:var(--im-teal-dark);border:0.5px solid var(--teal-b);font-weight:600">${LEAD.ref}</span>
+          <span class="tag" style="background:${S.statut_lead==="accepte"?"var(--im-teal-light)":"#E6F1FB"};color:${S.statut_lead==="accepte"?"var(--im-teal-dark)":"#0C447C"};border:0.5px solid ${S.statut_lead==="accepte"?"var(--teal-b)":"#B5D4F4"}">${S.statut_lead==="accepte"?"✓ Accepté":"Nouveau · "+jours+"j"}</span>
+          <span class="tag" style="background:var(--im-gold-light);color:#7A5C0A;border:0.5px solid var(--or-b)">${LEAD.mission}</span>
+        </div>
+        <h1 style="font-size:18px;font-weight:500">${affAdresseH1()}</h1>
+        <p style="font-size:12px;color:var(--t2);margin-top:3px">${LEAD.surface}m² · ${LEAD.pieces}P · ${LEAD.chambres}Ch · ${LEAD.annee} · DPE ${LEAD.dpe} · Surfaces mesurées : <strong style="color:var(--im-teal)">${totalCarrez()}m²</strong></p>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div style="text-align:right;padding:8px 14px;background:var(--im-teal-light);border-radius:8px;border:0.5px solid var(--teal-b)">
+          <p style="font-size:16px;font-weight:500;color:var(--im-teal-dark)">${fmt(LEAD.valeur_immatch)}</p>
+          <p style="font-size:9px;color:var(--im-teal)">Valeur IMMATCH</p>
+        </div>
+        <div style="text-align:right;padding:8px 14px;background:var(--im-gold-light);border-radius:8px;border:0.5px solid var(--or-b)">
+          <p style="font-size:16px;font-weight:500;color:#7A5C0A">${fmt(LEAD.commission_ces)}</p>
+          <p style="font-size:9px;color:var(--im-gold)">Commission CES</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          ${S.statut_lead==="nouveau"?`
+          <button class="btn bp no-print" id="btn-accepter" style="padding:8px 16px">✓ Accepter le lead</button>
+          <button class="btn bg no-print" id="btn-refuser" style="font-size:11px;color:var(--rouge)">✕ Refuser</button>`:""}
+          ${S.statut_lead==="accepte"?`
+          <div style="padding:8px 14px;background:var(--im-teal-light);border-radius:8px;border:0.5px solid var(--teal-b);text-align:center">
+            <p style="font-size:11px;font-weight:500;color:var(--im-teal-dark)">✓ Lead accepté</p>
+            <p style="font-size:10px;color:var(--im-teal)">${LEAD.tel}</p>
+          </div>`:""}
+          ${S.statut_lead==="refuse"?`
+          <div style="padding:8px 14px;background:var(--rouge-d);border-radius:8px;border:0.5px solid var(--rouge-b);text-align:center">
+            <p style="font-size:11px;font-weight:500;color:var(--rouge)">Lead refusé</p>
+          </div>`:""}
+        </div>
+      </div>
+    </div>
+    <!-- TABS -->
+    <div class="no-print" style="display:flex;margin-top:12px;border-top:0.5px solid var(--bd);overflow-x:auto">
+      ${tabs.map(([id,l])=>`<button data-tab="${id}" class="btn" style="font-size:11px;padding:9px 14px;border-radius:0;background:transparent;white-space:nowrap;color:${S.tab===id?"var(--im-teal-dark)":"var(--t3)"};border-bottom:${S.tab===id?"2px solid var(--im-teal)":"2px solid transparent"};font-weight:${S.tab===id?"500":"400"}">${l}</button>`).join("")}
+      <div style="flex:1"></div>
+      <button class="btn ${S.edit?"bp":"bg"}" id="btn-edit" style="font-size:10px;padding:5px 10px;margin:5px 0;align-self:center">${S.edit?"✓ Lecture":"✏️ Éditer"}</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENU -->
+<div style="max-width:1200px;margin:0 auto;padding:14px 20px 80px">
+  <div class="su">
+  ${S.tab==="fiche"?tabFiche():""}
+  ${S.tab==="surfaces"?tabSurfaces():""}
+  ${S.tab==="rapport"?tabRapport():""}
+  ${S.tab==="marche"?tabMarche():""}
+  ${S.tab==="prix"?tabPrix():""}
+  ${S.tab==="synthese"?tabSynthese():""}
+  ${S.tab==="branding"?tabBranding():""}
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="no-print" style="position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:0.5px solid var(--bd);padding:8px 20px;display:flex;justify-content:space-between;align-items:center;z-index:99">
+  <div style="display:flex;gap:8px;align-items:center">
+    <span class="tag" style="background:${S.rapport.synthValide?"var(--im-teal-light)":"var(--im-gold-light)"};color:${S.rapport.synthValide?"var(--im-teal-dark)":"#7A5C0A"};border:0.5px solid ${S.rapport.synthValide?"var(--teal-b)":"var(--or-b)"}">✦ Synthèse IMA — ${S.rapport.synthValide?"incluse PDF":"non validée"}</span>
+    <span style="font-size:10px;color:var(--t3)">Surfaces : <strong style="color:var(--im-teal)">${totalCarrez()}m²</strong> Carrez</span>
+    <span style="font-size:10px;color:var(--t3)">Statut : <span style="color:${S.rapport.statut==="finalise"?"var(--im-teal)":"var(--im-gold)"};font-weight:500">${S.rapport.statut==="finalise"?"Finalisé":"Brouillon"}</span></span>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button class="btn bg" id="btn-finalise" style="font-size:11px">${S.rapport.statut==="finalise"?"Brouillon":"Finaliser"}</button>
+    <button class="btn bg" style="font-size:11px">Envoyer vendeur</button>
+    <button class="btn bp" id="btn-pdf" style="font-size:12px;padding:7px 18px">↓ Exporter PDF</button>
+  </div>
+</div>
+</div>`;
+  attach();
+}
+
+// ════════════════════════════════════════════════════════════
+// ONGLET FICHE
+// ════════════════════════════════════════════════════════════
+function tabFiche(){
+  return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="card">
+      <div class="lbl">Identité du bien</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr">
+        ${[["Type",LEAD.type],["Adresse",affAdresse()],["Surface habitable",LEAD.surface+"m²"],["Terrain / Jardin",LEAD.terrain+"m²"],["Pièces",LEAD.pieces+"P · "+LEAD.chambres+"Ch"],["Étage","Rez-de-jardin"],["Construction",LEAD.annee],["État",LEAD.etat]].map(([l,v],i)=>`<div style="padding:6px ${i%2===1?"0 6px 6px 12px":"0"};border-bottom:0.5px solid var(--bd)"><p style="font-size:10px;color:var(--t3);margin-bottom:1px">${l}</p><p style="font-size:12px;font-weight:500">${v}</p></div>`).join("")}
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">Énergie & charges</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <div style="padding:8px 12px;border-radius:8px;background:${DPE_C[LEAD.dpe]}18;border:0.5px solid ${DPE_C[LEAD.dpe]}44;text-align:center"><p style="font-size:9px;color:var(--t3)">DPE</p><p style="font-size:20px;font-weight:700;color:${DPE_C[LEAD.dpe]}">${LEAD.dpe}</p></div>
+        <div style="padding:8px 12px;border-radius:8px;background:${DPE_C[LEAD.ges]}18;border:0.5px solid ${DPE_C[LEAD.ges]}44;text-align:center"><p style="font-size:9px;color:var(--t3)">GES</p><p style="font-size:20px;font-weight:700;color:${DPE_C[LEAD.ges]}">${LEAD.ges}</p></div>
+        <div style="flex:1;padding-left:8px">${[["Chauffage",LEAD.chauffage],["Charges copro",LEAD.charges+"€/mois"],["Double vitrage","Oui"]].map(([l,v])=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:var(--t2)">${l}</span><span style="font-size:11px;font-weight:500">${v}</span></div>`).join("")}</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">Caractéristiques</div>
+      ${[["🌿","Jardin privatif",LEAD.jardin],["☀️","Terrasse",LEAD.terrasse],["🚗","Parking",LEAD.parking],["📦","Cave",LEAD.cave],["🛗","Ascenseur",LEAD.ascenseur],["🌐","Fibre",LEAD.fibre]].map(([ic,l,v])=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--bd)"><span>${ic}</span><span style="font-size:12px;color:${v?"var(--t)":"var(--t3)"}">${l}</span><span style="margin-left:auto;font-size:11px;font-weight:500;color:${v?"var(--im-teal)":"var(--t3)"}">${v?"Oui":"Non"}</span></div>`).join("")}
+      <div style="display:grid;grid-template-columns:1fr 1fr;margin-top:4px">${[["🧭","Orientation",LEAD.orientation],["🔊","Exposition",LEAD.exposition],["👁","Vue",LEAD.vue]].map(([ic,l,v])=>`<div style="display:flex;align-items:center;gap:6px;padding:5px 0"><span>${ic}</span><span style="font-size:11px;color:var(--t2)">${l}: <strong>${v}</strong></span></div>`).join("")}</div>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="card">
+      <div class="lbl">Projet vendeur</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+        <div style="background:var(--bg3);border-radius:8px;padding:10px"><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Prix souhaité</p><p style="font-size:18px;font-weight:500">${fmt(LEAD.prixSouhaite)}</p></div>
+        <div style="background:var(--im-teal-light);border-radius:8px;padding:10px;border:0.5px solid var(--teal-b)"><p style="font-size:10px;color:var(--im-teal);margin-bottom:3px">Valeur IMMATCH</p><p style="font-size:18px;font-weight:500;color:var(--im-teal-dark)">${fmt(LEAD.valeur_immatch)}</p></div>
+      </div>
+      ${[["Délai souhaité",LEAD.delai],["Déjà en vente","Non"],["Mission",LEAD.mission],["Travaux",LEAD.travaux],["Budget travaux",fmt(LEAD.budgetTravaux)]].map(([l,v])=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid var(--bd)"><span style="font-size:12px;color:var(--t2)">${l}</span><span style="font-size:12px;font-weight:500">${v}</span></div>`).join("")}
+    </div>
+    <div class="card">
+      <div class="lbl">Coordonnées vendeur</div>
+      ${!leadAccepte()?`
+      <div style="padding:14px;background:var(--bg3);border-radius:8px;border:1.5px dashed var(--bd2);text-align:center">
+        <p style="font-size:13px;margin-bottom:6px">🔒</p>
+        <p style="font-size:12px;font-weight:500;color:var(--t);margin-bottom:4px">${affNom()}</p>
+        <p style="font-size:11px;color:var(--t3);margin-bottom:10px">Téléphone et email visibles après acceptation du lead</p>
+        <p style="font-size:10px;color:var(--t3);margin-bottom:10px">Vos coordonnées ne sont jamais transmises sans votre accord explicite.</p>
+        <button class="btn bp no-print" id="btn-accepter2" style="width:100%;padding:9px">✓ Accepter ce lead pour voir les coordonnées</button>
+      </div>`:`
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:0.5px solid var(--bd)">
+          <span style="font-size:12px;color:var(--t2)">Nom complet</span>
+          <span style="font-size:12px;font-weight:500">${affNom()}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:0.5px solid var(--bd)">
+          <span style="font-size:12px;color:var(--t2)">Téléphone</span>
+          <a href="tel:${LEAD.tel}" style="font-size:12px;font-weight:500;color:var(--im-teal);text-decoration:none">📞 ${affTel()}</a>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:0.5px solid var(--bd)">
+          <span style="font-size:12px;color:var(--t2)">Email</span>
+          <a href="mailto:${LEAD.email}" style="font-size:12px;font-weight:500;color:var(--im-teal);text-decoration:none">✉️ ${affEmail()}</a>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0">
+          <span style="font-size:12px;color:var(--t2)">Adresse</span>
+          <span style="font-size:12px;font-weight:500">${affAdresse()}</span>
+        </div>
+        <div style="padding:8px;background:var(--im-teal-light);border-radius:8px;border:0.5px solid var(--teal-b);margin-top:4px">
+          <p style="font-size:10px;color:var(--im-teal-dark)">✓ Coordonnées débloquées · Lead accepté le ${new Date().toLocaleDateString("fr-FR")}</p>
+        </div>
+      </div>`}
+    </div>
+      <p style="font-size:12px;color:var(--t2);line-height:1.7;background:var(--bg3);padding:10px;border-radius:8px;border-left:2px solid var(--im-teal)">"${LEAD.description_libre}"</p>
+    </div>
+    <div class="card" style="border-color:var(--teal-b);background:linear-gradient(135deg,var(--im-teal-light),#fff 70%)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <div style="width:24px;height:24px;border-radius:50%;background:var(--im-teal);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:#fff;flex-shrink:0">IMA</div>
+        <div><p style="font-size:11px;font-weight:500;color:var(--im-teal-dark)">Portrait IMA — Mode Accueil</p><p style="font-size:10px;color:var(--t3)">Attachement : <strong>${LEAD.ima_attachment}</strong> · Motivation : <strong>${LEAD.ima_motivation}/100</strong></p></div>
+      </div>
+      <p style="font-size:12px;color:var(--t2);line-height:1.7;font-style:italic;margin-bottom:10px">"${LEAD.ima_portrait}"</p>
+      <div class="dv"></div>
+      <p style="font-size:11px;color:var(--t2)"><strong>Acheteur idéal :</strong> ${LEAD.ima_buyer}</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn bp" style="flex:1;padding:10px" data-tab="surfaces">📐 Surfaces & Photos</button>
+      <button class="btn" style="flex:1;padding:10px;background:var(--im-gold-light);color:#7A5C0A;border:0.5px solid var(--or-b)" data-tab="rapport">→ Rapport</button>
+    </div>
+  </div>
+</div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// ONGLET SURFACES & PHOTOS
+// ════════════════════════════════════════════════════════════
+function tabSurfaces(){
+  const tc=totalCarrez(),te=totalExt();
+  const allPhotos=[...S.pieces.filter(p=>p.photo).map(p=>({src:p.photo,label:p.label})),...S.rapport.photos.map((src,i)=>({src,label:"Photo "+(i+1)}))];
+  return `<div style="display:grid;grid-template-columns:1fr 300px;gap:10px">
+  <div>
+    <!-- Mode choix plan -->
+    <div class="card" style="margin-bottom:10px;border-color:${S.planPhoto?"var(--teal-b)":"var(--or-b)"};background:${S.planPhoto?"var(--im-teal-light)":"var(--im-gold-light)"}">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <div style="width:22px;height:22px;border-radius:50%;background:var(--im-teal);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:#fff">IMA</div>
+        <div><p style="font-size:12px;font-weight:500;color:var(--im-teal-dark)">IMA — Lecture automatique de plan</p><p style="font-size:10px;color:var(--t3)">Photographiez le plan du vendeur · IMA extrait les pièces et surfaces automatiquement</p></div>
+      </div>
+      ${!S.planPhoto?`
+      <label style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border:1.5px dashed var(--or-b);border-radius:8px;cursor:pointer;background:#fff">
+        <span style="font-size:20px">📷</span>
+        <span style="font-size:12px;font-weight:500;color:var(--or)">Photographier ou importer le plan</span>
+        <input type="file" id="inp-plan" accept="image/*" capture="environment" style="display:none">
+      </label>`:""}
+      ${S.planPhoto&&S.imaState==="idle"?`
+      <div style="display:flex;gap:10px;align-items:center">
+        <img src="${S.planPhoto}" style="width:100px;height:80px;object-fit:contain;border-radius:6px;border:0.5px solid var(--bd);background:#fff">
+        <div style="flex:1">
+          <p style="font-size:12px;font-weight:500;color:var(--im-teal-dark);margin-bottom:6px">✓ Plan importé</p>
+          <div style="display:flex;gap:8px">
+            <button class="btn bp" id="btn-ima-read" style="flex:1;padding:8px">IMA — Lire le plan</button>
+            <button class="btn bg" id="btn-del-plan" style="font-size:10px">Supprimer</button>
+          </div>
+        </div>
+      </div>`:""}
+      ${S.imaState==="reading"?`<div style="display:flex;align-items:center;gap:10px;padding:10px;justify-content:center"><div class="spin" style="width:16px;height:16px;border:2px solid var(--teal-b);border-top-color:var(--im-teal);border-radius:50%"></div><span class="shimmer" style="font-size:12px">IMA analyse le plan et extrait les surfaces...</span></div>`:""}
+      ${S.imaState==="extracted"?`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#fff;border-radius:8px"><p style="font-size:12px;font-weight:500;color:var(--im-teal-dark)">✓ ${S.imaExtracted.length} pièces détectées</p><button class="btn bp" id="btn-apply-extract">Intégrer dans le descriptif</button></div>`:""}
+    </div>
+
+    <!-- Actions -->
+    <div style="display:flex;gap:8px;margin-bottom:10px">
+      <button class="btn bp" id="btn-show-add">+ Ajouter une pièce</button>
+      <button class="btn bg" id="btn-ima-desc" style="display:flex;align-items:center;gap:6px">
+        <div style="width:14px;height:14px;border-radius:50%;background:var(--im-teal);display:flex;align-items:center;justify-content:center;font-size:5px;font-weight:700;color:#fff">IMA</div>
+        Générer description
+      </button>
+      <label class="btn bg" style="cursor:pointer;display:flex;align-items:center;gap:4px">
+        📷 Ajouter photos
+        <input type="file" id="inp-photos" accept="image/*" multiple capture="environment" style="display:none">
+      </label>
+    </div>
+
+    <!-- Formulaire ajout pièce -->
+    ${S.showAddPiece?`
+    <div class="card" style="margin-bottom:10px;border-color:var(--teal-b);background:var(--im-teal-light)">
+      <div class="lbl">Nouvelle pièce</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+        ${TYPES_PIECES.map(t=>`<button data-newtype="${t.id}" style="padding:5px 10px;border-radius:8px;border:0.5px solid ${S.newPieceType===t.id?"var(--im-teal)":"var(--bd2)"};background:${S.newPieceType===t.id?"var(--im-teal)":"#fff"};color:${S.newPieceType===t.id?"#fff":"var(--t2)"};font-size:11px;cursor:pointer;font-family:var(--ff)">${t.i} ${t.l}</button>`).join("")}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Désignation</p><input id="new-label" placeholder="ex: Chambre parentale"></div>
+        <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Surface (m²)</p><input id="new-surface" type="number" step="0.01" placeholder="ex: 14.5"></div>
+        <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Niveau</p><select id="new-niveau">${NIVEAUX.map(n=>`<option value="${n}">${n}</option>`).join("")}</select></div>
+        <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">État</p><select id="new-etat">${ETATS.map(e=>`<option>${e}</option>`).join("")}</select></div>
+        <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Sol</p><select id="new-sol">${SOLS.map(s=>`<option>${s}</option>`).join("")}</select></div>
+        <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Murs</p><select id="new-murs">${MURS.map(m=>`<option>${m}</option>`).join("")}</select></div>
+      </div>
+      <div style="margin-bottom:8px"><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Notes / Particularités</p><input id="new-notes" placeholder="PAC, poêle à bois, plancher chauffant, vue..."></div>
+      <div style="display:flex;gap:8px"><button class="btn bp" id="btn-confirm-add" style="flex:1">+ Ajouter</button><button class="btn bg" id="btn-cancel-add">Annuler</button></div>
+    </div>`:""}
+
+    <!-- Liste pièces par niveau -->
+    ${NIVEAUX.filter(n=>S.pieces.some(p=>p.niveau===n)).map(n=>`
+    <div style="margin-bottom:12px">
+      <p style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;padding:3px 8px;background:var(--bg3);border-radius:4px;display:inline-block">${n}</p>
+      ${S.pieces.filter(p=>p.niveau===n).map(p=>{
+        const tp=TYPES_PIECES.find(t=>t.id===p.type)||TYPES_PIECES[0];
+        const ec=p.etat==="Excellent"||p.etat==="Bon état"?"var(--im-teal)":p.etat==="Correct"?"var(--im-gold)":"var(--rouge)";
+        return `<div class="card" style="margin-bottom:6px;border-color:${p.expanded?"var(--teal-b)":"var(--bd)"}">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:8px;flex:1">
+              <span style="font-size:15px">${tp.i}</span>
+              <div style="flex:1">
+                <p style="font-size:13px;font-weight:500">${p.label}</p>
+                <div style="display:flex;gap:6px;margin-top:2px;flex-wrap:wrap">
+                  ${p.sol?`<span style="font-size:10px;color:var(--t3)">${p.sol}</span>`:""}
+                  ${p.etat?`<span class="tag" style="background:${ec}22;color:${ec};border:0.5px solid ${ec}44;font-size:9px">${p.etat}</span>`:""}
+                  ${p.photo?`<span class="tag" style="background:#E6F1FB;color:#0C447C;border:0.5px solid #B5D4F4;font-size:9px">📷 Photo</span>`:""}
+                </div>
+              </div>
+              <span style="font-size:14px;font-weight:500;color:var(--im-teal);min-width:60px;text-align:right">${fmtM(p.surface)}m²</span>
+            </div>
+            <div style="display:flex;gap:5px;margin-left:8px">
+              <button data-expand="${p.id}" class="btn bg" style="font-size:10px;padding:4px 8px">${p.expanded?"▲":"✏️"}</button>
+              <button data-del="${p.id}" class="btn bd-btn" style="font-size:10px;padding:4px 8px">✕</button>
+            </div>
+          </div>
+          ${p.expanded?`
+          <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--bd)">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+              <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Désignation</p><input value="${p.label}" data-field="label" data-id="${p.id}"></div>
+              <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Surface (m²)</p><input type="number" step="0.01" value="${p.surface}" data-field="surface" data-id="${p.id}"></div>
+              <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">État</p><select data-field="etat" data-id="${p.id}">${ETATS.map(e=>`<option ${p.etat===e?"selected":""}>${e}</option>`).join("")}</select></div>
+              <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Sol</p><select data-field="sol" data-id="${p.id}">${SOLS.map(s=>`<option ${p.sol===s?"selected":""}>${s}</option>`).join("")}</select></div>
+              <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Murs</p><select data-field="murs" data-id="${p.id}">${MURS.map(m=>`<option ${p.murs===m?"selected":""}>${m}</option>`).join("")}</select></div>
+              <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Niveau</p><select data-field="niveau" data-id="${p.id}">${NIVEAUX.map(n=>`<option ${p.niveau===n?"selected":""}>${n}</option>`).join("")}</select></div>
+            </div>
+            <div style="margin-bottom:8px"><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Notes / Particularités</p><input placeholder="PAC, poêle à bois, plancher chauffant, double hauteur..." value="${p.notes}" data-field="notes" data-id="${p.id}"></div>
+            <div>
+              <p style="font-size:10px;color:var(--t3);margin-bottom:6px">Photo de la pièce</p>
+              ${p.photo?`<div style="position:relative;display:inline-block"><img src="${p.photo}" style="height:80px;border-radius:6px;object-fit:cover;border:0.5px solid var(--bd)"><button data-delpho="${p.id}" style="position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;font-size:10px;border:none;cursor:pointer">✕</button></div>`
+              :`<label style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#fff;border:0.5px dashed var(--bd2);border-radius:8px;cursor:pointer;font-size:11px;color:var(--t2);width:fit-content">📷 Ajouter une photo<input type="file" accept="image/*" capture="environment" data-photopce="${p.id}" style="display:none"></label>`}
+            </div>
+          </div>`:""}
+        </div>`;
+      }).join("")}
+    </div>`).join("")}
+
+    <!-- Résultat IMA description -->
+    ${S.imaGenState==="generating"?`<div style="display:flex;align-items:center;gap:10px;padding:14px;background:var(--im-teal-light);border-radius:8px;border:0.5px solid var(--teal-b)"><div class="spin" style="width:16px;height:16px;border:2px solid var(--teal-b);border-top-color:var(--im-teal);border-radius:50%"></div><span class="shimmer" style="font-size:12px">IMA rédige la description technique...</span></div>`:""}
+    ${S.imaGenState==="done"&&S.imaGenResult?`
+    <div class="card" style="border-color:var(--teal-b);background:linear-gradient(135deg,var(--im-teal-light),#fff 80%)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <div style="width:20px;height:20px;border-radius:50%;background:var(--im-teal);display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;color:#fff">IMA</div>
+        <p style="font-size:12px;font-weight:500;color:var(--im-teal-dark)">Description technique générée</p>
+        <button class="btn bg" id="btn-apply-desc" style="margin-left:auto;font-size:10px">→ Appliquer au rapport</button>
+      </div>
+      <p style="font-size:12px;color:var(--t2);line-height:1.7">${S.imaGenResult}</p>
+    </div>`:""}
+
+    <!-- Galerie photos -->
+    ${allPhotos.length>0?`
+    <div style="margin-top:12px">
+      <div class="lbl">Photos du rapport (${allPhotos.length})</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+        ${allPhotos.map((ph,i)=>`<div style="position:relative;border-radius:8px;overflow:hidden;border:0.5px solid var(--bd)">
+          <img src="${ph.src}" style="width:100%;height:90px;object-fit:cover;display:block">
+          <p style="font-size:10px;padding:4px 6px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ph.label}</p>
+          <button data-delphoall="${i}" style="position:absolute;top:4px;right:4px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;font-size:10px;border:none;cursor:pointer">✕</button>
+        </div>`).join("")}
+        <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:110px;border-radius:8px;border:1.5px dashed var(--bd2);background:var(--bg3);cursor:pointer;color:var(--t3);gap:4px">
+          <span style="font-size:20px">+</span><span style="font-size:10px">Ajouter</span>
+          <input type="file" accept="image/*" multiple capture="environment" id="inp-photos2" style="display:none">
+        </label>
+      </div>
+    </div>`:""}
+  </div>
+
+  <!-- RÉCAPITULATIF DROITE -->
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="card" style="border-color:var(--teal-b)">
+      <div class="lbl">Récapitulatif surfaces</div>
+      ${NIVEAUX.filter(n=>S.pieces.some(p=>p.niveau===n)).map(n=>{
+        const ps=S.pieces.filter(p=>p.niveau===n);
+        const tot=ps.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
+        return `<div style="margin-bottom:8px">
+          <p style="font-size:10px;color:var(--t3);font-weight:500;margin-bottom:3px">${n}</p>
+          ${ps.map(p=>{const tp=TYPES_PIECES.find(t=>t.id===p.type)||TYPES_PIECES[0];return`<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:0.5px solid var(--bd)"><span style="font-size:11px;color:var(--t2)">${tp.i} ${p.label}</span><span style="font-size:11px;font-weight:500">${fmtM(p.surface)}m²</span></div>`}).join("")}
+          <div style="display:flex;justify-content:space-between;padding:2px 0"><span style="font-size:10px;color:var(--t3)">Sous-total</span><span style="font-size:11px;font-weight:500;color:var(--im-teal)">${fmtM(tot)}m²</span></div>
+        </div>`;
+      }).join("")}
+      <div class="dv"></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px;color:var(--t2)">Surface Carrez</span><span style="font-size:15px;font-weight:500;color:var(--im-teal)">${tc}m²</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:12px;color:var(--t2)">Extérieur</span><span style="font-size:13px;font-weight:500">${te}m²</span></div>
+      <div style="padding:8px;border-radius:8px;background:${Math.abs(tc-44.3)<2?"var(--im-teal-light)":"var(--im-gold-light)"};border:0.5px solid ${Math.abs(tc-44.3)<2?"var(--teal-b)":"var(--or-b)"}">
+        <p style="font-size:11px;font-weight:500;color:${Math.abs(tc-44.3)<2?"var(--im-teal-dark)":"var(--or)"}">${Math.abs(tc-44.3)<2?"✓ Cohérent avec questionnaire (44.3m²)":"⚠️ Écart "+Math.abs(tc-44.3).toFixed(1)+"m² vs questionnaire (44.3m²)"}</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">Matériaux dominants</div>
+      ${["sol","murs"].map(type=>{
+        const counts={};S.pieces.forEach(p=>{if(p[type])counts[p[type]]=(counts[p[type]]||0)+1});
+        const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,3);
+        return `<p style="font-size:10px;color:var(--t3);margin-bottom:4px">${type==="sol"?"Sols":"Murs"}</p>${sorted.map(([m,n])=>`<div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:11px;color:var(--t2)">${m}</span><span style="font-size:10px;color:var(--t3)">${n}p</span></div>`).join("")}<div class="dv"></div>`;
+      }).join("")}
+    </div>
+    <div class="card">
+      <div class="lbl">État général</div>
+      ${ETATS.map(e=>{
+        const n=S.pieces.filter(p=>p.etat===e).length;if(!n)return"";
+        const pct=Math.round((n/S.pieces.length)*100);
+        const col=e==="Excellent"||e==="Bon état"?"var(--im-teal)":e==="Correct"?"var(--im-gold)":"var(--rouge)";
+        return `<div style="margin-bottom:6px"><div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:11px;color:var(--t2)">${e}</span><span style="font-size:10px;color:var(--t3)">${n}p · ${pct}%</span></div><div style="height:3px;background:var(--bg3);border-radius:2px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${col};border-radius:2px"></div></div></div>`;
+      }).join("")}
+    </div>
+  </div>
+</div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// ONGLET RAPPORT
+// ════════════════════════════════════════════════════════════
+function tabRapport(){
+  const hon=Math.round(S.rapport.prix*S.rapport.hpct);
+  const net=S.rapport.prix-hon;
+  return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="card"><div class="lbl">Description du bien</div>
+      ${S.edit?`<textarea rows="6" id="inp-desc" style="resize:vertical;font-size:12px;line-height:1.6">${S.rapport.desc}</textarea>`:`<p style="font-size:12px;color:var(--t2);line-height:1.7">${S.rapport.desc}</p>`}
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div class="lbl" style="margin:0">✅ Points forts</div>
+        ${S.edit?`<button class="btn bg" style="font-size:10px;padding:3px 8px" id="add-pf">+ Ajouter</button>`:""}
+      </div>
+      ${S.rapport.pf.map((p,i)=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:5px;height:5px;border-radius:50%;background:var(--im-teal);flex-shrink:0"></div>${S.edit?`<div style="display:flex;gap:5px;flex:1"><input value="${p}" data-pf="${i}" style="flex:1;font-size:11px"><button class="btn bd-btn" data-delpf="${i}" style="font-size:10px;padding:3px 6px">✕</button></div>`:`<span style="font-size:12px;color:var(--t2)">${p}</span>`}</div>`).join("")}
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div class="lbl" style="margin:0">⚠️ Points à défendre</div>
+        ${S.edit?`<button class="btn bg" style="font-size:10px;padding:3px 8px" id="add-pa">+ Ajouter</button>`:""}
+      </div>
+      ${S.rapport.pa.map((p,i)=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:5px;height:5px;border-radius:50%;background:var(--im-gold);flex-shrink:0"></div>${S.edit?`<div style="display:flex;gap:5px;flex:1"><input value="${p}" data-pa="${i}" style="flex:1;font-size:11px"><button class="btn bd-btn" data-delpa="${i}" style="font-size:10px;padding:3px 6px">✕</button></div>`:`<span style="font-size:12px;color:var(--t2)">${p}</span>`}</div>`).join("")}
+    </div>
+    <!-- Surfaces -->
+    <div class="card" style="background:var(--bg3)">
+      <div class="lbl">Surfaces mesurées en visite</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px;color:var(--t2)">Surface Carrez</span><span style="font-size:14px;font-weight:500;color:var(--im-teal)">${totalCarrez()}m²</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--t2)">Extérieur</span><span style="font-size:13px;font-weight:500">${totalExt()}m²</span></div>
+      <button class="btn bg" style="width:100%;margin-top:8px;font-size:11px" data-tab="surfaces">📐 Modifier les surfaces</button>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="card" style="border-color:var(--rouge-b);background:linear-gradient(135deg,var(--rouge-d),#fff 70%)">
+      <div class="lbl">Valeur estimée — 3 méthodes DigitRE</div>
+      <p style="font-size:34px;font-weight:300;letter-spacing:-.5px;line-height:1">${fmt(EST.prix)}</p>
+      <p style="font-size:11px;color:var(--t2);margin-top:6px">Fourchette · ${fmt(EST.prixMin)} — ${fmt(EST.prixMax)}</p>
+      <p style="font-size:10px;color:var(--t3);margin-top:2px">${EST.m2.toLocaleString("fr-FR")} €/m²</p>
+    </div>
+    <div class="card">
+      <div class="lbl">Avis de valeur</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;color:var(--t2)">Prix affiché</span>${S.edit?`<input type="number" id="inp-prix" value="${S.rapport.prix}" style="width:120px;text-align:right">`:`<span style="font-size:14px;font-weight:500">${fmt(S.rapport.prix)}</span>`}</div>
+        <div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--t2)">Honoraires ${Math.round(S.rapport.hpct*100)}%${S.edit?`<input type="number" id="inp-hpct" value="${Math.round(S.rapport.hpct*100)}" style="width:36px;display:inline;padding:2px 4px;font-size:11px;margin-left:4px">`:""}</span><span style="font-size:12px;color:var(--t3)">− ${fmt(hon)}</span></div>
+        <div class="dv"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:500">Net vendeur</span><span style="font-size:20px;font-weight:500;color:var(--im-teal)">${fmt(net)}</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">Profil acquéreur type</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        ${[["Taux",fmtPct(EST.taux)],["Mensualité",EST.mens.toLocaleString("fr-FR")+"€"],["Revenu requis",EST.revenu.toLocaleString("fr-FR")+"€"]].map(([l,v])=>`<div style="background:var(--bg3);border-radius:8px;padding:10px 8px;text-align:center"><p style="font-size:10px;color:var(--t3);margin-bottom:3px">${l}</p><p style="font-size:12px;font-weight:500">${v}</p></div>`).join("")}
+      </div>
+      <p style="font-size:10px;color:var(--t3);margin-top:8px">Sur 25 ans · Coût total acquisition : ${fmt(EST.total)}</p>
+    </div>
+    <div class="card" style="background:var(--im-gold-light);border-color:var(--or-b)">
+      <div class="lbl">Commission CES si transaction</div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><p style="font-size:11px;color:var(--t2)">Tranche 200–300k€ · Base barème IMMATCH</p><p style="font-size:10px;color:var(--t3)">Versée après signature acte authentique</p></div>
+        <p style="font-size:22px;font-weight:500;color:#7A5C0A">${fmt(LEAD.commission_ces)}</p>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// ONGLET MARCHÉ
+// ════════════════════════════════════════════════════════════
+function tabMarche(){
+  const max=Math.max(...EST.histo.map(h=>h.pm));
+  return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+  <div class="card">
+    <div class="lbl">Historique des ventes — DVF Etalab</div>
+    ${EST.histo.map(h=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+      <span style="font-size:10px;color:var(--t3);width:34px;flex-shrink:0">${h.a}</span>
+      <span style="font-size:10px;color:var(--t3);width:28px;flex-shrink:0">${h.n}v</span>
+      <div style="flex:1;height:18px;background:var(--bg3);border-radius:4px;overflow:hidden;position:relative">
+        <div style="height:100%;width:${Math.round((h.pm/max)*100)}%;background:${h.a>=2024?"var(--im-teal)":"#C5C3BA"};border-radius:4px"></div>
+        <span style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--t);font-weight:500">${h.pm.toLocaleString("fr-FR")} €/m²</span>
+      </div>
+      <span style="font-size:9px;color:var(--t3);width:34px;text-align:right">${h.t}%</span>
+    </div>`).join("")}
+    <div class="dv"></div>
+    <div style="display:flex;justify-content:space-between"><span style="font-size:10px;color:var(--t3)">Synthèse 2020–2025</span><span style="font-size:11px;font-weight:500">5 312 €/m² · 235 349 €</span></div>
+  </div>
+  <div class="card">
+    <div class="lbl">Annonces actives — Carnac 2km</div>
+    <div style="display:flex;gap:14px;margin-bottom:12px;align-items:center">
+      <div style="text-align:center"><p style="font-size:24px;font-weight:300;color:var(--im-teal);line-height:1">${EST.nbMoins}</p><p style="font-size:9px;color:var(--t3);margin-top:2px">moins chères</p></div>
+      <div style="flex:1"><div style="height:4px;background:var(--bg3);border-radius:2px;overflow:hidden"><div style="height:100%;width:${Math.round((EST.nbMoins/EST.nbTotal)*100)}%;background:var(--im-teal);border-radius:2px"></div></div><p style="font-size:9px;color:var(--t3);text-align:center;margin-top:4px">${EST.nbTotal} annonces</p></div>
+      <div style="text-align:center"><p style="font-size:24px;font-weight:300;color:var(--rouge);line-height:1">${EST.nbPlus}</p><p style="font-size:9px;color:var(--t3);margin-top:2px">plus chères</p></div>
+    </div>
+    ${EST.annonces.map(a=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--bg3);border-radius:8px;margin-bottom:5px">
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="tag" style="background:${DPE_C[a.d]}22;color:${DPE_C[a.d]};border:0.5px solid ${DPE_C[a.d]}44">DPE ${a.d}</span>
+        <span style="font-size:11px;color:var(--t2)">${a.s}m² · ${a.pi}p · ${a.j}j · ${a.src}</span>
+      </div>
+      <span style="font-size:12px;font-weight:500">${fmt(a.p)}</span>
+    </div>`).join("")}
+  </div>
+  <!-- Comparaison annonces similaires -->
+  <div class="card">
+    <div class="lbl">Ventes passées similaires</div>
+    ${[{d:"12/24",s:41,p:315000,pm2:7683,rv:4428},{d:"11/24",s:39,p:300000,pm2:7692,rv:4236},{d:"06/24",s:40,p:325000,pm2:8125,rv:4723},{d:"12/23",s:47,p:351000,pm2:7452,rv:5489},{d:"10/23",s:44,p:260000,pm2:5876,rv:4045}].map(t=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid var(--bd)">
+      <span style="font-size:11px;color:var(--t3);width:44px">${t.d}</span>
+      <span style="font-size:11px;color:var(--t2)">${t.s}m²</span>
+      <span style="font-size:11px;font-weight:500">${fmt(t.p)}</span>
+      <span style="font-size:10px;color:var(--t3)">${t.pm2.toLocaleString("fr-FR")}€/m²</span>
+      <span style="font-size:10px;color:var(--t2)">${t.rv.toLocaleString("fr-FR")}€/mois</span>
+    </div>`).join("")}
+    <div style="display:flex;justify-content:space-between;padding:6px 0;background:var(--bg3);margin:-0 -14px;padding:6px 14px;border-radius:0 0 8px 8px">
+      <span style="font-size:11px;font-weight:500">Moyenne comparable</span>
+      <span style="font-size:12px;font-weight:500;color:var(--im-teal)">289 031 € · 6 876€/m²</span>
+    </div>
+  </div>
+  <div class="card" style="grid-column:1/-1">
+    <div class="lbl">Impact des taux sur le revenu requis — bien à ${fmt(245000)}</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+      ${[["Aujourd'hui",3.25,3481,true],["2024",3.65,3634,false],["2023",3.69,3649,false],["2022",1.59,2887,false]].map(([a,t,rv,act])=>`<div style="padding:10px;background:${act?"var(--im-teal-light)":"var(--bg3)"};border:0.5px solid ${act?"var(--teal-b)":"var(--bd)"};border-radius:8px">
+        <p style="font-size:10px;color:${act?"var(--im-teal)":"var(--t3)"};font-weight:600;margin-bottom:4px">${a}</p>
+        <p style="font-size:14px;font-weight:500;margin-bottom:2px">${t}%</p>
+        <p style="font-size:11px;color:var(--t2)">${rv.toLocaleString("fr-FR")} €/mois</p>
+      </div>`).join("")}
+    </div>
+  </div>
+</div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// ONGLET PRIX
+// ════════════════════════════════════════════════════════════
+function tabPrix(){
+  const m=[EST.m1,EST.m2,EST.m3];
+  const cols=["var(--im-teal)","var(--im-gold)","var(--rouge)"];
+  const nums=["①","②","③"];
+  const mn=150000,mx=420000;
+  return `<div style="display:flex;flex-direction:column;gap:10px">
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+    ${m.map((mm,i)=>`<div class="card">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="font-size:15px;color:${cols[i]}">${nums[i]}</span>
+        <div style="display:flex;align-items:center;gap:4px"><div style="height:3px;width:60px;background:var(--bg3);border-radius:2px;overflow:hidden"><div style="height:100%;width:${mm.fi}%;background:${cols[i]};border-radius:2px"></div></div><span style="font-size:9px;color:var(--t3)">${mm.fi}%</span></div>
+      </div>
+      <p style="font-size:11px;color:var(--t2);margin-bottom:8px">${["Comparaison DVF","Annonces actives","Sol + Construction ICC"][i]}</p>
+      <p style="font-size:26px;font-weight:400;line-height:1">${fmt(mm.p)}</p>
+      <p style="font-size:10px;color:var(--t3);margin-top:4px">${fmt(mm.min)} — ${fmt(mm.max)}</p>
+      <p style="font-size:10px;color:var(--t3)">${mm.pm2.toLocaleString("fr-FR")} €/m²</p>
+      <div class="dv"></div>
+      <p style="font-size:11px;color:var(--t2)">${mm.det}</p>
+    </div>`).join("")}
+  </div>
+  <div class="card">
+    <div class="lbl">Fourchettes croisées</div>
+    ${m.map((mm,i)=>{
+      const off=Math.max(0,((mm.min-mn)/(mx-mn))*100);
+      const w=Math.min(((mm.max-mm.min)/(mx-mn))*100,100-off);
+      const cp=Math.max(0,((mm.p-mn)/(mx-mn))*100-.5);
+      return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span style="font-size:12px;color:${cols[i]};width:18px">${nums[i]}</span>
+        <div style="flex:1;height:14px;background:var(--bg3);border-radius:6px;position:relative;overflow:hidden">
+          <div style="position:absolute;height:100%;left:${off}%;width:${w}%;background:${cols[i]}33;border-radius:6px;border:1px solid ${cols[i]}55"></div>
+          <div style="position:absolute;height:100%;left:${cp}%;width:2px;background:${cols[i]}"></div>
+        </div>
+        <span style="font-size:11px;font-weight:500;width:86px;text-align:right;flex-shrink:0">${fmt(mm.p)}</span>
+      </div>`;
+    }).join("")}
+    <div class="dv"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <span style="font-size:12px;color:var(--t2)">Valeur retenue — synthèse pondérée</span>
+      <span style="font-size:22px;font-weight:500">${fmt(EST.prix)}</span>
+    </div>
+    <p style="font-size:10px;color:var(--t3);text-align:right">Fourchette · ${fmt(EST.prixMin)} — ${fmt(EST.prixMax)} · ${EST.m2.toLocaleString("fr-FR")} €/m²</p>
+  </div>
+  <!-- Budgets secteur -->
+  <div class="card">
+    <div class="lbl">Budgets moyens du secteur — Carnac</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">
+      ${[["T1","39%","25m²",114000,1588],["T2","37%","37m²",182000,2534],["T3","17%","56m²",256000,3565],["T4","6%","73m²",290000,4037],["T5","1%","83m²",265000,3688]].map(([t,pct,s,p,rv])=>`
+      <div style="background:var(--bg3);border-radius:8px;padding:10px;text-align:center;border:${t==="T3"?"1.5px solid var(--im-teal)":"0.5px solid var(--bd)"}">
+        <p style="font-size:11px;font-weight:600;color:${t==="T3"?"var(--im-teal)":"var(--t)"};margin-bottom:2px">${t} · ${pct}</p>
+        <p style="font-size:10px;color:var(--t3);margin-bottom:4px">${s}</p>
+        <p style="font-size:13px;font-weight:500;color:var(--im-teal)">${fmt(p)}</p>
+        <p style="font-size:9px;color:var(--t3);margin-top:2px">${rv.toLocaleString("fr-FR")}€/mois</p>
+      </div>`).join("")}
+    </div>
+    <p style="font-size:10px;color:var(--t3);margin-top:8px">*Revenu mensuel calculé pour un emprunt de 25 ans au taux de 3.25%</p>
+  </div>
+</div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// ONGLET SYNTHÈSE IMA
+// ════════════════════════════════════════════════════════════
+function tabSynthese(){
+  const {synthese,synthValide}=S.rapport;
+  const ima=S.imaState==="idle"&&S.imaGenState==="idle"?"idle":S.imaGenState;
+  const sections=parseSections(synthese);
+  return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="card" style="border-color:${synthValide?"var(--teal-b)":"var(--bd)"}">
+      <div class="lbl">Synthèse analytique — ½ page rapport PDF</div>
+      <p style="font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:12px">Générée par IA à partir des données du bien, du marché et du portrait IMA. Insérée <strong style="color:var(--t)">avant les avis clients</strong> dans le PDF après validation. Style : analyse professionnelle type avis de valeur expert.</p>
+      ${!synthese&&S.imaGenState==="idle"?`<button class="btn bp" id="btn-gen-synthese" style="width:100%;padding:10px;display:flex;align-items:center;justify-content:center;gap:8px"><div style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700">IMA</div>Générer la synthèse</button>`:""}
+      ${S.imaGenState==="generating"?`<div style="display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;background:var(--im-teal-light);border-radius:8px"><div class="spin" style="width:16px;height:16px;border:2px solid var(--teal-b);border-top-color:var(--im-teal);border-radius:50%"></div><span class="shimmer" style="font-size:12px">IMA analyse le bien et rédige la synthèse...</span></div>`:""}
+      ${synthese&&S.imaGenState!=="generating"?`<div style="display:flex;gap:8px">${!synthValide?`<button class="btn bg" id="btn-regen-synthese" style="flex:1">↺ Regénérer</button><button class="btn bp" id="btn-valider" style="flex:1">✓ Valider — inclure PDF</button>`:""}</div>`:""}
+      ${synthValide?`<div style="display:flex;gap:8px;align-items:center"><span class="tag" style="background:var(--im-teal-light);color:var(--im-teal-dark);border:0.5px solid var(--teal-b);padding:6px 12px">✓ Validée — incluse dans le PDF</span><button class="btn bg" id="btn-retirer" style="font-size:10px">Retirer</button></div>`:""}
+    </div>
+    <div class="card" style="border-color:var(--teal-b);background:linear-gradient(135deg,var(--im-teal-light),#fff 70%)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <div style="width:20px;height:20px;border-radius:50%;background:var(--im-teal);display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;color:#fff">IMA</div>
+        <span style="font-size:11px;font-weight:500;color:var(--im-teal-dark)">Source — entretien IMA Mode Accueil</span>
+      </div>
+      <p style="font-size:11px;color:var(--t2);line-height:1.7;font-style:italic">"${LEAD.ima_portrait}"</p>
+      <div class="dv"></div>
+      <p style="font-size:10px;color:var(--t3)">Motivation : ${LEAD.ima_motivation}/100 · Attachement : ${LEAD.ima_attachment} · Acheteur idéal : ${LEAD.ima_buyer}</p>
+    </div>
+    ${synthese&&S.imaGenState!=="generating"?`<div class="card"><div class="lbl">Modifier manuellement</div><textarea rows="12" id="inp-synth" style="font-size:11px;line-height:1.6;resize:vertical">${synthese}</textarea></div>`:""}
+  </div>
+
+  <!-- APERÇU PDF -->
+  <div class="card" style="${synthValide?"border-color:var(--teal-b);background:linear-gradient(135deg,var(--im-teal-light),#fff 80%)":""}">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div class="lbl" style="margin:0">Aperçu — ½ page rapport PDF</div>
+      ${synthValide?`<span class="tag" style="background:var(--im-teal-light);color:var(--im-teal-dark);border:0.5px solid var(--teal-b)">✓ Incluse</span>`:""}
+    </div>
+    ${!synthese&&S.imaGenState==="idle"?`<div style="text-align:center;padding:40px 20px"><p style="font-size:28px;opacity:.15;margin-bottom:10px;color:var(--im-teal)">✦</p><p style="font-size:12px;color:var(--t3)">La synthèse apparaîtra ici après génération</p><p style="font-size:11px;color:var(--t3);margin-top:4px">Elle sera structurée en 4 sections + En résumé</p></div>`:""}
+    ${S.imaGenState==="generating"?`<div style="text-align:center;padding:40px 20px"><div class="spin" style="width:22px;height:22px;border:2px solid var(--teal-b);border-top-color:var(--im-teal);border-radius:50%;margin:0 auto 12px"></div><p style="font-size:12px;color:var(--t3)">Analyse en cours...</p></div>`:""}
+    ${synthese&&S.imaGenState!=="generating"?`
+    <!-- En-tête rapport simulé -->
+    <div style="padding:10px;background:${S.agent.couleur};border-radius:6px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center">
+      <div><p style="font-size:9px;color:rgba(255,255,255,.7)">AVIS DE VALEUR</p><p style="font-size:13px;color:#fff;font-weight:500">${LEAD.adresse}, ${LEAD.cp} ${LEAD.ville}</p></div>
+      <p style="font-size:10px;color:rgba(255,255,255,.7)">${S.agent.prenom} ${S.agent.nom}</p>
+    </div>
+    ${sections.map(s=>{
+      const isR=s.t.toLowerCase().includes("résumé");
+      return isR
+        ?`<div style="background:var(--rouge-d);border:0.5px solid var(--rouge-b);border-radius:8px;padding:12px;margin-bottom:10px"><p style="font-size:10px;font-weight:600;color:var(--rouge);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">En résumé</p>${s.c.map(c=>`<p style="font-size:12px;color:var(--t);font-weight:500;line-height:1.6;margin-bottom:4px">${c}</p>`).join("")}</div>`
+        :`<div style="margin-bottom:12px"><p style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;font-weight:500;margin-bottom:5px">${s.t.replace(/^[#*\s]+/,"")}</p>${s.c.map(c=>`<p style="font-size:12px;color:var(--t2);line-height:1.7;margin-bottom:3px">${c}</p>`).join("")}</div>`;
+    }).join("")}`:""}
+  </div>
+</div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// ONGLET BRANDING
+// ════════════════════════════════════════════════════════════
+function tabBranding(){
+  return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="card">
+      <div class="lbl">Identité agent</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Prénom</p><input value="${S.agent.prenom}" id="ag-prenom"></div>
+        <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Nom</p><input value="${S.agent.nom}" id="ag-nom"></div>
+      </div>
+      <div style="margin-bottom:8px"><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Agence / Réseau</p><input value="${S.agent.agence}" id="ag-agence"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Téléphone</p><input value="${S.agent.tel}" id="ag-tel"></div>
+        <div><p style="font-size:10px;color:var(--t3);margin-bottom:3px">Email</p><input value="${S.agent.email}" id="ag-email"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">Couleur principale du rapport</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+        ${COLOR_PRESETS.map(p=>`<button data-color="${p.c}" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px;border-radius:8px;border:${S.agent.couleur===p.c?`1.5px solid ${p.c}`:"0.5px solid var(--bd)"};background:${S.agent.couleur===p.c?p.c+"22":"var(--bg3)"};cursor:pointer;font-family:var(--ff)">
+          <div style="width:22px;height:22px;border-radius:50%;background:${p.c}"></div>
+          <span style="font-size:9px;color:var(--t3)">${p.l}</span>
+        </button>`).join("")}
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input id="ag-couleur" value="${S.agent.couleur}" placeholder="#0F8191" style="flex:1">
+        <div style="width:32px;height:32px;border-radius:6px;background:${S.agent.couleur};border:0.5px solid var(--bd2);flex-shrink:0"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">Avis clients</div>
+      ${S.agent.avis.map((av,i)=>`<div style="padding:10px;background:var(--bg3);border-radius:8px;margin-bottom:8px">
+        <div style="display:flex;gap:8px;margin-bottom:6px">
+          <input value="${av.a}" data-avis-a="${i}" placeholder="Nom" style="flex:1;font-size:11px">
+          <input value="${av.r}" data-avis-r="${i}" placeholder="Vendeur" style="flex:1;font-size:11px">
+        </div>
+        <textarea rows="2" data-avis-t="${i}" style="font-size:11px;resize:none">${av.t}</textarea>
+      </div>`).join("")}
+      <button class="btn bg" id="add-avis" style="width:100%;font-size:11px">+ Ajouter un avis</button>
+    </div>
+  </div>
+
+  <!-- APERÇU PAGE DE GARDE -->
+  <div>
+    <div class="lbl" style="margin-bottom:8px">Aperçu — Page de garde PDF</div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <!-- Header couleur agent -->
+      <div style="background:${S.agent.couleur};padding:18px 18px 14px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <p style="font-size:9px;color:rgba(255,255,255,.6);margin-bottom:4px;letter-spacing:.5px">AVIS DE VALEUR</p>
+            <p style="font-size:17px;color:#fff;font-weight:400;line-height:1.2">À la demande de<br>${LEAD.prenom} ${LEAD.nom}</p>
+            <p style="font-size:10px;color:rgba(255,255,255,.5);margin-top:6px">Établi le ${new Date().toLocaleDateString("fr-FR",{day:"2-digit",month:"long",year:"numeric"})}</p>
+          </div>
+          <div style="width:44px;height:44px;border-radius:8px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:8px;color:rgba(255,255,255,.6);text-align:center;line-height:1.3">VOTRE<br>LOGO</div>
+        </div>
+      </div>
+      <!-- Carte simulée -->
+      <div style="height:90px;background:linear-gradient(135deg,#1a2535,#2d3a4a);display:flex;align-items:center;justify-content:center">
+        <div style="text-align:center">
+          <div style="width:24px;height:24px;border-radius:50% 50% 50% 0;background:${S.agent.couleur};transform:rotate(-45deg);margin:0 auto 6px"></div>
+          <p style="font-size:10px;color:rgba(255,255,255,.5)">Vue satellite — Mapbox</p>
+        </div>
+      </div>
+      <!-- Adresse -->
+      <div style="padding:10px 14px;border-bottom:0.5px solid var(--bd);text-align:center">
+        <p style="font-size:13px;font-weight:400">${LEAD.adresse}, ${LEAD.cp} ${LEAD.ville}</p>
+        <p style="font-size:11px;color:var(--t3);margin-top:2px">${totalCarrez()}m² Carrez · ${LEAD.pieces}P · ${LEAD.chambres}Ch · DPE ${LEAD.dpe}</p>
+      </div>
+      <!-- Agent -->
+      <div style="padding:12px 14px;border-bottom:0.5px solid var(--bd);display:flex;gap:10px;align-items:center">
+        <div style="width:36px;height:36px;border-radius:50%;background:${S.agent.couleur}33;border:2px solid ${S.agent.couleur}66;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:${S.agent.couleur};flex-shrink:0">${S.agent.prenom[0]}${S.agent.nom[0]}</div>
+        <div>
+          <p style="font-size:13px;font-weight:500">${S.agent.prenom} ${S.agent.nom}</p>
+          <p style="font-size:10px;color:var(--t3)">${S.agent.tel} · ${S.agent.email}</p>
+          <p style="font-size:10px;color:${S.agent.couleur}">${S.agent.agence}</p>
+        </div>
+      </div>
+      <!-- Prix -->
+      <div style="padding:12px 14px;border-bottom:0.5px solid var(--bd);display:flex;justify-content:space-between;align-items:center">
+        <div><p style="font-size:10px;color:var(--t3)">Valeur estimée</p><p style="font-size:18px;font-weight:500;color:${S.agent.couleur}">${fmt(EST.prix)}</p></div>
+        <div style="text-align:right"><p style="font-size:10px;color:var(--t3)">Net vendeur</p><p style="font-size:16px;font-weight:500">${fmt(S.rapport.prix-Math.round(S.rapport.prix*S.rapport.hpct))}</p></div>
+      </div>
+      <!-- Avis clients -->
+      <div style="padding:10px 14px">
+        <p style="font-size:10px;color:var(--t3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px">Avis clients</p>
+        ${S.agent.avis.slice(0,2).map(av=>`<div style="padding:8px;background:var(--bg3);border-radius:8px;margin-bottom:6px">
+          <div style="display:flex;gap:2px;margin-bottom:3px">${"★★★★★".split("").map(s=>`<span style="font-size:10px;color:${S.agent.couleur}">${s}</span>`).join("")}</div>
+          <p style="font-size:10px;color:var(--t2);line-height:1.5;font-style:italic">"${av.t}"</p>
+          <p style="font-size:9px;color:var(--t3);font-weight:500;margin-top:3px">${av.a} · ${av.r}</p>
+        </div>`).join("")}
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// PARSER SECTIONS
+// ════════════════════════════════════════════════════════════
+function parseSections(text){
+  if(!text)return[];
+  const lines=text.split("\n");
+  const sections=[];let cur=null;
+  lines.forEach(l=>{
+    const tr=l.trim().replace(/\*\*/g,"").replace(/^#+\s*/,"");
+    if(!tr)return;
+    if(tr.match(/^(Concernant|Les axes|Le prix|En résumé)/i)){if(cur)sections.push(cur);cur={t:tr,c:[]};}
+    else if(cur){const cl=tr.replace(/\*\*(.*?)\*\*/g,"$1");if(cl)cur.c.push(cl);}
+  });
+  if(cur)sections.push(cur);
+  return sections;
+}
+
+// ════════════════════════════════════════════════════════════
+// EVENTS
+// ════════════════════════════════════════════════════════════
+function attach(){
+  const on=(id,ev,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener(ev,fn)};
+  // Accepter / Refuser lead
+  const accepterLead=()=>{
+    S.statut_lead="accepte";
+    S.tab="fiche";
+    r();
+    // Scroll vers coordonnées
+    setTimeout(()=>{const el=document.querySelector(".card");if(el)el.scrollIntoView({behavior:"smooth"})},100);
+  };
+  on("btn-accepter","click",accepterLead);
+  on("btn-accepter2","click",accepterLead);
+  on("btn-refuser","click",()=>{
+    if(confirm("Confirmer le refus de ce lead ? Il sera transmis au prochain agent partenaire.")){
+      S.statut_lead="refuse";r();
+    }
+  });
+  // Navigation
+  document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{S.tab=b.dataset.tab;r()}));
+  on("btn-edit","click",()=>{S.edit=!S.edit;r()});
+  on("btn-pdf","click",()=>window.print());
+  on("btn-finalise","click",()=>{S.rapport.statut=S.rapport.statut==="finalise"?"brouillon":"finalise";r()});
+  // Rapport
+  on("inp-desc","input",e=>{S.rapport.desc=e.target.value});
+  on("inp-prix","input",e=>{S.rapport.prix=parseInt(e.target.value)||0;r()});
+  on("inp-hpct","input",e=>{S.rapport.hpct=(parseInt(e.target.value)||0)/100;r()});
+  on("add-pf","click",()=>{S.rapport.pf.push("");r()});
+  on("add-pa","click",()=>{S.rapport.pa.push("");r()});
+  document.querySelectorAll("[data-pf]").forEach(i=>i.addEventListener("input",e=>{S.rapport.pf[+e.target.dataset.pf]=e.target.value}));
+  document.querySelectorAll("[data-pa]").forEach(i=>i.addEventListener("input",e=>{S.rapport.pa[+e.target.dataset.pa]=e.target.value}));
+  document.querySelectorAll("[data-delpf]").forEach(b=>b.addEventListener("click",e=>{S.rapport.pf.splice(+e.target.dataset.delpf,1);r()}));
+  document.querySelectorAll("[data-delpa]").forEach(b=>b.addEventListener("click",e=>{S.rapport.pa.splice(+e.target.dataset.delpa,1);r()}));
+  // Surfaces
+  on("btn-show-add","click",()=>{S.showAddPiece=!S.showAddPiece;r()});
+  on("btn-cancel-add","click",()=>{S.showAddPiece=false;r()});
+  on("btn-confirm-add","click",()=>{
+    const type=document.getElementById("new-type")?.value||S.newPieceType;
+    const label=document.getElementById("new-label")?.value;
+    const surface=parseFloat(document.getElementById("new-surface")?.value)||0;
+    const niveau=document.getElementById("new-niveau")?.value||"RDC";
+    const etat=document.getElementById("new-etat")?.value||"Bon état";
+    const sol=document.getElementById("new-sol")?.value||"";
+    const murs=document.getElementById("new-murs")?.value||"";
+    const notes=document.getElementById("new-notes")?.value||"";
+    const tp=TYPES_PIECES.find(t=>t.id===type);
+    if(!surface){alert("Indiquez la surface");return;}
+    S.pieces.push({id:S.nextId++,type,label:label||(tp?tp.l:"Pièce"),surface,niveau,etat,sol,murs,notes,photo:null,expanded:false});
+    S.showAddPiece=false;r();
+  });
+  document.querySelectorAll("[data-newtype]").forEach(b=>b.addEventListener("click",()=>{S.newPieceType=b.dataset.newtype;r()}));
+  document.querySelectorAll("[data-expand]").forEach(b=>b.addEventListener("click",e=>{
+    const id=+e.currentTarget.dataset.expand;
+    S.pieces=S.pieces.map(p=>({...p,expanded:p.id===id?!p.expanded:p.expanded}));r();
+  }));
+  document.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",e=>{
+    S.pieces=S.pieces.filter(p=>p.id!==+e.currentTarget.dataset.del);r();
+  }));
+  document.querySelectorAll("[data-field][data-id]").forEach(inp=>inp.addEventListener("change",e=>{
+    const id=+e.target.dataset.id,field=e.target.dataset.field;
+    S.pieces=S.pieces.map(p=>p.id===id?{...p,[field]:field==="surface"?parseFloat(e.target.value)||0:e.target.value}:p);r();
+  }));
+  // Photos pièces
+  document.querySelectorAll("[data-photopce]").forEach(inp=>inp.addEventListener("change",e=>{
+    const id=+e.target.dataset.photopce,file=e.target.files[0];if(!file)return;
+    const reader=new FileReader();reader.onload=ev=>{S.pieces=S.pieces.map(p=>p.id===id?{...p,photo:ev.target.result}:p);r()};reader.readAsDataURL(file);
+  }));
+  document.querySelectorAll("[data-delpho]").forEach(b=>b.addEventListener("click",e=>{
+    const id=+e.currentTarget.dataset.delpho;S.pieces=S.pieces.map(p=>p.id===id?{...p,photo:null}:p);r();
+  }));
+  // Photos rapport
+  ["inp-photos","inp-photos2"].forEach(id=>on(id,"change",e=>{
+    Array.from(e.target.files).forEach(file=>{const reader=new FileReader();reader.onload=ev=>{S.rapport.photos.push(ev.target.result);r()};reader.readAsDataURL(file)});
+  }));
+  document.querySelectorAll("[data-delphoall]").forEach(b=>b.addEventListener("click",e=>{
+    const i=+e.currentTarget.dataset.delphoall;
+    const nbPce=S.pieces.filter(p=>p.photo).length;
+    if(i<nbPce){const pWithPhoto=S.pieces.filter(p=>p.photo);if(pWithPhoto[i])pWithPhoto[i].photo=null;}
+    else S.rapport.photos.splice(i-nbPce,1);r();
+  }));
+  // Plan IMA
+  on("inp-plan","change",e=>{
+    const file=e.target.files[0];if(!file)return;
+    const reader=new FileReader();reader.onload=ev=>{S.planPhoto=ev.target.result;r()};reader.readAsDataURL(file);
+  });
+  on("btn-del-plan","click",()=>{S.planPhoto=null;S.imaState="idle";S.imaExtracted=[];r()});
+  on("btn-ima-read","click",lirePlanIMA);
+  on("btn-apply-extract","click",()=>{
+    S.imaExtracted.forEach(p=>S.pieces.push({id:S.nextId++,type:p.type||"autre",label:p.label||"Pièce",surface:parseFloat(p.surface)||0,niveau:p.niveau||"RDC",etat:"Bon état",sol:"Carrelage",murs:"Peinture",notes:"",photo:null,expanded:false}));
+    S.imaExtracted=[];S.imaState="idle";r();
+  });
+  // IMA description
+  on("btn-ima-desc","click",genDescriptionIMA);
+  on("btn-apply-desc","click",()=>{S.rapport.desc=S.imaGenResult;S.tab="rapport";r()});
+  // Synthèse IMA
+  on("btn-gen-synthese","click",genSyntheseIMA);
+  on("btn-regen-synthese","click",genSyntheseIMA);
+  on("btn-valider","click",()=>{S.rapport.synthValide=true;r()});
+  on("btn-retirer","click",()=>{S.rapport.synthValide=false;r()});
+  on("inp-synth","input",e=>{S.rapport.synthese=e.target.value});
+  // Branding
+  on("ag-prenom","input",e=>{S.agent.prenom=e.target.value;r()});
+  on("ag-nom","input",e=>{S.agent.nom=e.target.value;r()});
+  on("ag-agence","input",e=>{S.agent.agence=e.target.value;r()});
+  on("ag-tel","input",e=>{S.agent.tel=e.target.value});
+  on("ag-email","input",e=>{S.agent.email=e.target.value});
+  on("ag-couleur","input",e=>{S.agent.couleur=e.target.value;r()});
+  document.querySelectorAll("[data-color]").forEach(b=>b.addEventListener("click",e=>{S.agent.couleur=e.currentTarget.dataset.color;r()}));
+  document.querySelectorAll("[data-avis-a]").forEach(inp=>inp.addEventListener("input",e=>{S.agent.avis[+e.target.dataset.avisA].a=e.target.value}));
+  document.querySelectorAll("[data-avis-r]").forEach(inp=>inp.addEventListener("input",e=>{S.agent.avis[+e.target.dataset.avisR].r=e.target.value}));
+  document.querySelectorAll("[data-avis-t]").forEach(inp=>inp.addEventListener("input",e=>{S.agent.avis[+e.target.dataset.avisT].t=e.target.value}));
+  on("add-avis","click",()=>{S.agent.avis.push({a:"",r:"Vendeur",t:""});r()});
+}
+
+// ════════════════════════════════════════════════════════════
+// API ANTHROPIC — IMA VISION (lecture plan)
+// ════════════════════════════════════════════════════════════
+async function lirePlanIMA(){
+  if(!S.planPhoto)return;
+  S.imaState="reading";r();
+  try{
+    const base64=S.planPhoto.split(",")[1];
+    const mediaType=S.planPhoto.split(";")[0].split(":")[1];
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:[{type:"image",source:{type:"base64",media_type:mediaType,data:base64}},{type:"text",text:`Analyse ce plan d'appartement ou maison. Extrait TOUTES les pièces avec leurs surfaces.\nRéponds UNIQUEMENT en JSON valide sans texte ni markdown :\n{"pieces":[{"type":"sejour|cuisine|chambre|sdb|wc|entree|couloir|cellier|terrasse|jardin|autre","label":"Nom exact","surface":0.00,"niveau":"RDC"}],"surface_habitable":0.00,"notes":"observations"}`}]}]})});
+    const d=await res.json();
+    const text=d.content?.[0]?.text||"";
+    const parsed=JSON.parse(text.replace(/```json|```/g,"").trim());
+    S.imaExtracted=parsed.pieces||[];
+    S.imaState="extracted";
+  }catch(e){S.imaState="idle";alert("IMA n'a pas pu lire le plan. Essayez avec une image plus nette.");}
+  r();
+}
+
+// ════════════════════════════════════════════════════════════
+// API ANTHROPIC — DESCRIPTION TECHNIQUE
+// ════════════════════════════════════════════════════════════
+async function genDescriptionIMA(){
+  if(!S.pieces.length)return;
+  S.imaGenState="generating";r();
+  const excl=["terrasse","jardin","garage","cave"];
+  const carrez=S.pieces.filter(p=>!excl.includes(p.type)).reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
+  const liste=S.pieces.map(p=>`- ${p.label}: ${p.surface}m² · ${p.sol} · ${p.etat}${p.notes?` · ${p.notes}`:""}`).join("\n");
+  try{
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:400,messages:[{role:"user",content:`Expert immobilier. Rédige une description technique en 3-4 phrases max.\n\nBIEN: ${LEAD.type}, ${LEAD.ville}\nPIÈCES:\n${liste}\nSurface Carrez: ${carrez.toFixed(2)}m²\n\nStyle factuel, professionnel. Commence directement. Mentionne les points forts des matériaux.`}]})});
+    const d=await res.json();
+    S.imaGenResult=d.content?.[0]?.text||"";
+    S.imaGenState="done";
+  }catch(e){S.imaGenResult="Erreur. Réessayez.";S.imaGenState="done";}
+  r();
+}
+
+// ════════════════════════════════════════════════════════════
+// API ANTHROPIC — SYNTHÈSE IMA RAPPORT
+// ════════════════════════════════════════════════════════════
+async function genSyntheseIMA(){
+  S.imaGenState="generating";S.rapport.synthese="";S.tab="synthese";r();
+  try{
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:900,messages:[{role:"user",content:`Tu es conseiller immobilier expert avec 20 ans d'expérience. Rédige une analyse professionnelle structurée.\n\nBIEN : Appartement 3P, 44.3m² Carrez, rez-de-jardin, Carnac 56340. 1989. Bon état. DPE D. Jardin 40m² ouest, terrasse 8m², parking. Charges 70€/mois. Cuisine rénovée. Travaux rafraîchissement ~5000€.\n\nMARCHÉ : Valeur marché 245k€ (232-257k€). Vendeur souhaite 250k€. DVF 2025 : 5953€/m². 24 annonces similaires, 6 moins chères, 18 plus chères.\n\nVENDEUR (portrait IMA) : "${LEAD.ima_portrait}"\n\nRédige en 4 sections avec ces titres EXACTS puis résumé :\n\nConcernant l'environnement\nConcernant le bien\nLes axes d'amélioration\nLe prix\nEn résumé\n\nStyle : expert, direct, 2-3 phrases/section, nous. Pas de mention IMA/IMMATCH.`}]})});
+    const d=await res.json();
+    S.rapport.synthese=d.content?.[0]?.text||"";
+    S.imaGenState="done";
+  }catch(e){S.rapport.synthese="Erreur. Réessayez.";S.imaGenState="done";}
+  r();
+}
+
+r();
+</script>
+</body>
+</html>
