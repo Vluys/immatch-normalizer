@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>IMMATCH — maquette landing fusionnée</title>
+<title>IMMATCH — Votre bien peut trouver son acheteur avant même d'être en vente</title>
+<meta name="description" content="IMMATCH rapproche vendeurs et acheteurs compatibles en privé, sans annonce publique. Lancement Morbihan (56). Créer son projet est gratuit." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
@@ -21,9 +22,11 @@
   .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--im-teal);margin-bottom:18px}
   .eyebrow .bar{width:24px;height:1px;background:var(--im-teal)}
   h2{font-size:clamp(2rem,4.2vw,3.3rem);font-weight:600;line-height:1.06;letter-spacing:-.01em}
-  .btn{font-size:14px;font-weight:600;border-radius:999px;padding:12px 22px;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+  .btn{font-size:14px;font-weight:600;border-radius:999px;padding:12px 22px;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background .15s}
   .btn-teal{background:var(--im-teal);color:#fff}
+  .btn-teal:hover{background:var(--im-teal-dark)}
   .btn-ghost{background:transparent;color:var(--ink-soft);border:1px solid rgba(0,0,0,.14)}
+  .btn-ghost:hover{border-color:var(--im-teal);color:var(--im-teal)}
  
   /* NAV */
   nav{position:sticky;top:0;z-index:50;background:rgba(241,239,232,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,.06)}
@@ -43,31 +46,22 @@
   .hero{padding:60px 0 80px}
   .hero-grid{display:grid;grid-template-columns:1fr 430px;gap:56px;align-items:center}
   @media(max-width:920px){.hero-grid{grid-template-columns:1fr;gap:40px}}
-  .hero-opener{font-size:16px;color:var(--im-teal-dark);font-weight:500;margin-bottom:12px;font-style:italic}
-  .hero-punchline{font-family:"Cormorant Garamond";font-size:clamp(1.3rem,2.5vw,1.7rem);color:var(--im-teal);font-weight:600;margin-bottom:20px;font-style:italic}
-  .badge{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--im-teal-dark);background:var(--im-teal-light);padding:6px 12px;border-radius:999px;margin-bottom:22px}
-  .badge .dot{width:6px;height:6px;border-radius:999px;background:var(--im-teal)}
-  h1{font-size:clamp(2.4rem,5vw,4.2rem);font-family:"Cormorant Garamond";font-weight:600;line-height:1.05;letter-spacing:-.01em;margin-bottom:20px}
+  .launch-badge{display:inline-flex;align-items:center;gap:8px;background:var(--im-teal);color:#fff;padding:8px 18px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.03em;margin-bottom:24px}
+  .launch-badge .dot{width:7px;height:7px;border-radius:999px;background:#7DFFA8;flex-shrink:0}
+  h1{font-size:clamp(2.4rem,5vw,4.2rem);font-family:"Cormorant Garamond";font-weight:600;line-height:1.05;letter-spacing:-.01em;margin-bottom:22px}
   h1 em{font-style:italic;color:var(--im-teal)}
-  .lead{font-size:1.08rem;color:var(--ink-soft);max-width:35rem;line-height:1.6;margin-bottom:22px}
-  .ima-row{display:flex;align-items:center;gap:12px;background:var(--im-card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;max-width:33rem;margin-bottom:24px}
-  .ima-av{width:42px;height:42px;border-radius:999px;flex-shrink:0}
-  .ima-row p{font-size:13.5px;color:var(--ink-soft);line-height:1.45}
-  .ima-row b{color:var(--ink)}
-  .hero-btns{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .lead{font-size:1.08rem;color:var(--ink-soft);max-width:35rem;line-height:1.6;margin-bottom:28px}
+  .lead strong{color:var(--ink);font-weight:500}
+  .hero-btns{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
   .hero-btns .btn{padding:14px 26px}
-  .pro-note{font-size:12.5px;color:rgba(0,0,0,.45);max-width:31rem;margin-bottom:16px}
   .trust-line{display:flex;flex-wrap:wrap;gap:18px;padding-top:16px;border-top:1px solid var(--line)}
   .trust-line span{font-size:12.5px;color:var(--im-teal-dark);font-weight:500}
-  .stats{display:flex;flex-wrap:wrap;gap:30px;padding-top:22px;border-top:1px solid var(--line)}
-  .stat .v{font-family:"Cormorant Garamond";font-size:22px;font-weight:600;color:var(--im-teal);line-height:1}
-  .stat .l{font-size:12px;color:var(--ink-soft);margin-top:4px;max-width:120px}
  
-  /* FICHE */
+  /* FICHE HERO */
   .fiche{background:var(--im-card);border-radius:24px;border:1px solid rgba(0,0,0,.07);box-shadow:0 30px 70px -40px rgba(26,26,24,.45);padding:24px}
   .fiche-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
   .tag-priv{font-size:11px;color:var(--ink-soft);background:var(--im-bg);padding:4px 10px;border-radius:999px}
-  .tag-compat{font-size:11px;font-weight:600;color:var(--im-gold)}
+  .tag-example{font-size:10px;font-weight:600;color:var(--im-teal-dark);background:var(--im-teal-light);padding:4px 10px;border-radius:999px}
   .match-result{display:flex;align-items:center;gap:20px;padding:22px;background:linear-gradient(135deg,var(--im-teal),var(--im-teal-dark));border-radius:18px;margin-bottom:18px;color:#fff}
   .match-number{font-family:"Cormorant Garamond";font-size:72px;font-weight:700;line-height:1}
   .match-text{font-size:15px;line-height:1.4}
@@ -75,28 +69,22 @@
   .match-details{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
   .match-detail{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink-soft);padding:10px 14px;background:var(--im-bg);border-radius:12px}
   .match-detail .md-icon{font-size:16px;flex-shrink:0}
-  .photo{aspect-ratio:4/3;border-radius:16px;background:linear-gradient(135deg,var(--im-teal),var(--im-teal-dark));display:flex;align-items:center;justify-content:center;margin-bottom:18px}
-  .photo .mark{font-family:"Cormorant Garamond";font-style:italic;font-weight:600;font-size:58px;color:#fff}
-  .fiche h3{font-family:"Cormorant Garamond";font-size:1.5rem;font-weight:600;margin-bottom:6px}
-  .fiche p{font-size:13.5px;color:var(--ink-soft);line-height:1.5;margin-bottom:16px}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-  .chip{font-size:12px;color:var(--ink-soft);border:1px solid rgba(0,0,0,.1);border-radius:999px;padding:5px 12px}
-  .dark{background:var(--ink);border-radius:16px;padding:16px 18px}
-  .dark .row{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
-  .dark .row .k{font-size:13.5px;color:rgba(255,255,255,.8)}
-  .dark .row .val{font-size:13.5px;font-weight:600;color:#fff}
-  .fiche-cta{display:block;text-align:center;padding:14px;margin-top:16px;background:var(--im-teal);color:#fff;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none}
+  .fiche-dark{background:var(--ink);border-radius:16px;padding:16px 18px}
+  .fiche-dark .row{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
+  .fiche-dark .row .k{font-size:13.5px;color:rgba(255,255,255,.8)}
+  .fiche-dark .row .val{font-size:13.5px;font-weight:600;color:#fff}
+  .fiche-cta{display:block;text-align:center;padding:14px;margin-top:16px;background:var(--im-teal);color:#fff;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:background .15s}
+  .fiche-cta:hover{background:var(--im-teal-dark)}
  
-  /* BANDEAU */
-  .band{background:var(--ink);color:#fff;border-radius:22px;padding:34px 40px;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:28px;margin:0 0 0;align-items:start}
-  @media(max-width:860px){.band{grid-template-columns:1fr;gap:18px;padding:28px 24px}}
-  .band h3{font-family:"Cormorant Garamond";font-size:1.7rem;font-weight:600;line-height:1.1}
-  .band .bk{font-size:13px;font-weight:700;margin-bottom:6px}
-  .band .bv{font-size:13px;color:rgba(255,255,255,.7);line-height:1.5}
+  /* BANDEAU (une ligne) */
+  .band{background:var(--ink);border-radius:22px;padding:28px 40px;text-align:center}
+  .band p{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(1.1rem,2vw,1.4rem);color:rgba(255,255,255,.85);line-height:1.5;font-weight:400;max-width:800px;margin:0 auto}
+  .band strong{color:var(--im-gold);font-weight:500}
+  @media(max-width:720px){.band{padding:22px 24px}}
+ 
+  /* SECTIONS */
   .section{padding:84px 0}
   .section.alt{background:var(--im-card)}
- 
-  /* PROBLEME / cards */
   .head-2col{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:end;margin-bottom:44px}
   @media(max-width:820px){.head-2col{grid-template-columns:1fr;gap:16px}}
   .muted{font-size:17px;color:var(--ink-soft);line-height:1.6}
@@ -110,60 +98,25 @@
   .card h4{font-family:"Cormorant Garamond";font-size:1.4rem;font-weight:600;margin-bottom:8px}
   .card p{font-size:14px;color:var(--ink-soft);line-height:1.55}
   .card .num{font-family:"Cormorant Garamond";font-size:1.5rem;color:var(--im-teal);font-weight:600;margin-bottom:10px}
+  .card .card-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--im-teal);font-weight:600;text-decoration:none;margin-top:14px}
+  .card .card-sub{font-size:11px;color:rgba(0,0,0,.4);margin-top:6px}
  
-  /* COCKPIT */
-  .cockpit-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
-  @media(max-width:860px){.cockpit-grid{grid-template-columns:1fr;gap:32px}}
+  /* COCKPIT (style dark V2) */
+  .cockpit-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  @media(max-width:860px){.cockpit-wrap{grid-template-columns:1fr;gap:32px}}
   .ck-points{margin-top:22px;display:flex;flex-direction:column;gap:14px}
   .ck-points li{list-style:none;display:flex;gap:12px;font-size:15.5px;color:var(--ink-soft)}
-  .ck-points .ic{width:22px;height:22px;border-radius:999px;background:var(--im-teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px}
-  .ckpanel{background:var(--im-card);border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 70px -45px rgba(26,26,24,.4);padding:26px}
-  .ck-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-  .ck-head .t{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
-  .ck-score{display:flex;align-items:center;gap:18px;padding:18px;background:var(--im-bg);border-radius:16px;margin-bottom:14px}
-  .ck-score .sc-t b{font-size:15px}.ck-score .sc-t p{font-size:12.5px;color:var(--ink-soft);margin-top:2px}
-  .ck-line{display:flex;justify-content:space-between;align-items:center;padding:11px 4px;border-bottom:1px solid var(--line);font-size:13.5px}
-  .ck-line:last-child{border-bottom:none}
-  .ck-line .k{color:var(--ink-soft)}.ck-line .v{font-weight:600}
-  .pill{font-size:11px;font-weight:600;color:var(--im-teal-dark);background:var(--im-teal-light);padding:3px 9px;border-radius:999px}
- 
-  /* CONFIDENTIALITE */
-  .conf{background:linear-gradient(120deg,var(--im-teal-dark),var(--im-teal));border-radius:24px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;color:#fff}
-  @media(max-width:820px){.conf{grid-template-columns:1fr;padding:32px;gap:24px}}
-  .conf h2{color:#fff}
-  .conf .eyebrow{color:var(--im-gold)}.conf .eyebrow .bar{background:var(--im-gold)}
-  .conf p{color:rgba(255,255,255,.82);font-size:15px;line-height:1.6;margin-top:14px}
-  .vis{background:var(--im-card);border-radius:18px;padding:24px;color:var(--ink)}
-  .vis .vh{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--im-gold);margin-bottom:8px}
-  .vis .row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px}
-  .vis .row:last-child{border-bottom:none}
-  .vis .row .k{color:var(--ink-soft)}.vis .row .v{font-weight:600}
- 
-  /* PROS */
-  .duo{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:36px}
-  @media(max-width:760px){.duo{grid-template-columns:1fr}}
-  .duo .box{border-radius:20px;padding:30px}
-  .duo .box.light{background:var(--im-bg)}
-  .duo .box.dark2{background:var(--ink);color:#fff}
-  .duo h4{font-family:"Cormorant Garamond";font-size:1.45rem;font-weight:600;margin-bottom:16px}
-  .duo ul{list-style:none}
-  .duo li{display:flex;gap:10px;font-size:14px;padding:7px 0;line-height:1.5}
-  .duo li:before{content:"•";color:var(--im-teal)}
-  .duo .dark2 li:before{color:var(--im-gold)}
-  .duo .dark2 p,.duo .light p{font-size:14px;color:inherit;opacity:.75;margin-bottom:14px;line-height:1.55}
- 
-  /* SIMULATEUR */
-  .simu{background:var(--im-card);border:1px solid var(--line);border-radius:22px;padding:42px;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
-  @media(max-width:820px){.simu{grid-template-columns:1fr;padding:30px;gap:24px}}
-  .simu .note{font-size:12px;color:rgba(0,0,0,.4);margin-top:16px;line-height:1.5}
+  .ck-points .ck-ic{width:22px;height:22px;border-radius:999px;background:var(--im-teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px}
+  .ck-panel{background:var(--ink);border-radius:20px;padding:32px;color:#fff}
+  .ck-panel .ck-tag{display:inline-block;background:rgba(15,129,145,.25);color:var(--im-teal);padding:4px 12px;border-radius:12px;font-size:11px;font-weight:500;margin-bottom:12px}
+  .ck-panel h3{font-family:"Cormorant Garamond";font-size:22px;font-weight:500;margin-bottom:6px}
+  .ck-panel .ck-sub{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:20px}
+  .ck-features{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:600px){.ck-features{grid-template-columns:1fr}}
+  .ck-feat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px 16px;font-size:13px;color:rgba(255,255,255,.8)}
+  .ck-feat strong{display:block;color:#fff;font-weight:500;margin-bottom:3px}
  
   /* FAQ */
-  .faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px}
-  @media(max-width:820px){.faq-grid{grid-template-columns:1fr;gap:20px}}
-  .qa{background:var(--im-card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin-bottom:14px}
-  .qa .q{font-weight:600;font-size:15px;margin-bottom:7px}
-  .qa .a{font-size:14px;color:var(--ink-soft);line-height:1.55}
- 
   .acc{border-bottom:1px solid var(--line)}
   .acc summary{cursor:pointer;list-style:none;padding:20px 0;font-family:"Cormorant Garamond";font-size:20px;font-weight:600;color:var(--ink);display:flex;justify-content:space-between;gap:16px;align-items:center}
   .acc summary::-webkit-details-marker{display:none}
@@ -171,10 +124,12 @@
   .acc[open] summary:after{content:"–"}
   .acc .ans{font-size:14px;color:var(--ink-soft);line-height:1.65;padding:0 0 20px;max-width:60rem}
  
-  /* CTA */
+  /* CTA FINAL */
   .cta{background:var(--ink);color:#fff;border-radius:24px;padding:64px 40px;text-align:center}
   .cta h2{color:#fff;max-width:40rem;margin:0 auto 16px}
   .cta p{color:rgba(255,255,255,.7);max-width:34rem;margin:0 auto 28px;font-size:15px;line-height:1.6}
+ 
+  /* FOOTER */
   footer{background:var(--ink);color:rgba(255,255,255,.7);padding:60px 44px 34px;border-radius:24px}
   .f-grid{display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:36px}
   @media(max-width:900px){.f-grid{grid-template-columns:1fr 1fr;gap:28px}}
@@ -185,45 +140,59 @@
   .f-col a{display:block;font-size:13.5px;color:rgba(255,255,255,.7);text-decoration:none;margin-bottom:9px}
   .f-col a:hover{color:#fff}
   .f-bottom{margin-top:46px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:rgba(255,255,255,.45)}
-  .f-bottom .ok{display:flex;align-items:center;gap:8px}
-  .f-bottom .ok .d{width:6px;height:6px;border-radius:999px;background:#1D9E75}
 </style>
 </head>
 <body>
  
+<!-- ═══════════ NAV ═══════════ -->
 <nav><div class="wrap nav-in">
-  <a class="logo" href="#">
+  <a class="logo" href="/">
     <svg class="dia" viewBox="0 0 44 44" fill="none"><rect x="11" y="6" width="22" height="22" rx="2" transform="rotate(45 22 17)" stroke="var(--im-gold)" stroke-width="3"/></svg>
     <span class="blk"><span class="nm">immatch</span><span class="sub">by Cadre Estate Solutions</span></span>
   </a>
-  <div class="nav-links"><a href="#">Comment ça marche</a><a href="#">Pour qui ?</a><a href="#">Estimer mon bien</a><a href="#">Confidentialité</a><a href="#">Espace pro</a></div>
-  <div class="nav-cta"><a class="login" href="#">Connexion</a><a class="btn btn-teal" href="#">Décrivez votre projet</a></div>
+  <div class="nav-links">
+    <a href="#methode">Comment ça marche</a>
+    <a href="#pour-qui">Pour qui ?</a>
+    <a href="/estimation">Estimer mon bien</a>
+    <a href="#confiance">Confiance</a>
+    <a href="/espace-pro">Espace pro</a>
+  </div>
+  <div class="nav-cta">
+    <a class="login" href="/connexion">Connexion</a>
+    <a class="btn btn-teal" href="/dashboard">Mon cockpit</a>
+  </div>
 </div></nav>
  
-<!-- HERO -->
+<!-- ═══════════ HERO ═══════════ -->
 <section class="hero"><div class="wrap hero-grid">
   <div>
-    <p class="hero-opener">Vous y avez pensé, vous aussi.</p>
-    <h1>Vendre avec une bonne agence,<br>c'est bien, mais ça coûte cher.<br>Vendre seul en ligne,<br>c'est <em>s'exposer.</em></h1>
-    <p class="hero-punchline">Et si ce n'était plus le seul choix ?</p>
-    <p class="lead">IMMATCH rapproche vendeurs et acheteurs compatibles, en privé. Pas d'annonce publique, pas de démarchage, pas d'intermédiaire imposé. Le contact ne s'ouvre qu'avec votre accord — et celui de l'autre partie.</p>
-    <div class="ima-row">
-      <svg class="ima-av" viewBox="0 0 42 42"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0F8191"/><stop offset="1" stop-color="#085041"/></linearGradient></defs><circle cx="21" cy="21" r="21" fill="url(#g)"/><circle cx="21" cy="17" r="6.5" fill="#fff" opacity=".95"/><path d="M9 36c1.5-7 6.5-10 12-10s10.5 3 12 10z" fill="#fff" opacity=".95"/></svg>
-      <p><b>Bonjour, je suis IMA.</b> Je m'intéresse à ce que les chiffres ne disent pas — l'histoire de votre bien — et je vous aide à y voir clair sur votre projet.</p>
+    <div class="launch-badge">
+      <span class="dot"></span>
+      Lancement Morbihan (56) — premiers projets off-market en qualification
     </div>
+ 
+    <h1 class="title">Votre bien peut trouver son acheteur <em>avant même d'être en vente.</em></h1>
+ 
+    <p class="lead">IMMATCH rapproche des projets immobiliers compatibles, <strong>en privé</strong>. Pas d'annonce publique, pas de démarchage. La mise en relation ne s'ouvre qu'avec <strong>l'accord des deux parties</strong>.</p>
+ 
     <div class="hero-btns">
-      <a class="btn btn-teal" href="#">Décrire mon projet →</a>
-      <a class="btn btn-ghost" href="#">Estimer mon bien gratuitement</a>
+      <a class="btn btn-teal" href="/questionnaire">Tester mon projet →</a>
+      <a class="btn btn-ghost" href="/estimation">Estimer mon bien gratuitement</a>
     </div>
-    <p class="pro-note">Un professionnel partenaire vérifié peut vous accompagner — uniquement si vous le demandez.</p>
+ 
     <div class="trust-line">
-      <span>✓ Données officielles DVF</span>
-      <span>✓ Gratuit pour les particuliers</span>
-      <span>✓ Société française immatriculée</span>
+      <span>✓ Créer son projet est gratuit</span>
+      <span>✓ Coordonnées protégées</span>
+      <span>✓ Mise en relation sur accord mutuel</span>
     </div>
   </div>
+ 
+  <!-- Carte fiche hero -->
   <div class="fiche">
-    <div class="fiche-top"><span class="tag-priv">🔒 Résultats privés</span><span class="tag-compat">Votre secteur</span></div>
+    <div class="fiche-top">
+      <span class="tag-priv">🔒 Résultats privés</span>
+      <span class="tag-example">Exemple de résultat</span>
+    </div>
     <div class="match-result">
       <div class="match-number">3</div>
       <div class="match-text">
@@ -231,129 +200,94 @@
       </div>
     </div>
     <div class="match-details">
-      <div class="match-detail"><span class="md-icon">📄</span><span>Étude de financement réalisée ou proposée</span></div>
-      <div class="match-detail"><span class="md-icon">🔗</span><span>Critères compatibles avec votre bien</span></div>
-      <div class="match-detail"><span class="md-icon">🤝</span><span>Mise en relation sur accord réciproque</span></div>
+      <div class="match-detail"><span class="md-icon">📍</span><span>Secteur compatible</span></div>
+      <div class="match-detail"><span class="md-icon">💶</span><span>Budget / prix cohérent</span></div>
+      <div class="match-detail"><span class="md-icon">🏡</span><span>Critères du bien compatibles</span></div>
     </div>
-    <div class="dark">
+    <div class="fiche-dark">
       <div class="row"><span class="k">Votre identité</span><span class="val">masquée</span></div>
       <div class="row"><span class="k">Vos coordonnées</span><span class="val">protégées</span></div>
       <div class="row"><span class="k">Mise en relation</span><span class="val">sur votre accord uniquement</span></div>
     </div>
-    <div class="fiche-cta">Voir les profils compatibles →</div>
+    <a class="fiche-cta" href="/questionnaire">Tester mes compatibilités →</a>
   </div>
 </div></section>
  
-<!-- BANDEAU -->
+<!-- ═══════════ BANDEAU (une ligne) ═══════════ -->
 <div class="wrap"><div class="band">
-  <h3>IMMATCH ne vend pas de biens. IMMATCH qualifie et met en relation.</h3>
-  <div><div class="bk">Pas un portail</div><div class="bv">Votre projet n'est pas exposé à tout le marché.</div></div>
-  <div><div class="bk">Pas une agence</div><div class="bv">Aucun professionnel n'est imposé dans le parcours.</div></div>
-  <div><div class="bk">Pas un lead revendu</div><div class="bv">Vos coordonnées restent privées sans accord.</div></div>
+  <p>IMMATCH ne diffuse pas des annonces. IMMATCH <strong>rapproche des projets compatibles</strong>.</p>
 </div></div>
  
-<!-- PROBLEME -->
-<section class="section"><div class="wrap">
+<!-- ═══════════ POURQUOI IMMATCH ═══════════ -->
+<section class="section" id="pourquoi"><div class="wrap">
   <div class="head-2col">
-    <div><div class="eyebrow"><span class="bar"></span>Le problème actuel</div><h2 class="title">Trop souvent, l'immobilier expose avant de qualifier.</h2></div>
+    <div><div class="eyebrow"><span class="bar"></span>Pourquoi IMMATCH</div><h2 class="title">L'immobilier expose <em>avant de qualifier.</em></h2></div>
     <p class="muted">Les portails rendent visible très vite. Les contacts arrivent en masse, mais pas toujours avec le bon niveau de sérieux, de confidentialité ou de compatibilité.</p>
   </div>
   <div class="cards3">
-    <div class="card"><div class="ic no">✕</div><h4>Annonce publique trop tôt</h4><p>Le bien ou le besoin devient visible avant même d'avoir testé la qualité de la demande.</p></div>
+    <div class="card"><div class="ic no">✕</div><h4>Annonce publique trop tôt</h4><p>Le bien devient visible avant d'avoir testé la qualité de la demande.</p></div>
     <div class="card"><div class="ic no">✕</div><h4>Contacts peu filtrés</h4><p>Appels, messages, démarchage : on perd vite le contrôle de son parcours.</p></div>
     <div class="card green"><div class="ic ok">✓</div><h4>IMMATCH inverse la logique</h4><p>On qualifie d'abord, on protège les données, puis on propose une mise en relation seulement si elle est pertinente.</p></div>
   </div>
 </div></section>
  
-<!-- METHODE -->
-<section class="section alt"><div class="wrap">
+<!-- ═══════════ MÉTHODE (IMA intégrée étape 1) ═══════════ -->
+<section class="section alt" id="methode"><div class="wrap">
   <div class="head-2col">
-    <div><div class="eyebrow"><span class="bar"></span>La méthode IMMATCH</div><h2 class="title">Qualifier. Protéger.<br>Mettre en relation.</h2></div>
-    <p class="muted">Un parcours simple pour créer la confiance avant le contact, sans transformer IMMATCH en agence ni en portail d'annonces.</p>
+    <div><div class="eyebrow"><span class="bar"></span>Comment ça marche</div><h2 class="title">Qualifier. Protéger.<br>Mettre en relation.</h2></div>
+    <p class="muted">Un parcours simple pour créer la confiance avant le contact.</p>
   </div>
   <div class="cards3">
-    <div class="card"><div class="num">01</div><h4>Qualifier</h4><p>Vous décrivez votre projet : critères, contexte, niveau d'urgence et limites de confidentialité. Et pour votre bien, IMA capte par un échange ce que les cases ne disent pas — son histoire, ce qui compte vraiment.</p></div>
-    <div class="card"><div class="num">02</div><h4>Protéger</h4><p>Votre projet est analysé sans diffusion publique. Les informations sensibles et vos coordonnées restent masquées par défaut.</p></div>
-    <div class="card"><div class="num">03</div><h4>Mettre en relation</h4><p>IMMATCH propose des compatibilités. Le contact s'ouvre uniquement si les deux parties acceptent d'aller plus loin.</p></div>
+    <div class="card"><div class="num">01</div><h4>Décrivez votre projet avec IMA</h4><p>Critères, contexte, urgence, limites de confidentialité. IMA, notre assistant, capte ce que les cases ne disent pas — l'histoire de votre bien, ce qui compte vraiment.</p></div>
+    <div class="card"><div class="num">02</div><h4>Votre projet est protégé</h4><p>Analyse sans diffusion publique. Vos informations sensibles et coordonnées restent masquées par défaut.</p></div>
+    <div class="card"><div class="num">03</div><h4>Mise en relation choisie</h4><p>IMMATCH propose des compatibilités. Le contact ne s'ouvre que si les deux parties acceptent d'aller plus loin.</p></div>
   </div>
 </div></section>
  
-<!-- COCKPIT -->
+<!-- ═══════════ COCKPIT (style dark V2 comme la capture) ═══════════ -->
 <section class="section"><div class="wrap">
-  <div class="cockpit-grid">
+  <div class="cockpit-wrap">
     <div>
       <div class="eyebrow"><span class="bar"></span>Votre espace privé</div>
-      <h2 class="title">Un espace de pilotage rien qu'à vous.</h2>
-      <p class="muted" style="margin-top:16px">Après le questionnaire, vous retrouvez votre cockpit IMMATCH : vos compatibilités, vos documents et vos mises en relation à décider. Le tableau de bord que seuls les agents et les investisseurs avaient — enfin pour vous.</p>
+      <h2 class="title">Un espace de pilotage <em>rien qu'à vous.</em></h2>
+      <p class="muted" style="margin-top:16px">Compatibilités, documents, mises en relation à décider. Le tableau de bord que seuls les agents avaient — enfin pour vous.</p>
       <ul class="ck-points">
-        <li><span class="ic">✓</span>IMA vous éclaire sur vos compatibilités — pas une boîte noire.</li>
-        <li><span class="ic">✓</span>Vos compatibilités, sans jamais vous exposer.</li>
-        <li><span class="ic">✓</span>Vous décidez chaque mise en relation.</li>
+        <li><span class="ck-ic">✓</span>IMA vous éclaire sur vos compatibilités — pas une boîte noire.</li>
+        <li><span class="ck-ic">✓</span>Vos compatibilités, sans jamais vous exposer.</li>
+        <li><span class="ck-ic">✓</span>Vous décidez chaque mise en relation.</li>
       </ul>
     </div>
-    <div class="ckpanel">
-      <div class="ck-head"><span class="t">Votre cockpit</span><span class="pill">Confidentiel</span></div>
-      <div class="ck-score">
-        <div style="width:74px;height:74px;border-radius:999px;background:var(--im-teal-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:30px;color:var(--im-teal-dark)">✓</div>
-        <div class="sc-t"><b>Projet bien qualifié</b><p>Prêt pour des mises en relation ciblées, en toute confidentialité.</p></div>
+    <div class="ck-panel">
+      <span class="ck-tag">✓ Cockpit IMMATCH</span>
+      <h3>Projet bien qualifié</h3>
+      <div class="ck-sub">Prêt pour des mises en relation ciblées, en toute confidentialité.</div>
+      <div class="ck-features">
+        <div class="ck-feat"><strong>IMA vous éclaire</strong>Vos compatibilités expliquées — pas une boîte noire.</div>
+        <div class="ck-feat"><strong>Compatibilités privées</strong>Des profils compatibles, sans jamais vous exposer.</div>
+        <div class="ck-feat"><strong>Vous décidez</strong>Chaque mise en relation nécessite votre accord explicite.</div>
+        <div class="ck-feat"><strong>Documents du projet</strong>Suivi et checklist pour avancer en confiance.</div>
       </div>
-      <div class="ck-line"><span class="k">Compatibilités détectées</span><span class="v">3 profils</span></div>
-      <div class="ck-line"><span class="k">Confidentialité</span><span class="v">activée par défaut</span></div>
-      <div class="ck-line"><span class="k">Documents du projet</span><span class="v">2 / 4</span></div>
-      <div class="ck-line"><span class="k">Prochaine action</span><span class="v">examiner 1 compatibilité</span></div>
     </div>
   </div>
 </div></section>
  
-<!-- POUR QUI -->
-<section class="section alt"><div class="wrap">
+<!-- ═══════════ POUR QUI ═══════════ -->
+<section class="section alt" id="pour-qui"><div class="wrap">
   <div class="eyebrow"><span class="bar"></span>Pour qui ?</div>
-  <h2 class="title" style="max-width:46rem;margin-bottom:16px">Une même plateforme, plusieurs situations.</h2>
-  <p class="muted" style="max-width:42rem;margin-bottom:44px">IMMATCH parle à ceux qui veulent avancer sans subir l'exposition massive : un bien à proposer, une recherche précise, ou le besoin d'un professionnel au bon moment.</p>
+  <h2 class="title" style="max-width:46rem;margin-bottom:44px">Plusieurs situations, une même plateforme.</h2>
   <div class="cards3">
-    <div class="card"><h4>🏡 Vous avez un bien</h4><p>Vendre ou louer : testez l'intérêt réel pour votre bien sans le publier immédiatement. Succession, mutation, séparation, bien familial — ou simple envie de filtrer avant d'être contacté.</p></div>
-    <div class="card"><h4>🔑 Vous cherchez</h4><p>Acheter ou louer : accédez à des projets compatibles avec vos critères, sans passer des heures sur des annonces peu pertinentes. Présenté seulement si le projet colle.</p></div>
-    <div class="card"><h4>🤝 Besoin d'un pro</h4><p>Vous gardez la main. Un professionnel vérifié peut intervenir si sa valeur devient utile — à votre demande, jamais imposé.</p></div>
+    <div class="card"><h4>🏡 Vous avez un bien</h4><p>Vendre ou louer : testez l'intérêt réel pour votre bien sans le publier. Succession, mutation, séparation, bien familial — ou simple envie de filtrer avant d'être contacté.</p></div>
+    <div class="card">
+      <h4>🔑 Vous cherchez</h4>
+      <p>Acheter ou louer : accédez à des projets compatibles avec vos critères, sans passer des heures sur des annonces peu pertinentes.</p>
+      <a class="card-link" href="/questionnaire?type=recherche">Créer mon profil de recherche →</a>
+      <p class="card-sub">Les premiers inscrits sont alertés en priorité des biens off-market de leur zone.</p>
+    </div>
+    <div class="card"><h4>🤝 Besoin d'un pro</h4><p>Un professionnel vérifié peut intervenir si sa valeur devient utile — à votre demande, jamais imposé. Vos coordonnées ne lui sont transmises que sur accord explicite.</p></div>
   </div>
 </div></section>
  
-<!-- CONFIDENTIALITE -->
-<section class="section"><div class="wrap"><div class="conf">
-  <div>
-    <div class="eyebrow"><span class="bar"></span>Confidentialité concrète</div>
-    <h2 class="title">Ce que les autres voient de vous : rien, jusqu'à votre accord.</h2>
-    <p>IMMATCH ne repose pas sur la diffusion publique, mais sur le consentement. Une compatibilité peut exister sans que vos coordonnées, votre identité ou les détails sensibles soient transmis.</p>
-  </div>
-  <div class="vis">
-    <div class="vh">Visibilité par défaut</div>
-    <div class="row"><span class="k">Nom / identité</span><span class="v">Masqué</span></div>
-    <div class="row"><span class="k">Téléphone / email</span><span class="v">Non transmis</span></div>
-    <div class="row"><span class="k">Adresse exacte</span><span class="v">Protégée</span></div>
-    <div class="row"><span class="k">Projet immobilier</span><span class="v">Résumé qualifié</span></div>
-    <div class="row"><span class="k">Mise en relation</span><span class="v">Accord des deux parties</span></div>
-  </div>
-</div></div></section>
- 
-<!-- PROS -->
-<section class="section alt"><div class="wrap">
-  <div class="eyebrow"><span class="bar"></span>Professionnels vérifiés</div>
-  <h2 class="title" style="max-width:44rem">Pas d'agence imposée. Un professionnel utile, seulement si vous le demandez.</h2>
-  <p class="muted" style="max-width:42rem;margin-top:16px">IMMATCH n'oppose pas particuliers et professionnels. La plateforme remet chacun à sa juste place : vous gardez le contrôle, le professionnel intervient quand sa valeur est réelle. Les pros partenaires peuvent aussi présenter des biens off-market.</p>
-  <div class="duo">
-    <div class="box light"><h4>Pour vous</h4><ul>
-      <li>Aucun professionnel ne reçoit vos coordonnées sans accord.</li>
-      <li>Vous choisissez si vous voulez être accompagné.</li>
-      <li>Vous avancez seul ou demandez un avis qualifié.</li>
-    </ul></div>
-    <div class="box dark2"><h4>Pour le professionnel partenaire</h4><ul>
-      <li>Vous nous rejoignez parce que vous partagez notre vision du métier.</li>
-      <li>Une intervention sur besoin réel.</li>
-      <li>Un positionnement partenaire, pas intrusif.</li>
-    </ul></div>
-  </div>
-</div></section>
- 
-<!-- FAQ -->
+<!-- ═══════════ FAQ (9 questions complètes) ═══════════ -->
 <section class="section alt">
   <div class="wrap" style="text-align:center">
     <div class="eyebrow" style="justify-content:center"><span class="bar"></span>Questions fréquentes</div>
@@ -366,36 +300,36 @@
     <details class="acc"><summary>Suis-je engagé à quelque chose ?</summary><p class="ans">Non. Vous avancez à votre rythme et décidez à chaque étape, libre de poursuivre, de patienter ou de ne pas donner suite.</p></details>
     <details class="acc"><summary>Est-ce que c'est gratuit ?</summary><p class="ans">Décrire votre projet, recevoir des correspondances et découvrir vos compatibilités, c'est gratuit. Vous ne réglez une mise en relation que si c'est vous qui la demandez — et elle ne se fait que si l'autre partie l'accepte également. Vos coordonnées ne circulent jamais sans ce double accord.</p></details>
     <details class="acc"><summary>Et si je veux un professionnel ?</summary><p class="ans">La mise en relation avec un professionnel est gratuite et sans engagement. Cadre Estate Solutions ne référence que des partenaires dont les garanties de leur métier sont vérifiées (immatriculation, assurance) et qui ont signé sa charte de confiance. Ils sont là pour vous apporter des réponses ou des solutions, jamais pour s'imposer — vous les sollicitez si vous le souhaitez, quand vous en avez besoin.</p></details>
-    <details class="acc"><summary>IMMATCH remplace-t-il une agence ?</summary><p class="ans">Non. IMMATCH n'est pas une agence : c'est un service de mise en relation confidentiel entre particuliers. Vous restez libre de solliciter un professionnel vérifié si vous le souhaitez, à votre seule demande.</p></details>
+    <details class="acc"><summary>IMMATCH remplace-t-il une agence ?</summary><p class="ans">Non. IMMATCH n'est pas une agence : c'est un service de mise en relation confidentiel. Vous restez libre de solliciter un professionnel vérifié si vous le souhaitez, à votre seule demande.</p></details>
     <details class="acc"><summary>Le matching est-il automatique ?</summary><p class="ans">Le rapprochement, oui ; la mise en relation, non. IMMATCH identifie les compatibilités en coulisse, mais rien ne se déclenche sans votre accord et celui de l'autre partie.</p></details>
-    <details class="acc"><summary>Puis-je aussi diffuser mon bien ailleurs ?</summary><p class="ans">Vous restez libre de le faire. Sachez seulement qu'un bien qui tarde à trouver preneur tient rarement au manque de visibilité : c'est presque toujours le prix. IMMATCH vous donne une lecture de la demande réelle pour ajuster avant d'aller plus loin. Et si vous choisissez de diffuser ailleurs, vous l'indiquez dans votre espace : votre bien passe alors en complémentaire, sans fermer la porte aux acheteurs déjà identifiés sur IMMATCH.</p></details>
+    <details class="acc"><summary>Puis-je aussi diffuser mon bien ailleurs ?</summary><p class="ans">Vous restez libre de le faire. Lorsqu'un bien tarde à trouver preneur, le positionnement prix fait souvent partie des facteurs déterminants. IMMATCH permet de confronter votre projet à la demande réelle avant d'aller plus loin. Et si vous choisissez de diffuser ailleurs, vous l'indiquez dans votre espace : votre bien passe alors en complémentaire, sans fermer la porte aux acheteurs déjà identifiés sur IMMATCH.</p></details>
   </div>
 </section>
  
-<!-- CTA -->
+<!-- ═══════════ CTA FINAL ═══════════ -->
 <section class="section" style="padding-top:0"><div class="wrap"><div class="cta">
   <div style="display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--im-gold);margin-bottom:18px">
     <span style="width:6px;height:6px;border-radius:999px;background:var(--im-gold)"></span>Lancement · Morbihan (56)
   </div>
   <h2 class="title">Donnez du sens à votre <em style="font-style:normal;color:#5ec5d3">projet immobilier.</em></h2>
-  <p>Les premiers inscrits accèdent en priorité aux projets off-market de leur zone, avant l'ouverture au grand public. Simplement, et en toute discrétion.</p>
-  <a class="btn btn-teal" href="#" style="padding:15px 32px">Décrivez votre projet →</a>
+  <p>Les premiers inscrits accèdent en priorité aux projets off-market de leur zone, avant l'ouverture au grand public.</p>
+  <a class="btn btn-teal" href="/questionnaire" style="padding:15px 32px">Tester mon projet →</a>
 </div></div></section>
  
+<!-- ═══════════ FOOTER ═══════════ -->
 <div class="wrap" style="padding-bottom:40px"><footer>
   <div class="f-grid">
     <div class="f-brand">
       <span class="nm">immatch</span><span class="by">by Cadre Estate Solutions</span>
-      <p>IMMATCH permet de vendre ou trouver un bien immobilier hors annonces, sans diffusion publique, sans contact imposé, et avec partage des coordonnées uniquement sous condition d'accord réciproque.</p>
+      <p>IMMATCH rapproche des projets immobiliers compatibles, sans diffusion publique, sans contact imposé, et avec partage des coordonnées uniquement sous condition d'accord réciproque.</p>
     </div>
-    <div class="f-col"><div class="ttl">Particuliers</div><a href="#">CGU Particuliers</a><a href="#">CGV Particuliers</a><a href="#">Charte de confiance</a></div>
-    <div class="f-col"><div class="ttl">Professionnels</div><a href="#">CGU Pros</a><a href="#">CGV Pros</a><a href="#">Charte déontologique</a><a href="#">Conditions partenaires</a></div>
-    <div class="f-col"><div class="ttl">Légal</div><a href="#">Mentions légales</a><a href="#">Confidentialité</a><a href="#">Cookies</a><a href="#">Tous les documents</a></div>
-    <div class="f-col"><div class="ttl">Plateforme</div><a href="#">Contact</a><a href="#">Espace pro</a><a href="#">Connexion</a></div>
+    <div class="f-col"><div class="ttl">Particuliers</div><a href="/cgu">CGU Particuliers</a><a href="/cgv">CGV Particuliers</a><a href="/charte-confiance">Charte de confiance</a></div>
+    <div class="f-col"><div class="ttl">Professionnels</div><a href="/cgu/professionnels">CGU Pros</a><a href="/cgv/professionnels">CGV Pros</a><a href="/charte-partenaires">Charte déontologique</a><a href="/conditions-partenaires">Conditions partenaires</a></div>
+    <div class="f-col"><div class="ttl">Légal</div><a href="/mentions-legales">Mentions légales</a><a href="/confidentialite">Confidentialité</a><a href="/cookies">Cookies</a></div>
+    <div class="f-col"><div class="ttl">Plateforme</div><a href="/contact">Contact</a><a href="/espace-pro">Espace pro</a><a href="/connexion">Connexion</a></div>
   </div>
   <div class="f-bottom">
     <span>Cadre Estate Solutions est la société éditrice d'IMMATCH.</span>
-    <span class="ok"><span class="d"></span>Tous les systèmes opérationnels</span>
   </div>
 </footer></div>
  
