@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>IMMATCH VIP — V8 consolidée</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#0F8191;--teal2:#075F5F;--navy:#171722;--navy2:#23233B;
+  --gold:#C9A84C;--gold2:#8F6B21;--gold3:#F4DF9B;
+  --cream:#F1EFE8;--cream2:#F8F6EF;--white:#fff;--line:#E5DECF;
+  --ink:#14141B;--muted:#667085;--ok:#168768;--warn:#B7791F;--danger:#B42318;
+  --shadow:0 18px 55px rgba(20,20,30,.12);--soft:0 10px 30px rgba(20,20,30,.08);
+  --r:22px;--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.55;font-size:14px}
+button{font-family:inherit;cursor:pointer}
+.top{position:sticky;top:0;z-index:50;background:rgba(23,23,34,.96);backdrop-filter:blur(14px);border-bottom:1px solid rgba(201,168,76,.22)}
+.top-in{max-width:1220px;margin:0 auto;height:62px;padding:0 22px;display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:12px}
+.brand b{font-family:var(--serif);font-size:27px;font-style:italic;color:var(--gold)}
+.brand span{font-size:11px;color:rgba(255,255,255,.52);border-left:1px solid rgba(255,255,255,.16);padding-left:12px;text-transform:uppercase;letter-spacing:.08em}
+.mode{position:relative;border:1px solid rgba(201,168,76,.28);background:rgba(201,168,76,.1);color:var(--gold3);font-size:11px;font-weight:800;border-radius:999px;padding:8px 12px;display:flex;align-items:center;gap:7px}
+.mode .dot{width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.mode-pop{display:none;position:absolute;right:0;top:42px;width:320px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:14px;z-index:60;text-align:left}
+.mode-pop strong{display:block;font-size:13px;margin-bottom:4px}
+.mode-pop p{font-size:12px;color:var(--muted)}
+.mode:hover .mode-pop,.mode.open .mode-pop{display:block}
+.app{max-width:1220px;margin:0 auto;padding:0 22px 80px}
+.nav{display:flex;gap:5px;background:var(--cream2);border:1px solid var(--line);border-radius:999px;margin:20px 0;padding:5px}
+.nav button{border:none;background:transparent;color:var(--muted);font-size:13px;font-weight:800;border-radius:999px;padding:12px 14px;flex:1}
+.nav button.on{background:var(--navy);color:var(--gold3);box-shadow:var(--soft)}
+.view{display:none}.view.on{display:block}
+.btn{border:none;border-radius:999px;padding:12px 18px;font-size:13px;font-weight:800;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px)}
+.btn.gold{background:linear-gradient(135deg,var(--gold2),var(--gold),var(--gold3));color:var(--navy)}
+.btn.dark{background:var(--navy);color:#fff}
+.btn.teal{background:var(--teal);color:#fff}
+.btn.light{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost{background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.16);color:#fff}
+.pill{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800}
+.ok{background:rgba(22,135,104,.12);color:var(--ok)}
+.warn{background:rgba(183,121,31,.13);color:var(--warn)}
+.red{background:#FFF1F0;color:var(--danger)}
+.darkp{background:rgba(23,23,34,.1);color:var(--navy)}
+.tealp{background:rgba(15,129,145,.13);color:var(--teal2)}
+.goldp{background:rgba(201,168,76,.16);color:var(--gold2)}
+.eye{display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--cream2);border:1px solid var(--line);font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold2);margin-bottom:9px}
+.title{font-family:var(--serif);font-size:34px;line-height:1.05;margin-bottom:8px;max-width:820px}
+.lead{font-size:14px;color:var(--muted);max-width:760px;line-height:1.75}
+ 
+/* HERO */
+.hero{min-height:75vh;border-radius:32px;background:radial-gradient(circle at 18% 18%,rgba(255,255,255,.15),transparent 22%),radial-gradient(circle at 80% 20%,rgba(201,168,76,.2),transparent 20%),linear-gradient(135deg,var(--teal2),var(--teal) 46%,#0B3954);padding:36px;display:grid;grid-template-columns:1.08fr .92fr;gap:28px;align-items:center;overflow:hidden;position:relative;box-shadow:var(--shadow)}
+.hero h1{font-family:var(--serif);font-size:55px;line-height:.97;color:#fff;margin:16px 0 14px;max-width:680px}
+.hero p{color:rgba(255,255,255,.82);font-size:15px;max-width:640px;line-height:1.78}
+.hero .hchips{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}
+.hero .hchips span{padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);color:#fff;font-size:12px;font-weight:800}
+.card3{perspective:1400px;display:grid;place-items:center}
+.vipcard{width:410px;height:245px;border-radius:28px;padding:26px;background:radial-gradient(circle at 18% 14%,rgba(255,255,255,.1),transparent 22%),radial-gradient(circle at 84% 22%,rgba(201,168,76,.2),transparent 18%),linear-gradient(145deg,#0E0F15,#171722 48%,#2A2A42);box-shadow:0 34px 90px rgba(5,10,20,.42),inset 0 1px 0 rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.22);transform:rotateY(-13deg) rotateX(6deg);position:relative;color:#fff}
+.vipcard:before{content:"";position:absolute;inset:14px;border:1px solid rgba(201,168,76,.15);border-radius:18px}
+.vipcard small{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.vipline{display:flex;justify-content:space-between;align-items:flex-end;margin-top:38px}
+.vipline .im{font-family:var(--serif);font-size:44px;font-weight:700;font-style:italic}
+.vipline .vip{font-family:var(--serif);font-size:47px;font-weight:700;letter-spacing:.08em;background:linear-gradient(135deg,#7f5d1d,#d8b25a 35%,#fff2bf 50%,#b6852a 68%,#8f6b21);-webkit-background-clip:text;background-clip:text;color:transparent}
+.vipfoot{position:absolute;left:26px;right:26px;bottom:23px;display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.54)}
+.sec{margin:30px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--soft)}
+.card h3{font-size:16px;margin-bottom:7px}.card p,.card li{font-size:13px;color:var(--muted);line-height:1.7}.card ul{list-style:none;margin-top:8px}.card li{margin:5px 0}.card li:before{content:"✓ ";color:var(--ok);font-weight:900}
+.num{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#fff;display:grid;place-items:center;font-weight:900;margin-bottom:10px}
+.path{border-top:4px solid var(--gold)}
+.path.buyer{border-top-color:var(--teal)}
+.callout{background:linear-gradient(135deg,#fff,#FFF8E7);border:1px solid rgba(201,168,76,.35);border-radius:var(--r);padding:22px;box-shadow:var(--soft)}
+.callout h3{font-family:var(--serif);font-size:25px;margin-bottom:6px}
+.note{font-size:12px;color:var(--muted);line-height:1.6}
+.ex{position:relative;overflow:hidden;cursor:pointer;transition:.2s;border-color:rgba(201,168,76,.36)}
+.ex:hover{transform:translateY(-4px);border-color:var(--gold)}
+.badge{position:absolute;top:14px;right:14px;background:var(--navy);color:var(--gold3);border-radius:999px;padding:4px 9px;font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.ex h3{font-family:var(--serif);font-size:26px}
+.ex .ico{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-weight:900;margin-bottom:10px}
+.preview{margin-top:14px;border:1px solid var(--line);border-radius:18px;padding:14px;background:var(--cream2)}
+.mock-mag{display:grid;grid-template-columns:.9fr 1.1fr;gap:12px;align-items:stretch}
+.cover{background:linear-gradient(135deg,#101018,#2A2A42);color:#fff;border-radius:14px;padding:18px;min-height:180px;display:flex;flex-direction:column;justify-content:space-between}
+.cover b{font-family:var(--serif);font-size:30px;color:var(--gold3)}
+.pages{display:grid;gap:9px}
+.page{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
+.page strong{display:block;font-size:12px}.page span{font-size:11px;color:var(--muted)}
+.videoBox{border-radius:18px;background:linear-gradient(135deg,#111827,#0B3954);min-height:210px;color:#fff;display:grid;place-items:center;position:relative;overflow:hidden}
+.videoBox:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.14),transparent 25%),radial-gradient(circle at 78% 30%,rgba(201,168,76,.18),transparent 22%)}
+.play{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);display:grid;place-items:center;z-index:1;font-size:28px}
+.play:after{content:"▶";margin-left:5px}
+.videoCap{position:absolute;left:18px;bottom:16px;z-index:1}
+.videoCap strong{display:block;font-family:var(--serif);font-size:25px}.videoCap span{font-size:12px;color:rgba(255,255,255,.72)}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:15px;margin-bottom:9px;overflow:hidden}
+.faq summary{padding:14px 18px;font-weight:800;cursor:pointer;list-style:none}
+.faq details[open] summary{border-bottom:1px solid var(--line)}
+.faq p{padding:14px 18px;font-size:13px;color:var(--muted);line-height:1.7}
+ 
+/* Layout project */
+.workspace{display:grid;grid-template-columns:285px 1fr;gap:18px}
+.side{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--soft);height:fit-content}
+.label{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px}
+.project{padding:13px;border-radius:15px;border:1px solid var(--line);background:var(--cream2);margin-bottom:10px}
+.project.active{background:linear-gradient(135deg,rgba(15,129,145,.08),rgba(201,168,76,.08));border-color:rgba(201,168,76,.38)}
+.project strong{display:block;font-size:13px}.project small{font-size:11px;color:var(--muted)}
+.project .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.add{border:1px dashed rgba(201,168,76,.5);padding:12px;text-align:center;border-radius:15px;color:var(--gold2);font-weight:900;font-size:12px;background:#fff}
+.panelHero{background:radial-gradient(circle at 82% 15%,rgba(201,168,76,.18),transparent 18%),linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border-radius:24px;padding:26px;box-shadow:var(--shadow);margin-bottom:16px}
+.panelHero h1{font-family:var(--serif);font-size:38px;line-height:1.05;margin:8px 0}
+.panelHero p{font-size:13px;color:rgba(255,255,255,.66)}
+.state{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.state span{padding:7px 12px;border-radius:999px;font-size:11px;font-weight:900}
+.ima{display:grid;grid-template-columns:1.18fr .82fr;gap:14px;margin-bottom:16px}
+.imaMain,.imaSide{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px}
+.imaHead{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.orb{width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 30% 25%,var(--gold3),var(--gold) 35%,var(--teal) 72%);display:grid;place-items:center;color:#fff;font-size:11px;font-weight:900;flex-shrink:0}
+.imaHead h2{font-size:17px}.imaHead p{font-size:12px;color:var(--muted)}
+.decision{background:var(--cream2);border:1px solid var(--line);border-radius:15px;padding:14px;margin-bottom:10px}
+.decision strong{display:block;font-size:13px;margin-bottom:4px}.decision span{display:block;font-size:12px;color:var(--muted);line-height:1.65}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.status{border-top:1px solid var(--line);padding:10px 0}.status:first-child{border-top:0;padding-top:0}
+.status div{display:flex;justify-content:space-between;align-items:center;gap:8px}.status strong{font-size:12px}.status p{font-size:11px;color:var(--muted);margin-top:3px}
+.shortcuts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.short{background:#fff;border:1px solid var(--line);border-radius:17px;padding:16px;box-shadow:var(--soft)}
+.short .sico{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--cream2),#fff);display:grid;place-items:center;font-weight:900;margin-bottom:8px}
+.short h3{font-size:13px;margin-bottom:3px}.short p{font-size:11px;color:var(--muted);line-height:1.45}.short b{display:block;margin-top:8px;font-size:11px;color:var(--gold2)}
+.offer{background:linear-gradient(135deg,var(--ink),var(--navy2));border-radius:var(--r);padding:22px;color:#fff;margin-bottom:16px}
+.offer h3{font-family:var(--serif);font-size:26px;margin-bottom:6px}.offer p{font-size:13px;color:rgba(255,255,255,.65);margin-bottom:16px}
+.offerGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.offerCard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:17px;padding:16px}
+.offerCard strong{display:block;font-size:14px;margin-bottom:6px}.offerCard span{display:block;font-size:12px;color:rgba(255,255,255,.66);line-height:1.6;margin-bottom:12px}
+.lower{display:grid;grid-template-columns:1fr .85fr;gap:14px}
+.box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}
+.box h3{font-size:15px;margin-bottom:10px}
+.row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding:10px 0;font-size:12px}.row:first-child{border-top:0;padding-top:0}.row span{color:var(--muted)}
+.mediaGrid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;margin-top:12px}
+.photoMock{background:linear-gradient(135deg,#d6d0c0,#fff);border-radius:14px;min-height:170px;position:relative;overflow:hidden}
+.photoMock:before{content:"";position:absolute;left:-20px;bottom:-30px;width:160px;height:90px;background:rgba(15,129,145,.16);border-radius:50%}
+.photoMock:after{content:"Salon · lumière · volumes";position:absolute;left:14px;bottom:12px;font-size:12px;font-weight:800;color:var(--navy)}
+.stack{display:grid;gap:8px}.miniPhoto{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:12px;font-weight:800}.miniPhoto span{display:block;color:var(--muted);font-weight:400;font-size:11px;margin-top:4px}
+ 
+/* Buyer */
+.listing{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--soft);display:grid;grid-template-columns:260px 1fr;margin-bottom:14px}
+.limg{min-height:210px;background:linear-gradient(135deg,#BFCAD0,#F8F6EF);position:relative}
+.limg:before{content:"";position:absolute;inset:16px;border:1px solid rgba(255,255,255,.7);border-radius:14px}
+.limg .media{position:absolute;left:12px;bottom:12px;display:flex;gap:6px;flex-wrap:wrap}
+.limg .media span{background:rgba(23,23,34,.76);color:#fff;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:900}
+.lbody{padding:18px}
+.ltop{display:flex;justify-content:space-between;gap:12px;margin-bottom:10px}
+.lbody h3{font-size:18px}.price{font-size:18px;font-weight:900;color:var(--navy)}
+.score{display:grid;grid-template-columns:85px 1fr;gap:14px;align-items:center;margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:15px;background:var(--cream2)}
+.circle{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--teal) 0 86%,#E8E0D0 86% 100%);font-weight:900;color:var(--navy)}
+.score p{font-size:12px;color:var(--muted)}
+.reasons{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.reasons span{padding:5px 8px;background:#fff;border:1px solid var(--line);border-radius:999px;font-size:11px;font-weight:800;color:var(--muted)}
+.budget{border:1px solid rgba(183,121,31,.28);background:#FFF8E8;border-radius:13px;padding:10px;font-size:12px;color:#7A4D12;margin:8px 0}
+.questionBar{background:linear-gradient(135deg,#fff,#F0FAFB);border:1px solid rgba(15,129,145,.22);border-radius:18px;padding:16px;margin-bottom:16px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.questionBar h3{font-size:16px}.questionBar p{font-size:12px;color:var(--muted)}
+ 
+/* Modal */
+.modal{display:none;position:fixed;inset:0;background:rgba(8,8,14,.62);z-index:80;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.modalCard{background:#fff;border-radius:24px;max-width:980px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 40px 100px rgba(10,10,18,.35);padding:22px}
+.modalClose{position:sticky;top:0;display:flex;justify-content:flex-end;background:linear-gradient(180deg,#fff 64%,transparent);padding-bottom:8px;z-index:1}
+.modalClose button{border:none;background:var(--navy);color:#fff;border-radius:999px;padding:8px 14px;font-size:12px;font-weight:900}
+.modalHero{border-radius:20px;padding:24px;margin-bottom:14px;color:#fff;overflow:hidden;position:relative}
+.modalHero h2{font-family:var(--serif);font-size:36px;line-height:1.05}.modalHero p{max-width:720px;font-size:13px;line-height:1.7;color:rgba(255,255,255,.76);margin-top:8px}
+.modalHero.goldh{background:linear-gradient(135deg,var(--gold2),var(--gold),var(--gold3));color:var(--navy)}.modalHero.goldh p{color:rgba(20,20,27,.72)}
+.modalHero.tealh{background:linear-gradient(135deg,var(--teal2),var(--teal),var(--navy))}
+.modalGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mcard{background:var(--cream2);border:1px solid var(--line);border-radius:16px;padding:16px}
+.mcard h3{font-size:14px;margin-bottom:6px}.mcard p,.mcard li{font-size:12px;color:var(--muted);line-height:1.7}.mcard ul{padding-left:16px}
+ 
+/* Upload zone */
+.upload-zone{border:2px dashed rgba(201,168,76,.4);border-radius:16px;padding:22px;text-align:center;background:rgba(201,168,76,.04);transition:.2s;cursor:pointer}
+.upload-zone:hover{border-color:var(--gold);background:rgba(201,168,76,.09);transform:translateY(-2px)}
+.upload-zone .uico{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#fff;display:grid;place-items:center;margin:0 auto 10px;font-size:20px;font-weight:900}
+.upload-zone strong{display:block;font-size:13px;margin-bottom:4px}
+.upload-zone span{font-size:11px;color:var(--muted);line-height:1.5}
+.upload-zone .formats{margin-top:8px;font-size:10px;color:var(--muted);letter-spacing:.04em}
+.upload-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+/* Buyer journey */
+.journey{position:relative;padding:8px 0}
+.journey:before{content:"";position:absolute;left:22px;top:48px;bottom:48px;width:2px;background:linear-gradient(180deg,var(--teal),rgba(15,129,145,.15))}
+.jstep{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start;padding:14px 0;position:relative}
+.jdot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:14px;z-index:1}
+.jdot.done{background:var(--teal);color:#fff}
+.jdot.current{background:#fff;border:3px solid var(--teal);color:var(--teal)}
+.jdot.next{background:var(--cream2);border:2px solid var(--line);color:var(--muted)}
+.jstep h4{font-size:14px;margin-bottom:3px}
+.jstep p{font-size:12px;color:var(--muted);line-height:1.6}
+.jstep .jpill{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800;margin-top:6px}
+/* QR block */
+.qr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.qr-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;transition:.2s}
+.qr-card:hover{transform:translateY(-3px);box-shadow:var(--soft)}
+.qr-card .qrico{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;margin:0 auto 10px;font-size:22px}
+.qr-card h4{font-size:13px;margin-bottom:4px}
+.qr-card p{font-size:11px;color:var(--muted);line-height:1.5}
+/* Enhanced magazine spread */
+.mag-spread{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);margin-top:14px}
+.mag-left{background:linear-gradient(145deg,#101018 10%,#1a1a2e 50%,#0B3954);padding:28px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;min-height:320px;position:relative;overflow:hidden}
+.mag-left:before{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.25),transparent 70%)}
+.mag-left small{font-size:9px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.mag-left .mag-title{font-family:var(--serif);font-size:34px;line-height:1.05;color:var(--gold3);margin:12px 0}
+.mag-left .mag-sub{font-size:12px;color:rgba(255,255,255,.6);line-height:1.6}
+.mag-left .mag-foot{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.4)}
+.mag-right{background:#fff;padding:0;display:grid;grid-template-rows:repeat(4,1fr)}
+.mag-page{padding:20px;border-bottom:1px solid var(--line)}
+.mag-page:last-child{border-bottom:0}
+.mag-page .mpnum{font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:6px}
+.mag-page h4{font-family:var(--serif);font-size:18px;margin-bottom:4px}
+.mag-page p{font-size:11px;color:var(--muted);line-height:1.6}
+.mag-page .mag-img{height:50px;border-radius:10px;margin-top:8px;background:linear-gradient(135deg,#d6d0c0,#eae4d8);display:flex;align-items:flex-end;padding:8px}
+.mag-page .mag-img span{font-size:10px;font-weight:800;color:var(--navy)}
+ 
+/* Responsive */
+@media(max-width:1050px){
+  .hero,.grid2,.workspace,.ima,.lower,.mediaGrid{grid-template-columns:1fr}
+  .grid4,.shortcuts,.offerGrid,.grid3{grid-template-columns:1fr 1fr}
+  .listing{grid-template-columns:1fr}
+}
+@media(max-width:650px){
+  .top-in{height:auto;min-height:62px;gap:8px;align-items:flex-start;padding-top:10px;padding-bottom:10px;flex-direction:column}
+  .nav{border-radius:18px;display:grid;grid-template-columns:1fr 1fr}
+  .hero{padding:24px;border-radius:24px}.hero h1{font-size:38px}
+  .vipcard{width:100%;height:220px}.vipline .im{font-size:34px}.vipline .vip{font-size:38px}
+  .grid4,.shortcuts,.offerGrid,.grid3,.grid2,.modalGrid,.qr-grid,.upload-row{grid-template-columns:1fr}
+  .listing .ltop{flex-direction:column}
+  .questionBar{align-items:flex-start;flex-direction:column}
+  .mag-spread{grid-template-columns:1fr}
+  .qr-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="brand"><b>immatch</b><span>VIP · biens & recherches confidentiels</span></div>
+    <button class="mode" onclick="this.classList.toggle('open')" aria-label="Expliquer le mode silencieux">
+      <i class="dot"></i> Mode silencieux
+      <div class="mode-pop">
+        <strong>Mode silencieux</strong>
+        <p>Votre bien n’est pas publié comme une annonce classique. L’adresse exacte, les coordonnées et les documents restent masqués. Vous choisissez ce qui est visible : résumé du bien, fiche complète, photos, vidéos ou magazine, puis mise en relation si les deux parties sont d’accord.</p>
+      </div>
+    </button>
+  </div>
+</header>
+ 
+<main class="app">
+  <nav class="nav">
+    <button class="on" onclick="go('intro',this)">Comprendre VIP</button>
+    <button onclick="go('vendeur',this)">Je vends</button>
+    <button onclick="go('acquereur',this)">Je recherche</button>
+    <button onclick="go('actif',this)">Projet actif</button>
+  </nav>
+ 
+  <!-- INTRO -->
+  <section class="view on" id="v-intro">
+    <div class="hero">
+      <div>
+        <span class="eye" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:#fff">IMMATCH VIP · explication claire</span>
+        <h1>Pour les biens et les recherches qui ne doivent pas être traités comme une simple annonce.</h1>
+        <p>IMMATCH est une plateforme de mise en relation immobilière. IMMATCH VIP est son parcours renforcé : un vendeur entre avec un dossier complet, un acquéreur entre avec une recherche sérieuse, et chacun sait ce qu’il voit, ce qu’il donne et quand il avance.</p>
+        <div class="hchips"><span>Prix, photos et vidéos avant visite</span><span>Vendeur vérifié</span><span>Acquéreur qualifié</span><span>Aucune coordonnée transmise automatiquement</span></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn gold" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">Voir comment ça fonctionne</button>
+          <button class="btn ghost" onclick="go('vendeur')">Préparer mon bien</button>
+          <button class="btn ghost" onclick="go('acquereur')">Créer ma recherche</button>
+        </div>
+      </div>
+      <div class="card3">
+        <div class="vipcard">
+          <small>Accès privé vérifié</small>
+          <div class="vipline"><span class="im">IMMATCH</span><span class="vip">VIP</span></div>
+          <div class="vipfoot"><span>Vendre ou rechercher sans exposition inutile</span><span>entrée expliquée</span></div>
+        </div>
+      </div>
+    </div>
+ 
+    <section class="sec">
+      <span class="eye">À qui ça s’adresse</span>
+      <h2 class="title">Deux chemins, un même objectif : éviter les curieux, les fausses demandes et les annonces mal cadrées.</h2>
+      <div class="grid2">
+        <div class="card path">
+          <h3>Je vends un bien</h3>
+          <p>Vous voulez présenter votre bien avec discrétion, sans l’exposer publiquement ni transmettre vos documents aux acquéreurs.</p>
+          <ul>
+            <li>Le dossier du bien doit être complet pour entrer en VIP.</li>
+            <li>Les photos, vidéos, plans ou magazine sont visibles selon votre accord.</li>
+            <li>Les demandes de visite sont filtrées.</li>
+            <li>La mise en relation n’est activée que dans le cadre prévu.</li>
+          </ul>
+        </div>
+        <div class="card path buyer">
+          <h3>Je recherche un bien</h3>
+          <p>Vous voulez voir des biens compatibles, avec prix, images et explications, avant de demander une visite.</p>
+          <ul>
+            <li>Vous voyez les informations autorisées avant de visiter.</li>
+            <li>Le score explique pourquoi le bien est proposé.</li>
+            <li>Un bien au-dessus du budget peut apparaître si le reste correspond fortement.</li>
+            <li>Vos coordonnées ne sont jamais transmises automatiquement.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+ 
+    <section class="sec" id="how">
+      <span class="eye">1 · Comment ça fonctionne</span>
+      <h2 class="title">Un parcours en quatre étapes.</h2>
+      <p class="lead">Le vendeur apporte un bien vérifié. L'acquéreur apporte un projet sérieux. IMMATCH organise la rencontre seulement si les deux côtés avancent.</p>
+      <div class="grid4">
+        <div class="card"><div class="num">1</div><h3>Le vendeur dépose un dossier complet</h3><p>Pour entrer en VIP, le bien doit être documenté : prix, surface, photos, DPE, droit à publier. C'est ce qui garantit la qualité du catalogue confidentiel.</p></div>
+        <div class="card"><div class="num">2</div><h3>L'acquéreur décrit son projet</h3><p>Budget, zones, usage, critères, calendrier. Aucun document sensible n'est publié. L'acheteur voit avant de s'engager.</p></div>
+        <div class="card"><div class="num">3</div><h3>Les biens compatibles sont montrés</h3><p>Prix, secteur, photos autorisées, Magazine si disponible. L'acquéreur comprend pourquoi ce bien lui est proposé.</p></div>
+        <div class="card"><div class="num">4</div><h3>La visite se demande simplement</h3><p>La demande est transmise au vendeur. Pas de coordonnées échangées automatiquement. Le vendeur décide.</p></div>
+      </div>
+    </section>
+ 
+    <section class="sec">
+      <span class="eye">2 · Pourquoi VIP est plus exigeant</span>
+      <h2 class="title">On ne vous demande pas tout au départ. On demande ce qui est nécessaire au bon moment.</h2>
+      <p class="lead">Le VIP est plus exigeant parce qu'il protège plus. Un bien qui entre dans le catalogue confidentiel doit être documenté pour que l'acheteur qui le voit puisse lui faire confiance sans que le vendeur ait à s'exposer.</p>
+      <div class="grid2">
+        <div class="card">
+          <h3>Côté vendeur — pour entrer en VIP</h3>
+          <ul>
+            <li><strong>Dossier bien complet :</strong> prix, adresse réelle, surface, photos, DPE</li>
+            <li><strong>Droit à publier :</strong> attestation propriété ou taxe foncière récente</li>
+            <li><strong>Documents techniques :</strong> servent au cadrage et au notaire, pas envoyés à l'acheteur</li>
+            <li><strong>Si documents manquants :</strong> IMA vous le signale et peut vous orienter vers un professionnel vérifié</li>
+            <li><strong>Alternative :</strong> si le dossier n'est pas prêt, le bien reste dans IMMATCH classique</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Côté acquéreur — pour voir les biens</h3>
+          <ul>
+            <li><strong>Créer le projet :</strong> email, téléphone, nom, critères, budget, calendrier</li>
+            <li><strong>Voir les biens compatibles :</strong> projet suffisamment renseigné</li>
+            <li><strong>Demander une visite :</strong> vérification renforcée possible selon le bien</li>
+            <li><strong>Rester discret :</strong> identité non transmise au vendeur sans cadre accepté</li>
+            <li><strong>Partir :</strong> fermeture du compte depuis l'espace personnel à tout moment</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+ 
+    <section class="sec">
+      <span class="eye">3 · Ce qui n’existe nulle part ailleurs</span>
+      <h2 class="title">Des concepts créés par IMMATCH qui changent l’expérience de la vente confidentielle.</h2>
+      <div class="grid3">
+        <article class="card ex" onclick="openM('mag')">
+          <span class="badge">exemple</span>
+          <div class="ico" style="background:linear-gradient(135deg,var(--gold2),var(--gold),var(--gold3));">M</div>
+          <h3>Magazine Premium</h3>
+          <p>Un exemple de présentation éditoriale : histoire du lieu, photos, plans, synthèse technique et accès contrôlé.</p>
+          <div class="preview mock-mag">
+            <div class="cover"><small>Exemple</small><b>Appartement familial<br>Paris 7e</b><span>Magazine confidentiel</span></div>
+            <div class="pages"><div class="page"><strong>Page 1</strong><span>L’histoire du lieu</span></div><div class="page"><strong>Page 2</strong><span>Photos & lumière</span></div><div class="page"><strong>Page 3</strong><span>Synthèse technique</span></div></div>
+          </div>
+        </article>
+        <article class="card ex" onclick="openM('visit')">
+          <span class="badge">vidéo</span>
+          <div class="ico" style="background:linear-gradient(135deg,var(--teal2),var(--teal));color:#fff">V</div>
+          <h3>Visite Signature</h3>
+          <p>Une vidéo marketing montre l’expérience : accueil, parcours, QR, mise en scène et rapport après visite.</p>
+          <div class="preview"><div class="videoBox"><div class="play"></div><div class="videoCap"><strong>Exemple vidéo</strong><span>Accueil · parcours · confidentialité</span></div></div></div>
+        </article>
+        <article class="card ex" onclick="openM('home')">
+          <span class="badge">option</span>
+          <div class="ico" style="background:linear-gradient(135deg,var(--navy),var(--navy2));color:var(--gold3)">H</div>
+          <h3>Accueil Signature</h3>
+          <p>Sur certains biens : Home Steward, boisson soft, brunch léger, chauffeur ou accueil dédié. Toujours optionnel, sur devis et avec accord du propriétaire.</p>
+          <div class="preview"><p class="note"><b>Important :</b> ce n’est pas une promesse automatique. C’est un service de mise en scène et d’accueil, sans négociation ni conseil juridique.</p></div>
+        </article>
+      </div>
+    </section>
+ 
+    <section class="sec">
+      <span class="eye">4 · Services pro & offres</span>
+      <h2 class="title">Des services utiles, proposés au bon moment, sans transformer IMMATCH en agence.</h2>
+      <div class="offer">
+        <h3>Trois niveaux simples</h3>
+        <p>Les prestations sont optionnelles. Elles apparaissent quand le dossier montre un besoin réel : diagnostics, photos, vidéo, magazine, visite signature, Home Steward. Les partenaires sont vérifiés, soumis à confidentialité et interviennent dans leur métier. IMMATCH reste un cadre de mise en relation et de préparation, sans négociation ni représentation du vendeur.</p>
+        <div class="offerGrid">
+          <div class="offerCard"><strong>Je gère moi-même</strong><span>Vous préparez votre dossier, vos photos et vos échanges dans le cadre sécurisé IMMATCH.</span><button class="btn teal">Garder le socle</button></div>
+          <div class="offerCard"><strong>Essentiel</strong><span>Aide au dossier, vérification des pièces attendues, orientation vers diagnostiqueur, photographe ou prestataire si besoin.</span><button class="btn gold">Voir Essentiel</button></div>
+          <div class="offerCard"><strong>Signature</strong><span>Reportage, vidéo, Magazine Premium, visite signature, Home Steward et accueil renforcé selon bien et devis.</span><button class="btn gold">Demander Signature</button></div>
+        </div>
+      </div>
+    </section>
+ 
+    <section class="sec">
+      <span class="eye">FAQ visible avant inscription</span>
+      <h2 class="title">Les réponses doivent être visibles avant l'inscription.</h2>
+      <div class="faq">
+        <details open><summary>IMMATCH prend-il une commission sur la vente ?</summary><p>Non. IMMATCH facture ses services : préparation du dossier, mise en relation technique, valorisation si vous la souhaitez. Jamais un pourcentage sur le prix de vente entre particuliers.</p></details>
+        <details><summary>Puis-je voir les photos avant de demander une visite ?</summary><p>Oui. Les photos, vidéos, plans ou magazine autorisés par le propriétaire sont visibles avant la demande de visite. L'adresse exacte et les coordonnées restent protégées.</p></details>
+        <details><summary>Mes coordonnées sont-elles transmises au vendeur ?</summary><p>Non, pas automatiquement. La mise en relation suit un cadre accepté par les deux parties. Aucune coordonnée n'est transmise sans accord explicite.</p></details>
+        <details><summary>Si mon bien n'est pas encore prêt pour le VIP ?</summary><p>Il reste dans IMMATCH classique. IMA vous signale ce qui manque et peut vous orienter vers des professionnels vérifiés pour compléter votre dossier. Quand il est prêt, vous activez le VIP.</p></details>
+        <details><summary>Qu'est-ce qui rend un bien éligible au VIP ?</summary><p>Un bien d'exception, un prix de prestige, une situation sensible ou un besoin fort de discrétion. Au moins un critère peut suffire, mais le dossier doit être suffisamment complet pour entrer en VIP.</p></details>
+      </div>
+    </section>
+  </section>
+ 
+  <!-- VENDEUR -->
+  <section class="view" id="v-vendeur">
+    <div class="workspace">
+      <aside class="side">
+        <div class="label">Mes projets</div>
+        <div class="project active"><strong>Appartement familial · Paris 7e</strong><small>180 m² · 2,85 M€ · préparation VIP</small><div class="tags"><span class="pill goldp">VIP</span><span class="pill warn">Dossier à finir</span></div></div>
+        <div class="project"><strong>Maison Erdeven</strong><small>102 m² · IMMATCH classique</small><div class="tags"><span class="pill tealp">Standard</span></div></div>
+        <div class="project"><strong>Recherche Morbihan</strong><small>Projet acquéreur</small><div class="tags"><span class="pill ok">Acheteur</span></div></div>
+        <div class="add">+ Ajouter un projet</div>
+      </aside>
+ 
+      <div>
+        <div class="panelHero">
+          <span class="eye" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:#fff">Je vends · préparation VIP</span>
+          <h1>Votre bien peut entrer en VIP quand son dossier est clair.</h1>
+          <p>Le vendeur ne promet pas un bien “d’exception” : il le documente. C’est cette exigence qui permet de montrer le prix, les images et les informations utiles sans exposer inutilement le propriétaire.</p>
+          <div class="state"><span style="background:rgba(255,255,255,.1)">Présentation courte prête</span><span style="background:rgba(183,121,31,.2);color:#FFD79B">Fiche complète bloquée</span><span style="background:rgba(255,255,255,.1)">Mode silencieux</span></div>
+        </div>
+ 
+        <div class="ima">
+          <div class="imaMain">
+            <div class="imaHead"><div class="orb">IMA</div><div><h2>Ce qu’il manque pour activer le VIP</h2><p>Des actions concrètes, pas du jargon.</p></div></div>
+            <div class="decision"><strong>DPE manquant</strong><span>La fiche complète du bien ne peut pas être ouverte tant que le DPE n’est pas disponible. Vous pouvez le déposer ou demander un diagnostiqueur partenaire.</span><div class="actions"><button class="btn teal">Déposer le DPE</button><button class="btn light">Demander un diagnostiqueur</button></div></div>
+            <div class="decision"><strong>Droit à publier à confirmer</strong><span>Pour entrer en VIP, IMMATCH demande un justificatif simple : attestation de propriété ou avis de taxe foncière récent. Si vous êtes mandaté, vous passez par le parcours partenaire.</span><div class="actions"><button class="btn gold">Déposer le justificatif</button><button class="btn light">Je suis mandaté</button></div></div>
+            <div class="decision"><strong>Photos minimales à ajouter</strong><span>L’acquéreur doit pouvoir voir des images avant de demander une visite. Une fiche VIP sans photos ni vidéo ne crée pas de confiance.</span><div class="actions"><button class="btn teal">Ajouter des photos</button><button class="btn light" onclick="openM('mag')">Voir l’exemple Magazine</button></div></div>
+          </div>
+          <div class="imaSide">
+            <div class="status"><div><strong>Présentation courte</strong><span class="pill ok">Prête</span></div><p>Vue synthétique : prix, secteur, surface, 3 images autorisées.</p></div>
+            <div class="status"><div><strong>Fiche complète du bien</strong><span class="pill warn">À compléter</span></div><p>Ouvre photos complètes, vidéo, Magazine et infos détaillées.</p></div>
+            <div class="status"><div><strong>Dossier notaire / conseil</strong><span class="pill darkp">Réservé</span></div><p>Documents complets non transmis à l’acquéreur depuis IMMATCH.</p></div>
+          </div>
+        </div>
+ 
+        <div class="shortcuts">
+          <div class="short"><div class="sico">1</div><h3>Informations du bien</h3><p>Prix, surface, adresse privée, caractéristiques.</p><b>80 % complet</b></div>
+          <div class="short" onclick="openM('upload-docs')" style="cursor:pointer"><div class="sico" style="color:var(--danger)">2</div><h3>Documents</h3><p>DPE, copropriété, propriété, diagnostics.</p><b style="color:var(--danger)">2 attendus · déposer →</b></div>
+          <div class="short" onclick="openM('upload-media')" style="cursor:pointer"><div class="sico" style="color:var(--warn)">3</div><h3>Photos & vidéos</h3><p>Photos, vidéo, magazine, plans.</p><b style="color:var(--warn)">Photos à ajouter →</b></div>
+          <div class="short"><div class="sico">4</div><h3>Services</h3><p>Essentiel, Signature, Home Steward.</p><b>Optionnel</b></div>
+        </div>
+ 
+        <div class="grid2" style="margin-bottom:16px">
+          <div class="box">
+            <h3>Ce que l’acquéreur verra avant visite</h3>
+            <div class="mediaGrid">
+              <div class="photoMock"></div>
+              <div class="stack">
+                <div class="miniPhoto">Prix affiché<span>2 850 000 €</span></div>
+                <div class="miniPhoto">Secteur maîtrisé<span>Paris 7e · zone large</span></div>
+                <div class="miniPhoto">Photos & vidéos autorisées<span>Photos principales · vidéo si activée</span></div>
+                <div class="miniPhoto">Pourquoi ce bien<span>Score expliqué par critères</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="box">
+            <h3>Règle documents</h3>
+            <p class="lead" style="font-size:13px">Aucune pièce n’est transmise à l’acquéreur. Seules les informations nécessaires sont indiquées selon le niveau d’accès autorisé. Les documents complets sont réservés à votre notaire, votre conseil ou au cadre accepté après accord.</p>
+          </div>
+        </div>
+ 
+        <div class="offer">
+          <h3>Chemins vers les services pro</h3>
+          <p>La plateforme signale ce qui manque. Le vendeur choisit : faire seul, activer Essentiel ou demander Signature. Les prix peuvent venir plus tard dans le tunnel commercial.</p>
+          <div class="offerGrid">
+            <div class="offerCard"><strong>Je gère moi-même</strong><span>Je fournis moi-même les pièces, photos et informations demandées.</span><button class="btn teal">Continuer seul</button></div>
+            <div class="offerCard"><strong>Offre Essentiel</strong><span>Dossier cadré, documents vérifiés, orientation vers pros vérifiés, préparation de la fiche complète.</span><button class="btn gold">Voir Essentiel</button></div>
+            <div class="offerCard"><strong>Offre Signature</strong><span>Essentiel + reportage, vidéo marketing, Magazine Premium, visite Signature et accueil renforcé.</span><button class="btn gold">Demander un devis</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ACQUEREUR -->
+  <section class="view" id="v-acquereur">
+    <div class="workspace">
+      <aside class="side">
+        <div class="label">Mes projets</div>
+        <div class="project active"><strong>Recherche résidence familiale</strong><small>Budget 1,5 M€ · Bretagne sud</small><div class="tags"><span class="pill ok">Recherche créée</span><span class="pill warn">Budget souple</span></div></div>
+        <div class="project"><strong>Vente appartement</strong><small>Paris 7e · vendeur</small><div class="tags"><span class="pill goldp">VIP</span></div></div>
+        <div class="add">+ Ajouter un projet</div>
+      </aside>
+ 
+      <div>
+        <div class="panelHero">
+          <span class="eye" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:#fff">Je recherche · biens compatibles</span>
+          <h1>Vous voyez les biens avant de demander une visite.</h1>
+          <p>Le score IMMATCH n’est pas un verdict. Il explique pourquoi un bien correspond, ce qui bloque, et ce que vous pouvez ajuster : budget, zone, critères ou niveau de confidentialité.</p>
+          <div class="state"><span style="background:rgba(29,158,117,.15);color:#A6F3D0">Projet renseigné</span><span style="background:rgba(255,255,255,.1)">Prix visibles</span><span style="background:rgba(255,255,255,.1)">Photos, vidéos et magazine visibles</span></div>
+        </div>
+ 
+        <div class="card" style="margin-bottom:16px;border-top:4px solid var(--teal)">
+          <span class="eye" style="color:var(--teal2)">Votre parcours acquéreur</span>
+          <h3 style="font-family:var(--serif);font-size:24px;margin-bottom:4px">Ce qui se passe, étape par étape.</h3>
+          <p class="lead" style="font-size:13px;margin-bottom:8px">Vous savez toujours où vous en êtes. Rien ne se fait sans votre accord.</p>
+          <div class="journey">
+            <div class="jstep"><div class="jdot done">1</div><div><h4>Votre projet est créé</h4><p>Vous avez décrit votre recherche : budget, zones, usage, critères, calendrier. Ces informations ne sont pas publiées.</p><span class="jpill ok">Fait</span></div></div>
+            <div class="jstep"><div class="jdot done">2</div><div><h4>Des biens compatibles apparaissent</h4><p>IMMATCH vous montre des biens dont le score de compatibilité est significatif. Vous voyez le prix, le secteur et les raisons du match.</p><span class="jpill ok">Fait</span></div></div>
+            <div class="jstep"><div class="jdot current">3</div><div><h4>Vous consultez les informations autorisées</h4><p>Photos, vidéo, Magazine Premium si disponible. Vous comprenez le bien avant de demander quoi que ce soit. L’adresse exacte reste masquée.</p><span class="jpill warn">En cours</span></div></div>
+            <div class="jstep"><div class="jdot next">4</div><div><h4>Vous posez une question ou demandez une visite</h4><p>Une question passe par IMMATCH qui répond avec les informations autorisées. Une demande de visite est transmise au vendeur, qui décide.</p><span class="jpill darkp">À venir</span></div></div>
+            <div class="jstep"><div class="jdot next">5</div><div><h4>La visite est organisée dans un cadre clair</h4><p>Si le vendeur accepte, un créneau est proposé. Selon le bien : visite simple, visite Signature ou accueil avec Home Steward. Engagement de confidentialité signé avant.</p><span class="jpill darkp">À venir</span></div></div>
+            <div class="jstep"><div class="jdot next">6</div><div><h4>La mise en relation s’ouvre si les deux parties avancent</h4><p>Les coordonnées ne sont échangées que dans le cadre accepté. Vous pouvez formuler une intention d’achat structurée. Le vendeur décide de la suite.</p><span class="jpill darkp">À venir</span></div></div>
+          </div>
+        </div>
+ 
+        <div class="questionBar">
+          <div><h3>Une question avant de visiter ?</h3><p>Demandez à IMMATCH pourquoi un bien est proposé, quels critères correspondent, ou quels points restent à vérifier.</p></div>
+          <button class="btn teal" onclick="openM('questions')">Demander une information</button>
+        </div>
+ 
+        <article class="listing">
+          <div class="limg"><div class="media"><span>8 photos</span><span>vidéo</span><span>Magazine</span></div></div>
+          <div class="lbody">
+            <div class="ltop"><div><h3>Villa contemporaine · Bretagne sud</h3><p class="note">Secteur côtier maîtrisé · 210 m² · jardin · dépendance</p></div><div class="price">1 600 000 €</div></div>
+            <div class="budget"><strong>Compatible sous ajustement :</strong> le prix dépasse votre budget de référence de 100 000 €, mais la zone, l’usage familial, le style et la temporalité correspondent fortement.</div>
+            <div class="score"><div class="circle">86%</div><p><strong>Score expliqué :</strong> zone 96 %, usage 94 %, style 91 %, temporalité 88 %, prix 68 %. Le prix réduit le score, mais ne bloque pas la proposition.</p></div>
+            <div class="reasons"><span>Zone prioritaire</span><span>Vue & lumière</span><span>Usage familial</span><span>Budget à ajuster</span></div>
+            <div class="actions"><button class="btn dark" onclick="openM('media')">Voir photos & vidéo</button><button class="btn light" onclick="openM('questions')">Pourquoi ce bien ?</button><button class="btn gold">Demander une visite</button><button class="btn light">Modifier mon budget</button></div>
+          </div>
+        </article>
+ 
+        <article class="listing">
+          <div class="limg" style="background:linear-gradient(135deg,#D7CBB5,#F8F6EF)"><div class="media"><span>5 photos</span><span>plans</span></div></div>
+          <div class="lbody">
+            <div class="ltop"><div><h3>Maison de caractère · Golfe du Morbihan</h3><p class="note">Secteur large · 150 m² · charme ancien · travaux légers</p></div><div class="price">900 000 €</div></div>
+            <div class="score"><div class="circle" style="background:conic-gradient(var(--teal) 0 91%,#E8E0D0 91% 100%)">91%</div><p><strong>Score expliqué :</strong> le prix est inférieur à votre capacité, mais le bien correspond fortement à vos critères de style, de localisation et d’usage.</p></div>
+            <div class="reasons"><span>Très bon rapport projet</span><span>Sous budget</span><span>Travaux possibles</span></div>
+            <div class="actions"><button class="btn dark" onclick="openM('media')">Voir photos & plans</button><button class="btn light" onclick="openM('questions')">Demander une info</button><button class="btn gold">Demander une visite</button></div>
+          </div>
+        </article>
+ 
+        <div class="lower">
+          <div class="box">
+            <h3>Ce qu’il faut pour visiter</h3>
+            <div class="row"><span>Projet de recherche</span><strong style="color:var(--ok)">Complet</strong></div>
+            <div class="row"><span>Contact vérifié</span><strong style="color:var(--ok)">Oui</strong></div>
+            <div class="row"><span>Engagement de confidentialité</span><strong>À signer avant visite</strong></div>
+            <div class="row"><span>Preuve de financement</span><strong>Selon exigence du bien</strong></div>
+          </div>
+          <div class="box">
+            <h3>Confidentialité</h3>
+            <p class="lead" style="font-size:13px">Votre identité peut rester confidentielle vis-à-vis du vendeur, mais IMMATCH doit vérifier votre sérieux. Aucune coordonnée n’est transmise sans cadre accepté.</p>
+            <button class="btn light" style="margin-top:12px" onclick="openM('home')">Visite confidentielle avec Home Steward</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ACTIF -->
+  <section class="view" id="v-actif">
+    <div class="workspace">
+      <aside class="side">
+        <div class="label">Mes projets</div>
+        <div class="project active"><strong>Appartement familial · Paris 7e</strong><small>Fiche complète active</small><div class="tags"><span class="pill ok">VIP actif</span><span class="pill darkp">Silencieux</span></div></div>
+        <div class="add">+ Ajouter un projet</div>
+      </aside>
+      <div>
+        <div class="panelHero">
+          <span class="eye" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:#fff">Projet vendeur actif</span>
+          <h1>Votre bien est visible uniquement par les acquéreurs compatibles.</h1>
+          <p>La fiche complète est active. Les photos, vidéos et le magazine sont consultables par les profils autorisés. Les demandes de visite restent soumises à votre décision.</p>
+          <div class="state"><span style="background:rgba(29,158,117,.15);color:#A6F3D0">Fiche complète active</span><span style="background:rgba(201,168,76,.16);color:#F4DF9B">1 demande de visite</span><span style="background:rgba(255,255,255,.1)">Aucune coordonnée transmise</span></div>
+        </div>
+        <div class="ima">
+          <div class="imaMain">
+            <div class="imaHead"><div class="orb">IMA</div><div><h2>Décisions utiles</h2><p>Ce qui demande une vraie action vendeur.</p></div></div>
+            <div class="decision"><strong>Demande de visite à valider</strong><span>Acquéreur vérifié · compatibilité 91 % · budget compatible · engagement de confidentialité prêt.</span><div class="actions"><button class="btn teal">Autoriser la visite</button><button class="btn light">Demander un complément</button><button class="btn light">Refuser</button></div></div>
+            <div class="decision"><strong>Accueil Signature possible</strong><span>Pour un bien de ce niveau, vous pouvez demander un Home Steward, une visite scénarisée, boisson soft ou accueil dédié. Optionnel, sur devis.</span><div class="actions"><button class="btn gold" onclick="openM('home')">Voir l’accueil Signature</button><button class="btn light">Rester en visite simple</button></div></div>
+            <div class="decision"><strong>Question acquéreur reçue</strong><span>“Le bien est-il adapté à un usage résidence secondaire avec télétravail ?” IMMATCH peut répondre avec les informations autorisées.</span><div class="actions"><button class="btn teal">Autoriser la réponse</button><button class="btn light">Répondre moi-même</button></div></div>
+          </div>
+          <div class="imaSide">
+            <div class="status"><div><strong>Présentation courte</strong><span class="pill ok">Visible</span></div><p>Prix, secteur, 3 images, raisons de compatibilité.</p></div>
+            <div class="status"><div><strong>Fiche complète du bien</strong><span class="pill ok">Active</span></div><p>Photos, vidéo, Magazine et informations détaillées.</p></div>
+            <div class="status"><div><strong>Mise en relation</strong><span class="pill warn">Non activée</span></div><p>Activation uniquement après accords et règlement propriétaire prévu.</p></div>
+          </div>
+        </div>
+ 
+        <div class="shortcuts">
+          <div class="short"><div class="sico">A</div><h3>Accès</h3><p>Qui voit quoi et depuis quand.</p><b>3 profils</b></div>
+          <div class="short"><div class="sico">Q</div><h3>Questions</h3><p>Demandes d’information avant visite.</p><b>1 nouvelle</b></div>
+          <div class="short"><div class="sico">V</div><h3>Visites</h3><p>Créneaux, participants, Home Steward.</p><b>1 à confirmer</b></div>
+          <div class="short"><div class="sico">J</div><h3>Journal</h3><p>Traçabilité des accès et actions.</p><b>14 actions</b></div>
+        </div>
+ 
+        <div class="lower">
+          <div class="box"><h3>Dernier événement</h3><p class="lead" style="font-size:13px">Un acquéreur compatible a consulté les photos et le magazine autorisés pendant 7 minutes, puis a demandé une visite. Il n’a pas reçu vos coordonnées et ne connaît pas l’adresse exacte.</p></div>
+          <div class="box"><h3>Paramètres de diffusion</h3><div class="row"><span>Mode</span><strong>Silencieux</strong></div><div class="row"><span>Niveau visible</span><strong>Fiche complète du bien</strong></div><div class="row"><span>Documents complets</span><strong>Notaire / conseil uniquement</strong></div><div class="row"><span>Coordonnées</span><strong>Non transmises</strong></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+ 
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="if(event.target===this)closeM()">
+  <div class="modalCard">
+    <div class="modalClose"><button onclick="closeM()">Fermer</button></div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+ 
+<template id="tpl-mag">
+  <div class="modalHero goldh">
+    <h2>Exemple de Magazine Premium</h2>
+    <p>Le Magazine n’est pas une annonce. C’est un document éditorial de 8 à 14 pages qui raconte le bien, montre les espaces choisis et donne les informations utiles — sans exposer le propriétaire.</p>
+  </div>
+  <div class="mag-spread">
+    <div class="mag-left">
+      <div>
+        <small>Magazine confidentiel IMMATCH</small>
+        <div class="mag-title">Appartement familial<br>Paris 7e</div>
+        <div class="mag-sub">Volume · lumière naturelle · adresse préservée<br>Un lieu pensé pour une famille, dans un immeuble discret à deux pas de l’esplanade des Invalides.</div>
+      </div>
+      <div class="mag-foot"><span>14 pages · accès contrôlé</span><span>Édition confidentielle</span></div>
+    </div>
+    <div class="mag-right">
+      <div class="mag-page">
+        <div class="mpnum">Pages 1-3 · Le lieu</div>
+        <h4>L’histoire du bâtiment et l’ambiance du quartier</h4>
+        <p>Récit sobre : quand l’immeuble a été construit, les choix architecturaux, l’orientation, la lumière aux différentes heures, le quartier sans donner l’adresse exacte.</p>
+        <div class="mag-img"><span>Photo façade · lumière matin</span></div>
+      </div>
+      <div class="mag-page">
+        <div class="mpnum">Pages 4-7 · Les espaces</div>
+        <h4>Galerie photo choisie et plans autorisés</h4>
+        <p>Photos sélectionnées par le propriétaire : salon, cuisine, chambres, vue. Plans au sol si autorisés. Vidéo privée accessible depuis le Magazine si activée.</p>
+        <div class="mag-img"><span>Salon · 42 m² · double exposition</span></div>
+      </div>
+      <div class="mag-page">
+        <div class="mpnum">Pages 8-10 · Les informations utiles</div>
+        <h4>Synthèse technique, DPE, charges, copropriété</h4>
+        <p>Surface, étage, orientation, DPE, charges annuelles synthétisées, travaux votés ou déclarés. Factures synthétisées : nature, année, montant déclaré et garantie.</p>
+      </div>
+      <div class="mag-page">
+        <div class="mpnum">Pages 11-14 · Le dossier réservé</div>
+        <h4>Documents complets réservés au notaire ou au conseil</h4>
+        <p>PV d’AG anonymisés, diagnostics complets, attestation de propriété. Ce niveau n’est ouvert qu’après accord du propriétaire, dans le cadre prévu.</p>
+      </div>
+    </div>
+  </div>
+  <div class="modalGrid" style="margin-top:14px">
+    <div class="mcard"><h3>Accès acquéreur</h3><p>Un acquéreur qualifié peut voir le Magazine si le propriétaire l’autorise. L’adresse exacte et les coordonnées restent masquées.</p></div>
+    <div class="mcard"><h3>Contrôle vendeur</h3><p>Le propriétaire valide chaque page et chaque niveau d’accès. Il peut retirer une photo, masquer un document ou refermer l’accès à tout moment.</p></div>
+  </div>
+  <div class="upload-row" style="margin-top:14px">
+    <div class="upload-zone">
+      <div class="uico">↑</div>
+      <strong>Ajouter des photos au Magazine</strong>
+      <span>Les photos sont validées avant publication. Vous choisissez ce qui est montré.</span>
+      <div class="formats">JPG, PNG, HEIC · 20 Mo max par fichier</div>
+    </div>
+    <div class="upload-zone">
+      <div class="uico">▶</div>
+      <strong>Ajouter une vidéo privée</strong>
+      <span>La vidéo est accessible depuis le Magazine si vous l’activez. Elle n’est pas publique.</span>
+      <div class="formats">MP4, MOV · 500 Mo max</div>
+    </div>
+  </div>
+</template>
+ 
+<template id="tpl-visit">
+  <div class="modalHero tealh">
+    <h2>Visite Signature & QR codes</h2>
+    <p>La visite Signature montre une expérience encadrée : accueil, parcours, QR codes, informations autorisées et rapport de visite. Elle est optionnelle et adaptée au bien.</p>
+  </div>
+  <div class="videoBox" style="min-height:360px"><div class="play"></div><div class="videoCap"><strong>Film de présentation de la visite</strong><span>Arrivée · accueil · parcours · confidentialité · retour vendeur</span></div></div>
+  <div style="margin-top:16px">
+    <span class="eye" style="color:var(--teal2)">QR codes visite augmentée</span>
+    <h3 style="font-family:var(--serif);font-size:22px;margin-bottom:4px">Quatre types de contenu accessibles pendant la visite.</h3>
+    <p class="note" style="margin-bottom:6px">Chaque QR code donne accès à un contenu autorisé par le propriétaire. Le visiteur scanne avec son téléphone. Rien n’est imprimé, rien n’est emporté.</p>
+    <div class="qr-grid">
+      <div class="qr-card">
+        <div class="qrico" style="background:linear-gradient(135deg,var(--gold2),var(--gold));color:#fff;font-size:18px;font-weight:900">R</div>
+        <h4>Récit du lieu</h4>
+        <p>L’histoire du bâtiment, l’ambiance du quartier, ce qui rend ce lieu singulier. Pas d’adresse exacte.</p>
+      </div>
+      <div class="qr-card">
+        <div class="qrico" style="background:linear-gradient(135deg,var(--teal2),var(--teal));color:#fff;font-size:18px;font-weight:900">M</div>
+        <h4>Matériaux & rénovation</h4>
+        <p>Parquet, menuiseries, isolation, équipements. Les travaux réalisés ou à prévoir, avec année et garantie.</p>
+      </div>
+      <div class="qr-card">
+        <div class="qrico" style="background:linear-gradient(135deg,var(--navy),var(--navy2));color:var(--gold3);font-size:18px;font-weight:900">C</div>
+        <h4>Confiance & conformité</h4>
+        <p>DPE, assainissement, diagnostics, copropriété. Synthèse visuelle, pas les documents bruts.</p>
+      </div>
+      <div class="qr-card">
+        <div class="qrico" style="background:linear-gradient(135deg,#534AB7,#7C6FD8);color:#fff;font-size:18px;font-weight:900">A</div>
+        <h4>Art de vivre</h4>
+        <p>Ce qui fait la vie ici : marchés, écoles, transports, espaces verts, habitudes du quartier.</p>
+      </div>
+    </div>
+  </div>
+  <div class="modalGrid" style="margin-top:14px">
+    <div class="mcard"><h3>Ce que la vidéo montre</h3><ul><li>Arrivée au lieu ou au point de rendez-vous.</li><li>Accueil par Home Steward si activé.</li><li>Parcours de visite clair et discret.</li><li>QR codes donnant accès aux contenus autorisés.</li><li>Rapport factuel au vendeur après la visite.</li></ul></div>
+    <div class="mcard"><h3>Ce que la visite ne fait pas</h3><ul><li>Pas de négociation.</li><li>Pas de conseil juridique.</li><li>Pas de représentation du vendeur.</li><li>Pas de transmission de coordonnées sans accord.</li></ul></div>
+  </div>
+</template>
+ 
+<template id="tpl-home">
+  <div class="modalHero tealh">
+    <h2>Home Steward & Accueil Signature</h2>
+    <p>Pour certains biens, la visite peut devenir une expérience d’accueil : Home Steward, boisson soft, brunch léger, chauffeur ou parcours scénarisé. Ce n’est jamais automatique : c’est proposé sur devis, selon le bien et l’accord du propriétaire.</p>
+  </div>
+  <div class="modalGrid">
+    <div class="mcard"><h3>Home Steward</h3><ul><li>Accueille les visiteurs vérifiés.</li><li>Contrôle les QR codes et rappelle le cadre de confidentialité.</li><li>Ouvre et referme le lieu.</li><li>Produit un rapport factuel.</li></ul></div>
+    <div class="mcard"><h3>Accueil Signature</h3><ul><li>Boisson soft ou accueil léger.</li><li>Brunch discret selon le format.</li><li>Chauffeur ou point de rendez-vous privé.</li><li>Parcours pensé pour un bien d’exception.</li></ul></div>
+    <div class="mcard"><h3>Limites claires</h3><p>Le prestataire ne vend pas, ne négocie pas, ne représente pas le propriétaire et ne donne pas de conseil juridique.</p></div>
+    <div class="mcard"><h3>Activation</h3><p>Option proposée dans l’offre Signature ou sur devis. Les prestataires doivent être vérifiés, assurés et soumis à confidentialité.</p></div>
+  </div>
+</template>
+ 
+<template id="tpl-questions">
+  <div class="modalHero tealh">
+    <h2>Demander une information avant visite</h2>
+    <p>L’acquéreur peut poser une question sans déclencher une mise en relation. IMMATCH répond uniquement avec les informations autorisées par le niveau d’accès.</p>
+  </div>
+  <div class="modalGrid">
+    <div class="mcard"><h3>Questions possibles</h3><ul><li>Pourquoi ce bien m’est-il proposé ?</li><li>Quels critères correspondent à ma recherche ?</li><li>Quels critères correspondent moins ?</li><li>Le budget est-il au-dessus de mon enveloppe ?</li><li>Quelles photos, vidéos ou informations sont disponibles avant visite ?</li></ul></div>
+    <div class="mcard"><h3>Réponse IMMATCH</h3><p>La réponse explique le score de compatibilité : zone, budget, usage, style, temporalité, critères forts et points à vérifier. Elle ne révèle pas d’adresse exacte ni de coordonnées.</p></div>
+  </div>
+</template>
+ 
+<template id="tpl-media">
+  <div class="modalHero goldh">
+    <h2>Photos, vidéos et magazine visibles avant demande de visite</h2>
+    <p>Un acquéreur ne doit pas demander une visite à l’aveugle. Les photos, vidéos, plans ou magazine autorisés peuvent être visibles avant la visite, sans ouvrir l’adresse exacte ni les coordonnées du vendeur.</p>
+  </div>
+  <div class="mediaGrid">
+    <div class="photoMock" style="min-height:280px"></div>
+    <div class="stack">
+      <div class="miniPhoto">Photos principales<span>Salon, façade, extérieur, volumes.</span></div>
+      <div class="miniPhoto">Vidéo privée<span>Disponible si activée par le vendeur.</span></div>
+      <div class="miniPhoto">Magazine Premium<span>Ouvert selon niveau d’accès.</span></div>
+      <div class="miniPhoto">Informations techniques<span>Synthèse, pas documents complets.</span></div>
+    </div>
+  </div>
+</template>
+ 
+<script>
+function go(v,el){
+  document.querySelectorAll('.view').forEach(s=>s.classList.remove('on'));
+  document.getElementById('v-'+v).classList.add('on');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('on'));
+  if(el){ el.classList.add('on'); }
+  else{
+    const map={intro:0,vendeur:1,acquereur:2,actif:3};
+    document.querySelectorAll('.nav button')[map[v]]?.classList.add('on');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function openM(k){
+  const tpl=document.getElementById('tpl-'+k);
+  document.getElementById('modalContent').innerHTML=tpl ? tpl.innerHTML : '';
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeM(){
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+document.addEventListener('click',e=>{
+  const mode=document.querySelector('.mode');
+  if(mode && !mode.contains(e.target)) mode.classList.remove('open');
+});
+</script>
+ 
+<template id="tpl-upload-docs">
+  <div class="modalHero tealh">
+    <h2>Déposer des documents</h2>
+    <p>Les documents sont stockés de façon sécurisée et ne sont jamais transmis directement aux acquéreurs. Ils servent au cadrage du dossier et à la préparation notaire.</p>
+  </div>
+  <div class="upload-row">
+    <div class="upload-zone">
+      <div class="uico">↑</div>
+      <strong>DPE / diagnostics</strong>
+      <span>DPE, amiante, plomb, électricité, gaz, termites, assainissement si applicable.</span>
+      <div class="formats">PDF · 10 Mo max par fichier</div>
+    </div>
+    <div class="upload-zone">
+      <div class="uico">↑</div>
+      <strong>Attestation de propriété</strong>
+      <span>Titre de propriété, avis de taxe foncière récent ou attestation notariale.</span>
+      <div class="formats">PDF · 10 Mo max</div>
+    </div>
+  </div>
+  <div class="upload-row">
+    <div class="upload-zone">
+      <div class="uico">↑</div>
+      <strong>Copropriété</strong>
+      <span>Règlement, PV d’AG (anonymisés avant diffusion), carnet d’entretien, fonds travaux.</span>
+      <div class="formats">PDF · 10 Mo max par fichier</div>
+    </div>
+    <div class="upload-zone">
+      <div class="uico">↑</div>
+      <strong>Autres documents</strong>
+      <span>Plans, permis, servitudes, bail en cours, factures travaux, garanties.</span>
+      <div class="formats">PDF, JPG, PNG · 10 Mo max</div>
+    </div>
+  </div>
+  <div class="mcard" style="margin-top:14px">
+    <h3>Règle de diffusion</h3>
+    <p>Aucun document n’est transmis à l’acquéreur. Les informations utiles sont synthétisées dans le Magazine ou la fiche complète. Les pièces originales sont réservées au notaire, au conseil ou au cadre accepté.</p>
+  </div>
+</template>
+ 
+<template id="tpl-upload-media">
+  <div class="modalHero goldh">
+    <h2>Ajouter des photos et vidéos</h2>
+    <p>Les visuels sont la première chose que l’acquéreur voit. Des photos de qualité créent la confiance et réduisent les visites inutiles.</p>
+  </div>
+  <div class="upload-row">
+    <div class="upload-zone">
+      <div class="uico">↑</div>
+      <strong>Photos du bien</strong>
+      <span>Salon, cuisine, chambres, salle de bain, extérieurs, façade, vue. Minimum 5 photos recommandé pour le VIP.</span>
+      <div class="formats">JPG, PNG, HEIC · 20 Mo max par fichier</div>
+    </div>
+    <div class="upload-zone">
+      <div class="uico">▶</div>
+      <strong>Vidéo privée</strong>
+      <span>Vidéo de présentation accessible depuis le Magazine ou la fiche complète si activée.</span>
+      <div class="formats">MP4, MOV · 500 Mo max</div>
+    </div>
+  </div>
+  <div class="upload-row">
+    <div class="upload-zone">
+      <div class="uico">↑</div>
+      <strong>Plans au sol</strong>
+      <span>Plans 2D ou 3D du bien. Ils apparaissent dans le Magazine si vous les autorisez.</span>
+      <div class="formats">PDF, JPG, PNG · 10 Mo max</div>
+    </div>
+    <div class="upload-zone">
+      <div class="uico">↑</div>
+      <strong>Visite virtuelle 3D</strong>
+      <span>Lien Matterport ou fichier de visite virtuelle. Intégré à la fiche si disponible.</span>
+      <div class="formats">Lien URL ou fichier</div>
+    </div>
+  </div>
+  <div class="mcard" style="margin-top:14px">
+    <h3>Conseil</h3>
+    <p>Si vous n’avez pas de photos professionnelles, l’offre Essentiel ou Signature peut vous orienter vers un photographe vérifié. Les photos au smartphone bien cadrées restent acceptées.</p>
+  </div>
+</template>
+ 
+</body>
+</html>
