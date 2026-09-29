@@ -639,30 +639,34 @@ function selectStar(groupId, val) {
   answers[groupId] = val + '/5';
 }
 
+// ====== URL du Google Apps Script (à remplacer après déploiement) ======
+const GOOGLE_SHEET_URL = 'COLLER_URL_APPS_SCRIPT_ICI';
+
 function submit() {
   collectAnswer(8);
   answers['prenom'] = document.getElementById('q8_prenom').value.trim() || 'Anonyme';
 
-  // Construire le corps du mail
-  const body = `
-RETOUR BÊTA TEST IMMATCH — PARTICULIER
-=======================================
-Date : ${new Date().toLocaleDateString('fr-FR')}
-Prénom : ${answers['prenom']}
+  // Préparer les données
+  const payload = {
+    date: new Date().toLocaleDateString('fr-FR'),
+    prenom: answers['prenom'],
+    q1: answers['q1'] || 'Non renseigné',
+    q2: answers['q2'] || 'Non renseigné',
+    q3: answers['q3'] || 'Non renseigné',
+    q4: answers['q4'] || 'Non renseigné',
+    q5: answers['q5'] || 'Aucun signalé',
+    q6: answers['q6'] || 'Non renseigné',
+    q7: answers['q7'] || 'Non renseigné',
+    q8: answers['q8'] || 'Non renseigné'
+  };
 
-Q1 - Projet immobilier : ${answers['q1'] || 'Non renseigné'}
-Q2 - Compréhension immédiate : ${answers['q2'] || 'Non renseigné'}
-Q3 - Clarté du questionnaire : ${answers['q3'] || 'Non renseigné'}
-Q4 - Compréhension du score : ${answers['q4'] || 'Non renseigné'}
-Q5 - Points de friction : ${answers['q5'] || 'Aucun signalé'}
-Q6 - Intention de continuer : ${answers['q6'] || 'Non renseigné'}
-Q7 - Expérience globale : ${answers['q7'] || 'Non renseigné'}
-Q8 - Message / suggestion : ${answers['q8'] || 'Non renseigné'}
-  `.trim();
-
-  const subject = encodeURIComponent(`[IMMATCH Bêta] Retour particulier — ${answers['prenom']}`);
-  const bodyEncoded = encodeURIComponent(body);
-  window.location.href = `mailto:contact@cadreestatesolutions.fr?subject=${subject}&body=${bodyEncoded}`;
+  // Envoyer vers Google Sheets
+  fetch(GOOGLE_SHEET_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(err => console.warn('Envoi Google Sheets:', err));
 
   // Afficher le merci
   document.querySelectorAll('.question-block').forEach(b => b.classList.remove('active'));
