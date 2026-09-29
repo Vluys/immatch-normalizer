@@ -103,7 +103,7 @@ input:focus { outline: none; border-color: var(--teal); }
       <rect x="11" y="6" width="22" height="22" rx="2" transform="rotate(45 22 17)" stroke="#B8952A" stroke-width="3" fill="none"/>
     </svg>
     <div class="logo-text">
-      <span class="wordmark">immatch<sup style="font-size:9px;font-style:normal;font-weight:300;">®</sup></span>
+      <span class="wordmark">immatch<sup style="font-size:9px;font-style:normal;font-weight:300;">™</sup></span>
       <span class="sub">by Cadre Estate Solutions</span>
     </div>
   </div>
@@ -279,8 +279,8 @@ function prev(current) { if (current > 1) show(current - 1); }
 function collectAnswer(q) {
   const single = document.querySelector(`#q${q} .choice.selected`);
   if (single) { answers[`q${q}`] = single.textContent.trim(); return; }
-  const starSelected = document.querySelectorAll(`#q${q} .star.selected`);
-  if (starSelected.length) { answers[`q${q}`] = starSelected.length + '/5'; return; }
+  const starsSelected = document.querySelectorAll(`#q${q} .star.selected`);
+  if (starsSelected.length) { answers[`q${q}`] = starsSelected[starsSelected.length - 1].textContent.trim() + '/5'; return; }
   const ta = document.getElementById(`q${q}`);
   if (ta) answers[`q${q}`] = ta.value.trim();
 }
@@ -293,26 +293,33 @@ function selectStar(groupId, val) {
   stars.forEach((s, i) => s.classList.toggle('selected', i < val));
   answers[groupId] = val + '/5';
 }
+// ====== URL du Google Apps Script PRO (à remplacer après déploiement) ======
+const GOOGLE_SHEET_URL = 'COLLER_URL_APPS_SCRIPT_PRO_ICI';
+
 function submit() {
   collectAnswer(8);
   answers['prenom'] = document.getElementById('q8_prenom').value.trim() || 'Anonyme';
-  const body = `
-RETOUR BÊTA TEST IMMATCH — PROFESSIONNEL
-=========================================
-Date : ${new Date().toLocaleDateString('fr-FR')}
-Identité : ${answers['prenom']}
 
-Q1 - Activité : ${answers['q1']||'Non renseigné'}
-Q2 - Parcours inscription : ${answers['q2']||'Non renseigné'}
-Q3 - Cockpit adapté : ${answers['q3']||'Non renseigné'}
-Q4 - Logique contacts : ${answers['q4']||'Non renseigné'}
-Q5 - Ce qui manque : ${answers['q5']||'Rien signalé'}
-Q6 - Prêt à payer 49,90€/mois : ${answers['q6']||'Non renseigné'}
-Q7 - Expérience globale : ${answers['q7']||'Non renseigné'}
-Q8 - Ce qui ferait rester/partir : ${answers['q8']||'Non renseigné'}
-  `.trim();
-  const subject = encodeURIComponent(`[IMMATCH Bêta Pro] Retour — ${answers['prenom']}`);
-  window.location.href = `mailto:contact@cadreestatesolutions.fr?subject=${subject}&body=${encodeURIComponent(body)}`;
+  const payload = {
+    date: new Date().toLocaleDateString('fr-FR'),
+    prenom: answers['prenom'],
+    q1: answers['q1'] || 'Non renseigné',
+    q2: answers['q2'] || 'Non renseigné',
+    q3: answers['q3'] || 'Non renseigné',
+    q4: answers['q4'] || 'Non renseigné',
+    q5: answers['q5'] || 'Rien signalé',
+    q6: answers['q6'] || 'Non renseigné',
+    q7: answers['q7'] || 'Non renseigné',
+    q8: answers['q8'] || 'Non renseigné'
+  };
+
+  fetch(GOOGLE_SHEET_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(err => console.warn('Envoi Google Sheets:', err));
+
   document.querySelectorAll('.question-block').forEach(b => b.classList.remove('active'));
   document.getElementById('merci').classList.add('active');
   document.getElementById('progressBar').style.width = '100%';
