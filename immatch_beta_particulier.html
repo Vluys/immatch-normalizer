@@ -614,9 +614,9 @@ function collectAnswer(q) {
   // Single select
   const single = document.querySelector(`#q${q} .choice.selected:not([data-multi])`);
   if (single) { answers[`q${q}`] = single.textContent.trim(); return; }
-  // Stars
-  const starSelected = document.querySelector(`#q${q} .star.selected`);
-  if (starSelected) { answers[`q${q}`] = starSelected.textContent.trim() + '/5'; return; }
+  // Stars — prendre le DERNIER sélectionné (= la vraie valeur)
+  const starsSelected = document.querySelectorAll(`#q${q} .star.selected`);
+  if (starsSelected.length) { answers[`q${q}`] = starsSelected[starsSelected.length - 1].textContent.trim() + '/5'; return; }
   // Textarea / input
   const ta = document.getElementById(`q${q}`);
   if (ta) answers[`q${q}`] = ta.value.trim();
